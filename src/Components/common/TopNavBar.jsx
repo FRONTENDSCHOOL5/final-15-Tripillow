@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import prev from '../assets/icon/icon-arrow-back.png';
-import more from '../assets/icon/icon-more-vertical.png';
+import prev from '../../Assets/icons/icon-arrow-back.svg';
+import more from '../../Assets/icons/icon-more-vertical.svg';
 
-export default function Header() {
+export default function TopNavBar() {
   return (
     <HeaderContainer>
       <PrevBtn />
-      <MoreBtn src={more} />
+      <MoreBtn />
     </HeaderContainer>
   );
 }
