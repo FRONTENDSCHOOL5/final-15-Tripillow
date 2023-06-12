@@ -1,7 +1,7 @@
 ---
 name: "✅ Feature"
 about: 기능 개발 사항을 입력해주세요.
-title: ''
+title: '✅ Feature: '
 labels: "✨ 기능 개발"
 assignees: ''
 
