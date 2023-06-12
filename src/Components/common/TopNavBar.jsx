@@ -13,7 +13,7 @@ export default function TopNavBar() {
 }
 
 const HeaderContainer = styled.div`
-  width: 390px;
+  min-width: 390px;
   height: 48px;
   display: flex;
   justify-content: space-between;

@@ -1,13 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 
+
 export default function AlertModal(props) {
   return (
     <Layout>
       <ModalTxt>{props.txt}</ModalTxt>
       <ModalButtonLayout>
-        <ModalButton>{props.leftbtn || '삭제'}</ModalButton>
-        <ModalButton color>{props.rightbtn}</ModalButton>
+        <ModalButton>{props.leftbtn || '확인'}</ModalButton>
+        <ModalButton color>{props.rightbtn || '삭제'}</ModalButton>
       </ModalButtonLayout>
     </Layout>
   );
