@@ -1,29 +1,36 @@
-import React from "react";
-import styled, { css } from "styled-components";
+import React from 'react';
+import styled, { css } from 'styled-components';
 
-// props는 객체다.
 const Button = (props) => {
   const { type } = props;
-
   return (
-    <ButtonStyle type={type ? type : "button"} {...props}>
+    <BtnStyle type={type ? type : 'button'} {...props}>
       {props.children}
-    </ButtonStyle>
+    </BtnStyle>
   );
 };
 
-const ButtonStyle = styled.button`
-  background-color: ${(props) => (props.bgColor ? props.bgColor : "green")};
-  font-weight: ${(props) => (props.fontWeight ? props.fontWeight : "bold")};
-
-  font-size: ${(props) => (props.fontSize ? props.fontSize : "16px")};
+const BtnStyle = styled.button`
+  width: ${(props) => props.width || '120px'};
+  padding: ${(props) => props.padding || '10px '};
+  color: ${(props) => props.color || 'white'};
+  background: ${(props) => props.bgColor || 'var(--primary)'};
+  font-size: ${(props) => props.fontSize || '16px'};
+  font-weight: ${(props) => props.fontWeight || '400'};
+  border: ${(props) => props.border || '1px solid var(--light-gray)'};
+  border-radius: ${(props) => props.borderRadius || '44px'};
+  margin: ${(props) => props.margin || '0px'};
 
   ${(props) =>
-    props.smallBtn &&
+    props.disabled &&
     css`
-      background-color: red;
-      color: white;
-      font-size: 12px;
+      background-color: var(--border);
+    `};
+
+  ${(props) =>
+    props.noCursor &&
+    css`
+      cursor: default;
     `}
 `;
 

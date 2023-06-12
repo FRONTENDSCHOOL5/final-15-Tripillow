@@ -1,5 +1,5 @@
-import React from "react";
-import Button from "../Components/common/Button";
+import React from 'react';
+import Button from '../Components/common/Button';
 
 const Login = () => {
   return (

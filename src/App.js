@@ -1,8 +1,10 @@
 import { Routes, Route } from 'react-router-dom';
+import GlobalStyle from './GlobalStyle';
 import Home from './Pages/Home';
 import Login from './Pages/Login';
 import Signup from './Pages/Signup';
-import GlobalStyle from './GlobalStyle';
+import Profile from './Pages/Profile';
+import Product from './Pages/Product';
 
 function App() {
   return (
@@ -12,6 +14,8 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
+        <Route path='/profile' element={<Profile />} />
+        <Route path='/product' element={<Product />} />
       </Routes>
     </>
   );
