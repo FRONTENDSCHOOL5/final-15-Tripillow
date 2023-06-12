@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import prev from '../assets/icon/icon-arrow-back.png';
-import more from '../assets/icon/icon-more-vertical.png';
+import prev from '../../Assets/icons/icon-arrow-back.svg';
+import more from '../../Assets/icons/s-icon-more-vertical.svg';
 
-export default function Header() {
+export default function TopNavBar() {
   return (
     <HeaderContainer>
       <PrevBtn />
@@ -13,7 +13,7 @@ export default function Header() {
 }
 
 const HeaderContainer = styled.div`
-  width: 390px;
+  min-width: 390px;
   height: 48px;
   display: flex;
   justify-content: space-between;
