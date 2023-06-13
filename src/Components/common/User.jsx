@@ -44,7 +44,7 @@ const UserImg = styled.img`
 
 const UserTitle = styled.h3`
   font-size: var(--sm);
-  padding-bottom: 6px;
+  margin-bottom: 2px;
 `;
 
 const UserContent = styled.span`
