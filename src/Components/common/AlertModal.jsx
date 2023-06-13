@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-//todo:  color={props.color} 이거 왜 안해도 되는지 다시 질문
+//todo:  color={color} 이거 왜 안해도 되는지 다시 질문
 export default function AlertModal(props) {
   return (
     <Layout>
