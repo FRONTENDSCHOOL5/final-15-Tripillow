@@ -32,6 +32,7 @@ const LabelStyle = styled.label`
   display: block;
   color: var(--dark-gray);
   font-size: ${(props) => props.fontSize || 'var(--xs)'};
+  margin-bottom: 10px;
 `;
 
 export default Input;
