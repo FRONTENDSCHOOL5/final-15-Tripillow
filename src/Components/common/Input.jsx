@@ -5,8 +5,10 @@ const Input = (props) => {
   const { type } = props;
   return (
     <>
-      <LabelStyle {...props}>{props.label}</LabelStyle>
-      <InputStyle type={type ? type : 'text'} {...props} />
+      <LabelStyle htmlFor={props.forId} {...props}>
+        {props.label}
+      </LabelStyle>
+      <InputStyle id={props.forId} type={type ? type : 'text'} {...props} />
     </>
   );
 };

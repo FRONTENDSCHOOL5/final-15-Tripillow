@@ -8,8 +8,20 @@ const Signup = () => {
     <SignupLayout>
       <Title>이메일로 회원가입</Title>
       <Form>
-        <Input label='이메일' type='email' placeholder='이메일 주소를 입력해 주세요.' mb='16px'></Input>
-        <Input label='비밀번호' type='password' placeholder='비밀번호를 설정해 주세요.' mb='30px'></Input>
+        <Input
+          label='이메일'
+          type='email'
+          forId='email-input'
+          placeholder='이메일 주소를 입력해 주세요.'
+          mb='16px'
+        ></Input>
+        <Input
+          label='비밀번호'
+          type='password'
+          forId='pw-input'
+          placeholder='비밀번호를 설정해 주세요.'
+          mb='30px'
+        ></Input>
         <Button
           width='322px'
           fontSize='14px'
