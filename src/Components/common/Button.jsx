@@ -24,14 +24,9 @@ const BtnStyle = styled.button`
   ${(props) =>
     props.disabled &&
     css`
-      background-color: var(--border);
-    `};
-
-  ${(props) =>
-    props.noCursor &&
-    css`
+      background-color: var(--secondary);
       cursor: default;
-    `}
+    `};
 `;
 
 export default Button;
