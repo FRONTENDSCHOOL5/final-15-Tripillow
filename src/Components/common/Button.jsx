@@ -17,7 +17,7 @@ const BtnStyle = styled.button`
   background: ${(props) => props.bgColor || 'var(--primary)'};
   font-size: ${(props) => props.fontSize || '16px'};
   font-weight: ${(props) => props.fontWeight || '400'};
-  border: ${(props) => props.border || '1px solid var(--light-gray)'};
+  border: ${(props) => (props.border ? '1px solid var(--light-gray)' : 'none')};
   border-radius: ${(props) => props.borderRadius || '44px'};
   margin: ${(props) => props.margin || '0px'};
 
