@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 const Input = (props) => {
   const { type } = props;
@@ -14,7 +14,8 @@ const Input = (props) => {
 const InputStyle = styled.input`
   font-size: ${(props) => props.fontSize || 'var(--sm)'};
   border-bottom: ${(props) => (props.onError ? '1px solid var(--error)' : '1px solid var(--light-gray)')};
-  padding: ${(props) => props.padding || '10px'};
+  padding: ${(props) => props.padding || '0 0 10px 0'};
+  margin-bottom: ${(props) => props.mb || '0'};
 
   &:focus {
     border-bottom: 1px solid var(--primary);
@@ -23,6 +24,7 @@ const InputStyle = styled.input`
 
   &::placeholder {
     font-size: var(--sm);
+    color: var(--light-gray);
   }
 `;
 
