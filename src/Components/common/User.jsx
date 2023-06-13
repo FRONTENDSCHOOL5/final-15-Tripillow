@@ -10,7 +10,7 @@ const User = (props) => {
       <UserImg src={props.UserImage || profileSm} alt={props.username} />
       <UserContentsLayout>
         <div>
-          <UserTitle>{props.title}</UserTitle>
+          <UserTitle>{props.username}</UserTitle>
           <UserContent>{props.content} </UserContent>
         </div>
         {props.post && (
