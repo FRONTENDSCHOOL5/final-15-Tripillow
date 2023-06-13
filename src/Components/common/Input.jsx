@@ -21,7 +21,6 @@ const InputStyle = styled.input`
 
   &:focus {
     border-bottom: 1px solid var(--primary);
-    margin-bottom: -1px;
   }
 
   &::placeholder {
