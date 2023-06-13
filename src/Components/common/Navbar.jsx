@@ -13,7 +13,6 @@ import shopfill from '../../Assets/icons/icon-shop-fill.svg';
 import chatfill from '../../Assets/icons/icon-message-circle-fill.svg';
 import postfill from '../../Assets/icons/icon-edit-fill.svg';
 
-//TODO: nav 클릭 시 색깔 변화!
 export default function Navbar() {
   const [buttonId, setButtonId] = useState(0);
 
