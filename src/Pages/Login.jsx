@@ -11,7 +11,7 @@ const Login = () => {
       <Input type='email' placeholder='아이디를 입력해주세요'label='이메일' />
       <Input  type='password' label='비밀번호' placeholder='비밀번호를 입력해주세요'/>
       <Button margin='30px auto 20px' width='322px'>
-        로그인입니다
+        로그인
       </Button>
       <Link to='/signup'>이메일로 회원가입</Link>
     </Layout>
@@ -27,6 +27,7 @@ const Layout = styled.form`
   h1 {
     margin-bottom: 40px;
     text-align: center;
+    font-weight: 500;
   }
   a {
     text-align: center;
