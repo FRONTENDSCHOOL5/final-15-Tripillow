@@ -19,6 +19,8 @@ const GlobalStyle = createGlobalStyle`
   --lg: 18px;
   --xl: 20px;
   --xxl: 24px;
+
+  font-family: 'SUITE Variable', sans-serif;
 }  
 
 // === RESET ===
