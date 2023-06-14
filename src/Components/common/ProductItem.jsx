@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 export default function ProductItem() {
   return (
-    <div>
+    <ButtonLayout>
       <ProductImg
         src='https://images.unsplash.com/photo-1685987300287-6c1dc4d0508e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDE5fDZzTVZqVExTa2VRfHxlbnwwfHx8fHw%3D&auto=format&fit=crop&w=800&q=60'
         alt=''
@@ -14,11 +14,15 @@ export default function ProductItem() {
       <ProductInfo size='12px' color='#6CABFF' weight='700'>
         35,000원
       </ProductInfo>
-    </div>
-
+    </ButtonLayout>
   );
 }
 
+const ButtonLayout = styled.button`
+  text-align: left;
+  //fixme: 버튼에 기본으로 패딩 들어간 것 같다
+  padding: 0;
+`;
 
 const ProductImg = styled.img`
   border-radius: 8px;
