@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import styled, { css } from 'styled-components';
 
 const LayoutStyle = css`
