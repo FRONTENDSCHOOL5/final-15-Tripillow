@@ -7,7 +7,7 @@ import Navbar from '../../Components/common/Navbar';
 import Button from '../../Components/common/Button';
 import home from '../../Assets/icons/icon-home.svg';
 import Toggle from '../../Components/common/Toggle';
-import Layout from '../../Styles/Layout';
+import {Layout} from '../../Styles/Layout';
 
 export default function Product(props) {
   return (
