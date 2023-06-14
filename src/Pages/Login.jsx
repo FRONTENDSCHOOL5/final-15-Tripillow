@@ -4,9 +4,7 @@ import styled from 'styled-components';
 import LoginAPI from '../Utils/LoginAPI';
 import Button from '../Components/common/Button';
 import Input from '../Components/common/Input';
-
-// 테스트 아이디 비번
-// suritest@test.com / suritest
+import { LayoutStyle } from '../Styles/Layout';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -72,7 +70,7 @@ const Login = () => {
 };
 
 const Layout = styled.form`
-  min-width: 390px;
+  ${LayoutStyle}
   padding: 30px 34px;
   display: flex;
   flex-direction: column;
