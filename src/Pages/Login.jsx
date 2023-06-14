@@ -72,7 +72,8 @@ const Login = () => {
 };
 
 const Layout = styled.form`
-  min-width: 390px;
+  max-width: 390px;
+  margin: 0 auto;
   padding: 30px 34px;
   display: flex;
   flex-direction: column;
