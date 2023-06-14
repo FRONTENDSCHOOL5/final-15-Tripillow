@@ -4,18 +4,18 @@ import styled from 'styled-components';
 
 export default function AlertModal(props) {
   return (
-    <Layout>
+    <ModalLayout>
       <ModalTxt>{props.txt}</ModalTxt>
       <ModalButtonLayout>
         <ModalButton>{props.leftbtn || '확인'}</ModalButton>
         <ModalButton color='var(--primary)'>{props.rightbtn || '삭제'}</ModalButton>
       </ModalButtonLayout>
-    </Layout>
+    </ModalLayout>
   );
 
 }
 
-const Layout = styled.div`
+const ModalLayout = styled.div`
   width: 252px;
   height: 110px;
   border-radius: 10px;

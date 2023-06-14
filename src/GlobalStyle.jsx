@@ -21,7 +21,11 @@ const GlobalStyle = createGlobalStyle`
   --xxl: 24px;
 
   font-family: 'SUITE Variable', sans-serif;
+
+
+  
 }  
+
 
 // === RESET ===
 ${reset}
@@ -69,6 +73,11 @@ h1 {
 
   body {
   box-sizing: border-box;
+
+  #root {
+    height: 100vh;
+  }
+  
   }
 `;
 
