@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 export default function ProductItem() {
   return (
-    <GridLayout>
     <div>
       <ProductImg
         src='https://images.unsplash.com/photo-1685987300287-6c1dc4d0508e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDE5fDZzTVZqVExTa2VRfHxlbnwwfHx8fHw%3D&auto=format&fit=crop&w=800&q=60'
@@ -16,17 +15,10 @@ export default function ProductItem() {
         35,000원
       </ProductInfo>
     </div>
-    </GridLayout>
+
   );
 }
 
-// fixme: grid가 안됨
-const GridLayout = styled.div`
-padding-left: 19px;
-  display: grid;
-  grid-gap: 20px;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-`;
 
 const ProductImg = styled.img`
   border-radius: 8px;

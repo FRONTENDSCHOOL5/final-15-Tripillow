@@ -1,5 +1,5 @@
 import React from 'react';
-import AlertModal from '../../Components/common/AlertModal';
+import styled from 'styled-components';
 import TopNavBar from '../../Components/common/TopNavBar';
 import SnsButton from '../../Components/common/SnsButton';
 import ProductItem from '../../Components/common/ProductItem';
@@ -9,10 +9,23 @@ export default function Product() {
   return (
     <div>
       <TopNavBar>판매 중인 상품</TopNavBar>
-      <ProductItem />
-      <ProductItem />
-      <ProductItem />
+      <GridLayout>
+        <ProductItem />
+        <ProductItem />
+        <ProductItem />
+        <ProductItem />
+        <ProductItem />
+        <ProductItem />
+        <ProductItem />
+      </GridLayout>
       <Navbar />
     </div>
   );
 }
+
+const GridLayout = styled.div`
+  padding-left: 19px;
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+`;
