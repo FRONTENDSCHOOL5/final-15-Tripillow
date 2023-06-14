@@ -23,7 +23,7 @@ const GlobalStyle = createGlobalStyle`
   font-family: 'SUITE Variable', sans-serif;
 
 
-  
+
 }  
 
 
@@ -87,3 +87,4 @@ export default GlobalStyle;
 // =>
 // npm normalize
 // reset.css
+
