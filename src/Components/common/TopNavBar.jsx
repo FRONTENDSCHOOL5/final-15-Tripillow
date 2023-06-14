@@ -3,19 +3,20 @@ import styled from 'styled-components';
 import prev from '../../Assets/icons/icon-arrow-back.svg';
 import more from '../../Assets/icons/icon-more-vertical.svg';
 
-export default function TopNavBar() {
+//todo: 중간 input 박스 조건식으로 처리
+export default function TopNavBar(props) {
   return (
-    <HeaderContainer>
+    <HeaderLayout>
       <LeftLayout>
-      <PrevBtn />
-      <div>하이하이</div>
+        <PrevBtn />
+        <div>{props.children}</div>
       </LeftLayout>
       <MoreBtn />
-    </HeaderContainer>
+    </HeaderLayout>
   );
 }
 
-const HeaderContainer = styled.div`
+const HeaderLayout = styled.div`
   min-width: 390px;
   height: 48px;
   display: flex;
@@ -30,7 +31,7 @@ const HeaderContainer = styled.div`
 const LeftLayout = styled.div`
   display: flex;
   align-items: center;
-`
+`;
 const PrevBtn = styled.button`
   width: 22px;
   height: 22px;
