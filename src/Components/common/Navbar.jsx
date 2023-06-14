@@ -49,7 +49,8 @@ const FooterContainer = styled.div`
   padding: 0 36px 0 39px;
   box-sizing: border-box;
   border-top: 0.5px solid #dbdbdb;
-
+  position: fixed;
+  bottom: 0;
 `;
 
 const IconContainer = styled.button`
