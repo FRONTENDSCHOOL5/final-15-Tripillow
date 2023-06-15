@@ -15,7 +15,7 @@ const Toggle = (props) => {
   };
 
   return (
-    <ToggleLayout>
+    <ToggleLayout margin={props.margin}>
       <ToggleButton onClick={handleToggleLeft} active={toggleLeft}>
         {props.leftButton}
       </ToggleButton>
@@ -29,6 +29,7 @@ const Toggle = (props) => {
 const ToggleLayout = styled.div`
   display: flex;
   gap: 6px;
+  margin: ${(props) => props.margin};
 `;
 
 const ToggleButton = styled.button`
