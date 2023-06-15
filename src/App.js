@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
 import GlobalStyle from './GlobalStyle';
 import Home from './Pages/Home';
 import Login from './Pages/Login';
@@ -12,17 +13,19 @@ import NotFound from './Pages/NotFound';
 function App() {
   return (
     <>
-      <GlobalStyle />
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/signup' element={<Signup />} />
-        <Route path='/profile' element={<Profile />} />
-        <Route path='/product' element={<Product />} />
-        <Route path='/product/:id' element={<ProductDetail />} />
-        <Route path='/addproduct' element={<AddProduct />} />
-        <Route path='*' element={<NotFound />} />
-      </Routes>
+      <RecoilRoot>
+        <GlobalStyle />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/signup' element={<Signup />} />
+          <Route path='/profile' element={<Profile />} />
+          <Route path='/product' element={<Product />} />
+          <Route path='/addproduct' element={<AddProduct />} />
+          <Route path='/product/:id' element={<ProductDetail />} />
+          <Route path='*' element={<NotFound />} />
+        </Routes>
+      </RecoilRoot>
     </>
   );
 }
