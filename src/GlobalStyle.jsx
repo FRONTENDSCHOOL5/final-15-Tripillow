@@ -72,6 +72,7 @@ h1 {
 
   #root {
     min-height: 100vh;
+    height: 1px;
   }
   
   }
