@@ -104,7 +104,9 @@ const Login = () => {
         type='submit'
         disabled={!userInput.user.email || !userInput.user.password}
         margin='30px auto 20px'
+        padding='13px 0'
         width='322px'
+        fontSize='var(--sm)'
         onClick={handleError}
       >
         로그인
