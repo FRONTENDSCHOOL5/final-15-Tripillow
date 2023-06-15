@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import profileImg from '../../Assets/profile-sm.png';
 
-export default function Comment() {
+export default function PostComment() {
   return (
     <FooterLayout>
       <InputLayout>
