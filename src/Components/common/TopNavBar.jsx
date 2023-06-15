@@ -17,6 +17,8 @@ export default function TopNavBar(props) {
 }
 
 const HeaderLayout = styled.div`
+  position: fixed;
+  top: 0;
   min-width: 390px;
   height: 48px;
   display: flex;
@@ -26,6 +28,7 @@ const HeaderLayout = styled.div`
   box-sizing: border-box;
   border-bottom: 0.5px solid #dbdbdb;
   margin-bottom: 25px;
+  background-color: #fff;
 `;
 
 const LeftLayout = styled.div`

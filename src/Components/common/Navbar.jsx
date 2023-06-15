@@ -61,6 +61,7 @@ const FooterContainer = styled.div`
   border-top: 0.5px solid #dbdbdb;
   position: fixed;
   bottom: 0;
+  background-color: #fff;
 `;
 
 const IconContainer = styled.button`
