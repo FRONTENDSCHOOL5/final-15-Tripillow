@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import { BrowserRouter, Link } from 'react-router-dom';
 
 export default function ProductItem() {
   return (
+    <Link to='/Product/:id'>
     <ButtonLayout>
       <ProductImg
         src='https://images.unsplash.com/photo-1685987300287-6c1dc4d0508e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDE5fDZzTVZqVExTa2VRfHxlbnwwfHx8fHw%3D&auto=format&fit=crop&w=800&q=60'
@@ -15,6 +17,7 @@ export default function ProductItem() {
         35,000원
       </ProductInfo>
     </ButtonLayout>
+    </Link>
   );
 }
 

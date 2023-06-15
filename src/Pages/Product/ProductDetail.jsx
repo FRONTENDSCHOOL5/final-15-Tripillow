@@ -1,10 +1,9 @@
 import React from 'react';
-import TopNavBar from '../../Components/common/TopNavBar';
+import Toggle from '../../Components/common/Toggle';
+import styled from 'styled-components';
 
-export default function ProductDetail() {
-  return (
-    <div>
-      <TopNavBar />
-    </div>
-  );
-}
+const ProductDetail = (props) => {
+  return <div></div>;
+};
+
+export default ProductDetail;
