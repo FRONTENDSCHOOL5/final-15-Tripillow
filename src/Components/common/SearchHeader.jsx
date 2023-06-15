@@ -13,7 +13,7 @@ const SearchHeader = () => {
           navigate(-1);
         }}
       />
-      <SearchInput />
+      <SearchInput type='text' placeholder='계정 검색' />
     </HeaderLayout>
   );
 };
