@@ -60,7 +60,7 @@ const HomePostLayout = () => {
 };
 
 const Layout = styled.article`
-  padding: 14px 0 60px 0;
+  padding: 14px 12px 60px 16px;
 `;
 
 const ImageLayout = styled.div`

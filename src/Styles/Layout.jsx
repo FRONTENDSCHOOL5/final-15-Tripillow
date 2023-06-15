@@ -4,8 +4,8 @@ const LayoutStyle = css`
   max-width: 390px;
   min-height: 100%;
   margin: 0 auto;
-  padding: 48px 12px 73px 16px;
   box-sizing: border-box;
+  padding: 48px 0 73px;
   border: 1px solid var(--light-gray);
 `;
 
