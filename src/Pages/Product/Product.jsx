@@ -1,18 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
-import TopNavBar from '../../Components/common/TopNavBar';
 import SnsButton from '../../Components/common/SnsButton';
+import BasicHeader from '../../Components/common/Header/BasicHeader';
 import ProductItem from '../../Components/common/ProductItem';
 import Navbar from '../../Components/common/Navbar';
 import Button from '../../Components/common/Button';
 import home from '../../Assets/icons/icon-home.svg';
 import Toggle from '../../Components/common/Toggle';
-import {Layout} from '../../Styles/Layout';
+import { Layout } from '../../Styles/Layout';
 
 export default function Product(props) {
   return (
     <Layout>
-      <TopNavBar>판매 중인 상품</TopNavBar>
+      <BasicHeader>판매 중인 상품</BasicHeader>
       <GridLayout>
         <ProductItem />
         <ProductItem />
