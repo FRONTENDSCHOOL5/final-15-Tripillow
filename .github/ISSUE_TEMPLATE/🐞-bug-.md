@@ -1,5 +1,5 @@
 ---
-name: "\U0001F41E Bug"
+name: "\U0001F41E Bug:"
 about: 에러 사항을 입력해주세요.
 title: "\U0001F41E Bug: "
 labels: "\U0001F41E 버그"
