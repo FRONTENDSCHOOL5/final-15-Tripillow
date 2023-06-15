@@ -54,19 +54,22 @@ export default function Navbar() {
 
 const FooterContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  gap: 20px;
   width: 390px;
-  /* height: 60px; */
-  padding: 15px 36px 15px 39px;
+  justify-content: space-around;
+  justify-content: space-between;
+  padding: 15px 25px;
   box-sizing: border-box;
   border-top: 0.5px solid #dbdbdb;
   position: fixed;
   bottom: 0;
   background-color: #fff;
+
 `;
 
 const IconContainer = styled.button`
   display: flex;
+  width: 49px;
   flex-direction: column;
   align-items: center;
   border: none;
