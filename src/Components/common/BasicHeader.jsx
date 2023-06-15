@@ -1,23 +1,28 @@
 import React from 'react';
-import styled from 'styled-components';
 import prev from '../../Assets/icons/icon-arrow-back.svg';
 import more from '../../Assets/icons/icon-more-vertical.svg';
-import TopNavBarLayout from '../../Styles/TopNavBarLayout';
+import styled from 'styled-components';
+import HeaderLayout from '../../Styles/HeaderLayout';
+import { useNavigate } from 'react-router-dom';
 
-//todo: 중간 input 박스 조건식으로 처리
-export default function TopNavBarBar(props) {
+const BasicHeader = (props) => {
+  const navigate = useNavigate();
   return (
-    <TopNavBarLayout>
-      <LeftLayout>
-        <PrevButton />
+    <HeaderLayout>
+      <ContentLayout>
+        <PrevButton
+          onClick={() => {
+            navigate(-1);
+          }}
+        />
         <div>{props.children}</div>
-      </LeftLayout>
+      </ContentLayout>
       <MoreButton />
-    </TopNavBarLayout>
+    </HeaderLayout>
   );
-}
+};
 
-const LeftLayout = styled.div`
+const ContentLayout = styled.div`
   display: flex;
   align-items: center;
 `;
@@ -33,3 +38,5 @@ const MoreButton = styled.button`
   height: 24px;
   background-image: url(${more});
 `;
+
+export default BasicHeader;
