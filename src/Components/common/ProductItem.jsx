@@ -20,7 +20,6 @@ export default function ProductItem() {
 
 const ButtonLayout = styled.button`
   text-align: left;
-  //fixme: 버튼에 기본으로 패딩 들어간 것 같다
   padding: 0;
 `;
 

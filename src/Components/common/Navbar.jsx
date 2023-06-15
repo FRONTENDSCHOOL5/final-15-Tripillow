@@ -55,7 +55,8 @@ export default function Navbar() {
 const FooterContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  min-width: 390px;
+  width: 390px;
+  /* height: 60px; */
   padding: 15px 36px 15px 39px;
   box-sizing: border-box;
   border-top: 0.5px solid #dbdbdb;
