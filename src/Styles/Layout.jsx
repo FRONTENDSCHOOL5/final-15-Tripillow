@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 
 const LayoutStyle = css`
   margin: 0 auto;
-  padding: 48px 12px 73px 16px;
+  padding: 48px 0 73px;
   max-width: 390px;
   border: 1px solid var(--light-gray);
   min-height: 100%;
