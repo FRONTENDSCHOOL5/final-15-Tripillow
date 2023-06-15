@@ -1,9 +1,10 @@
 import React from 'react';
-import Toggle from '../../Components/common/Toggle';
-import styled from 'styled-components';
+import BasicHeader from '../../Components/common/Header/BasicHeader';
 
-const ProductDetail = (props) => {
-  return <div></div>;
-};
-
-export default ProductDetail;
+export default function ProductDetail() {
+  return (
+    <div>
+      <BasicHeader></BasicHeader>
+    </div>
+  );
+}

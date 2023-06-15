@@ -1,20 +1,16 @@
 import React from 'react';
-import styled from 'styled-components';
-import TopNavBar from './TopNavBar';
 import Comment from '../Comment';
 import PostComment from './PostComment';
+import HomePostLayout from '../HomePost/HomePostLayout';
+import { Layout } from '../../Styles/Layout';
 
 export default function UploadedPost() {
   return (
-    <UploadedLayout>
-      <TopNavBar></TopNavBar>
+    <Layout>
+      <HomePostLayout></HomePostLayout>
       <Comment author={{ username: 'dasom' }} content='댓글임'></Comment>
       <Comment author={{ username: 'dasom' }} content='댓글임'></Comment>
       <PostComment></PostComment>
-    </UploadedLayout>
+    </Layout>
   );
 }
-
-const UploadedLayout = styled.div`
-  max-width: 390px;
-`;

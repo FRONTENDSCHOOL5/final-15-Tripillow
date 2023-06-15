@@ -37,7 +37,7 @@ export default function Comment(props) {
 }
 
 const Ldiv = styled.div`
-  margin: 0 15px 16px 16px;
+  margin: 0 0 16px 0;
 `;
 
 const Profile = styled.div`
@@ -55,10 +55,12 @@ const ProfileImg = styled.img`
 
 const UserName = styled.span`
   font-size: var('--sm');
+  font-weight: 500;
 `;
 
 const Time = styled.span`
   color: var(--dark-gray);
+  font-size: 10px;
 `;
 
 const MoreBtn = styled.button`
@@ -72,4 +74,5 @@ const MoreBtn = styled.button`
 const Text = styled.p`
   margin: 0 0 0 51px;
   box-shadow: solid 1px 0 0;
+  font-size: var(--sm);
 `;

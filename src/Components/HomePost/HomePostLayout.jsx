@@ -60,7 +60,7 @@ const HomePostLayout = () => {
 };
 
 const Layout = styled.article`
-  padding: 14px 12px 0 16px;
+  padding: 14px 0 60px 0;
 `;
 
 const ImageLayout = styled.div`
@@ -107,7 +107,7 @@ const Indicator = styled.div`
 const IconLayout = styled.div`
   display: flex;
   gap: 19px;
-  margin-bottom: 12px;
+  margin: 12px 0 12px 0;
 `;
 
 const IconButton = styled.button`
