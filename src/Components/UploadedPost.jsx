@@ -1,8 +1,8 @@
 import React from 'react';
-import Comment from './Comment';
-import PostComment from './common/PostComment';
-import HomePostLayout from './HomePost/HomePostLayout';
-import { Layout } from '../Styles/Layout';
+import Comment from '../Comment';
+import PostComment from './PostComment';
+import HomePostLayout from '../HomePost/HomePostLayout';
+import { Layout } from '../../Styles/Layout';
 
 export default function UploadedPost() {
   return (

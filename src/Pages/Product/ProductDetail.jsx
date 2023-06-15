@@ -1,10 +1,10 @@
 import React from 'react';
-import TopNavBar from '../../Components/common/TopNavBar';
+import BasicHeader from '../../Components/common/Header/BasicHeader';
 
 export default function ProductDetail() {
   return (
     <div>
-      <TopNavBar />
+      <BasicHeader></BasicHeader>
     </div>
   );
 }
