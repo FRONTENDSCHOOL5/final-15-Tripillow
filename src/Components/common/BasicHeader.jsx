@@ -3,12 +3,18 @@ import prev from '../../Assets/icons/icon-arrow-back.svg';
 import more from '../../Assets/icons/icon-more-vertical.svg';
 import styled from 'styled-components';
 import HeaderLayout from '../../Styles/HeaderLayout';
+import { useNavigate } from 'react-router-dom';
 
 const BasicHeader = (props) => {
+  const navigate = useNavigate();
   return (
     <HeaderLayout>
       <ContentLayout>
-        <PrevButton />
+        <PrevButton
+          onClick={() => {
+            navigate(-1);
+          }}
+        />
         <div>{props.children}</div>
       </ContentLayout>
       <MoreButton />
