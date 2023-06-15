@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import userToken from '../Recoil/userToken/userToken';
+import isLogin from '../Recoil/isLogin/isLogin';
+import accountName from '../Recoil/accountName/accountName';
 import styled from 'styled-components';
 import LoginAPI from '../Utils/LoginAPI';
 import Button from '../Components/common/Button';
 import Input from '../Components/common/Input';
 import { LayoutStyle } from '../Styles/Layout';
+import { useRecoilState } from 'recoil';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -17,9 +21,19 @@ const Login = () => {
     },
   });
 
+  // Recoil Atoms
+  const [token, setToken] = useRecoilState(userToken);
+  const [isLoginState, setIsLoginState] = useRecoilState(isLogin);
+  const [name, setName] = useRecoilState(accountName);
+
+  // 로그인 true 일 경우 뒤로가기 막기, 로그아웃기능 넣을 때 사용
+  // useEffect(() => {
+  //   if (isLoginState) navigate('/');
+  // }, []);
+
   const handleError = (e) => {
     const user = userInput.user;
-    if (!user.email && !user.password) {
+    if (!user.em9ail && !user.password) {
       setErrorMsg('아이디를 입력해주세요.');
     } else if (user.email && !user.password) {
       setErrorMsg('비밀번호를 입력해주세요.');
@@ -46,6 +60,9 @@ const Login = () => {
     if (res && res.hasOwnProperty('user')) {
       console.log(res);
       navigate('/');
+      setToken(res.user.token);
+      setIsLoginState(true);
+      setName(res.user.accountname);
     } else if (res && !res.hasOwnProperty('user')) {
       setUserErrorMessage(res.message);
     }
@@ -77,14 +94,19 @@ const Login = () => {
         name='password'
         value={userInput.user.password}
         onChange={handleInputChange}
-        ㄴ
         autoComplete='off'
       />
       {errorMsg && userInput.user.email && !userInput.user.password && <ErrorStyle>{errorMsg}</ErrorStyle>}
       {userErrorMessage && userInput.user.email && userInput.user.password && (
         <ErrorStyle>{userErrorMessage}</ErrorStyle>
       )}
-      <Button type='submit' margin='30px auto 20px' width='322px' onClick={handleError}>
+      <Button
+        type='submit'
+        disabled={!userInput.user.email || !userInput.user.password}
+        margin='30px auto 20px'
+        width='322px'
+        onClick={handleError}
+      >
         로그인
       </Button>
       <Link to='/signup'>이메일로 회원가입</Link>
