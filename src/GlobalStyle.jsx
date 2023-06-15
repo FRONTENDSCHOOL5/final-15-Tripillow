@@ -21,11 +21,7 @@ const GlobalStyle = createGlobalStyle`
   --xxl: 24px;
 
   font-family: 'SUITE Variable', sans-serif;
-
-
-
 }  
-
 
 // === RESET ===
 ${reset}
@@ -75,7 +71,8 @@ h1 {
   box-sizing: border-box;
 
   #root {
-    height: 100vh;
+    min-height: 100vh;
+    height: 1px;
   }
   
   }
@@ -87,4 +84,3 @@ export default GlobalStyle;
 // =>
 // npm normalize
 // reset.css
-

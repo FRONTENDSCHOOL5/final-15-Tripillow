@@ -1,7 +1,7 @@
 ---
-name: "✅ Feature"
+name: "✅ Feature:"
 about: 기능 개발 사항을 입력해주세요.
-title: '✅ Feature: '
+title: "✅ Feature:"
 labels: "✨ 기능 개발"
 assignees: ''
 
@@ -9,7 +9,6 @@ assignees: ''
 
 ## :bookmark_tabs: 이슈 내용
 설명을 작성하세요.
-✅ Feature:  (Title 양식 비어있을 경우 복사해서 사용하세요)
 
 ## :pencil:  작업 내용
 - [ ]
@@ -17,3 +16,5 @@ assignees: ''
 
 ## :round_pushpin:ETC
 기타사항
+**Additional context**
+Add any other context or screenshots about the feature request here.
