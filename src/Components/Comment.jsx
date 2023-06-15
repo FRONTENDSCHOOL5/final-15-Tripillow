@@ -37,7 +37,7 @@ export default function Comment(props) {
 }
 
 const Ldiv = styled.div`
-  margin: 0 15px 16px 16px;
+  margin: 0 0 16px 0;
 `;
 
 const Profile = styled.div`
