@@ -9,7 +9,7 @@ import arrowLeft from '../../Assets/icons/icon-arrow-left.svg';
 import iconHeart from '../../Assets/icons/icon-heart.svg';
 import iconChat from '../../Assets/icons/icon-message-circle-1.svg';
 
-const HomePostLayout = () => {
+const HomePostLayout = (props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   // 임의로 이미지 생성
   const pictures = [...images];
@@ -25,7 +25,7 @@ const HomePostLayout = () => {
   // todo: props 받아주기
   return (
     <Layout>
-      <User userImg={Profile} username='애월읍 위니브' content='@ haron-lee'>
+      <User userImg={Profile} username='애월읍 위니브' content='@ haron-lee' moreBtn={props.isEditable ? true : false}>
         애월읍 위니브
       </User>
       <ImageLayout>
@@ -60,7 +60,8 @@ const HomePostLayout = () => {
 };
 
 const Layout = styled.article`
-  padding: 14px 12px 60px 16px;
+  padding: 14px 12px 20px 16px;
+  padding-bottom: ${(props) => props.pb || '20px'};
 `;
 
 const ImageLayout = styled.div`
