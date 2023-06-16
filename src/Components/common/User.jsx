@@ -24,6 +24,7 @@ const User = (props) => {
           </Button>
         )}
         {props.chat && <ChatDate>{props.date}</ChatDate>}
+        {props.moreBtn && <MoreBtn />}
       </UserContentsLayout>
     </UserLayout>
   );
@@ -62,6 +63,13 @@ const ChatDate = styled.span`
   color: var(--light-gray);
   font-size: 10px;
   margin-top: auto;
+`;
+
+const MoreBtn = styled.button`
+  width: 18px;
+  height: 18px;
+  margin-right: 3px;
+  background-image: url(${more});
 `;
 
 export default User;
