@@ -14,7 +14,7 @@ import chatfill from '../../Assets/icons/icon-message-circle-fill.svg';
 import postfill from '../../Assets/icons/icon-edit-fill.svg';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export default function Navbar() {
+const Navbar = (props)=> {
   const navigate = useNavigate();
   const location = useLocation();
   console.log(location);
@@ -35,9 +35,9 @@ export default function Navbar() {
   }, [location]);
 
   return (
-    <FooterContainer>
+    <NavbarLayout margin={props.margin}>
       {icons.map((el, i) => (
-        <IconContainer
+        <IconLayout
           key={i}
           onClick={() => {
             setButtonId(i);
@@ -46,13 +46,13 @@ export default function Navbar() {
         >
           <IconImg src={buttonId === i ? el.fillImage : el.image} />
           <IconInfo setColor={buttonId === i}>{el.name}</IconInfo>
-        </IconContainer>
+        </IconLayout>
       ))}
-    </FooterContainer>
+    </NavbarLayout>
   );
 }
 
-const FooterContainer = styled.div`
+const NavbarLayout = styled.div`
   display: flex;
   gap: 20px;
   width: 390px;
@@ -64,10 +64,11 @@ const FooterContainer = styled.div`
   position: fixed;
   bottom: 0;
   background-color: #fff;
+  margin: ${props=> props.margin};
 
 `;
 
-const IconContainer = styled.button`
+const IconLayout = styled.button`
   display: flex;
   width: 49px;
   flex-direction: column;
@@ -87,3 +88,5 @@ const IconInfo = styled.span`
   font-size: 10px;
   color: ${(props) => (props.setColor ? 'var(--primary)' : '#767676')};
 `;
+
+export default Navbar;

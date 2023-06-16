@@ -10,22 +10,19 @@ import Toggle from '../../Components/common/Toggle';
 import { Layout } from '../../Styles/Layout';
 
 export default function Product(props) {
+  const navigate = useNavigate();
   return (
     <Layout>
       <BasicHeader>판매 중인 상품</BasicHeader>
       <GridLayout>
         <ProductItem />
         <ProductItem />
-
-        <ProductItem />
         <ProductItem />
         <ProductItem />
       </GridLayout>
-      {/* //fixme: height값이랑 position, + 이거 텍스트로 입력해도 되나 */}
-      <Button width='50px' borderRadius='50%'>
-        +
-      </Button>
+      <CircleButton bottom='100px'></CircleButton>
       <Navbar />
+      <button onClick={()=> {navigate('/addproduct')}}>button</button>
     </Layout>
   );
 }
