@@ -1,4 +1,4 @@
-import React, { useNavigate } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import SnsButton from '../../Components/common/SnsButton';
 import BasicHeader from '../../Components/common/Header/BasicHeader';
@@ -9,6 +9,7 @@ import home from '../../Assets/icons/icon-home.svg';
 import Toggle from '../../Components/common/Toggle';
 import { Layout } from '../../Styles/Layout';
 import CircleButton from '../../Components/common/CircleButton';
+import { useNavigate } from 'react-router-dom';
 
 export default function Product(props) {
   const navigate = useNavigate();
