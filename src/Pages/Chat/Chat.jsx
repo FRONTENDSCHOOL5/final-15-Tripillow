@@ -12,13 +12,17 @@ const Chat = () => {
     setInputValue(e.target.value);
   };
 
-  const handleButtonClicked = () => {
-    const newChatValue = [...chatValue];
-    newChatValue.push(inputValue);
-    setChatValue(newChatValue);
-    console.log(inputValue);
-    setInputValue('');
-    console.log(inputValue);
+  const handleButtonClicked = (e) => {
+    setTimeout(() => {
+      const newChatValue = [...chatValue];
+      inputValue !== '' && newChatValue.push(inputValue);
+      setChatValue(newChatValue);
+      setInputValue('');
+    }, 0);
+  };
+
+  const handleKeyDown = (e) => {
+    e.key === 'Enter' && handleButtonClicked();
   };
 
   return (
@@ -43,8 +47,15 @@ const Chat = () => {
 
       <ChatInputBar>
         <UserImage src={profileSm} alt='프로필 이미지' />
-        <ChatInput onChange={handleInputChange} placeholder='메시지 입력하기...' />
-        <SendButton onClick={handleButtonClicked}>전송</SendButton>
+        <ChatInput
+          value={inputValue}
+          onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
+          placeholder='메시지 입력하기...'
+        />
+        <SendButton onClick={handleButtonClicked} inputValue={inputValue}>
+          전송
+        </SendButton>
       </ChatInputBar>
     </ChatLayout>
   );
@@ -99,6 +110,7 @@ const ChatInputBar = styled.div`
   height: 60px;
   box-sizing: border-box;
   margin: auto;
+  padding: 0 16px;
   position: fixed;
   right: 0;
   left: 0;
@@ -119,12 +131,9 @@ const ChatInput = styled.input`
 `;
 
 const SendButton = styled.button`
-  width: 44px;
-  height: 44px;
-  color: var(--light-gray);
-
-  && {
-  }
+  width: 33px;
+  height: 33px;
+  color: ${(props) => (props.inputValue ? 'var(--primary)' : 'var(--light-gray)')};
 `;
 
 export default Chat;
