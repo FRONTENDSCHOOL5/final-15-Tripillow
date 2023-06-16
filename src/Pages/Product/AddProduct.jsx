@@ -2,29 +2,28 @@ import React from 'react';
 import Toggle from '../../Components/common/Toggle';
 import styled from 'styled-components';
 import { Layout } from '../../Styles/Layout';
-import BasicHeader from '../../Components/common/BasicHeader';
+import BasicHeader from '../../Components/common/Header/BasicHeader';
 
 const ProductDetail = (props) => {
   return (
     <Layout>
-        {/* <BasicHeader> */}
-        <Image src='https://picsum.photos/536/354' />
-        <CategoryTxt>카테고리</CategoryTxt>
-        <Toggle margin='0 0 20px 0' leftButton='외화' rightButton='여행용품' />
-        <TxtLayout>
-          <DetailTitle>상품명</DetailTitle>
-          <DetailTxt>싱싱한 감귤</DetailTxt>
-        </TxtLayout>
-        <TxtLayout>
-          <DetailTitle>가격</DetailTitle>
-          <DetailTxt>₩₩₩</DetailTxt>
-        </TxtLayout>
-        <TxtLayout>
-          <DetailTitle>판매링크</DetailTitle>
-          <DetailTxt>http://www.</DetailTxt>
-        </TxtLayout>
-    {/* </BasicHeader> */}
-      </Layout>
+      <BasicHeader></BasicHeader>
+      <Image src='https://picsum.photos/536/354' />
+      <CategoryTxt>카테고리</CategoryTxt>
+      <Toggle margin='0 0 20px 0' leftButton='외화' rightButton='여행용품' />
+      <TxtLayout>
+        <DetailTitle>상품명</DetailTitle>
+        <DetailTxt>싱싱한 감귤</DetailTxt>
+      </TxtLayout>
+      <TxtLayout>
+        <DetailTitle>가격</DetailTitle>
+        <DetailTxt>₩₩₩</DetailTxt>
+      </TxtLayout>
+      <TxtLayout>
+        <DetailTitle>판매링크</DetailTitle>
+        <DetailTxt>http://www.</DetailTxt>
+      </TxtLayout>
+    </Layout>
   );
 };
 
