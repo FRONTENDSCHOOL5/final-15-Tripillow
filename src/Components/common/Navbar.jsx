@@ -29,10 +29,10 @@ const Navbar = (props) => {
   ];
 
   useEffect(() => {
-    const path = location.pathname; 
+    const path = location.pathname;
     // icons el의 path 값 === '/' 뒤의 값
     const buttonIndex = icons.findIndex((icon) => icon.path === path);
-  
+
     // 위에서 경로가 일치하면 그 버튼 색깔 바뀌고, 경로가 불일치하면 home으로 효과 적용
     setButtonId(buttonIndex !== -1 ? buttonIndex : 0);
   }, [location]);
@@ -70,7 +70,6 @@ const NavbarLayout = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-``
   background-color: #fff;
   margin: ${(props) => props.margin};
 `;
