@@ -6,7 +6,7 @@ import BasicHeader from './common/Header/BasicHeader';
 import PostComment from './common/PostComment';
 import HomePostLayout from './HomePost/HomePostLayout';
 
-export default function UploadedPost() {
+export default function PostDetail() {
   return (
     <Layout>
       <BasicHeader></BasicHeader>
