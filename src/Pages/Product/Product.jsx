@@ -7,7 +7,11 @@ import Navbar from '../../Components/common/Navbar';
 import home from '../../Assets/icons/icon-home.svg';
 import { Layout } from '../../Styles/Layout';
 import CircleButton from '../../Components/common/CircleButton';
+<<<<<<< HEAD
 import Toggle from '../../Components/common/Toggle';
+=======
+import { useNavigate } from 'react-router-dom';
+>>>>>>> fcdcf43e2af4e59e4666cdacb8ca5e3ae6b01a43
 
 export default function Product(props) {
   const navigate = useNavigate();
@@ -29,7 +33,18 @@ export default function Product(props) {
         bgUrl={home}
       ></CircleButton>
       <Navbar />
+<<<<<<< HEAD
     </StyledLayout>
+=======
+      <button
+        onClick={() => {
+          navigate('/addproduct');
+        }}
+      >
+        button
+      </button>
+    </Layout>
+>>>>>>> fcdcf43e2af4e59e4666cdacb8ca5e3ae6b01a43
   );
 }
 

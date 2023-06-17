@@ -14,14 +14,14 @@ import chatfill from '../../Assets/icons/icon-message-circle-fill.svg';
 import postfill from '../../Assets/icons/icon-edit-fill.svg';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-const Navbar = (props)=> {
+const Navbar = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
   console.log(location);
   const [buttonId, setButtonId] = useState(0);
 
   const icons = [
-    { name: '홈', image: home, fillImage: homefill, path: '/' },
+    { name: '홈', image: home, fillImage: homefill, path: '/home' },
     { name: '채팅', image: chat, fillImage: chatfill, path: '/chat' },
     { name: '상품', image: shop, fillImage: shopfill, path: '/product' },
     { name: '게시물 작성', image: post, fillImage: postfill, path: '/post' },
@@ -53,7 +53,7 @@ const Navbar = (props)=> {
       ))}
     </NavbarLayout>
   );
-}
+};
 
 const NavbarLayout = styled.div`
   display: flex;
@@ -67,8 +67,7 @@ const NavbarLayout = styled.div`
   position: fixed;
   bottom: 0;
   background-color: #fff;
-  margin: ${props=> props.margin};
-
+  margin: ${(props) => props.margin};
 `;
 
 const IconLayout = styled.button`
