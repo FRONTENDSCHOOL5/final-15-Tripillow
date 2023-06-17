@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import GlobalStyle from './GlobalStyle';
+import Landing from './Pages/Landing';
 import Home from './Pages/Home';
 import Login from './Pages/Login';
 import Signup from './Pages/Signup';
@@ -17,7 +18,8 @@ function App() {
       <RecoilRoot>
         <GlobalStyle />
         <Routes>
-          <Route path='/' element={<Home />} />
+          <Route path='/' element={<Landing />} />
+          <Route path='/home' element={<Home />} />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/profile' element={<Profile />} />
