@@ -1,11 +1,20 @@
-import React from 'react';
-import User from '../Components/common/User';
+import React, { useState, useEffect } from 'react';
+import { Layout } from '../Styles/Layout';
+import MainHeader from '../Components/common/Header/MainHeader';
+import Toggle from '../Components/common/Toggle';
+import HomePost from '../Components/HomePost/HomePostLayout';
+import TopButton from '../Components/common/Topbutton';
+import Navbar from '../Components/common/Navbar';
 
 const Home = () => {
   return (
-    <div>
-      <User title='애월읍 위니브 감귤농장' post='' followers='' chat='1' date='2023.6.12' content='@weniv_Mandarin' />
-    </div>
+    <Layout>
+      <MainHeader />
+      <Toggle margin='25px 0 0 16px' leftButton='국내' rightButton='해외' />
+      <HomePost />
+      <TopButton />
+      <Navbar />
+    </Layout>
   );
 };
 
