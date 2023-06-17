@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { LayoutStyle } from '../Styles/Layout';
 import CircleButton from './common/CircleButton';
@@ -7,6 +7,7 @@ import UploadHeader from './common/Header/UploadHeader';
 import Toggle from './common/Toggle';
 
 export default function UploadPost() {
+  const [inputValue, setInputValue] = useState('');
   const textarea = useRef();
 
   const handelResizeHeight = () => {
@@ -14,14 +15,19 @@ export default function UploadPost() {
     textarea.current.style.height = textarea.current.scrollHeight + 'px';
   };
 
+  const handelInputChange = (e) => {
+    setInputValue(e.target.value);
+    handelResizeHeight();
+  };
+
   return (
     <PostLayout>
-      <UploadHeader disabled>업로드</UploadHeader>
+      <UploadHeader disabled={!inputValue}>업로드</UploadHeader>
       <Form>
         <ToggleLayout>
           <ToggleTitle>여행지</ToggleTitle>
           <Toggle leftButton='국내' rightButton='환전' margin='0 0 22px 0'></Toggle>
-          <TextInput placeholder='게시글 입력하기...' ref={textarea} onChange={handelResizeHeight}></TextInput>
+          <TextInput placeholder='게시글 입력하기...' ref={textarea} onChange={handelInputChange}></TextInput>
           {/* <ImgInput></ImgInput> */}
           <CircleButton bgUrl={imgFile} right='16px' bottom='16px'></CircleButton>
         </ToggleLayout>
