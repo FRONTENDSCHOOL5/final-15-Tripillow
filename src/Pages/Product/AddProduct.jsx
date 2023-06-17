@@ -100,6 +100,7 @@ const Image = styled.img`
   //fixme: 패딩 값 무시하고 가로 꽉 채우는 다른 방법?
   width: calc(100% + 16px + 12px); // Image 너비에 패딩값 차감
   width: 100%;
+
   margin-left: -16px;
   margin-right: -12px;
   margin-bottom: 14px;

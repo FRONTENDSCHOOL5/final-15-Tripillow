@@ -9,6 +9,7 @@ import { Layout } from '../../Styles/Layout';
 import CircleButton from '../../Components/common/CircleButton';
 import Toggle from '../../Components/common/Toggle';
 
+
 export default function Product(props) {
   const navigate = useNavigate();
   return (
@@ -30,6 +31,7 @@ export default function Product(props) {
       ></CircleButton>
       <Navbar />
     </StyledLayout>
+
   );
 }
 

@@ -33,7 +33,7 @@ const Login = () => {
 
   const handleError = (e) => {
     const user = userInput.user;
-    if (!user.em9ail && !user.password) {
+    if (!user.email && !user.password) {
       setErrorMsg('아이디를 입력해주세요.');
     } else if (user.email && !user.password) {
       setErrorMsg('비밀번호를 입력해주세요.');
@@ -59,7 +59,7 @@ const Login = () => {
     const res = await LoginAPI(userInput);
     if (res && res.hasOwnProperty('user')) {
       console.log(res);
-      navigate('/');
+      navigate('/home');
       setToken(res.user.token);
       setIsLoginState(true);
       setName(res.user.accountname);
