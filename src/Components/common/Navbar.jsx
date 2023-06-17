@@ -61,14 +61,18 @@ const NavbarLayout = styled.div`
   width: 390px;
   justify-content: space-around;
   justify-content: space-between;
+  margin: 0 auto;
   padding: 15px 25px;
   box-sizing: border-box;
+  border: 1px solid var(--light-gray);
   border-top: 0.5px solid #dbdbdb;
   position: fixed;
   bottom: 0;
+  left: 0;
+  right: 0;
+``
   background-color: #fff;
   margin: ${(props) => props.margin};
-
 `;
 
 const IconLayout = styled.button`
