@@ -3,6 +3,7 @@ import { RecoilRoot } from 'recoil';
 import GlobalStyle from './GlobalStyle';
 import Landing from './Pages/Landing';
 import Home from './Pages/Home';
+import Search from './Pages/Search';
 import Login from './Pages/Login';
 import Signup from './Pages/Signup';
 import Profile from './Pages/Profile';
@@ -21,6 +22,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Landing />} />
           <Route path='/home' element={<Home />} />
+          <Route path='/search' element={<Search />} />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/profile' element={<Profile />} />
