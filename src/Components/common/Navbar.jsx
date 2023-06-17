@@ -29,8 +29,11 @@ const Navbar = (props) => {
   ];
 
   useEffect(() => {
-    const path = location.pathname;
+    const path = location.pathname; 
+    // icons el의 path 값 === '/' 뒤의 값
     const buttonIndex = icons.findIndex((icon) => icon.path === path);
+  
+    // 위에서 경로가 일치하면 그 버튼 색깔 바뀌고, 경로가 불일치하면 home으로 효과 적용
     setButtonId(buttonIndex !== -1 ? buttonIndex : 0);
   }, [location]);
 
@@ -58,11 +61,16 @@ const NavbarLayout = styled.div`
   width: 390px;
   justify-content: space-around;
   justify-content: space-between;
+  margin: 0 auto;
   padding: 15px 25px;
   box-sizing: border-box;
+  border: 1px solid var(--light-gray);
   border-top: 0.5px solid #dbdbdb;
   position: fixed;
   bottom: 0;
+  left: 0;
+  right: 0;
+``
   background-color: #fff;
   margin: ${(props) => props.margin};
 `;

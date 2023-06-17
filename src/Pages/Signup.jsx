@@ -10,6 +10,7 @@ import Input from '../Components/common/Input';
 import ErrorMSG from '../Styles/ErrorMSG';
 import profileImg from '../Assets/profile-lg.png';
 import { useNavigate } from 'react-router-dom';
+import uploadfile from '../Assets/icons/upload-file.svg';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -266,6 +267,17 @@ const ProfileImg = styled.img`
   width: 100%;
   height: 100%;
   background: url(${profileImg}) 0 0 / cover;
+
+  ::after {
+    position: absolute;
+    content: '';
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    right: 0;
+    bottom: 0;
+    background: url(${uploadfile}) 0 0 / cover;
+  }
 `;
 
 export default Signup;
