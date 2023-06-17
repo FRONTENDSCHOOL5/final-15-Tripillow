@@ -14,14 +14,14 @@ import chatfill from '../../Assets/icons/icon-message-circle-fill.svg';
 import postfill from '../../Assets/icons/icon-edit-fill.svg';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export default function Navbar() {
+const Navbar = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
   console.log(location);
   const [buttonId, setButtonId] = useState(0);
 
   const icons = [
-    { name: '홈', image: home, fillImage: homefill, path: '/' },
+    { name: '홈', image: home, fillImage: homefill, path: '/home' },
     { name: '채팅', image: chat, fillImage: chatfill, path: '/chat' },
     { name: '상품', image: shop, fillImage: shopfill, path: '/product' },
     { name: '게시물 작성', image: post, fillImage: postfill, path: '/post' },
@@ -35,9 +35,9 @@ export default function Navbar() {
   }, [location]);
 
   return (
-    <FooterContainer>
+    <NavbarLayout margin={props.margin}>
       {icons.map((el, i) => (
-        <IconContainer
+        <IconLayout
           key={i}
           onClick={() => {
             setButtonId(i);
@@ -46,13 +46,13 @@ export default function Navbar() {
         >
           <IconImg src={buttonId === i ? el.fillImage : el.image} />
           <IconInfo setColor={buttonId === i}>{el.name}</IconInfo>
-        </IconContainer>
+        </IconLayout>
       ))}
-    </FooterContainer>
+    </NavbarLayout>
   );
-}
+};
 
-const FooterContainer = styled.div`
+const NavbarLayout = styled.div`
   display: flex;
   gap: 20px;
   width: 390px;
@@ -64,10 +64,10 @@ const FooterContainer = styled.div`
   position: fixed;
   bottom: 0;
   background-color: #fff;
-
+  margin: ${(props) => props.margin};
 `;
 
-const IconContainer = styled.button`
+const IconLayout = styled.button`
   display: flex;
   width: 49px;
   flex-direction: column;
@@ -87,3 +87,5 @@ const IconInfo = styled.span`
   font-size: 10px;
   color: ${(props) => (props.setColor ? 'var(--primary)' : '#767676')};
 `;
+
+export default Navbar;

@@ -1,20 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import profileImg from '../../Assets/profile-sm.png';
 
-export default function PostComment() {
+export default function PostComment(props) {
+  // TODO 기능 추가
+  const [userInput, setUserInput] = useState('');
+
+  const handleInputChange = (e) => {
+    const input = e.target.value;
+    setUserInput(input);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    return;
+  };
+
   return (
     <FooterLayout>
       <InputLayout>
         <ProfileImg src={profileImg}></ProfileImg>
-        <InputStyle type={'text'} placeholder={'댓글 입력하기'} />
+        <InputStyle type='text' placeholder='댓글 입력하기' onChange={handleInputChange} />
       </InputLayout>
-      <PostButton type={'submit'}>게시</PostButton>
+      <PostButton type='submit' onSubmit={handleSubmit}>
+        게시
+      </PostButton>
     </FooterLayout>
   );
 }
 
-const FooterLayout = styled.div`
+const FooterLayout = styled.form`
   display: flex;
   justify-content: space-between;
   min-width: 390px;
@@ -22,6 +37,9 @@ const FooterLayout = styled.div`
   padding: 13px 15px;
   box-sizing: border-box;
   border-top: 0.5px solid #dbdbdb;
+  position: fixed;
+  bottom: 0;
+  background-color: #fff;
 `;
 
 const InputLayout = styled.div`

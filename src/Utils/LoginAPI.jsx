@@ -1,8 +1,8 @@
-import Url from './Url';
+import URL from './URL';
 
 const LoginAPI = async (userInput) => {
   try {
-    const response = await fetch(Url + '/user/login/', {
+    const response = await fetch(URL + '/user/login/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

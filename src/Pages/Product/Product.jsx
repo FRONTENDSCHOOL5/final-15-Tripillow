@@ -1,31 +1,36 @@
 import React from 'react';
 import styled from 'styled-components';
-import TopNavBar from '../../Components/common/TopNavBar';
 import SnsButton from '../../Components/common/SnsButton';
+import BasicHeader from '../../Components/common/Header/BasicHeader';
 import ProductItem from '../../Components/common/ProductItem';
 import Navbar from '../../Components/common/Navbar';
 import Button from '../../Components/common/Button';
 import home from '../../Assets/icons/icon-home.svg';
 import Toggle from '../../Components/common/Toggle';
-import {Layout} from '../../Styles/Layout';
+import { Layout } from '../../Styles/Layout';
+import CircleButton from '../../Components/common/CircleButton';
+import { useNavigate } from 'react-router-dom';
 
 export default function Product(props) {
+  const navigate = useNavigate();
   return (
     <Layout>
-      <TopNavBar>판매 중인 상품</TopNavBar>
+      <BasicHeader>판매 중인 상품</BasicHeader>
       <GridLayout>
         <ProductItem />
-        <ProductItem />
-
         <ProductItem />
         <ProductItem />
         <ProductItem />
       </GridLayout>
-      {/* //fixme: height값이랑 position, + 이거 텍스트로 입력해도 되나 */}
-      <Button width='50px' borderRadius='50%'>
-        +
-      </Button>
+      <CircleButton bottom='100px'></CircleButton>
       <Navbar />
+      <button
+        onClick={() => {
+          navigate('/addproduct');
+        }}
+      >
+        button
+      </button>
     </Layout>
   );
 }
