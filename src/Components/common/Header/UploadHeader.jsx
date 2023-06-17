@@ -11,7 +11,7 @@ const UploadHeader = (props) => {
 
   return (
     <HeaderLayout>
-      <PrevButton onClick={()=>{navigate(-1)}} />
+      <PrevButton onClick={() => navigate(-1)} />
       <Button disabled={props.disabled} width='90px' fontSize='14px' padding='7.75px'>
         {props.children}
       </Button>

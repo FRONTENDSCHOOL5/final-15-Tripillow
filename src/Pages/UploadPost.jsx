@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { LayoutStyle } from '../Styles/Layout';
-import CircleButton from './common/CircleButton';
+import CircleButton from '../Components/common/CircleButton';
 import imgFile from '../Assets/icons/upload-file.svg';
-import UploadHeader from './common/Header/UploadHeader';
-import Toggle from './common/Toggle';
+import UploadHeader from '../Components/common/Header/UploadHeader';
+import Toggle from '../Components/common/Toggle';
 
 export default function UploadPost() {
   const [inputValue, setInputValue] = useState('');
