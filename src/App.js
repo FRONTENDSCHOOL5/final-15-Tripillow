@@ -8,6 +8,7 @@ import Profile from './Pages/Profile';
 import Product from './Pages/Product/Product';
 import ProductDetail from './Pages/Product/ProductDetail';
 import AddProduct from './Pages/Product/AddProduct';
+import Chat from './Pages/Chat/Chat';
 import NotFound from './Pages/NotFound';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path='/product' element={<Product />} />
           <Route path='/addproduct' element={<AddProduct />} />
           <Route path='/product/:id' element={<ProductDetail />} />
+          <Route path='/chat' element={<Chat />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </RecoilRoot>
