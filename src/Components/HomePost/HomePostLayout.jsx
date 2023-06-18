@@ -13,7 +13,6 @@ const HomePostLayout = (props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const post = props.post;
   const userImg = post.author.image;
-  console.log(props.post);
   const pictures = post.image.split(', ');
   const createdAt =
     post.createdAt.slice(0, 4) + '년 ' + post.createdAt.slice(5, 7) + '월 ' + post.createdAt.slice(8, 10) + '일 ';

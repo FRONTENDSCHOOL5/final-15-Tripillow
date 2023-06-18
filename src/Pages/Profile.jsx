@@ -11,7 +11,6 @@ const Profile = () => {
   const userData = UserInfoAPI();
 
   const postData = GetPostAPI();
-  console.log(postData);
 
   return (
     <Layout>

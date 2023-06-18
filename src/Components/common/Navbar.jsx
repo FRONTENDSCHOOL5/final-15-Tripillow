@@ -17,7 +17,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 const Navbar = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location);
   const [buttonId, setButtonId] = useState(0);
 
   const icons = [
