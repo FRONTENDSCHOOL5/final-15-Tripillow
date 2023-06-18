@@ -59,7 +59,6 @@ const NavbarLayout = styled.div`
   display: flex;
   gap: 20px;
   width: 390px;
-  justify-content: space-around;
   justify-content: space-between;
   margin: 0 auto;
   padding: 15px 25px;
