@@ -4,7 +4,7 @@ import HeaderLayout from '../../../Styles/HeaderLayout';
 import prev from '../../../Assets/icons/icon-arrow-back.svg';
 import { useNavigate } from 'react-router-dom';
 
-const SearchHeader = () => {
+const SearchHeader = ({ value, onChange }) => {
   const navigate = useNavigate();
   return (
     <HeaderLayout>
@@ -13,7 +13,7 @@ const SearchHeader = () => {
           navigate(-1);
         }}
       />
-      <SearchInput type='text' placeholder='계정 검색' />
+      <SearchInput type='text' placeholder='계정 검색' value={value} onChange={onChange} />
     </HeaderLayout>
   );
 };
