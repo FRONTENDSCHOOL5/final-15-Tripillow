@@ -71,6 +71,7 @@ const UserProfileLayout = styled.article`
   text-align: center;
   /* box-shadow: 0 0 10px royalblue; */
   border-bottom: 1px solid var(--light-gray);
+  background-color: #fff;
 `;
 
 const ImgFollowLayout = styled.div`
