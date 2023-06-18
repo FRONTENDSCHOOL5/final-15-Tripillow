@@ -5,7 +5,7 @@ import BasicHeader from '../../Components/common/Header/BasicHeader';
 import Navbar from '../../Components/common/Navbar';
 import Input from '../../Components/common/Input';
 import UploadHeader from '../../Components/common/Header/UploadHeader';
-import Url from '../../Utils/Url';
+import URL from '../../Utils/URL';
 
 const AddProduct = (props) => {
   const [ProductName, setProductName] = useState('');
@@ -17,7 +17,7 @@ const AddProduct = (props) => {
     // e.stopPropagation();
 
     try {
-      const response = await fetch(Url + '/product', {
+      const response = await fetch(URL + '/product', {
         method: 'POST',
         headers: {
           Authorization: 'Bearer {token}',

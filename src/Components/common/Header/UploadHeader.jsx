@@ -5,8 +5,10 @@ import Button from '../Button';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
+
 const UploadHeader = (props) => {
   const navigate = useNavigate();
+
   return (
     <HeaderLayout>
       <PrevButton onClick={() => navigate(-1)} />
