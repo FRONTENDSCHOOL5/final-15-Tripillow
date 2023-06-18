@@ -27,9 +27,6 @@ const Home = () => {
     <Layout>
       <MainHeader />
       <Toggle margin='25px 0 0 16px' leftButton='국내' rightButton='해외' />
-      {postCount.map((_, i) => (
-        <HomePost key={i} />
-      ))}
       <TopButton />
       <Navbar />
     </Layout>
