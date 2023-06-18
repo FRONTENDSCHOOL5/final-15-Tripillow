@@ -17,7 +17,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 const Navbar = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location);
   const [buttonId, setButtonId] = useState(0);
 
   const icons = [
@@ -59,7 +58,6 @@ const NavbarLayout = styled.div`
   display: flex;
   gap: 20px;
   width: 390px;
-  justify-content: space-around;
   justify-content: space-between;
   margin: 0 auto;
   padding: 15px 25px;

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 // import UserName from '../Components/common/UserName';
 import styled from 'styled-components';
+import URL from '../../Utils/URL';
 import User from '../common/User';
-import images from '../../test/images';
 import Profile from '../../Assets/profile-sm.png';
 import arrowRight from '../../Assets/icons/icon-arrow-right.svg';
 import arrowLeft from '../../Assets/icons/icon-arrow-left.svg';
@@ -11,8 +11,11 @@ import iconChat from '../../Assets/icons/icon-message-circle-1.svg';
 
 const HomePostLayout = (props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  // 임의로 이미지 생성
-  const pictures = [...images];
+  const post = props.post;
+  const userImg = post.author.image;
+  const pictures = post.image.split(', ');
+  const createdAt =
+    post.createdAt.slice(0, 4) + '년 ' + post.createdAt.slice(5, 7) + '월 ' + post.createdAt.slice(8, 10) + '일 ';
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev === 0 ? pictures.length - 1 : prev - 1));
@@ -22,46 +25,47 @@ const HomePostLayout = (props) => {
     setCurrentIndex((prev) => (prev === pictures.length - 1 ? 0 : prev + 1));
   };
 
-  // todo: props 받아주기
   return (
     <Layout>
-      <User userImg={Profile} username='애월읍 위니브' content='@ haron-lee' moreBtn={props.isEditable ? true : false}>
+      <User
+        accountname={post.author.accountname}
+        userImg={userImg || Profile}
+        username={post.author.username}
+        content={'@' + post.author.accountname}
+        moreBtn={props.isEditable ? true : false}
+      >
         애월읍 위니브
       </User>
       <ImageLayout>
         <ArrowButton onClick={handlePrev} bgImage={arrowLeft} left='16px'></ArrowButton>
-        <img src={pictures[currentIndex].src} alt='' />
+        <img src={URL + '/' + pictures[currentIndex]} alt='' />
         <ArrowButton onClick={handleNext} bgImage={arrowRight} right='16px'></ArrowButton>
         <IndicatorLayout>
-          {images.map((_, index) => {
-            return <Indicator key={index} onIndicator={index === currentIndex}></Indicator>;
+          {pictures.map((_, index) => {
+            return <Indicator key={index} indicator={index === currentIndex}></Indicator>;
           })}
         </IndicatorLayout>
       </ImageLayout>
       <IconLayout>
         <IconButton>
           <img src={iconHeart} alt='하트 아이콘' />
-          <span>58</span>
+          <span>{post.heartCount}</span>
         </IconButton>
         <IconButton>
           <img src={iconChat} alt='채팅 아이콘' />
-          <span>12</span>
+          <span>{post.commentCount}</span>
         </IconButton>
       </IconLayout>
-      <Content>
-        얼마나 품고 바이며, 인간이 생생하며, 능히 위하여 이상은 위하여서 있는가? 이 창공에 인도하겠다는 갑 사막이다.
-        동력은 힘차게 앞이 무한한 끓는 청춘의 지혜는 칼이다. 설산에서 목숨이 하였으며, 같은 착목한는 튼튼하며, 같이,
-        이상 아니다. 찾아다녀도, 가는 이상의 교향악이다. 인간의 피가 못하다 돋고, 가진 열락의 풀밭에 사막이다. 고동을
-        일월과 인생을 풍부하게 봄바람이다.
-      </Content>
-      <span>2023년 6월 14일</span>
+      <Content>{post.content}</Content>
+      <span>{createdAt}</span>
     </Layout>
   );
 };
 
-const Layout = styled.article`
+const Layout = styled.div`
   padding: 14px 12px 20px 16px;
   padding-bottom: ${(props) => props.pb || '20px'};
+  background-color: #fff;
 `;
 
 const ImageLayout = styled.div`
@@ -101,7 +105,7 @@ const IndicatorLayout = styled.div`
 const Indicator = styled.div`
   width: 6px;
   height: 6px;
-  background-color: ${(props) => (props.onIndicator ? '#fff' : 'var(--gray)')};
+  background-color: ${(props) => (props.indicator ? '#fff' : 'var(--gray)')};
   border-radius: 50%;
 `;
 
