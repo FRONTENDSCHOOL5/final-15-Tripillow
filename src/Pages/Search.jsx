@@ -42,7 +42,12 @@ const Search = () => {
         <ul>
           {searchData?.map((user) => (
             <SearchedUser key={user._id}>
-              <User userimage={user.image} username={user.username} content={user.accountname} />
+              <User
+                userImg={user.image}
+                username={user.username}
+                content={user.accountname}
+                accountname={user.accountname}
+              />
             </SearchedUser>
           ))}
         </ul>
