@@ -1,13 +1,17 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import profileSm from '../../Assets/profile-sm.png';
 import more from '../../Assets/icons/s-icon-more-vertical.svg';
 import Button from './Button';
 
 const User = (props) => {
+  console.log(props);
   return (
     <UserLayout>
-      <UserImg src={props.UserImage || profileSm} alt={props.username} />
+      <Link to={`/profile/${props.accountname}`}>
+        <UserImg src={props.userImg || profileSm} alt={props.username} />
+      </Link>
       <UserContentsLayout>
         <div>
           <UserTitle>{props.username}</UserTitle>
