@@ -1,13 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
+import accountname from '../../Recoil/accountName/accountName';
 import ProfileImg from '../../Assets/profile-lg.png';
 import Chat from '../../Assets/icons/icon-message-circle-1.svg';
 import Share from '../../Assets/icons/icon-share.svg';
 import CommonButton from '../../Components/common/Button';
+import { useRecoilValue } from 'recoil';
 
 const UserProfile = (props) => {
-  const user = props.user;
-  console.log(user);
+  const user = props.user || props.author;
+  const name = useRecoilValue(accountname);
+  const [isFollowClicked, setIsFollowClicked] = useState(false);
+  const [isFollow, setIsFollow] = useState(user.isfollow);
+
+  const handleFollowButtonClick = (e) => {
+    setIsFollowClicked(!isFollowClicked);
+    if (e.target.textContent === '팔로우') {
+      e.target.textContent = '언팔로우';
+    } else {
+      e.target.textContent = '팔로우';
+    }
+  };
 
   return (
     <>
@@ -19,7 +32,6 @@ const UserProfile = (props) => {
               <strong>{user.followerCount}</strong>
               <p>followers</p>
             </FollowLayout>
-            {/* img태그로 해서 src를 가져와서 넣어야함 */}
             <ImgLayout>
               <img src={user.image ? user.image : ProfileImg} alt='사용자 프로필 사진' />
             </ImgLayout>
@@ -33,11 +45,20 @@ const UserProfile = (props) => {
             <p>{'@' + user.accountname}</p>
             <p>{user.intro}</p>
           </UserInfoLayout>
-          <IconLayout>
-            <ChatIconStyle />
-            <CommonButton width='120px'>팔로우</CommonButton>
-            <ShareIconStyle />
-          </IconLayout>
+          {user.accountname === name ? (
+            <IconLayout>
+              <CommonButton width='120px'>프로필 수정</CommonButton>
+              <CommonButton width='100px'>상품 등록</CommonButton>
+            </IconLayout>
+          ) : (
+            <IconLayout>
+              <ChatIconStyle />
+              <CommonButton width='120px' clicked={isFollowClicked} onClick={handleFollowButtonClick}>
+                팔로우
+              </CommonButton>
+              <ShareIconStyle />
+            </IconLayout>
+          )}
         </UserProfileLayout>
       )}
     </>
@@ -50,6 +71,7 @@ const UserProfileLayout = styled.article`
   text-align: center;
   /* box-shadow: 0 0 10px royalblue; */
   border-bottom: 1px solid var(--light-gray);
+  background-color: #fff;
 `;
 
 const ImgFollowLayout = styled.div`
@@ -67,6 +89,8 @@ const ImgFollowLayout = styled.div`
 const ImgLayout = styled.div`
   width: 120px;
   height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
 
   img {
     width: 100%;
