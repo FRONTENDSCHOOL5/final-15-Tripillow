@@ -107,7 +107,7 @@ const Signup = () => {
           <Form onSubmit={handleSubmit}>
             <ImageLayout>
               <ImgLabel htmlFor='file-input'>
-                <ProfileImg src={imgURL} />
+                <ProfileImg src={imgURL ? imgURL : profileImg} />
               </ImgLabel>
               <input id='file-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
             </ImageLayout>
@@ -256,21 +256,15 @@ const ImageLayout = styled.div`
 
 const ImgLabel = styled.label`
   display: block;
+  position: relative;
   width: 110px;
   height: 110px;
   border-radius: 50%;
-  overflow: hidden;
   cursor: pointer;
-`;
-
-const ProfileImg = styled.img`
-  width: 100%;
-  height: 100%;
-  background: url(${profileImg}) 0 0 / cover;
 
   ::after {
-    position: absolute;
     content: '';
+    position: absolute;
     width: 36px;
     height: 36px;
     border-radius: 50%;
@@ -278,6 +272,13 @@ const ProfileImg = styled.img`
     bottom: 0;
     background: url(${uploadfile}) 0 0 / cover;
   }
+`;
+
+const ProfileImg = styled.img`
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
 `;
 
 export default Signup;
