@@ -6,7 +6,6 @@ import more from '../../Assets/icons/s-icon-more-vertical.svg';
 import Button from './Button';
 
 const User = (props) => {
-  console.log(props);
   return (
     <UserLayout>
       <Link to={`/profile/${props.accountname}`}>
