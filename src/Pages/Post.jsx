@@ -10,7 +10,7 @@ import userToken from '../Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
 import ImageUploadAPI from '../Utils/ImageUploadAPI';
 
-export default function UploadPost() {
+export default function Post() {
   const textarea = useRef();
   const [inputValue, setInputValue] = useState('');
   const [imgURL, setImgURL] = useState([]);
