@@ -6,54 +6,90 @@ import UploadHeader from '../Components/common/Header/UploadHeader';
 import Toggle from '../Components/common/Toggle';
 import URL from '../Utils/URL';
 import x from '../Assets/icons/x.svg';
+import userToken from '../Recoil/userToken/userToken';
+import { useRecoilValue } from 'recoil';
+
+const handleImageInput = async (e, imgURL, setImgURL) => {
+  // TODO 3개 넘을 경우 알림 띄우기
+  if (imgURL.length >= 3) return;
+  const formData = new FormData();
+  console.log(e.target.files[0]);
+  formData.append('image', e.target.files[0]);
+  const res = await fetch(URL + '/image/uploadfile', {
+    method: 'POST',
+    body: formData,
+  });
+  const json = await res.json();
+  setImgURL((prev) => prev.concat(json.filename));
+};
 
 export default function UploadPost() {
   const textarea = useRef();
   const [inputValue, setInputValue] = useState('');
   const [imgURL, setImgURL] = useState([]);
+  const token = useRecoilValue(userToken);
 
-  const handelResizeHeight = () => {
+  const handleSubmit = async () => {
+    const images = imgURL.join(', ');
+    console.log(images);
+    try {
+      const response = await fetch(URL + '/post', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          post: {
+            content: inputValue,
+            image: images,
+          },
+        }),
+      });
+      const res = await response.json();
+      textarea.current.value = '';
+      setImgURL([]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleResizeHeight = () => {
     textarea.current.style.height = 'auto';
     textarea.current.style.height = textarea.current.scrollHeight + 'px';
   };
 
-  const handelInputChange = (e) => {
+  const handleInputChange = (e) => {
     setInputValue(e.target.value);
-    handelResizeHeight();
-  };
-
-  const handleImageInput = async (e) => {
-    // TODO 3개 넘을 경우 알림 띄우기
-    if (imgURL.length >= 3) return;
-    const formData = new FormData();
-    formData.append('image', e.target.files[0]);
-    const res = await fetch(URL + '/image/uploadfile', {
-      method: 'POST',
-      body: formData,
-    });
-    const json = await res.json();
-    setImgURL((prev) => prev.concat(`${URL}/${json.filename}`));
+    handleResizeHeight();
   };
 
   return (
     <PostLayout>
-      <UploadHeader disabled={!inputValue}>업로드</UploadHeader>
+      <UploadHeader disabled={!inputValue} onClick={handleSubmit}>
+        업로드
+      </UploadHeader>
       <Form>
         <ToggleLayout>
           <ToggleTitle>여행지</ToggleTitle>
           <Toggle leftButton='국내' rightButton='환전' margin='0 0 22px 0'></Toggle>
         </ToggleLayout>
-        <TextInput placeholder='게시글 입력하기...' ref={textarea} onChange={handelInputChange} rows='1'></TextInput>
+        <TextInput placeholder='게시글 입력하기...' ref={textarea} onChange={handleInputChange} rows='1'></TextInput>
         {imgURL.map((el, i) => (
           <ImgLayout key={`ImgLayout-${i}`}>
-            <Img src={el} key={`Img-${i}`} />
+            <Img src={`${URL}/${el}`} key={`Img-${i}`} />
             <ImgDelete key={`ImgDelete-${i}`}></ImgDelete>
           </ImgLayout>
         ))}
         <label htmlFor='img-input'>
           <ImgIcon src={iconImg}></ImgIcon>
         </label>
-        <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
+        <input
+          id='img-input'
+          className='a11y-hidden'
+          type='file'
+          onChange={(e) => handleImageInput(e, imgURL, setImgURL)}
+        />
       </Form>
     </PostLayout>
   );
@@ -77,7 +113,6 @@ const TextInput = styled.textarea`
   border: none;
   width: calc(100% - 28px);
   margin: 0 12px 20px 16px;
-  /* min-height: 30px; */
   font-size: var(--sm);
   resize: none;
   font: inherit;
