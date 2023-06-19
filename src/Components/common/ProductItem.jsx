@@ -1,25 +1,28 @@
 import React from 'react';
 import styled from 'styled-components';
-import { BrowserRouter, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-export default function ProductItem() {
+const ProductItem = (props) => {
+  const product = props.product;
+  console.log(product);
   return (
-    <Link to='/Product/:id'>
-    <ButtonLayout>
-      <ProductImg
-        src='https://images.unsplash.com/photo-1685987300287-6c1dc4d0508e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDE5fDZzTVZqVExTa2VRfHxlbnwwfHx8fHw%3D&auto=format&fit=crop&w=800&q=60'
-        alt=''
-      />
-      <ProductInfo size='14px' color='black'>
-        판매 상품
-      </ProductInfo>
-      <ProductInfo size='12px' color='#6CABFF' weight='700'>
-        35,000원
-      </ProductInfo>
-    </ButtonLayout>
-    </Link>
+    <>
+      {product && (
+        <Link to={`/product/${product.id}`}>
+          <ButtonLayout>
+            <ProductImg src={product.itemImage} alt={product.itemName} />
+            <ProductInfo size='14px' color='black'>
+              {product.itemName}
+            </ProductInfo>
+            <ProductInfo size='12px' color='#6CABFF' weight='700'>
+              {product.price.toLocaleString()}원
+            </ProductInfo>
+          </ButtonLayout>
+        </Link>
+      )}
+    </>
   );
-}
+};
 
 const ButtonLayout = styled.button`
   text-align: left;
@@ -39,3 +42,5 @@ const ProductInfo = styled.p`
   font-weight: ${(props) => props.weight};
   margin-bottom: ${(props) => props.mb || '4px'};
 `;
+
+export default ProductItem;

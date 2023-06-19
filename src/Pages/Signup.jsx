@@ -4,6 +4,7 @@ import { LayoutStyle } from '../Styles/Layout';
 import SignupAPI from '../Utils/SignupAPI';
 import URL from '../Utils/URL';
 import EmailValidAPI from '../Utils/EmailValidAPI';
+import ImageUploadAPI from '../Utils/ImageUploadAPI';
 import Button from '../Components/common/Button';
 import Input from '../Components/common/Input';
 // import ProfileSetting from '../Components/Profile/UserProfileSetting';
@@ -69,16 +70,9 @@ const Signup = () => {
   };
 
   const handleImageInput = async (e) => {
-    const formData = new FormData();
-    formData.append('image', e.target.files[0]);
-    const res = await fetch(URL + '/image/uploadfile', {
-      method: 'POST',
-      body: formData,
-    });
-    const json = await res.json();
-    console.log(json);
-    setImgURL(URL + '/' + json.filename);
-    setUserInfo({ ...userInfo, user: { ...userInfo.user, image: URL + '/' + json.filename } });
+    const res = await ImageUploadAPI(e);
+    setImgURL(URL + '/' + res.filename);
+    setUserInfo({ ...userInfo, user: { ...userInfo.user, image: URL + '/' + res.filename } });
   };
 
   const handleSign = async () => {
