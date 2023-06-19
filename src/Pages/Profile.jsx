@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import UserProfile from '../Components/Profile/UserProfile';
 import BasicHeader from '../Components/common/Header/BasicHeader';
 import HomePostLayout from '../Components/HomePost/HomePostLayout';
@@ -7,11 +8,17 @@ import Navbar from '../Components/common/Navbar';
 import ProductItem from '../Components/common/ProductItem';
 import UserInfoAPI from '../Utils/UserInfoAPI';
 import GetPostAPI from '../Utils/GetPostAPI';
-import styled from 'styled-components';
+import ProductListAPI from '../Utils/ProductListAPI';
+import { useRecoilValue } from 'recoil';
+import accountName from '../Recoil/accountName/accountName';
 
 const Profile = () => {
+  const name = useRecoilValue(accountName);
   const userData = UserInfoAPI();
   const postData = GetPostAPI();
+  const productData = ProductListAPI(name);
+  const productList = productData.product;
+  console.log(productList);
 
   return (
     <Layout>
@@ -22,9 +29,10 @@ const Profile = () => {
         <UserProfile user={userData} />
         <UserProductLayout>
           <h2>판매 중인 상품</h2>
-          <div>
+          <ProductListLayout>
+            {productList && productList.map((product, index) => <ProductItem key={index} product={product} />)}
             <ProductItem />
-          </div>
+          </ProductListLayout>
         </UserProductLayout>
         <article>
           {postData &&
@@ -59,6 +67,17 @@ const UserProductLayout = styled.article`
     font-size: var(--md);
     font-weight: 700;
     margin-bottom: 16px;
+  }
+`;
+
+const ProductListLayout = styled.div`
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  -ms-overflow-style: none;
+
+  ::-webkit-scrollbar {
+    display: none;
   }
 `;
 
