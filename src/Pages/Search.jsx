@@ -7,11 +7,13 @@ import styled from 'styled-components';
 import URL from '../Utils/URL';
 import userToken from '../Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
+import UserSkeleton from '../Components/common/UserSkeleton';
 
 const Search = () => {
   const token = useRecoilValue(userToken);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [searchData, setSearchData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSearchKeyword = (e) => {
     const { value } = e.target;
@@ -37,6 +39,7 @@ const Search = () => {
   const debounceValue = useDebounceValue(searchKeyword, 750);
 
   const searchUser = async () => {
+    setIsLoading(true);
     try {
       const response = await fetch(`${URL}/user/searchuser/?keyword=${debounceValue}`, {
         headers: {
@@ -48,6 +51,8 @@ const Search = () => {
       setSearchData(data);
     } catch (error) {
       console.error('에러', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -65,12 +70,18 @@ const Search = () => {
       <SearchHeader value={searchKeyword} onChange={handleSearchKeyword} />
       <SearchContentLayout>
         <ul>
+          {isLoading && (
+            <>
+              <UserSkeleton />
+              <UserSkeleton />
+            </>
+          )}
           {searchData?.map((user) => (
             <SearchedUser key={user._id}>
               <User
                 userImg={user.image}
                 username={user.username}
-                content={user.accountname}
+                content={'@' + user.accountname}
                 accountname={user.accountname}
               />
             </SearchedUser>
