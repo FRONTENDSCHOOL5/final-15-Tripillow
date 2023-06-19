@@ -1,28 +1,33 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import BasicHeader from '../../Components/common/Header/BasicHeader';
 import ProductItem from '../../Components/common/ProductItem';
 import Navbar from '../../Components/common/Navbar';
-// import home from '../../Assets/icons/icon-home.svg';
+import ProductListAPI from '../../Utils/ProductListAPI';
 
 import { Layout } from '../../Styles/Layout';
 import CircleButton from '../../Components/common/CircleButton';
 import Toggle from '../../Components/common/Toggle';
+import accountName from '../../Recoil/accountName/accountName';
+import ProductDetailAPI from '../../Utils/ProductDetailAPI';
 
 export default function Product(props) {
   const navigate = useNavigate();
+  const name = useRecoilValue(accountName);
+  const productData = ProductListAPI(name);
+  const productList = productData.product;
+  console.log(productList);
+
   return (
     <StyledLayout>
       <BasicHeader>판매 중인 상품</BasicHeader>
       <Toggle leftButton='외화' rightButton='여행용품' margin='25px 0' />
       <GridLayout>
-        <ProductItem />
-        <ProductItem />
-        <ProductItem />
+        <ProductItem onClick={ProductDetailAPI} />
       </GridLayout>
       <CircleButton
-     
         onClick={() => {
           navigate('/addproduct');
         }}
