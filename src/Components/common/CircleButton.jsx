@@ -18,7 +18,7 @@ const CircleButtonStyle = styled.button`
   right: ${(props) => props.right};
   bottom: ${(props) => props.bottom};
   transform: ${(props) => props.transform};
-  background: ${(props) => `url(${props.bgUrl}) no-repeat center/cover` || `url(${upload}) no-repeat center/cover`};
+  background: ${(props) => `url(${props.bgUrl || upload}) no-repeat center/cover`};
 `;
 
 export default CircleButton;

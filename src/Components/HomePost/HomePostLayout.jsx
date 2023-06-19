@@ -62,7 +62,7 @@ const HomePostLayout = (props) => {
   );
 };
 
-const Layout = styled.article`
+const Layout = styled.div`
   padding: 14px 12px 20px 16px;
   padding-bottom: ${(props) => props.pb || '20px'};
   background-color: #fff;
