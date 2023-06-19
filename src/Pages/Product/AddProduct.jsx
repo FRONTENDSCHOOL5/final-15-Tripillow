@@ -16,7 +16,10 @@ const AddProduct = (props) => {
   const [saleLink, setSaleLink] = useState('');
   const [imageLink, setImageLink] = useState('');
   const token = useRecoilValue(userToken);
+
+
   const imageURL = imageLink
+
 
   const handleSubmit = async () => {
     // e.preventDefault();
@@ -88,7 +91,8 @@ const AddProduct = (props) => {
         type='url'
         mb='16px'
       />
-      {/* <button onClick={handleSubmit}>btn</button> */}
+
+
       <Navbar />
     </Layout>
   );
