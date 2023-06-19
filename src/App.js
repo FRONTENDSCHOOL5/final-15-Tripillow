@@ -12,7 +12,6 @@ import ProductDetail from './Pages/Product/ProductDetail';
 import AddProduct from './Pages/Product/AddProduct';
 import Chat from './Pages/Chat/Chat';
 import NotFound from './Pages/NotFound';
-import UploadPost from './Pages/UploadPost';
 import ProductModification from './Pages/Product/ProductModification';
 import Post from './Pages/Post';
 
