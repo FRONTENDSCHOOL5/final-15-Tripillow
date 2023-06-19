@@ -19,12 +19,13 @@ export default function Post() {
   const handleImageInput = async (e) => {
     if (imgURL.length >= 3) return;
     const data = await ImageUploadAPI(e);
-    setImgURL((prev) => prev.concat(data.filename));
+    if (data) {
+      setImgURL((prev) => prev.concat(data.filename));
+    }
   };
 
   const handleSubmit = async () => {
     const images = imgURL.join(', ');
-    console.log(images);
     try {
       const response = await fetch(URL + '/post', {
         method: 'POST',
@@ -42,6 +43,7 @@ export default function Post() {
       const res = await response.json();
       textarea.current.value = '';
       setImgURL([]);
+      return res;
     } catch (error) {
       console.error(error);
     }
@@ -57,6 +59,9 @@ export default function Post() {
     handleResizeHeight();
   };
 
+  const handleImgClose = (i) => {
+    setImgURL([...imgURL.slice(0, i), ...imgURL.slice(i + 1, imgURL.length)]);
+  };
   return (
     <PostLayout>
       <UploadHeader disabled={!inputValue} onClick={handleSubmit}>
@@ -71,7 +76,7 @@ export default function Post() {
         {imgURL.map((el, i) => (
           <ImgLayout key={`ImgLayout-${i}`}>
             <Img src={`${URL}/${el}`} key={`Img-${i}`} />
-            <ImgDelete key={`ImgDelete-${i}`}></ImgDelete>
+            <ImgDelete type='button' key={`ImgDelete-${i}`} onClick={() => handleImgClose(i)}></ImgDelete>
           </ImgLayout>
         ))}
         <label htmlFor='img-input'>
@@ -117,11 +122,10 @@ const ImgLayout = styled.div`
 `;
 
 const Img = styled.img`
-  /* height: 225px; */
   width: 100%;
 `;
 
-const ImgDelete = styled.section`
+const ImgDelete = styled.button`
   position: absolute;
   top: 9px;
   right: 9px;
