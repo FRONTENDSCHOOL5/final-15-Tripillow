@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import SkeletonItem from '../../Styles/SkeletonItem';
+import SkeletonItem from '../../../Styles/SkeletonItem';
 
 const UserSkeleton = () => {
   return (
