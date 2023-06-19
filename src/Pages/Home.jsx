@@ -11,15 +11,13 @@ import { useRecoilValue } from 'recoil';
 
 const Home = () => {
   const token = useRecoilValue(userToken);
-
   const [FeedCount, setFeedCount] = useState(0);
-
-  const [FeedFollowed, setFeedFollowed] = useState([]);
+  const [FollowedFeed, setFollowedFeed] = useState([]);
 
   useEffect(() => {
     const getFeedFollowed = async () => {
       try {
-        const response = await fetch(`${URL}/post/feed/?limit=10&skip=${FeedCount}`, {
+        const response = await fetch(`${URL}/post/feed/?limit=20&skip=${FeedCount * 20}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -27,18 +25,18 @@ const Home = () => {
         });
         const data = await response.json();
         console.log(data);
-        setFeedFollowed(data.posts);
+        setFollowedFeed((prevFeed) => [...prevFeed, ...data.posts]);
       } catch (error) {
         console.error('에러', error);
       }
     };
     getFeedFollowed();
-  }, [FeedCount, token]);
+  }, [FeedCount]);
 
   const handleScroll = () => {
     const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
     if (scrollTop + clientHeight >= scrollHeight) {
-      setFeedCount(FeedCount + 1);
+      setFeedCount((prevCount) => prevCount + 1);
     }
   };
 
@@ -53,8 +51,7 @@ const Home = () => {
     <Layout>
       <MainHeader />
       <Toggle margin='25px 0 0 16px' leftButton='국내' rightButton='해외' />
-      {FeedFollowed.length > 0 && FeedFollowed.map((post) => <HomePost key={post.id} post={post} />)}
-
+      {FollowedFeed.length && FollowedFeed.map((post) => <HomePost key={post.id} post={post} />)}
       <TopButton />
       <Navbar />
     </Layout>
