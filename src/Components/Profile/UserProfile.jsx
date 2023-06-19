@@ -6,12 +6,14 @@ import Chat from '../../Assets/icons/icon-message-circle-1.svg';
 import Share from '../../Assets/icons/icon-share.svg';
 import CommonButton from '../../Components/common/Button';
 import { useRecoilValue } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 
 const UserProfile = (props) => {
   const user = props.user || props.author;
   const name = useRecoilValue(accountname);
   const [isFollowClicked, setIsFollowClicked] = useState(false);
   const [isFollow, setIsFollow] = useState(user.isfollow);
+  const navigate = useNavigate();
 
   const handleFollowButtonClick = (e) => {
     setIsFollowClicked(!isFollowClicked);
@@ -47,7 +49,7 @@ const UserProfile = (props) => {
           </UserInfoLayout>
           {user.accountname === name ? (
             <IconLayout>
-              <CommonButton clicked width='120px'>
+              <CommonButton clicked width='120px' onClick={() => navigate('/mypage')}>
                 프로필 수정
               </CommonButton>
               <CommonButton clicked width='100px'>
