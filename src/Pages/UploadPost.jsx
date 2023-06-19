@@ -8,26 +8,19 @@ import URL from '../Utils/URL';
 import x from '../Assets/icons/x.svg';
 import userToken from '../Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
-
-const handleImageInput = async (e, imgURL, setImgURL) => {
-  // TODO 3개 넘을 경우 알림 띄우기
-  if (imgURL.length >= 3) return;
-  const formData = new FormData();
-  console.log(e.target.files[0]);
-  formData.append('image', e.target.files[0]);
-  const res = await fetch(URL + '/image/uploadfile', {
-    method: 'POST',
-    body: formData,
-  });
-  const json = await res.json();
-  setImgURL((prev) => prev.concat(json.filename));
-};
+import ImageUploadAPI from '../Utils/ImageUploadAPI';
 
 export default function UploadPost() {
   const textarea = useRef();
   const [inputValue, setInputValue] = useState('');
   const [imgURL, setImgURL] = useState([]);
   const token = useRecoilValue(userToken);
+
+  const handleImageInput = async (e) => {
+    if (imgURL.length >= 3) return;
+    const data = await ImageUploadAPI(e);
+    setImgURL((prev) => prev.concat(data.filename));
+  };
 
   const handleSubmit = async () => {
     const images = imgURL.join(', ');
@@ -84,12 +77,7 @@ export default function UploadPost() {
         <label htmlFor='img-input'>
           <ImgIcon src={iconImg}></ImgIcon>
         </label>
-        <input
-          id='img-input'
-          className='a11y-hidden'
-          type='file'
-          onChange={(e) => handleImageInput(e, imgURL, setImgURL)}
-        />
+        <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
       </Form>
     </PostLayout>
   );
