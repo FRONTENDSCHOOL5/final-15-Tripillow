@@ -9,34 +9,33 @@ import { Layout } from '../../Styles/Layout';
 import CircleButton from '../../Components/common/CircleButton';
 import Toggle from '../../Components/common/Toggle';
 
-
 export default function Product(props) {
   const navigate = useNavigate();
   return (
     <StyledLayout>
       <BasicHeader>판매 중인 상품</BasicHeader>
-      <Toggle leftButton='외화' rightButton='여행용품' margin='0 0 25px 0' />
+      <Toggle leftButton='외화' rightButton='여행용품' margin='25px 0' />
       <GridLayout>
         <ProductItem />
         <ProductItem />
         <ProductItem />
       </GridLayout>
       <CircleButton
+     
         onClick={() => {
           navigate('/addproduct');
         }}
-        right='0'
-        bottom='24px'
-        bgUrl={home}
+        right='15px'
+        bottom='84px'
       ></CircleButton>
       <Navbar />
     </StyledLayout>
-
   );
 }
 
 const StyledLayout = styled(Layout)`
   padding: 48px 12px 73px 16px;
+
 `;
 const GridLayout = styled.div`
   display: grid;
