@@ -29,12 +29,14 @@ const Navbar = (props) => {
 
   useEffect(() => {
     const path = location.pathname;
-    // icons el의 path 값 === '/' 뒤의 값
+    // icons el의 path 값 === '/' 이후의 값
+    // fixme: path에 icon.path가 포함되면 index값 보내게
     const buttonIndex = icons.findIndex((icon) => icon.path === path);
-
-    // 위에서 경로가 일치하면 그 버튼 색깔 바뀌고, 경로가 불일치하면 home으로 효과 적용
-    setButtonId(buttonIndex !== -1 ? buttonIndex : 0);
+    // 위에서 경로가 일치하면 그 버튼 색깔 바뀌고, 경로가 불일치하면 아무 색깔도 없는것으로 효과 적용
+    // const buttonIndex = icons.findIndex((icon) => path.includes(icon.path));
+    setButtonId(buttonIndex !== -1 ? buttonIndex : '');
   }, [location]);
+  console.log(buttonId)
 
   return (
     <NavbarLayout margin={props.margin}>
@@ -42,7 +44,6 @@ const Navbar = (props) => {
         <IconLayout
           key={i}
           onClick={() => {
-            setButtonId(i);
             navigate(el.path);
           }}
         >
