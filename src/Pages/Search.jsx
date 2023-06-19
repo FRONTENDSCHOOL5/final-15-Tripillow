@@ -14,26 +14,51 @@ const Search = () => {
   const [searchData, setSearchData] = useState([]);
 
   const handleSearchKeyword = (e) => {
-    setSearchKeyword(e.target.value);
+    const { value } = e.target;
+    setSearchKeyword(value);
+  };
+
+  const useDebounceValue = (value, delay) => {
+    const [debouncedValue, setDebouncedValue] = useState(value);
+
+    useEffect(() => {
+      const handler = setTimeout(() => {
+        setDebouncedValue(value);
+      }, delay);
+
+      return () => {
+        clearTimeout(handler);
+      };
+    }, [value, delay]);
+
+    return debouncedValue;
+  };
+
+  const debounceValue = useDebounceValue(searchKeyword, 750);
+
+  const searchUser = async () => {
+    try {
+      const response = await fetch(`${URL}/user/searchuser/?keyword=${debounceValue}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      const data = await response.json();
+      setSearchData(data);
+    } catch (error) {
+      console.error('에러', error);
+    }
   };
 
   useEffect(() => {
-    const searchUser = async () => {
-      try {
-        const response = await fetch(`${URL}/user/searchuser/?keyword=${searchKeyword}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-        const data = await response.json();
-        setSearchData(data);
-      } catch (error) {
-        console.error('에러', error);
-      }
-    };
-    searchKeyword !== '' && searchUser();
-  }, [searchKeyword, token]);
+    if (debounceValue === '') {
+      setSearchData([]);
+      return;
+    }
+
+    searchUser();
+  }, [debounceValue, token]);
 
   return (
     <Layout>
