@@ -1,16 +1,11 @@
 import styled from 'styled-components';
-import SkeletonItem from '../../Styles/SkeletonItem';
+import SkeletonItem from '../../../Styles/SkeletonItem';
+import UserSkeleton from './UserSkeleton';
 
 const HomePostSkeleton = () => {
   return (
     <SkeletonLayout>
-      <SkeletonUserLayout>
-        <SkeletonProfileImage />
-        <div>
-          <SkeletonUserName />
-          <SkeletonId />
-        </div>
-      </SkeletonUserLayout>
+      <UserSkeleton />
       <SkeletonPostImage />
       <SkeletonInteraction />
       <SkeletonArticle />
@@ -21,29 +16,6 @@ const HomePostSkeleton = () => {
 
 const SkeletonLayout = styled.div`
   padding: 14px 12px 20px 16px;
-`;
-
-const SkeletonUserLayout = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-`;
-
-const SkeletonProfileImage = styled(SkeletonItem)`
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-`;
-
-const SkeletonUserName = styled(SkeletonItem)`
-  width: 136px;
-  height: 18px;
-  margin-bottom: 2px;
-`;
-
-const SkeletonId = styled(SkeletonItem)`
-  width: 107px;
-  height: 14px;
 `;
 
 const SkeletonPostImage = styled(SkeletonItem)`

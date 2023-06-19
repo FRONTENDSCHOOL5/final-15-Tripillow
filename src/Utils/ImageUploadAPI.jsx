@@ -1,7 +1,6 @@
 import URL from './URL';
 
 const ImageUploadAPI = async (e) => {
-  console.log(e)
   const formData = new FormData();
   formData.append('image', e.target.files[0]);
 
@@ -12,8 +11,6 @@ const ImageUploadAPI = async (e) => {
     });
 
     const data = await response.json();
-    // props.setImageLink(URL + '/' + data.filename);
-    console.log(data);
     return data;
   } catch (error) {
     console.error('에러발생!!!');

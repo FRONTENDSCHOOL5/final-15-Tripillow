@@ -16,18 +16,13 @@ const User = (props) => {
           <UserTitle>{props.username}</UserTitle>
           <UserContent>{props.content} </UserContent>
         </div>
-        {props.post && (
-          <button>
-            <img src={more} alt='더보기 버튼' />
-          </button>
-        )}
+        {props.moreBtn && <MoreBtn />}
         {props.followers && (
           <Button width={'56px'} height={'28px'} fontSize={'var(--xs)'} border={'none'} padding={'0px'}>
             팔로우
           </Button>
         )}
         {props.chat && <ChatDate>{props.date}</ChatDate>}
-        {props.moreBtn && <MoreBtn />}
       </UserContentsLayout>
     </UserLayout>
   );

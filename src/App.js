@@ -14,6 +14,7 @@ import Chat from './Pages/Chat/Chat';
 import NotFound from './Pages/NotFound';
 import UploadPost from './Pages/UploadPost';
 import ProductModification from './Pages/Product/ProductModification';
+import Post from './Pages/Post';
 
 function App() {
   return (
@@ -27,7 +28,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/profile' element={<Profile />} />
-          <Route path='/post' element={<UploadPost />} />
+          <Route path='/post' element={<Post />} />
           <Route path='/product' element={<Product />} />
           <Route path='/addproduct' element={<AddProduct />} />
           <Route path='/modifyproduct' element={<ProductModification />} />
