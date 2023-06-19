@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import BasicHeader from '../../Components/common/Header/BasicHeader';
 import ProductItem from '../../Components/common/ProductItem';
 import Navbar from '../../Components/common/Navbar';
-import home from '../../Assets/icons/icon-home.svg';
+// import home from '../../Assets/icons/icon-home.svg';
+
 import { Layout } from '../../Styles/Layout';
 import CircleButton from '../../Components/common/CircleButton';
 import Toggle from '../../Components/common/Toggle';
@@ -25,8 +26,8 @@ export default function Product(props) {
         onClick={() => {
           navigate('/addproduct');
         }}
-        right='15px'
-        bottom='84px'
+        right='16px'
+        bottom='94px'
       ></CircleButton>
       <Navbar />
     </StyledLayout>
@@ -35,8 +36,9 @@ export default function Product(props) {
 
 const StyledLayout = styled(Layout)`
   padding: 48px 12px 73px 16px;
-
+  position: relative;
 `;
+
 const GridLayout = styled.div`
   display: grid;
   grid-gap: 20px;
