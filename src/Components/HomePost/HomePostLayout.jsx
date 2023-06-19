@@ -32,18 +32,19 @@ const HomePostLayout = (props) => {
         userImg={userImg || Profile}
         username={post.author.username}
         content={'@' + post.author.accountname}
-        moreBtn={props.isEditable ? true : false}
+        moreBtn
       >
         애월읍 위니브
       </User>
       <ImageLayout>
-        <ArrowButton onClick={handlePrev} bgImage={arrowLeft} left='16px'></ArrowButton>
+        {pictures.length > 1 && <ArrowButton onClick={handlePrev} bgImage={arrowLeft} left='16px'></ArrowButton>}
         <img src={URL + '/' + pictures[currentIndex]} alt='' />
-        <ArrowButton onClick={handleNext} bgImage={arrowRight} right='16px'></ArrowButton>
+        {pictures.length > 1 && <ArrowButton onClick={handleNext} bgImage={arrowRight} right='16px'></ArrowButton>}
         <IndicatorLayout>
-          {pictures.map((_, index) => {
-            return <Indicator key={index} indicator={index === currentIndex}></Indicator>;
-          })}
+          {pictures.length > 1 &&
+            pictures.map((_, index) => {
+              return <Indicator key={index} indicator={index === currentIndex}></Indicator>;
+            })}
         </IndicatorLayout>
       </ImageLayout>
       <IconLayout>
