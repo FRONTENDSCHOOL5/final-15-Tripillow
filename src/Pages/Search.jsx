@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import URL from '../Utils/URL';
 import userToken from '../Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
-import UserSkeleton from '../Components/common/UserSkeleton';
+import UserSkeleton from '../Components/common/Skeleton/UserSkeleton';
 
 const Search = () => {
   const token = useRecoilValue(userToken);
