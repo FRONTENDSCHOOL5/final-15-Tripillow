@@ -8,14 +8,17 @@ import Navbar from '../Components/common/Navbar';
 import URL from '../Utils/URL';
 import userToken from '../Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
+import HomePostSkeleton from '../Components/common/Skeleton/HomePostSkeleton';
 
 const Home = () => {
   const token = useRecoilValue(userToken);
   const [FeedCount, setFeedCount] = useState(0);
   const [FollowedFeed, setFollowedFeed] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const getFeedFollowed = async () => {
+      setIsLoading(true);
       try {
         const response = await fetch(`${URL}/post/feed/?limit=20&skip=${FeedCount * 20}`, {
           headers: {
@@ -24,11 +27,11 @@ const Home = () => {
           },
         });
         const data = await response.json();
-        console.log(data);
         setFollowedFeed((prevFeed) => [...prevFeed, ...data.posts]);
       } catch (error) {
         console.error('에러', error);
       }
+      setIsLoading(false);
     };
     getFeedFollowed();
   }, [FeedCount]);
@@ -51,6 +54,12 @@ const Home = () => {
     <Layout>
       <MainHeader />
       <Toggle margin='25px 0 0 16px' leftButton='국내' rightButton='해외' />
+      {isLoading && (
+        <>
+          <HomePostSkeleton />
+          <HomePostSkeleton />
+        </>
+      )}
       {FollowedFeed.length && FollowedFeed.map((post) => <HomePost key={post.id} post={post} />)}
       <TopButton />
       <Navbar />
