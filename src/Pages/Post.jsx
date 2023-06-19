@@ -9,6 +9,7 @@ import x from '../Assets/icons/x.svg';
 import userToken from '../Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
 import ImageUploadAPI from '../Utils/ImageUploadAPI';
+import { validateImageFile } from '../Utils/validate';
 
 export default function Post() {
   const textarea = useRef();
@@ -17,7 +18,8 @@ export default function Post() {
   const token = useRecoilValue(userToken);
 
   const handleImageInput = async (e) => {
-    if (imgURL.length >= 3) return;
+    if (imgURL.length >= 3 || e.target.files.length === 0) return;
+    if (!validateImageFile(e.target.files[0].name)) return console.log('ERROR: 파일 확장자');
     const data = await ImageUploadAPI(e);
     if (data) {
       setImgURL((prev) => prev.concat(data.filename));
