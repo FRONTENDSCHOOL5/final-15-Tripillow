@@ -3,40 +3,41 @@ import { Layout } from '../Styles/Layout';
 import MainHeader from '../Components/common/Header/MainHeader';
 import Toggle from '../Components/common/Toggle';
 import HomePost from '../Components/HomePost/HomePostLayout';
-import Empty from '../Components/common/Empty';
 import TopButton from '../Components/common/Topbutton';
 import Navbar from '../Components/common/Navbar';
 import URL from '../Utils/URL';
 import userToken from '../Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
 import HomePostSkeleton from '../Components/common/Skeleton/HomePostSkeleton';
+import Empty from '../Components/common/Empty';
 import logo from '../Assets/logo-gray.png';
 
 const Home = () => {
   const token = useRecoilValue(userToken);
-  const [FeedCount, setFeedCount] = useState(0);
-  const [FollowedFeed, setFollowedFeed] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [feedCount, setFeedCount] = useState(0);
+  const [followedFeed, setFollowedFeed] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const getFeedFollowed = async () => {
-      setIsLoading(true);
       try {
-        const response = await fetch(`${URL}/post/feed/?limit=20&skip=${FeedCount * 20}`, {
+        const response = await fetch(`${URL}/post/feed/?limit=20&skip=${feedCount * 20}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
         });
         const data = await response.json();
-        setFollowedFeed((prevFeed) => [...prevFeed, ...data.posts]);
+        if (response.ok) {
+          setFollowedFeed((prevFeed) => [...prevFeed, ...data.posts]);
+          setTimeout(() => setIsLoading(false), 500);
+        }
       } catch (error) {
         console.error('에러', error);
       }
-      setIsLoading(false);
     };
     getFeedFollowed();
-  }, [FeedCount, token]);
+  }, [feedCount]);
 
   const handleScroll = () => {
     const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
@@ -61,16 +62,14 @@ const Home = () => {
           <HomePostSkeleton />
           <HomePostSkeleton />
         </>
+      ) : followedFeed.length > 0 ? (
+        followedFeed.map((post) => <HomePost key={post.id} post={post} />)
       ) : (
-        <>
-          {FollowedFeed.length > 0 ? (
-            FollowedFeed.map((post) => <HomePost key={post.id} post={post} />)
-          ) : (
-            <Empty image={logo} alt='로고' buttonName='검색하기'>
-              유저를 검색해 팔로우 해보세요!
-            </Empty>
-          )}
-        </>
+        !isLoading && (
+          <Empty image={logo} alt='로고' navigate='/search' buttonName='검색하기'>
+            유저를 검색해 팔로우 해보세요!
+          </Empty>
+        )
       )}
       <TopButton />
       <Navbar />
