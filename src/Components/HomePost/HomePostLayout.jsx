@@ -8,6 +8,7 @@ import arrowRight from '../../Assets/icons/icon-arrow-right.svg';
 import arrowLeft from '../../Assets/icons/icon-arrow-left.svg';
 import iconHeart from '../../Assets/icons/icon-heart.svg';
 import iconChat from '../../Assets/icons/icon-message-circle-1.svg';
+import { useNavigate } from 'react-router-dom';
 
 const HomePostLayout = (props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -17,6 +18,16 @@ const HomePostLayout = (props) => {
   const createdAt =
     post.createdAt.slice(0, 4) + '년 ' + post.createdAt.slice(5, 7) + '월 ' + post.createdAt.slice(8, 10) + '일 ';
 
+  const navigate = useNavigate();
+
+  const handlePostClick = () => {
+    // Navigate to the post detail page with the postId
+    navigate(`/post/${post.id}`, {
+      state: {
+        props,
+      },
+    });
+  };
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev === 0 ? pictures.length - 1 : prev - 1));
   };
@@ -57,7 +68,7 @@ const HomePostLayout = (props) => {
           <span>{post.commentCount}</span>
         </IconButton>
       </IconLayout>
-      <Content>{post.content}</Content>
+      <Content onClick={handlePostClick}>{post.content}</Content>
       <span>{createdAt}</span>
     </Layout>
   );

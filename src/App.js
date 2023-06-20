@@ -15,6 +15,7 @@ import NotFound from './Pages/NotFound';
 import ProductModification from './Pages/Product/ProductModification';
 import Post from './Pages/Post';
 import Followers from './Pages/Followers';
+import PostDetail from './Pages/PostDetail';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path='/profile' element={<Profile />} />
           <Route path='/followers' element={<Followers />} />
           <Route path='/post' element={<Post />} />
+          <Route path='/post/:id' element={<PostDetail />} />
           <Route path='/product' element={<Product />} />
           <Route path='/addproduct' element={<AddProduct />} />
           <Route path='/modifyproduct' element={<ProductModification />} />
