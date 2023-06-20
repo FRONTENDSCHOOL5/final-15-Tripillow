@@ -9,6 +9,7 @@ import { useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 
 const UserProfile = (props) => {
+  console.log(props);
   const user = props.user || props.author;
   const name = useRecoilValue(accountname);
   const [isFollowClicked, setIsFollowClicked] = useState(false);
@@ -49,10 +50,10 @@ const UserProfile = (props) => {
           </UserInfoLayout>
           {user.accountname === name ? (
             <IconLayout>
-              <CommonButton clicked width='120px' fontSize='var(--sm)' onClick={() => navigate('/mypage')}>
+              <CommonButton clicked width='120px' fontSize='var(--sm)' onClick={() => navigate('/editprofile')}>
                 프로필 수정
               </CommonButton>
-              <CommonButton clicked width='100px' fontSize='var(--sm)'>
+              <CommonButton onClick={() => navigate('/addproduct')} clicked width='100px' fontSize='var(--sm)'>
                 상품 등록
               </CommonButton>
             </IconLayout>
