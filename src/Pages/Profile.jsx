@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import UserProfile from '../Components/Profile/UserProfile';
@@ -20,22 +20,33 @@ import AlbumOff from '../Assets/icons/icon-post-album-off.svg';
 
 const Profile = () => {
   const name = useRecoilValue(accountName);
-  const userData = UserInfoAPI();
+  // const userData = UserInfoAPI();
   const postData = GetPostAPI();
   const productData = ProductListAPI(name);
   const productList = productData.product;
-
   const [view, setView] = useState(false);
+  const [userInfo, setUserInfo] = useState({});
+  const { getUserData } = UserInfoAPI({ setUserInfo });
+
+  useEffect(() => {
+    const handleFetch = async () => {
+      await getUserData();
+    };
+
+    handleFetch();
+  }, []);
 
   const handleView = () => {
     setView(!view);
   };
 
+  console.log(userInfo);
+
   return (
     <Layout>
-      <BasicHeader />
+      <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='로그아웃' />
       <main>
-        <UserProfile user={userData} />
+        <UserProfile user={userInfo && userInfo} />
         <UserProductLayout>
           <h2>판매 중인 상품</h2>
           <ProductListLayout>

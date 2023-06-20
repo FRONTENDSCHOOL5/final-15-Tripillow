@@ -15,6 +15,7 @@ import NotFound from './Pages/NotFound';
 import ProductModification from './Pages/Product/ProductModification';
 import Post from './Pages/Post';
 import Followers from './Pages/Followers';
+import UserProfileSetting from './Components/Profile/UserProfileSetting';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/profile' element={<Profile />} />
+          <Route path='/editprofile' element={<UserProfileSetting />} />
           <Route path='/followers' element={<Followers />} />
           <Route path='/post' element={<Post />} />
           <Route path='/product' element={<Product />} />
