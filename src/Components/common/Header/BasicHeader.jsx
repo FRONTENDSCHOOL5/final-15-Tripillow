@@ -42,11 +42,11 @@ const BasicHeader = (props) => {
     navigate('/');
   };
 
-  const { handleProductDelete } = ProductDeleteAPI();
+  const { handleProductDelete } = ProductDeleteAPI(deleteId);
 
   const handleDelete = async () => {
-    await handleProductDelete(deleteId);
-    // navigate('/product');
+    await handleProductDelete();
+    navigate('/product');
   };
 
   return (
