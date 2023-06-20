@@ -52,20 +52,15 @@ const BasicHeader = (props) => {
       <MoreButton onClick={handleMorebutton} />
       {modal && (
         <Modal
-          btn1='설정 및 개인정보'
-          btn2='로그아웃'
+          btn1={props.btn1}
+          btn2={props.btn2}
           handleMorebutton={handleMorebutton}
           handleLogoutbutton={handleLogoutbutton}
         />
       )}
 
       {alertModal && (
-        <AlertModal
-          txt='정말 로그아웃 하시겠습니까?'
-          rightbtn='로그아웃'
-          logout={handleLogout}
-          handleCancel={handleCancel}
-        />
+        <AlertModal txt={props.txt} rightbtn={props.rightbtn} logout={handleLogout} handleCancel={handleCancel} />
       )}
     </HeaderLayout>
   );
