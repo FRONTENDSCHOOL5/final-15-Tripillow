@@ -49,10 +49,10 @@ const UserProfile = (props) => {
           </UserInfoLayout>
           {user.accountname === name ? (
             <IconLayout>
-              <CommonButton clicked width='120px' onClick={() => navigate('/mypage')}>
+              <CommonButton clicked width='120px' fontSize='var(--sm)' onClick={() => navigate('/mypage')}>
                 프로필 수정
               </CommonButton>
-              <CommonButton clicked width='100px'>
+              <CommonButton clicked width='100px' fontSize='var(--sm)'>
                 상품 등록
               </CommonButton>
             </IconLayout>
@@ -73,7 +73,7 @@ const UserProfile = (props) => {
 
 const UserProfileLayout = styled.article`
   margin: 0 auto;
-  padding: 0 0 26px;
+  padding: 30px 0 26px;
   text-align: center;
   background-color: #fff;
 `;
