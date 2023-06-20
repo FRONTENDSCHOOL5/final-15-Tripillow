@@ -12,6 +12,7 @@ import ProductDetail from './Pages/Product/ProductDetail';
 import AddProduct from './Pages/Product/AddProduct';
 import Chat from './Pages/Chat/Chat';
 import NotFound from './Pages/NotFound';
+import ProductModification from './Pages/Product/ProductModification';
 import Post from './Pages/Post';
 
 function App() {
@@ -29,7 +30,8 @@ function App() {
           <Route path='/post' element={<Post />} />
           <Route path='/product' element={<Product />} />
           <Route path='/addproduct' element={<AddProduct />} />
-          <Route path='/product/:id' element={<ProductDetail />} />
+          <Route path='/modifyproduct' element={<ProductModification />} />
+          <Route path='/product/detail/:id' element={<ProductDetail />} />
           <Route path='/chat' element={<Chat />} />
           <Route path='*' element={<NotFound />} />
         </Routes>

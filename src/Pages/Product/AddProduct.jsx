@@ -9,6 +9,7 @@ import URL from '../../Utils/URL';
 import userToken from '../../Recoil/userToken/userToken';
 import ImageUploadAPI from '../../Utils/ImageUploadAPI';
 import defaultImage from '../../Assets/addproduct.png';
+import { useNavigate } from 'react-router-dom';
 
 const AddProduct = (props) => {
   const [productName, setproductName] = useState('');
@@ -16,10 +17,9 @@ const AddProduct = (props) => {
   const [saleLink, setSaleLink] = useState('');
   const [imageLink, setImageLink] = useState('');
   const token = useRecoilValue(userToken);
+  const navigate = useNavigate();
 
-
-  const imageURL = imageLink
-
+  const imageURL = imageLink;
 
   const handleSubmit = async () => {
     // e.preventDefault();
@@ -47,10 +47,12 @@ const AddProduct = (props) => {
     } catch (error) {
       console.error('에러 발생!!!!!');
     }
+    navigate('/product');
   };
   const handleChange = async (e) => {
     const response = await ImageUploadAPI(e);
     setImageLink(`${URL}/${response.filename}`);
+
     console.log('@@@@@@@this2!@!#$#@$@#$', imageLink);
     // console.log(response)
   };
@@ -92,11 +94,11 @@ const AddProduct = (props) => {
         mb='16px'
       />
 
-
       <Navbar />
     </Layout>
   );
 };
+
 
 const Layout = styled.div`
   max-width: 390px;
