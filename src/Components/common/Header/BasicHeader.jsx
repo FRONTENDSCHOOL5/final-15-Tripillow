@@ -59,7 +59,7 @@ const BasicHeader = (props) => {
         />
         {props.children && <div>{props.children}</div>}
       </ContentLayout>
-      <MoreButton onClick={handleMorebutton} />
+     {props.empty? null : <MoreButton onClick={handleMorebutton} />}
       {modal && (
         <Modal
           btn1={props.btn1}
@@ -68,7 +68,6 @@ const BasicHeader = (props) => {
           handleLogoutbutton={handleLogoutbutton}
         />
       )}
-
       {alertModal && (
         <AlertModal
           txt={props.txt}
