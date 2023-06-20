@@ -20,23 +20,18 @@ const Navbar = (props) => {
   const [buttonId, setButtonId] = useState(0);
 
   const icons = [
-    { name: '홈', image: home, fillImage: homefill, path: '/home' },
-    { name: '채팅', image: chat, fillImage: chatfill, path: '/chat' },
-    { name: '상품', image: shop, fillImage: shopfill, path: '/product' },
-    { name: '게시물 작성', image: post, fillImage: postfill, path: '/post' },
-    { name: '프로필', image: user, fillImage: userfill, path: '/profile' },
+    { name: '홈', image: home, fillImage: homefill, path: ['/home'] },
+    { name: '채팅', image: chat, fillImage: chatfill, path: ['/chat'] },
+    { name: '상품', image: shop, fillImage: shopfill, path: ['/product', '/addproduct'] },
+    { name: '게시물 작성', image: post, fillImage: postfill, path: ['/post'] },
+    { name: '프로필', image: user, fillImage: userfill, path: ['/profile'] },
   ];
 
   useEffect(() => {
     const path = location.pathname;
-    // icons el의 path 값 === '/' 이후의 값
-    // fixme: path에 icon.path가 포함되면 index값 보내게
-    const buttonIndex = icons.findIndex((icon) => icon.path === path);
-    // 위에서 경로가 일치하면 그 버튼 색깔 바뀌고, 경로가 불일치하면 아무 색깔도 없는것으로 효과 적용
-    // const buttonIndex = icons.findIndex((icon) => path.includes(icon.path));
+    const buttonIndex = icons.findIndex((icon) => icon.path.includes(path));
     setButtonId(buttonIndex !== -1 ? buttonIndex : '');
   }, [location]);
-  console.log(buttonId)
 
   return (
     <NavbarLayout margin={props.margin}>
@@ -44,7 +39,7 @@ const Navbar = (props) => {
         <IconLayout
           key={i}
           onClick={() => {
-            navigate(el.path);
+            navigate(el.path[0]);
           }}
         >
           <IconImg src={buttonId === i ? el.fillImage : el.image} />
