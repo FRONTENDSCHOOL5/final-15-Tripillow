@@ -7,7 +7,7 @@ import Button from './Button';
 
 const User = (props) => {
   return (
-    <UserLayout>
+    <UserLayout margin={props.margin}>
       <Link to={`/profile/${props.accountname}`}>
         <UserImg src={props.userImg || profileSm} alt={props.username} />
       </Link>
@@ -18,7 +18,7 @@ const User = (props) => {
         </div>
         {props.moreBtn && <MoreBtn />}
         {props.followers && (
-          <Button width={'56px'} height={'28px'} fontSize={'var(--xs)'} border={'none'} padding={'0px'}>
+          <Button width='56px' fontSize='var(--xs)' border='none' padding='5.75px'>
             팔로우
           </Button>
         )}
@@ -33,6 +33,7 @@ const UserLayout = styled.div`
   align-items: center;
   gap: 12px;
   cursor: pointer;
+  margin: ${(props) => props.margin};
 `;
 
 const UserImg = styled.img`
