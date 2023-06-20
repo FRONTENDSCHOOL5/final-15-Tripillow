@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import Navbar from '../../Components/common/Navbar';
@@ -12,6 +12,7 @@ import User from '../../Components/common/User';
 
 const AddProduct = (props) => {
   const [productName, setproductName] = useState('');
+  const [productId, setProductId] = useState('');
   const params = useParams();
   // const [price, setPrice] = useState('');
   // const [saleLink, setSaleLink] = useState('');
@@ -21,14 +22,25 @@ const AddProduct = (props) => {
 
   const productDetail = ProductDetailAPI(params.id);
   const author = productDetail?.author;
-  // console.log(productDetail);
-  console.log(author);
+
+  useEffect(() => {
+    setProductId(params.id);
+  }, []);
 
   return (
     <>
       {productDetail && (
         <Layout>
-          <BasicHeader>판매 중인 상품</BasicHeader>
+          <BasicHeader
+            함수={ProductDetailAPI}
+            deleteId={productId}
+            btn1='수정'
+            btn2='삭제'
+            txt='정말 삭제하시겠습니까?'
+            rightbtn='삭제'
+          >
+            판매 중인 상품
+          </BasicHeader>
           <Image src={productDetail.itemImage} />
           <User
             userImg={productDetail.author?.image}
@@ -38,17 +50,21 @@ const AddProduct = (props) => {
           <ProductContent size='var(--xl)' weight='700'>
             {productDetail.itemName}
           </ProductContent>
-          <ProductInfoContainer>
+          <ProductLayout>
             <Icon src={hearticon} />
             <ProudctPrice>{productDetail.price}원</ProudctPrice>
             <Button>채팅하기</Button>
-          </ProductInfoContainer>
+          </ProductLayout>
           <Navbar />
         </Layout>
       )}
     </>
   );
 };
+
+const ProductInfoLayout = styled.div`
+  display: flex;
+`;
 
 const Layout = styled.div`
   max-width: 390px;
@@ -70,8 +86,8 @@ const Label = styled.label`
   margin-bottom: 14px;
 `;
 const Image = styled.img`
-  /* width: calc(100% + 16px + 12px); */
   width: 100%;
+  width: calc(100% + 16px + 12px);
   margin-left: -16px;
   margin-right: -12px; // Image 너비에 패딩값 차감
   margin-bottom: 13px;
@@ -87,14 +103,16 @@ const ProductContent = styled.p`
   margin-top: 29px;
 `;
 
-const ProductInfoContainer = styled.div`
+// fixme: width 길이가 부모의 100% 안먹음.
+const ProductLayout = styled.div`
   display: flex;
-  width: 100%;
-  height: 100px;
-  /* justify-content: s; */
+  justify-content: space-evenly;
+  width: 390px;
   align-items: center;
   position: fixed;
-  bottom: 76px;
+  left: 50%;
+  transform: translate(-50%);
+  bottom: 95px;
 `;
 
 const Icon = styled.img`
