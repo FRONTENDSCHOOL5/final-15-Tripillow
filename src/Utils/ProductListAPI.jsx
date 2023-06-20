@@ -23,6 +23,7 @@ const ProductListAPI = (accountname) => {
       const data = await res.json();
       console.log(data);
       setProductList(data);
+      console.log(productList)
     } catch (error) {
       console.error('API 응답에 문제가 있습니다.', error);
     }

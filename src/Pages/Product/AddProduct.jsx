@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import Toggle from '../../Components/common/Toggle';
+// import styled from 'styled-components';
 import styled from 'styled-components';
 import Navbar from '../../Components/common/Navbar';
 import Input from '../../Components/common/Input';
@@ -22,9 +23,6 @@ const AddProduct = (props) => {
   const imageURL = imageLink;
 
   const handleSubmit = async () => {
-    // e.preventDefault();
-    // e.stopPropagation();
-
     try {
       const response = await fetch(URL + '/product', {
         method: 'POST',
@@ -66,7 +64,6 @@ const AddProduct = (props) => {
         <Image src={imageLink || defaultImage} />
       </Label>
       <input id='file-upload' className='a11y-hidden' onChange={handleChange} type='file' />
-
       <CategoryTxt>카테고리</CategoryTxt>
       <Toggle margin='0 0 20px 0' leftButton='여행용품' rightButton='외화' />
       <Input
@@ -85,20 +82,22 @@ const AddProduct = (props) => {
         type='number'
         mb='16px'
       />
-      <Input
+      {/* <Input
         value={saleLink}
         onChange={(e) => setSaleLink(e.target.value)}
         label='판매링크'
         placeholder='URL을 입력해주세요.'
         type='url'
         mb='16px'
-      />
-
+      /> */}
+      <label for='product' style={{ color: '#767676', fontSize: 'var(--xs)' }}>
+        상세 설명
+      </label>
+      <ProductText id='product' />
       <Navbar />
     </Layout>
   );
 };
-
 
 const Layout = styled.div`
   max-width: 390px;
@@ -119,6 +118,27 @@ const Label = styled.label`
   margin-bottom: 14px;
   cursor: pointer;
 `;
+
+const ProductText = styled.textarea.attrs({
+  placeholder: '제품에 대한 설명을 입력해주세요!',
+})`
+  width: 100%;
+  height: 80px;
+  margin-top: 12px;
+  padding: 10px;
+  resize: none;
+  border: 1px solid var(--light-gray);
+  box-sizing: border-box;
+
+  ::placeholder {
+    color: var(--light-gray);
+    font-size: var(--sm);
+  }
+  &:focus {
+    border: 1px solid var(--primary);
+  }
+`;
+
 const Image = styled.img`
   width: 100%;
   height: 100%;
