@@ -42,7 +42,7 @@ const BasicHeader = (props) => {
     navigate('/');
   };
 
-  const handleProductDelete = ProductDeleteAPI(deleteId);
+  const { handleProductDelete } = ProductDeleteAPI(deleteId);
 
   const handleDelete = async () => {
     await handleProductDelete();

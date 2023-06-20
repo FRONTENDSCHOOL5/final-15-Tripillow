@@ -1,16 +1,12 @@
-import { useEffect, useState } from 'react';
 import userToken from '../Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
 import URL from '../Utils/URL';
 
-const ProductDeleteAPI = () => {
+const ProductDeleteAPI = (deleteId) => {
   const token = useRecoilValue(userToken);
 
-  const handleProductDelete = async ({ deleteId }) => {
+  const handleProductDelete = async () => {
     try {
-      console.log(token);
-      console.log(deleteId);
-      console.log(`${URL}/product/${deleteId}`);
       const response = await fetch(`${URL}/product/${deleteId}`, {
         method: 'DELETE',
         headers: {
