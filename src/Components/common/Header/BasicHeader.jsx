@@ -10,6 +10,7 @@ import userToken from '../../../Recoil/userToken/userToken';
 import isLogin from '../../../Recoil/isLogin/isLogin';
 import accountName from '../../../Recoil/accountName/accountName';
 import AlertModal from '../AlertModal';
+import ProductDeleteAPI from '../../../Utils/ProductDeleteAPI';
 
 const BasicHeader = (props) => {
   const navigate = useNavigate();
@@ -18,6 +19,8 @@ const BasicHeader = (props) => {
   const [token, setToken] = useRecoilState(userToken);
   const [login, setLogin] = useRecoilState(isLogin);
   const [name, setName] = useRecoilState(accountName);
+  // const productDelete = ProductDeleteAPI(props.isDelete);
+  const deleteId = props.deleteId;
 
   const handleMorebutton = () => {
     setModal(!modal);
@@ -37,6 +40,13 @@ const BasicHeader = (props) => {
     setLogin(false);
     setName('');
     navigate('/');
+  };
+
+  const { handleProductDelete } = ProductDeleteAPI();
+
+  const handleDelete = async () => {
+    await handleProductDelete(deleteId);
+    // navigate('/product');
   };
 
   return (
@@ -60,7 +70,12 @@ const BasicHeader = (props) => {
       )}
 
       {alertModal && (
-        <AlertModal txt={props.txt} rightbtn={props.rightbtn} logout={handleLogout} handleCancel={handleCancel} />
+        <AlertModal
+          txt={props.txt}
+          rightbtn={props.rightbtn}
+          logout={deleteId ? handleDelete : handleLogout}
+          handleCancel={handleCancel}
+        />
       )}
     </HeaderLayout>
   );
