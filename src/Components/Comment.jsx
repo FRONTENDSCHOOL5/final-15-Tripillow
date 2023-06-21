@@ -22,16 +22,16 @@ import more from '../Assets/icons/icon-more-vertical.svg';
 // 	}
 // ]
 
-export default function Comment(props) {
+export default function Comment({ comment }) {
   return (
     <Ldiv>
       <Profile>
-        <ProfileImg src={props.image || profileImg} alt='프로필 이미지'></ProfileImg>
-        <UserName>{props.author.username || '더미유저'}</UserName>
+        <ProfileImg src={comment.image || profileImg} alt='프로필 이미지'></ProfileImg>
+        <UserName>{comment.author.username || '더미유저'}</UserName>
         <Time>5분전</Time>
         <MoreBtn></MoreBtn>
       </Profile>
-      <Text>{props.content || '더미코멘트'}</Text>
+      <Text>{comment.content || '더미코멘트'}</Text>
     </Ldiv>
   );
 }

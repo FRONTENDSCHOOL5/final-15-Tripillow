@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { LayoutStyle } from '../Styles/Layout';
 import Comment from '../Components/Comment';
@@ -12,71 +12,36 @@ import arrowLeft from '../Assets/icons/icon-arrow-left.svg';
 import iconHeart from '../Assets/icons/icon-heart.svg';
 import iconChat from '../Assets/icons/icon-message-circle-1.svg';
 import URL from '../Utils/URL';
+import userToken from '../Recoil/userToken/userToken';
+import { useRecoilValue } from 'recoil';
+import PostDetailAPI from '../Utils/PostDetailAPI';
+import GetCommentAPI from '../Utils/GetCommentAPI';
+import HomePostLayout from '../Components/HomePost/HomePostLayout';
 
 export default function PostDetail() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const { state } = useLocation();
-  // console.log('state: ', state);
-  const props = state.props;
-  const post = props.post;
-
-  const userImg = post.author.image;
-  // console.log('userImg', userImg);
-  const pictures = post.image.split(', ');
-  // console.log('img', pictures);
-  const createdAt =
-    post.createdAt.slice(0, 4) + '년 ' + post.createdAt.slice(5, 7) + '월 ' + post.createdAt.slice(8, 10) + '일 ';
-
-  const handlePrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? pictures.length - 1 : prev - 1));
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev === pictures.length - 1 ? 0 : prev + 1));
-  };
+  const { id } = useParams();
+  const [postDetail, setPostDetail] = useState({});
+  const [comments, setComments] = useState([]);
+  const ft_postDetail = PostDetailAPI(id, setPostDetail);
+  const ft_getComment = GetCommentAPI(id, setComments);
+  useEffect(() => {
+    const handle = async () => {
+      await ft_postDetail();
+      await ft_getComment();
+    };
+    handle();
+    // console.log(postDetail);
+    // console.log(comments);
+  }, []);
 
   return (
     <Layout>
       <BasicHeader></BasicHeader>
-      <PostLayout>
-        <User
-          accountname={post.author.accountname}
-          userImg={userImg || Profile}
-          username={post.author.username}
-          content={'@' + post.author.accountname}
-          moreBtn
-        >
-          애월읍 위니브
-        </User>
-        <ImageLayout>
-          {pictures.length > 1 && <ArrowButton onClick={handlePrev} bgImage={arrowLeft} left='16px'></ArrowButton>}
-          <img src={URL + '/' + pictures[currentIndex]} alt='' />
-          {pictures.length > 1 && <ArrowButton onClick={handleNext} bgImage={arrowRight} right='16px'></ArrowButton>}
-          <IndicatorLayout>
-            {pictures.length > 1 &&
-              pictures.map((_, index) => {
-                return <Indicator key={index} indicator={index === currentIndex}></Indicator>;
-              })}
-          </IndicatorLayout>
-        </ImageLayout>
-        <IconLayout>
-          <IconButton>
-            <img src={iconHeart} alt='하트 아이콘' />
-            <span>{post.heartCount}</span>
-          </IconButton>
-          <IconButton>
-            <img src={iconChat} alt='채팅 아이콘' />
-            <span>{post.commentCount}</span>
-          </IconButton>
-        </IconLayout>
-        <Content>{post.content}</Content>
-        <span>{createdAt}</span>
-      </PostLayout>
-      {/* <CommentLayout>
-        <Comment author={{ username: 'dasom' }} content='댓글임'></Comment>
-        <Comment author={{ username: 'dasom' }} content='댓글임'></Comment>
-      </CommentLayout> */}
-      <PostComment postId={post.id}></PostComment>
+      {Object.keys(postDetail).length ? <HomePostLayout post={postDetail}></HomePostLayout> : <></>}
+      {/* <CommentLayout> */}
+      {comments.length !== 0 && comments.map((el, i) => <Comment comment={el}></Comment>)}
+      {/* </CommentLayout> */}
+      {<PostComment postId={postDetail.id}></PostComment>}
     </Layout>
   );
 }

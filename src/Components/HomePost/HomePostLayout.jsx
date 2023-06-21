@@ -9,24 +9,21 @@ import arrowLeft from '../../Assets/icons/icon-arrow-left.svg';
 import iconHeart from '../../Assets/icons/icon-heart.svg';
 import iconChat from '../../Assets/icons/icon-message-circle-1.svg';
 import { useNavigate } from 'react-router-dom';
+import defaultImg from '../../Assets/addproduct.png';
 
 const HomePostLayout = (props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const post = props.post;
+  console.log(post);
   const userImg = post.author.image;
   const pictures = post.image.split(', ');
   const createdAt =
     post.createdAt.slice(0, 4) + '년 ' + post.createdAt.slice(5, 7) + '월 ' + post.createdAt.slice(8, 10) + '일 ';
-
   const navigate = useNavigate();
 
   const handlePostClick = () => {
     // Navigate to the post detail page with the postId
-    navigate(`/post/${post.id}`, {
-      state: {
-        props,
-      },
-    });
+    navigate(`/post/${post.id}`);
   };
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev === 0 ? pictures.length - 1 : prev - 1));
