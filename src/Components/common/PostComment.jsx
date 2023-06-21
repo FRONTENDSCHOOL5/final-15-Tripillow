@@ -17,8 +17,8 @@ export default function PostComment({ postId, setNewComment }) {
     },
   });
 
-  const handleClick = async () => {
-    // e.preventDefault();
+  const handleClick = async (e) => {
+    e.preventDefault();
     const response = await handlePostComment();
     setNewComment(true);
     console.log('@@#@@##@@#res:', response);
@@ -39,7 +39,7 @@ export default function PostComment({ postId, setNewComment }) {
         <ProfileImg src={profileImg}></ProfileImg>
         <InputStyle type='text' placeholder='댓글 입력하기' ref={input} onChange={handleInputChange} />
       </InputLayout>
-      <PostButton type='button' onClick={handleClick}>
+      <PostButton type='submit' onClick={handleClick}>
         게시
       </PostButton>
     </FooterFormLayout>
