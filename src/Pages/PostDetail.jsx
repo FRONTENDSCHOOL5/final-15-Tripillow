@@ -32,19 +32,16 @@ export default function PostDetail() {
       setComments((prev) => prev.reverse());
     };
     sync();
-  }, []);
-
-  useEffect(() => {
-    const sync = async () => {
-      await ft_getComment();
-      setComments((prev) => prev.reverse());
-    };
-    sync();
   }, [newComment]);
 
   return (
     <Layout>
-      <BasicHeader></BasicHeader>
+      <BasicHeader
+        btn1='설정 및 개인정보'
+        btn2='로그아웃'
+        txt='정말 로그아웃 하시겠습니까?'
+        rightbtn='로그아웃'
+      ></BasicHeader>
       {Object.keys(postDetail).length ? <HomePostLayout post={postDetail}></HomePostLayout> : <></>}
       {comments.length !== 0 && comments.map((el, i) => <Comment comment={el}></Comment>)}
       {<PostComment setNewComment={setNewComment} postId={postDetail.id}></PostComment>}
