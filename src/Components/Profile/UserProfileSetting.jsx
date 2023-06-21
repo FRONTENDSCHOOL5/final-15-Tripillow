@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import URL from '../../Utils/URL';
 import ImageUploadAPI from '../../Utils/ImageUploadAPI';
-import UserInfoAPI from '../../Utils/UserInfoAPI';
+import UserInfoAPI from '../../Utils/MyInfoAPI';
 import EditProfileAPI from '../../Utils/EditProfileAPI';
 import AccountValidAPI from '../../Utils/AccountValidAPI';
 import Input from '../common/Input';
