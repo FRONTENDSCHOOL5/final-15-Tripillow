@@ -2,12 +2,12 @@ import userToken from '../Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
 import URL from '../Utils/URL';
 
-const ProductDeleteAPI = (deleteId) => {
+const ProductDeleteAPI = (userId) => {
   const token = useRecoilValue(userToken);
 
   const handleProductDelete = async () => {
     try {
-      const response = await fetch(`${URL}/product/${deleteId}`, {
+      const response = await fetch(`${URL}/product/${userId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
