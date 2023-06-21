@@ -9,6 +9,7 @@ import URL from '../Utils/URL';
 import userToken from '../Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
 import HomePostSkeleton from '../Components/common/Skeleton/HomePostSkeleton';
+import Spinner from '../Components/common/Spinner';
 import Empty from '../Components/common/Empty';
 import logo from '../Assets/logo-gray.png';
 
@@ -17,6 +18,7 @@ const Home = () => {
   const [feedCount, setFeedCount] = useState(0);
   const [followedFeed, setFollowedFeed] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [showSpinner, setShowSpinner] = useState(false);
 
   useEffect(() => {
     const getFeedFollowed = async () => {
@@ -27,6 +29,7 @@ const Home = () => {
             'Content-Type': 'application/json',
           },
         });
+        console.log('피드받아오는중');
         const data = await response.json();
         if (response.ok) {
           setFollowedFeed((prevFeed) => [...prevFeed, ...data.posts]);
@@ -41,10 +44,24 @@ const Home = () => {
 
   const handleScroll = () => {
     const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
-    if (scrollTop + clientHeight >= scrollHeight) {
-      setFeedCount((prevCount) => prevCount + 1);
+    if (scrollTop + clientHeight >= scrollHeight && !showSpinner) {
+      setShowSpinner(true);
+      setTimeout(() => {
+        setFeedCount((prevCount) => prevCount + 1);
+        setShowSpinner(false);
+        document.documentElement.scrollTop -= 55;
+      }, 1000);
     }
   };
+
+  useEffect(() => {
+    if (!showSpinner) {
+      window.addEventListener('scroll', handleScroll);
+    }
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [showSpinner]);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -71,6 +88,7 @@ const Home = () => {
           </Empty>
         )
       )}
+      {showSpinner && <Spinner />}
       <TopButton />
       <Navbar />
     </Layout>
