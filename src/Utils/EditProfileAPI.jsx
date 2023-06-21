@@ -4,7 +4,6 @@ import accountName from '../Recoil/accountName/accountName';
 import URL from '../Utils/URL';
 
 const EditProfileAPI = (userInfo) => {
-  console.log(userInfo);
   const token = useRecoilValue(userToken);
   const [name, setName] = useRecoilState(accountName);
 
@@ -19,11 +18,9 @@ const EditProfileAPI = (userInfo) => {
         body: JSON.stringify(userInfo),
       });
       const data = await res.json();
-      console.log(data);
       setName(data.user.accountname);
     } catch (error) {
       console.error('API 응답에 실패하였습니다.', error);
-      console.log(userInfo);
     }
   };
 

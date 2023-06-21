@@ -20,7 +20,6 @@ const UserInfoAPI = (props) => {
       const data = await response.json();
       // setUserData(data.user);
       props.setData ? props?.setData(data.user) : props?.setUserInfo(data.user);
-      console.log(data.user);
     } catch (error) {
       console.error('API 응답에 문제가 있습니다.', error);
     }
