@@ -6,7 +6,6 @@ import { useRecoilValue } from 'recoil';
 const UserInfoAPI = (props) => {
   const token = useRecoilValue(userToken);
   const reqPath = `/user/myinfo`;
-  // const [userData, setUserData] = useState({});
 
   const getUserData = async () => {
     try {
@@ -24,10 +23,6 @@ const UserInfoAPI = (props) => {
       console.error('API 응답에 문제가 있습니다.', error);
     }
   };
-
-  // useEffect(() => {
-  //   getUserData();
-  // }, []);
 
   return { getUserData };
 };
