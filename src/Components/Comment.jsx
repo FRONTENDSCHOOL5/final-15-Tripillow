@@ -23,12 +23,20 @@ import more from '../Assets/icons/icon-more-vertical.svg';
 // ]
 
 export default function Comment({ comment }) {
+  const createdAt =
+    comment.createdAt.slice(0, 4) +
+    '년 ' +
+    comment.createdAt.slice(5, 7) +
+    '월 ' +
+    comment.createdAt.slice(8, 10) +
+    '일 ';
+
   return (
     <Ldiv>
       <Profile>
         <ProfileImg src={comment.image || profileImg} alt='프로필 이미지'></ProfileImg>
         <UserName>{comment.author.username || '더미유저'}</UserName>
-        <Time>5분전</Time>
+        <Time>{createdAt}</Time>
         <MoreBtn></MoreBtn>
       </Profile>
       <Text>{comment.content || '더미코멘트'}</Text>
