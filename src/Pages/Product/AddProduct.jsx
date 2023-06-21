@@ -137,7 +137,7 @@ const ProductText = styled.textarea.attrs({
   placeholder: '제품에 대한 설명을 입력해주세요!',
 })`
   width: 100%;
-  min-height: 80px;
+  min-height: 140px;
   margin-top: 12px;
   padding: 10px;
   resize: none;
