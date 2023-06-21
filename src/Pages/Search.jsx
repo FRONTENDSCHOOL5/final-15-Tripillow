@@ -14,6 +14,7 @@ const Search = () => {
   const [searchKeyword, setSearchKeyword] = useState('');
   const [searchData, setSearchData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [showAllResults, setShowAllResults] = useState(false);
 
   const handleSearchKeyword = (e) => {
     const { value } = e.target;
@@ -39,7 +40,11 @@ const Search = () => {
   const debounceValue = useDebounceValue(searchKeyword, 750);
 
   const searchUser = async () => {
-    setIsLoading(true);
+    setTimeout(() => {
+      setSearchData([]);
+      setShowAllResults(false);
+      setIsLoading(true);
+    }, 0);
     try {
       const response = await fetch(`${URL}/user/searchuser/?keyword=${debounceValue}`, {
         headers: {
@@ -48,7 +53,9 @@ const Search = () => {
         },
       });
       const data = await response.json();
-      setSearchData(data);
+      setTimeout(() => {
+        setSearchData(data);
+      }, 0);
     } catch (error) {
       console.error('에러', error);
     } finally {
@@ -65,6 +72,10 @@ const Search = () => {
     searchUser();
   }, [debounceValue, token]);
 
+  const handleAllResults = () => {
+    setShowAllResults(true);
+  };
+
   return (
     <Layout>
       <SearchHeader value={searchKeyword} onChange={handleSearchKeyword} />
@@ -74,18 +85,33 @@ const Search = () => {
             <>
               <UserSkeleton />
               <UserSkeleton />
+              <UserSkeleton />
+              <UserSkeleton />
             </>
           )}
-          {searchData?.map((user) => (
-            <SearchedUser key={user._id}>
-              <User
-                userImg={user.image}
-                username={user.username}
-                content={'@' + user.accountname}
-                accountname={user.accountname}
-              />
-            </SearchedUser>
-          ))}
+          {showAllResults
+            ? searchData.map((user) => (
+                <SearchedUser key={user._id}>
+                  <User
+                    userImg={user.image}
+                    username={user.username}
+                    content={'@' + user.accountname}
+                    accountname={user.accountname}
+                  />
+                </SearchedUser>
+              ))
+            : searchData.slice(0, 9).map((user) => (
+                <SearchedUser key={user._id}>
+                  <User
+                    userImg={user.image}
+                    username={user.username}
+                    content={'@' + user.accountname}
+                    accountname={user.accountname}
+                  />
+                </SearchedUser>
+              ))}
+          {showAllResults ||
+            (searchData.length > 10 && <ShowAllButton onClick={handleAllResults}>결과 모두 보기</ShowAllButton>)}
         </ul>
       </SearchContentLayout>
       <Navbar />
@@ -99,6 +125,12 @@ const SearchContentLayout = styled.div`
 
 const SearchedUser = styled.li`
   margin-bottom: 16px;
+`;
+
+const ShowAllButton = styled.button`
+  width: 100%;
+  font-size: var(--sm);
+  color: var(--primary);
 `;
 
 export default Search;
