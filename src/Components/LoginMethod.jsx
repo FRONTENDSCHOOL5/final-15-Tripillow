@@ -6,19 +6,17 @@ import facebook from '../Assets/icons/facebook.svg';
 
 const LoginMethod = () => {
   return (
-    <Div>
-      <ButtonListsLayout>
-        <Button email>이메일로 로그인</Button>
-        <Button kakao>카카오톡 계정으로 로그인</Button>
-        <Button google>구글계정으로 로그인</Button>
-        <Button facebook mb='21px'>
-          페이스북 계정으로 로그인
-        </Button>
-        <Button signup mb='18px'>
-          회원가입
-        </Button>
-      </ButtonListsLayout>
-    </Div>
+    <ButtonListsLayout>
+      <Button email>이메일로 로그인</Button>
+      <Button kakao>카카오톡 계정으로 로그인</Button>
+      <Button google>구글계정으로 로그인</Button>
+      <Button facebook mb='21px'>
+        페이스북 계정으로 로그인
+      </Button>
+      <Button signup mb='18px'>
+        회원가입
+      </Button>
+    </ButtonListsLayout>
   );
 };
 
@@ -33,9 +31,6 @@ const ButtonListsLayout = styled.div`
   margin: 0 auto;
 `;
 
-const Div = styled.div`
-  background-color: var(--primary);
-`;
 const Button = styled.button`
   display: block;
   border-radius: 44px;
