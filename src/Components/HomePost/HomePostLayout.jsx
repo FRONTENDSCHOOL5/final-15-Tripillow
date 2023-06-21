@@ -9,7 +9,7 @@ import arrowLeft from '../../Assets/icons/icon-arrow-left.svg';
 import iconHeart from '../../Assets/icons/icon-heart.svg';
 import iconChat from '../../Assets/icons/icon-message-circle-1.svg';
 import { useNavigate } from 'react-router-dom';
-import defaultImg from '../../Assets/addproduct.png';
+import defaultImg from '../../Assets/defaultImg.png';
 
 const HomePostLayout = (props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -33,6 +33,10 @@ const HomePostLayout = (props) => {
     setCurrentIndex((prev) => (prev === pictures.length - 1 ? 0 : prev + 1));
   };
 
+  const handleError = (e) => {
+    e.target.src = defaultImg;
+  };
+
   return (
     <Layout>
       <User
@@ -46,7 +50,7 @@ const HomePostLayout = (props) => {
       </User>
       <ImageLayout>
         {pictures.length > 1 && <ArrowButton onClick={handlePrev} bgImage={arrowLeft} left='16px'></ArrowButton>}
-        <img src={URL + '/' + pictures[currentIndex]} alt='' />
+        <img src={URL + '/' + pictures[currentIndex]} onError={handleError} alt='' />
         {pictures.length > 1 && <ArrowButton onClick={handleNext} bgImage={arrowRight} right='16px'></ArrowButton>}
         <IndicatorLayout>
           {pictures.length > 1 &&
