@@ -10,7 +10,7 @@ import ImageUploadAPI from '../../Utils/ImageUploadAPI';
 import defaultImage from '../../Assets/addproduct.png';
 import { useNavigate } from 'react-router-dom';
 import BasicHeader from '../../Components/common/Header/BasicHeader';
-import UserInfoAPI from '../../Utils/UserInfoAPI';
+import UserInfoAPI from '../../Utils/MyInfoAPI';
 import GetPostAPI from '../../Utils/GetPostAPI';
 import ProductListAPI from '../../Utils/ProductListAPI';
 import accountName from '../../Recoil/accountName/accountName';
