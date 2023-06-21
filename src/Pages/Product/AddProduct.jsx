@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import Toggle from '../../Components/common/Toggle';
-// import styled from 'styled-components';
 import styled from 'styled-components';
 import Navbar from '../../Components/common/Navbar';
 import Input from '../../Components/common/Input';
@@ -15,7 +14,8 @@ import { useNavigate } from 'react-router-dom';
 const AddProduct = (props) => {
   const [productName, setproductName] = useState('');
   const [price, setPrice] = useState('');
-  const [saleLink, setSaleLink] = useState('');
+  const [description, setDescription] = useState('');
+  console.log(description);
   const [imageLink, setImageLink] = useState('');
   const token = useRecoilValue(userToken);
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ const AddProduct = (props) => {
           product: {
             itemName: productName,
             price: parseInt(price), //1원 이상
-            link: saleLink,
+            link: description,
             itemImage: imageLink,
           },
         }),
@@ -57,7 +57,7 @@ const AddProduct = (props) => {
 
   return (
     <Layout>
-      <UploadHeader onClick={handleSubmit} disabled={!productName || !price || !saleLink}>
+      <UploadHeader onClick={handleSubmit} disabled={!productName || !price || !description}>
         저장
       </UploadHeader>
       <Label htmlFor='file-upload'>
@@ -66,15 +66,18 @@ const AddProduct = (props) => {
       <input id='file-upload' className='a11y-hidden' onChange={handleChange} type='file' />
       <CategoryTxt>카테고리</CategoryTxt>
       <Toggle margin='0 0 20px 0' leftButton='여행용품' rightButton='외화' />
+
+      {/* //fixme: label 클릭하면 input에 위치 */}
       <Input
         width='100%'
         value={productName}
         onChange={(e) => setproductName(e.target.value)}
+        // htmlFor={forId}
         label='상품명'
         placeholder='2~15자 이내여야 합니다.'
         mb='16px'
       />
-      <Input
+      <SecondInput
         value={price}
         onChange={(e) => setPrice(e.target.value)}
         label='가격'
@@ -83,17 +86,17 @@ const AddProduct = (props) => {
         mb='16px'
       />
       {/* <Input
-        value={saleLink}
-        onChange={(e) => setSaleLink(e.target.value)}
+        value={description}
+        onChange={(e) => setdescription(e.target.value)}
         label='판매링크'
         placeholder='URL을 입력해주세요.'
         type='url'
         mb='16px'
       /> */}
-      <label for='product' style={{ color: '#767676', fontSize: 'var(--xs)' }}>
+      <label htmlFor='product' style={{ color: '#767676', fontSize: 'var(--xs)' }}>
         상세 설명
       </label>
-      <ProductText id='product' />
+      <ProductText id='product' value={description} onChange={(e) => setDescription(e.target.value)} />
       <Navbar />
     </Layout>
   );
@@ -119,20 +122,31 @@ const Label = styled.label`
   cursor: pointer;
 `;
 
+const SecondInput = styled(Input)`
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  ::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+`;
+//fixme: 상세설명이 layout 밖으로 나옴
 const ProductText = styled.textarea.attrs({
   placeholder: '제품에 대한 설명을 입력해주세요!',
 })`
   width: 100%;
-  height: 80px;
+  min-height: 140px;
   margin-top: 12px;
   padding: 10px;
   resize: none;
   border: 1px solid var(--light-gray);
+  font-size: var(--xs);
   box-sizing: border-box;
 
   ::placeholder {
     color: var(--light-gray);
-    font-size: var(--sm);
   }
   &:focus {
     border: 1px solid var(--primary);
