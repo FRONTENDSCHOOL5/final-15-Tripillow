@@ -32,7 +32,7 @@ export default function Comment({ comment }) {
     '일 ';
 
   return (
-    <Ldiv>
+    <CommentLayout>
       <Profile>
         <ProfileImg src={comment.image || profileImg} alt='프로필 이미지'></ProfileImg>
         <UserName>{comment.author.username || '더미유저'}</UserName>
@@ -40,11 +40,11 @@ export default function Comment({ comment }) {
         <MoreBtn></MoreBtn>
       </Profile>
       <Text>{comment.content || '더미코멘트'}</Text>
-    </Ldiv>
+    </CommentLayout>
   );
 }
 
-const Ldiv = styled.div`
+const CommentLayout = styled.div`
   margin: 0 12px 16px 16px;
 `;
 

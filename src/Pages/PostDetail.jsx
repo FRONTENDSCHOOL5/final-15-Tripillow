@@ -24,115 +24,35 @@ export default function PostDetail() {
   const [comments, setComments] = useState([]);
   const ft_postDetail = PostDetailAPI(id, setPostDetail);
   const ft_getComment = GetCommentAPI(id, setComments);
+  const [newComment, setNewComment] = useState(false);
   useEffect(() => {
-    const handle = async () => {
+    const sync = async () => {
       await ft_postDetail();
       await ft_getComment();
+      setComments((prev) => prev.reverse());
     };
-    handle();
-    // console.log(postDetail);
-    // console.log(comments);
+    sync();
   }, []);
+
+  useEffect(() => {
+    const sync = async () => {
+      await ft_getComment();
+      setComments((prev) => prev.reverse());
+    };
+    sync();
+  }, [newComment]);
 
   return (
     <Layout>
       <BasicHeader></BasicHeader>
       {Object.keys(postDetail).length ? <HomePostLayout post={postDetail}></HomePostLayout> : <></>}
-      {/* <CommentLayout> */}
       {comments.length !== 0 && comments.map((el, i) => <Comment comment={el}></Comment>)}
-      {/* </CommentLayout> */}
-      {<PostComment postId={postDetail.id}></PostComment>}
+      {<PostComment setNewComment={setNewComment} postId={postDetail.id}></PostComment>}
     </Layout>
   );
 }
 
 const Layout = styled.div`
   ${LayoutStyle};
-  /* padding-bottom: ${(props) => props.pb || '20px'}; */
   background-color: #fff;
-`;
-
-const PostLayout = styled.div`
-  padding: 14px 12px 20px 16px;
-`;
-
-// const CommentLayout = styled.section`
-//   border-top: 1px solid var(--light-gray);
-//   padding-top: 20px;
-// `;
-
-const ImageLayout = styled.div`
-  position: relative;
-  width: calc(100% + 28px);
-  height: 270px;
-  margin: 4px -12px 6px -16px;
-
-  img {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-  }
-`;
-
-const ArrowButton = styled.button`
-  position: absolute;
-  width: 25px;
-  height: 25px;
-  top: ${(props) => props.top || '50%'};
-  left: ${(props) => props.left};
-  right: ${(props) => props.right};
-  bottom: ${(props) => props.bottom};
-  background: ${(props) => `url(${props.bgImage})`} no-repeat center;
-`;
-
-const IndicatorLayout = styled.div`
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translate(-50%);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-`;
-
-const Indicator = styled.div`
-  width: 6px;
-  height: 6px;
-  background-color: ${(props) => (props.indicator ? '#fff' : 'var(--gray)')};
-  border-radius: 50%;
-`;
-
-const IconLayout = styled.div`
-  display: flex;
-  gap: 19px;
-  margin: 12px 0 12px 0;
-`;
-
-const IconButton = styled.button`
-  width: 39px;
-  color: var(--gary);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  img {
-    width: 15px;
-    height: 15px;
-  }
-
-  span {
-    font-size: var(--xs);
-    color: var(--dark-gray);
-  }
-`;
-
-const Content = styled.p`
-  font-size: var(--sm);
-  margin-bottom: 13px;
-  line-height: 1.4;
-
-  & + span {
-    font-size: 10px;
-    color: var(--dark-gray);
-  }
 `;

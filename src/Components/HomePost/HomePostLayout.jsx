@@ -14,7 +14,6 @@ import defaultImg from '../../Assets/defaultImg.png';
 const HomePostLayout = (props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const post = props.post;
-  console.log(post);
   const userImg = post.author.image;
   const pictures = post.image.split(', ');
   const createdAt =

@@ -3,10 +3,9 @@ import styled from 'styled-components';
 import profileImg from '../../Assets/profile-sm.png';
 import PostCommentAPI from '../../Utils/PostCommentAPI';
 
-export default function PostComment({ postId }) {
+export default function PostComment({ postId, setNewComment }) {
   const [userInput, setUserInput] = useState('');
   const input = useRef();
-
   const handleInputChange = (e) => {
     const input = e.target.value;
     setUserInput(input);
@@ -21,10 +20,18 @@ export default function PostComment({ postId }) {
   const handleClick = async () => {
     // e.preventDefault();
     const response = await handlePostComment();
-    console.log(response);
+    setNewComment(true);
+    console.log('@@#@@##@@#res:', response);
     input.current.value = '';
     return;
   };
+
+  // const handleKeyPress = async (e) => {
+  //   if (e.key === 'Enter') {
+  //     console.log('??????');
+  //     await handleClick();
+  //   }
+  // };
 
   return (
     <FooterFormLayout>
