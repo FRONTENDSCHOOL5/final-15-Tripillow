@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import Toggle from '../../Components/common/Toggle';
 import styled from 'styled-components';
@@ -9,27 +9,13 @@ import userToken from '../../Recoil/userToken/userToken';
 import ImageUploadAPI from '../../Utils/ImageUploadAPI';
 import defaultImage from '../../Assets/addproduct.png';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import UserInfoAPI from '../../Utils/UserInfoAPI';
-import GetPostAPI from '../../Utils/GetPostAPI';
-import ProductListAPI from '../../Utils/ProductListAPI';
-import accountName from '../../Recoil/accountName/accountName';
 import UploadHeader from '../../Components/common/Header/UploadHeader';
 import ProductModifyAPI from '../../Utils/ProductModifyAPI';
+import ProductDetailAPI from '../../Utils/ProductDetailAPI';
 
 const ProductModification = (props) => {
-  const [imageLink, setImageLink] = useState('');
   const navigate = useNavigate();
   const token = useRecoilValue(userToken);
-  const name = useRecoilValue(accountName);
-  const productData = ProductListAPI(name);
-  const productList = productData.product;
-  console.log(productList);
-
-  const [newName, setNewName] = useState('');
-  const [newPrice, setNewPrice] = useState('');
-  const [newDesc, setNewDesc] = useState('');
-  const [newImage, setNewImage] = useState('');
-
   const [productInputs, setProductInputs] = useState({
     product: {
       itemName: '',
@@ -40,19 +26,39 @@ const ProductModification = (props) => {
   });
   const location = useLocation();
   const productId = location.state;
-  console.log(productId);
+
+  const productDetail = ProductDetailAPI(productId);
+  const { handleProductModify } = ProductModifyAPI({ productId, productInputs });
+
+
+  useEffect(() => {
+    if (productDetail) {
+      setProductInputs({
+        product: {
+          itemName: productDetail.itemName,
+          price: productDetail.price,
+          link: productDetail.link,
+          itemImage: productDetail.itemImage,
+        },
+      });
+    }
+  }, [productDetail]);
 
   const handleImgChange = async (e) => {
     const response = await ImageUploadAPI(e);
-    setNewImage(`${URL}/${response.filename}`);
-
-    console.log('@@@@@@@this2!@!#$#@$@#$', imageLink);
-    // console.log(response)
+    setProductInputs((productInputs) => ({
+      ...productInputs,
+      product: {
+        ...productInputs.product,
+        itemImage: `${URL}/${response.filename}`,
+      },
+    }));
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setProductInputs((prevState) => ({
+      ...prevState,
       product: {
         ...prevState.product,
         [name]: value,
@@ -60,30 +66,21 @@ const ProductModification = (props) => {
     }));
   };
 
-  const handleModify = async (productInputs) => {
-    try {
-      const response = await fetch(`${URL}/product/${productId}`, {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify({ productInputs }),
-      });
-
-      const data = await response.json();
-      return data;
-      console.log(data);
-    } catch (error) {
-      console.error('api 오류!!!', error);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const res = await handleProductModify();
+    if (res) {
+      console.log(res);
     }
   };
 
   return (
-    <Layout>
-      <UploadHeader onClick={handleModify}>저장</UploadHeader>
+    <FormLayout onSubmit={handleSubmit}>
+      <UploadHeader type='submit' onClick={() => navigate('/profile')}>
+        저장
+      </UploadHeader>
       <Label htmlFor='file-upload'>
-        <Image src={imageLink || defaultImage} />
+        <Image src={productInputs.product?.itemImage || defaultImage} />
       </Label>
       <input id='file-upload' className='a11y-hidden' onChange={handleImgChange} type='file' />
       <CategoryTxt>카테고리</CategoryTxt>
@@ -109,24 +106,16 @@ const ProductModification = (props) => {
         type='number'
         mb='16px'
       />
-      {/* <Input
-        value={description}
-        onChange={(e) => setdescription(e.target.value)}
-        label='판매링크'
-        placeholder='URL을 입력해주세요.'
-        type='url'
-        mb='16px'
-      /> */}
       <label htmlFor='product' style={{ color: '#767676', fontSize: 'var(--xs)' }}>
         상세 설명
       </label>
       <ProductText id='product' name='link' value={productInputs.product.link} onChange={handleInputChange} />
       <Navbar />
-    </Layout>
+    </FormLayout>
   );
 };
 
-const Layout = styled.div`
+const FormLayout = styled.form`
   max-width: 390px;
   min-height: 100%;
   padding: 48px 12px 73px 16px;
