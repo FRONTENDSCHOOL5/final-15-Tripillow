@@ -46,6 +46,9 @@ const AddProduct = (props) => {
           <ProductContent size='var(--xl)' weight='700'>
             {productDetail.itemName}
           </ProductContent>
+          <ProductContent size='var(--lg)' >
+            {productDetail.link}
+          </ProductContent>
           <ProductLayout>
             <Icon src={hearticon} />
             <ProudctPrice>{productDetail.price}원</ProudctPrice>
@@ -90,7 +93,7 @@ const Image = styled.img`
 const ProductContent = styled.p`
   font-size: ${(props) => props.size};
   color: ${(props) => props.color};
-  font-weight: ${(props) => props.weight};
+  font-weight: ${(props) => props.weight || '400'};
   margin-bottom: ${(props) => props.mb || '4px'};
   margin-top: 29px;
 `;
@@ -114,6 +117,7 @@ const Icon = styled.img`
   cursor: pointer;
 `;
 
+// fixme: price 길어질때 처리, ',' 처리
 const ProudctPrice = styled.div`
   font-size: 18px;
   font-weight: 700;
