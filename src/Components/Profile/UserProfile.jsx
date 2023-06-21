@@ -9,7 +9,6 @@ import { useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 
 const UserProfile = (props) => {
-  console.log(props);
   const user = props.user || props.author;
   const name = useRecoilValue(accountname);
   const [isFollowClicked, setIsFollowClicked] = useState(false);
