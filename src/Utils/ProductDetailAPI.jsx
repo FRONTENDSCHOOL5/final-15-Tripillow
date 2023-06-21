@@ -1,12 +1,14 @@
-import URL from '../Utils/URL';
 import { useRecoilValue } from 'recoil';
+import { useEffect, useState } from 'react';
+
+import URL from '../Utils/URL';
 import userToken from '../Recoil/userToken/userToken';
-import React, { useEffect, useState } from 'react';
 
 const ProductDetailAPI = (id) => {
   const token = useRecoilValue(userToken);
   const [productDetail, setProductDetail] = useState([]);
-  const productId = id
+  const productId = id;
+  console.log(productId)
   const getProductDetail = async () => {
     try {
       const response = await fetch(URL + `/product/detail/${productId}`, {
@@ -28,6 +30,7 @@ const ProductDetailAPI = (id) => {
   useEffect(() => {
     getProductDetail();
   }, []);
+  
   return productDetail;
 };
 

@@ -1,27 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import Navbar from '../../Components/common/Navbar';
-import userToken from '../../Recoil/userToken/userToken';
-import { useNavigate, useParams } from 'react-router-dom';
-import BasicHeader from '../../Components/common/Header/BasicHeader';
+
 import ProductDetailAPI from '../../Utils/ProductDetailAPI';
+
+import Navbar from '../../Components/common/Navbar';
+import BasicHeader from '../../Components/common/Header/BasicHeader';
 import hearticon from '../../Assets/icons/icon-heart.svg';
 import Button from '../../Components/common/Button';
 import User from '../../Components/common/User';
 
 const AddProduct = (props) => {
-  const [productName, setproductName] = useState('');
   const [productId, setProductId] = useState('');
   const params = useParams();
-  // const [price, setPrice] = useState('');
-  // const [saleLink, setSaleLink] = useState('');
-  // const [imageLink, setImageLink] = useState('');
-  const token = useRecoilValue(userToken);
-  const navigate = useNavigate();
+  console.log('params : ', params)
 
   const productDetail = ProductDetailAPI(params.id);
-  const author = productDetail?.author;
+  console.log(productDetail)
+  // const author = productDetail?.author;
 
   useEffect(() => {
     setProductId(params.id);
@@ -32,7 +28,7 @@ const AddProduct = (props) => {
       {productDetail && (
         <Layout>
           <BasicHeader
-            함수={ProductDetailAPI}
+            // 함수={ProductDetailAPI}
             deleteId={productId}
             btn1='수정'
             btn2='삭제'
@@ -62,9 +58,6 @@ const AddProduct = (props) => {
   );
 };
 
-const ProductInfoLayout = styled.div`
-  display: flex;
-`;
 
 const Layout = styled.div`
   max-width: 390px;
@@ -77,7 +70,6 @@ const Layout = styled.div`
 
 const Label = styled.label`
   display: block;
-  //fixme: 패딩 값 무시하고 가로 꽉 채우는 다른 방법?
   /* width: calc(100% + 16px + 12px); // Image 너비에 패딩값 차감 */
 
   height: 232px;
@@ -103,7 +95,7 @@ const ProductContent = styled.p`
   margin-top: 29px;
 `;
 
-// fixme: width 길이가 부모의 100% 안먹음.
+// fixme: width 길이가 부모의 100% 안먹음.(fixed는 뷰포트 기준이기 때문에 width 100% 안됨)
 const ProductLayout = styled.div`
   display: flex;
   justify-content: space-evenly;

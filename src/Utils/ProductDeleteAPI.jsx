@@ -21,7 +21,7 @@ const ProductDeleteAPI = (deleteId) => {
     }
   };
 
-  return { handleProductDelete };
+  return  handleProductDelete ;
 };
 
 export default ProductDeleteAPI;
