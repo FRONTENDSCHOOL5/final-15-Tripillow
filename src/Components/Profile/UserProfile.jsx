@@ -12,7 +12,7 @@ const UserProfile = (props) => {
   const user = props.user || props.author;
   const name = useRecoilValue(accountname);
   const [isFollowClicked, setIsFollowClicked] = useState(false);
-  const [isFollow, setIsFollow] = useState(user.isfollow);
+  // const [isFollow, setIsFollow] = useState(user.isfollow);
   const navigate = useNavigate();
 
   const handleFollowButtonClick = (e) => {
@@ -49,7 +49,7 @@ const UserProfile = (props) => {
           </UserInfoLayout>
           {user.accountname === name ? (
             <IconLayout>
-              <CommonButton clicked width='120px' fontSize='var(--sm)' onClick={() => navigate('/editprofile')}>
+              <CommonButton clicked width='120px' fontSize='var(--sm)' onClick={() => navigate('/profile/edit')}>
                 프로필 수정
               </CommonButton>
               <CommonButton onClick={() => navigate('/addproduct')} clicked width='100px' fontSize='var(--sm)'>
