@@ -1,32 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil';
 import { Link } from 'react-router-dom';
 
-import ProductListAPI from '../../Utils/ProductListAPI';
-import accountName from '../../Recoil/accountName/accountName';
-
 const ProductItem = (props) => {
-  const name = useRecoilValue(accountName);
-  const productData = ProductListAPI(name);
-  const productList = productData.product;
+  const product = props.product;
+  console.log(product)
   // console.log(productList);
   return (
     <>
       {
-        productList?.map((product, index) => (
-          <Link to={`/product/detail/${product.id}`}>
-            <ButtonLayout >
-              <ProductImg src={product.itemImage} alt={product.itemName} />
-              <ProductInfo size='14px' color='black'>
-                {product.itemName}
-              </ProductInfo>
-              <ProductInfo size='12px' color='#6CABFF' weight='700'>
-                {product.price.toLocaleString()}원
-              </ProductInfo>
-            </ButtonLayout>
-          </Link>
-        ))}
+        <Link to={`/product/detail/${product?.id}`}>
+          <ButtonLayout>
+            <ProductImg src={product?.itemImage} alt={product?.itemName} />
+            <ProductInfo size='14px' color='black'>
+              {product?.itemName}
+            </ProductInfo>
+            <ProductInfo size='12px' color='#6CABFF' weight='700'>
+              {product?.price.toLocaleString()}원
+            </ProductInfo>
+          </ButtonLayout>
+        </Link>
+      }
     </>
   );
 };
