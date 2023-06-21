@@ -1,36 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import URL from './URL';
-import userToken from '../Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
+import userToken from '../Recoil/userToken/userToken';
 
 const UserInfoAPI = (props) => {
   const token = useRecoilValue(userToken);
-  const reqPath = `/user/myinfo`;
-  // const [userData, setUserData] = useState({});
 
-  const getUserData = async () => {
+  const getUserInfo = async () => {
     try {
-      const response = await fetch(URL + reqPath, {
-        method: 'get',
+      const response = await fetch(`${URL}/profile/${props.userAccountname}`, {
+        method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
         },
       });
-
       const data = await response.json();
-      // setUserData(data.user);
-      props.setData ? props?.setData(data.user) : props?.setUserInfo(data.user);
-      console.log(data.user);
+      props.setUserInfo(data.profile);
     } catch (error) {
-      console.error('API 응답에 문제가 있습니다.', error);
+      console.error('UserInfoAPI 응답에 문제가 있습니다.', error);
     }
   };
 
-  // useEffect(() => {
-  //   getUserData();
-  // }, []);
-
-  return { getUserData };
+  return { getUserInfo };
 };
 
 export default UserInfoAPI;

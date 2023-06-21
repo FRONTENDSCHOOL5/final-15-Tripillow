@@ -3,11 +3,11 @@ import { useRecoilValue } from 'recoil';
 import userToken from '../Recoil/userToken/userToken';
 import URL from './URL';
 
-const ProductListAPI = (accountname) => {
+const ProductListAPI = (props) => {
   const token = useRecoilValue(userToken);
-  const [productList, setProductList] = useState([]);
+  const accountname = props?.myAccount;
 
-  const getProductList = async (accountname) => {
+  const getProductList = async () => {
     try {
       const res = await fetch(`${URL}/product/${accountname}`, {
         method: 'GET',
@@ -21,19 +21,13 @@ const ProductListAPI = (accountname) => {
       }
 
       const data = await res.json();
-      console.log(data);
-      setProductList(data);
-      console.log(productList)
+      props.setProductList(data);
     } catch (error) {
       console.error('API 응답에 문제가 있습니다.', error);
     }
   };
 
-  useEffect(() => {
-    getProductList(accountname);
-  }, [accountname]);
-
-  return productList;
+  return { getProductList };
 };
 
 export default ProductListAPI;

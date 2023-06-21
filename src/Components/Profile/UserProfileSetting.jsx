@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import URL from '../../Utils/URL';
 import ImageUploadAPI from '../../Utils/ImageUploadAPI';
-import UserInfoAPI from '../../Utils/UserInfoAPI';
+import UserInfoAPI from '../../Utils/MyInfoAPI';
 import EditProfileAPI from '../../Utils/EditProfileAPI';
+import AccountValidAPI from '../../Utils/AccountValidAPI';
 import Input from '../common/Input';
 import { LayoutStyle } from '../../Styles/Layout';
 import profileImg from '../../Assets/profile-lg.png';
@@ -25,7 +26,9 @@ const UserProfileSetting = () => {
       image: '',
     },
   });
+  const [account, setAccount] = useState({ user: { accountname: text.user.accountname } });
   const { getUserData } = UserInfoAPI({ setData });
+  const getAccountValidAPI = AccountValidAPI({ account, setErrorMessage });
 
   useEffect(() => {
     const handleFetch = async () => {
@@ -47,6 +50,17 @@ const UserProfileSetting = () => {
       });
     }
   }, [data, setText]);
+
+  useEffect(() => {
+    setAccount({ user: { accountname: text.user.accountname } });
+  }, [text]);
+
+  const handleAccountValid = async () => {
+    const res = await getAccountValidAPI();
+    if (res) {
+      console.log(res);
+    }
+  };
 
   const handleImageInput = async (e) => {
     const res = await ImageUploadAPI(e);
@@ -84,7 +98,9 @@ const UserProfileSetting = () => {
   return (
     <UserSettingLayout>
       <Form onSubmit={handleSubmit}>
-        <UploadHeader type='submit'>저장</UploadHeader>
+        <UploadHeader type='submit' disabled={errorMessage && errorMessage !== '사용 가능한 계정ID 입니다.'}>
+          저장
+        </UploadHeader>
         <ImageLayout>
           <ImgLabel htmlFor='file-input'>
             <ProfileImg src={imgURL ? imgURL : data.image ? data.image : profileImg} />
@@ -111,12 +127,13 @@ const UserProfileSetting = () => {
           value={text.user.accountname}
           name='accountname'
           onChange={handleInputChange}
+          onBlur={handleAccountValid}
         ></Input>
-        {errorMessage === '영문, 숫자, 밑줄, 마침표만 사용할 수 있습니다.' && text.user.accountname && (
-          <ErrorMSG errorColor={errorMessage !== '사용 가능한 이메일 입니다.'}>{errorMessage}</ErrorMSG>
+        {errorMessage === '사용 가능한 계정ID 입니다.' && text.user.accountname && (
+          <ErrorMSG errorColor={errorMessage !== '사용 가능한 계정ID 입니다.'}>{errorMessage}</ErrorMSG>
         )}
-        {errorMessage === '이미 사용중인 계정 ID입니다.' && text.user.accountname && (
-          <ErrorMSG errorColor={errorMessage !== '사용 가능한 이메일 입니다.'}>{errorMessage}</ErrorMSG>
+        {errorMessage !== '사용 가능한 계정ID 입니다.' && text.user.accountname && (
+          <ErrorMSG errorColor={errorMessage !== '사용 가능한 계정ID 입니다.'}>{errorMessage}</ErrorMSG>
         )}
         <Input
           label='소개'
@@ -128,15 +145,10 @@ const UserProfileSetting = () => {
           name='intro'
           onChange={handleInputChange}
         ></Input>
-        {errorMessage === '이미 가입된 이메일 주소 입니다.' && (
-          <ErrorMSG errorColor={errorMessage === '이미 가입된 이메일 주소 입니다.'}>{errorMessage}</ErrorMSG>
-        )}
       </Form>
     </UserSettingLayout>
   );
 };
-
-// 스타일드 컴포넌트 추가
 
 const UserSettingLayout = styled.div`
   ${LayoutStyle}

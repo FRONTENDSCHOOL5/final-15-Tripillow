@@ -7,9 +7,10 @@ import HomePostLayout from '../Components/HomePost/HomePostLayout';
 import { LayoutStyle } from '../Styles/Layout';
 import Navbar from '../Components/common/Navbar';
 import ProductItem from '../Components/common/ProductItem';
-import UserInfoAPI from '../Utils/UserInfoAPI';
+import MyInfoAPI from '../Utils/MyInfoAPI';
 import GetPostAPI from '../Utils/GetPostAPI';
 import ProductListAPI from '../Utils/ProductListAPI';
+import UserInfoAPI from '../Utils/UserInfoAPI';
 import accountName from '../Recoil/accountName/accountName';
 import ViewImage from '../Components/HomePost/ViewImage';
 
@@ -17,40 +18,54 @@ import listOn from '../Assets/icons/icon-post-list-on.svg';
 import listOff from '../Assets/icons/icon-post-list-off.svg';
 import AlbumOn from '../Assets/icons/icon-post-album-on.svg';
 import AlbumOff from '../Assets/icons/icon-post-album-off.svg';
+import { useParams } from 'react-router-dom';
 
 const Profile = () => {
-  const name = useRecoilValue(accountName);
-  // const userData = UserInfoAPI();
-  const postData = GetPostAPI();
-  const productData = ProductListAPI(name);
-  const productList = productData.product;
+  const params = useParams();
+  const userAccountname = params.accountname;
+  const myAccount = useRecoilValue(accountName);
   const [view, setView] = useState(false);
+
+  const [myInfo, setMyInfo] = useState({});
   const [userInfo, setUserInfo] = useState({});
-  const { getUserData } = UserInfoAPI({ setUserInfo });
+  const [postData, setPostData] = useState([]);
+  const [productList, setProductList] = useState([]);
+
+  const { getUserData } = MyInfoAPI({ setMyInfo });
+  const { getUserInfo } = UserInfoAPI({ setUserInfo, userAccountname });
+  const { getPostData } = GetPostAPI({
+    myAccount: userAccountname ? userAccountname : myAccount,
+    setPostData,
+  });
+  const { getProductList } = ProductListAPI({
+    myAccount: userAccountname ? userAccountname : myAccount,
+    setProductList,
+  });
 
   useEffect(() => {
     const handleFetch = async () => {
       await getUserData();
+      await getUserInfo();
+      await getPostData();
+      await getProductList();
     };
 
     handleFetch();
-  }, []);
+  }, [userAccountname]);
 
   const handleView = () => {
     setView(!view);
   };
 
-  console.log(userInfo);
-
   return (
     <Layout>
       <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='로그아웃' />
       <main>
-        <UserProfile user={userInfo && userInfo} />
+        <UserProfile user={userAccountname ? userInfo : myInfo} />
         <UserProductLayout>
           <h2>판매 중인 상품</h2>
           <ProductListLayout>
-            {productList && productList.map((product, index) => <ProductItem key={index} product={product} />)}
+            {productList && productList.product?.map((product, index) => <ProductItem key={index} product={product} />)}
             <ProductItem />
           </ProductListLayout>
         </UserProductLayout>

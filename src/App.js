@@ -30,7 +30,8 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/profile' element={<Profile />} />
-          <Route path='/editprofile' element={<UserProfileSetting />} />
+          <Route path='/profile/:accountname' element={<Profile />} />
+          <Route path='/profile/edit' element={<UserProfileSetting />} />
           <Route path='/followers' element={<Followers />} />
           <Route path='/post' element={<Post />} />
           <Route path='/post/:id' element={<PostDetail />} />
