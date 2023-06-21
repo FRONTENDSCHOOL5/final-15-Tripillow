@@ -13,10 +13,9 @@ import User from '../../Components/common/User';
 const AddProduct = (props) => {
   const [productId, setProductId] = useState('');
   const params = useParams();
-  console.log('params : ', params)
 
   const productDetail = ProductDetailAPI(params.id);
-  console.log(productDetail)
+  console.log(productDetail);
   // const author = productDetail?.author;
 
   useEffect(() => {
@@ -29,7 +28,7 @@ const AddProduct = (props) => {
         <Layout>
           <BasicHeader
             // 함수={ProductDetailAPI}
-            deleteId={productId}
+            userId={productId}
             btn1='수정'
             btn2='삭제'
             txt='정말 삭제하시겠습니까?'
@@ -46,9 +45,7 @@ const AddProduct = (props) => {
           <ProductContent size='var(--xl)' weight='700'>
             {productDetail.itemName}
           </ProductContent>
-          <ProductContent size='var(--lg)' >
-            {productDetail.link}
-          </ProductContent>
+          <ProductContent size='var(--lg)'>{productDetail.link}</ProductContent>
           <ProductLayout>
             <Icon src={hearticon} />
             <ProudctPrice>{productDetail.price}원</ProudctPrice>
@@ -60,7 +57,6 @@ const AddProduct = (props) => {
     </>
   );
 };
-
 
 const Layout = styled.div`
   max-width: 390px;
