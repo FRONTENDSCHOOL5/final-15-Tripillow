@@ -9,7 +9,6 @@ import Input from '../common/Input';
 import { LayoutStyle } from '../../Styles/Layout';
 import profileImg from '../../Assets/profile-lg.png';
 import ErrorMSG from '../../Styles/ErrorMSG';
-import useInput from '../../Hooks/useInput';
 import UploadHeader from '../../Components/common/Header/UploadHeader';
 import uploadfile from '../../Assets/icons/upload-file.svg';
 
