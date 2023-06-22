@@ -3,24 +3,27 @@ import email from '../Assets/icons/email.svg';
 import kakao from '../Assets/icons/kakao.svg';
 import google from '../Assets/icons/google.svg';
 import facebook from '../Assets/icons/facebook.svg';
+import { Link } from 'react-router-dom';
 
 const LoginMethod = () => {
   return (
-    <ButtonListsLayout>
-      <Button email>이메일로 로그인</Button>
-      <Button kakao>카카오톡 계정으로 로그인</Button>
-      <Button google>구글계정으로 로그인</Button>
-      <Button facebook mb='21px'>
+    <LinkListsLayout>
+      <LoginLink to='login' email>
+        이메일로 로그인
+      </LoginLink>
+      <LoginLink kakao>카카오톡 계정으로 로그인</LoginLink>
+      <LoginLink google>구글계정으로 로그인</LoginLink>
+      <LoginLink facebook mb='21px'>
         페이스북 계정으로 로그인
-      </Button>
-      <Button signup mb='18px'>
+      </LoginLink>
+      <LoginLink to='/signup' signup mb='18px'>
         회원가입
-      </Button>
-    </ButtonListsLayout>
+      </LoginLink>
+    </LinkListsLayout>
   );
 };
 
-const ButtonListsLayout = styled.div`
+const LinkListsLayout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -29,9 +32,13 @@ const ButtonListsLayout = styled.div`
   background-color: white;
   border-radius: 20px 20px 0 0;
   margin: 0 auto;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
 `;
 
-const Button = styled.button`
+const LoginLink = styled(Link)`
   display: block;
   border-radius: 44px;
   font-size: var(--sm);
