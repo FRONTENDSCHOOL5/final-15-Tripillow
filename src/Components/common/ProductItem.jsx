@@ -16,7 +16,7 @@ const ProductItem = (props) => {
               {product?.itemName}
             </ProductInfo>
             <ProductInfo size='12px' color='#6CABFF' weight='700'>
-              {product?.price.toLocaleString()}원
+              {product?.price?.toLocaleString()}원
             </ProductInfo>
           </ButtonLayout>
         </Link>

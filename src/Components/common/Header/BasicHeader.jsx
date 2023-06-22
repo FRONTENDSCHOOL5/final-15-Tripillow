@@ -12,6 +12,7 @@ import accountName from '../../../Recoil/accountName/accountName';
 import AlertModal from '../AlertModal';
 import ProductDeleteAPI from '../../../Utils/ProductDeleteAPI';
 import { useEffect } from 'react';
+import ProductModifyAPI from '../../../Utils/ProductModifyAPI';
 
 const BasicHeader = (props) => {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ const BasicHeader = (props) => {
   const [login, setLogin] = useRecoilState(isLogin);
   const [name, setName] = useRecoilState(accountName);
   // const productDelete = ProductDeleteAPI(props.isDelete);
-  const deleteId = props.deleteId;
+  const userId = props.userId;
 
   useEffect(() => {
     setModal(false);
@@ -47,11 +48,14 @@ const BasicHeader = (props) => {
     navigate('/');
   };
 
-  const { handleProductDelete } = ProductDeleteAPI(deleteId);
-
+  const handleProductDelete = ProductDeleteAPI(userId);
   const handleDelete = async () => {
     await handleProductDelete();
     navigate('/product');
+  };
+
+  const handleModify = () => {
+    navigate('/modifyproduct', { state: userId });
   };
 
   return (
@@ -72,13 +76,14 @@ const BasicHeader = (props) => {
           handleMorebutton={handleMorebutton}
           handleLogoutbutton={handleLogoutbutton}
           bottom={props.isPost && '60px'}
+          handleProductModify={handleModify}
         />
       )}
       {alertModal && (
         <AlertModal
           txt={props.txt}
           rightbtn={props.rightbtn}
-          logout={deleteId ? handleDelete : handleLogout}
+          logout={userId ? handleDelete : handleLogout}
           handleCancel={handleCancel}
         />
       )}
