@@ -1,17 +1,28 @@
 import React from 'react';
 import styled from 'styled-components';
+import accountname from '../Recoil/accountName/accountName';
+import { useRecoilValue } from 'recoil';
 
-const Modal = ({ btn1, btn2, handleMorebutton, handleLogoutbutton, bottom, ...props }) => {
-  console.log(props);
+const CommentModal = ({ postId, commentInfo, setIsAlertModalOn }) => {
+  const accName = useRecoilValue(accountname);
+  const isMine = commentInfo.author.accountname === accName;
+
+  const handleAlertModal = () => {
+    setIsAlertModalOn(true);
+  };
+
   return (
-    <ModalLayout bottom={bottom}>
+    <ModalLayout>
       <SlideBar></SlideBar>
-      <button type='buton' {...props} onClick={props.handleProductModify}>
-        {btn1}
-      </button>
-      <button type='button' onClick={handleLogoutbutton} {...props}>
-        {btn2}
-      </button>
+      {isMine ? (
+        <button type='button' onClick={handleAlertModal}>
+          삭제
+        </button>
+      ) : (
+        <button type='button' onClick={handleAlertModal}>
+          신고하기
+        </button>
+      )}
     </ModalLayout>
   );
 };
@@ -19,15 +30,16 @@ const Modal = ({ btn1, btn2, handleMorebutton, handleLogoutbutton, bottom, ...pr
 const ModalLayout = styled.div`
   position: fixed;
   left: 50%;
-  bottom: ${(props) => (props.bottom ? props.bottom : '74px')};
+  bottom: 60px;
   transform: translate(-50%);
   width: 389px;
-  height: 138px;
+  height: 92px;
   padding: 16px 0;
   background-color: #fff;
   box-shadow: 0px -2px 2px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   border-radius: 10px 10px 0 0;
+  z-index: 9999;
 
   button {
     display: block;
@@ -51,4 +63,4 @@ const SlideBar = styled.div`
   background-color: var(--light-gray);
 `;
 
-export default Modal;
+export default CommentModal;

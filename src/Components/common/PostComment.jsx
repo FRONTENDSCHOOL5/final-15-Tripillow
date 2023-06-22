@@ -1,38 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import profileImg from '../../Assets/profile-sm.png';
+import PostCommentAPI from '../../Utils/PostCommentAPI';
 
-export default function PostComment(props) {
-  // TODO 기능 추가
+export default function PostComment({ postId, setNewComment }) {
   const [userInput, setUserInput] = useState('');
-
+  const input = useRef();
   const handleInputChange = (e) => {
     const input = e.target.value;
     setUserInput(input);
   };
 
-  const handleSubmit = (e) => {
+  const handlePostComment = PostCommentAPI(postId, {
+    comment: {
+      content: userInput,
+    },
+  });
+
+  const handleClick = async (e) => {
     e.preventDefault();
+    const response = await handlePostComment();
+    setNewComment(true);
+    console.log('@@#@@##@@#res:', response);
+    input.current.value = '';
     return;
   };
 
+  // const handleKeyPress = async (e) => {
+  //   if (e.key === 'Enter') {
+  //     console.log('??????');
+  //     await handleClick();
+  //   }
+  // };
+
   return (
-    <FooterLayout>
+    <FooterFormLayout>
       <InputLayout>
         <ProfileImg src={profileImg}></ProfileImg>
-        <InputStyle type='text' placeholder='댓글 입력하기' onChange={handleInputChange} />
+        <InputStyle type='text' placeholder='댓글 입력하기' ref={input} onChange={handleInputChange} />
       </InputLayout>
-      <PostButton type='submit' onSubmit={handleSubmit}>
+      <PostButton type='submit' onClick={handleClick}>
         게시
       </PostButton>
-    </FooterLayout>
+    </FooterFormLayout>
   );
 }
 
-const FooterLayout = styled.form`
+const FooterFormLayout = styled.form`
   display: flex;
   justify-content: space-between;
-  min-width: 390px;
+  min-width: 388px;
   height: 60px;
   padding: 13px 15px;
   box-sizing: border-box;
