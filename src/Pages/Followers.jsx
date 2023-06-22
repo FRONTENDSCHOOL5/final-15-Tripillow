@@ -16,7 +16,7 @@ const Followers = () => {
   const [current, setCurrent] = useState('followers');
   const [followerData, setFollowerData] = useState([]);
   const [followingData, setFollowingData] = useState([]);
-
+  const [pageTitle, setPageTitle] = useState('Followers');
   const { fetchFollower } = FollowerListAPI({ accountname });
   const { fetchFollowing } = FollowingListAPI({ accountname });
 
@@ -30,10 +30,16 @@ const Followers = () => {
     const handleFetch = async () => {
       if (pathIdentifier[last] === 'followers') {
         const follower = await fetchFollower();
-        if (follower) setFollowerData(follower);
+        if (follower) {
+          setFollowerData(follower);
+          setPageTitle('Followers');
+        }
       } else if (pathIdentifier[last] === 'followings') {
         const following = await fetchFollowing();
-        if (following) setFollowingData(following);
+        if (following) {
+          setFollowingData(following);
+          setPageTitle('Followings');
+        }
       }
     };
 
@@ -42,14 +48,14 @@ const Followers = () => {
 
   return (
     <Layout>
-      <BasicHeader empty>Followers</BasicHeader>
+      <BasicHeader empty>{pageTitle}</BasicHeader>
       <main>
         {pathIdentifier[last] === 'followers'
           ? followerData.map((follower, index) => (
-              <FollowUser followers key={index} user={follower} margin='24px 0 0 0' />
+              <FollowUser followers key={index} user={follower} pathIdentifier={pathIdentifier} margin='24px 0 0 0' />
             ))
           : followingData.map((following, index) => (
-              <FollowUser followers key={index} user={following} margin='24px 0 0 0' />
+              <FollowUser followers key={index} user={following} pathIdentifier={pathIdentifier} margin='24px 0 0 0' />
             ))}
       </main>
       <footer>
@@ -66,6 +72,10 @@ const Layout = styled.div`
   padding: 48px 12px 73px 16px;
   border: 0.5px solid var(--light-gray);
   box-sizing: border-box;
+
+  footer {
+    margin-top: 24px;
+  }
 `;
 
 export default Followers;
