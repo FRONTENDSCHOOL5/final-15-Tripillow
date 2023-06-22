@@ -17,9 +17,11 @@ const MyInfoAPI = (props) => {
       });
 
       const data = await response.json();
-      props.setData ? props?.setData(data.user) : props?.setMyInfo(data.user);
+      props?.setData ? props?.setData(data.user) : props?.setMyInfo(data.user);
+      return data.user;
     } catch (error) {
       console.error('API 응답에 문제가 있습니다.', error);
+      return null;
     }
   };
 

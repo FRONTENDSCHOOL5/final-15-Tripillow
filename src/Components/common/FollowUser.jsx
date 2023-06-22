@@ -2,39 +2,28 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import profileSm from '../../Assets/profile-sm.png';
-import more from '../../Assets/icons/s-icon-more-vertical.svg';
 import Button from './Button';
 
-const User = (props) => {
-  const url = props.userImg?.split('/') || 'null';
+const FollowUser = (props) => {
+  const url = props.user?.image.split('/') || null;
+
   return (
     <UserLayout margin={props.margin}>
-      <Link to={`/profile/${props.accountname}`}>
+      <Link to={`/profile/${props.user.accountname}`}>
         <UserImgLayout>
-          <UserImg
-            src={
-              url[url.length - 1] === 'null' ||
-              url[url.length - 1] === 'undefined' ||
-              (url[0] !== 'data:image' && url[0] !== 'https:')
-                ? profileSm
-                : props.userImg
-            }
-            alt={props.username}
-          />
+          <UserImg src={url[url.length - 1] === 'null' ? profileSm : props.user?.image} alt={props.user?.username} />
         </UserImgLayout>
       </Link>
       <UserContentsLayout>
         <div>
-          <UserTitle>{props.username}</UserTitle>
-          <UserContent>{props.content} </UserContent>
+          <UserTitle>{props.user?.username}</UserTitle>
+          <UserContent>{props.user?.intro} </UserContent>
         </div>
-        {props.moreBtn && <MoreBtn />}
         {props.followers && (
           <Button width='56px' fontSize='var(--xs)' border='none' padding='5.75px'>
             팔로우
           </Button>
         )}
-        {props.chat && <ChatDate>{props.date}</ChatDate>}
       </UserContentsLayout>
     </UserLayout>
   );
@@ -47,6 +36,7 @@ const UserLayout = styled.div`
   cursor: pointer;
   margin: ${(props) => props.margin};
 `;
+
 const UserImgLayout = styled.div`
   width: 50px;
   height: 50px;
@@ -76,17 +66,4 @@ const UserContentsLayout = styled.div`
   width: 100%;
 `;
 
-const ChatDate = styled.span`
-  color: var(--light-gray);
-  font-size: 10px;
-  margin-top: auto;
-`;
-
-const MoreBtn = styled.button`
-  width: 18px;
-  height: 18px;
-  margin-right: 3px;
-  background-image: url(${more});
-`;
-
-export default User;
+export default FollowUser;
