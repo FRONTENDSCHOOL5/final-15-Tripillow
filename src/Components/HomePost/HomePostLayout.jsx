@@ -44,6 +44,7 @@ const HomePostLayout = (props) => {
         username={post.author.username}
         content={'@' + post.author.accountname}
         moreBtn
+        setIsPostModalOn={props.setIsPostModalOn ? props.setIsPostModalOn : null}
       >
         애월읍 위니브
       </User>

@@ -5,34 +5,74 @@ import { LayoutStyle } from '../Styles/Layout';
 import Comment from '../Components/Comment';
 import PostComment from '../Components/common/PostComment';
 import BasicHeader from '../Components/common/Header/BasicHeader';
-import User from '../Components/common/User';
-import Profile from '../Assets/profile-sm.png';
-import arrowRight from '../Assets/icons/icon-arrow-right.svg';
-import arrowLeft from '../Assets/icons/icon-arrow-left.svg';
-import iconHeart from '../Assets/icons/icon-heart.svg';
-import iconChat from '../Assets/icons/icon-message-circle-1.svg';
-import URL from '../Utils/URL';
-import userToken from '../Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
 import PostDetailAPI from '../Utils/PostDetailAPI';
 import GetCommentAPI from '../Utils/GetCommentAPI';
 import HomePostLayout from '../Components/HomePost/HomePostLayout';
+import PostModal from '../Components/PostModal';
+import CommentModal from '../Components/CommentModal';
+import accountName from '../Recoil/accountName/accountName';
+import DeleteCommentAPI from '../Utils/DeleteCommentAPI';
+import ReportCommentAPI from '../Utils/ReportCommentAPI';
 
 export default function PostDetail() {
+  const accName = useRecoilValue(accountName);
   const { id } = useParams();
-  const [postDetail, setPostDetail] = useState({});
+  const [isPostModalOn, setIsPostModalOn] = useState(false);
+  const [nthCommentModal, setNthCommentModal] = useState(null);
+  const [postInfo, setPostInfo] = useState({});
   const [comments, setComments] = useState([]);
-  const ft_postDetail = PostDetailAPI(id, setPostDetail);
+  const ft_postDetail = PostDetailAPI(id, setPostInfo);
   const ft_getComment = GetCommentAPI(id, setComments);
   const [newComment, setNewComment] = useState(false);
+  const [commentModalClicked, setCommentModalClicked] = useState(null);
+
+  const handleDelete = async () => {
+    const deleteComment = DeleteCommentAPI(id, comments[nthCommentModal]);
+    await deleteComment();
+    setNthCommentModal(null);
+  };
+
+  const handleModify = async () => {
+    // const modifyComment = ModifyCommentAPI(id, comments[nthCommentModal]);
+    // await modifyComment();
+    setNthCommentModal(null);
+  };
+
+  const handleReport = async () => {
+    const reportComment = ReportCommentAPI(id, comments[nthCommentModal]);
+    await reportComment();
+    setNthCommentModal(null);
+  };
+
   useEffect(() => {
     const sync = async () => {
       await ft_postDetail();
       await ft_getComment();
       setComments((prev) => prev.reverse());
+      setIsPostModalOn(false);
     };
     sync();
   }, [newComment]);
+
+  // useEffect(() => {
+  //   if (commentModalClicked === null) {
+  //     return;
+  //   }
+  //   switch (commentModalClicked) {
+  //     case 'D':
+  //       handleDelete();
+  //       break;
+  //     case 'M':
+  //       handleModify();
+  //       break;
+  //     case 'R':
+  //       handleReport();
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // }, [commentModalClicked]);
 
   return (
     <Layout>
@@ -41,10 +81,27 @@ export default function PostDetail() {
         btn2='로그아웃'
         txt='정말 로그아웃 하시겠습니까?'
         rightbtn='로그아웃'
+        isPost
       ></BasicHeader>
-      {Object.keys(postDetail).length ? <HomePostLayout post={postDetail}></HomePostLayout> : <></>}
-      {comments.length !== 0 && comments.map((el, i) => <Comment comment={el}></Comment>)}
-      {<PostComment setNewComment={setNewComment} postId={postDetail.id}></PostComment>}
+      {Object.keys(postInfo).length ? (
+        <HomePostLayout post={postInfo} setIsPostModalOn={setIsPostModalOn}></HomePostLayout>
+      ) : (
+        <></>
+      )}
+      {comments.length !== 0 &&
+        comments.map((el, i) => (
+          <Comment key={i} id={i} comment={el} setNthCommentModal={setNthCommentModal}></Comment>
+        ))}
+      <PostComment setNewComment={setNewComment} postId={postInfo.id}></PostComment>
+      {isPostModalOn && <PostModal isMyPost={accName === postInfo.author.accountname} postId={id}></PostModal>}
+      {nthCommentModal !== null && (
+        <CommentModal
+          isMyComment={accName === comments[nthCommentModal].author.accountname}
+          postId={id}
+          comment={comments[nthCommentModal]}
+          setCommentModalClicked={setCommentModalClicked}
+        ></CommentModal>
+      )}
     </Layout>
   );
 }

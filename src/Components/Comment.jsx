@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import profileImg from '../Assets/profile-sm.png';
 import styled from 'styled-components';
 import more from '../Assets/icons/icon-more-vertical.svg';
+import Modal from './common/Modal';
 
 // "comment": [
 // 	{
@@ -22,7 +23,8 @@ import more from '../Assets/icons/icon-more-vertical.svg';
 // 	}
 // ]
 
-export default function Comment({ comment }) {
+export default function Comment({ comment, setNthCommentModal, id }) {
+  // const [isClicked, setIsClicked] = useState(false);
   const createdAt =
     comment.createdAt.slice(0, 4) +
     '년 ' +
@@ -31,13 +33,20 @@ export default function Comment({ comment }) {
     comment.createdAt.slice(8, 10) +
     '일 ';
 
+  const handleClick = () => {
+    // setIsClicked(!isClicked);
+    // console.log('clicked');
+
+    setNthCommentModal((prev) => (prev !== null ? null : id));
+  };
+
   return (
     <CommentLayout>
       <Profile>
         <ProfileImg src={comment.image || profileImg} alt='프로필 이미지'></ProfileImg>
         <UserName>{comment.author.username || '더미유저'}</UserName>
         <Time>{createdAt}</Time>
-        <MoreBtn></MoreBtn>
+        <MoreBtn onClick={handleClick}></MoreBtn>
       </Profile>
       <Text>{comment.content || '더미코멘트'}</Text>
     </CommentLayout>

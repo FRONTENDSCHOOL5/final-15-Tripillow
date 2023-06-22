@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Modal = ({ btn1, btn2, handleMorebutton, handleLogoutbutton, ...props }) => {
+const Modal = ({ btn1, btn2, handleMorebutton, handleLogoutbutton, bottom, ...props }) => {
+  console.log(props);
   return (
-    <ModalLayout>
+    <ModalLayout bottom={bottom}>
       <SlideBar></SlideBar>
       <button type='buton' {...props}>
         {btn1}
@@ -18,7 +19,7 @@ const Modal = ({ btn1, btn2, handleMorebutton, handleLogoutbutton, ...props }) =
 const ModalLayout = styled.div`
   position: fixed;
   left: 50%;
-  bottom: 74px;
+  bottom: ${(props) => (props.bottom ? props.bottom : '74px')};
   transform: translate(-50%);
   width: 389px;
   height: 138px;

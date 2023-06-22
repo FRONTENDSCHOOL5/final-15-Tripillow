@@ -6,6 +6,11 @@ import more from '../../Assets/icons/s-icon-more-vertical.svg';
 import Button from './Button';
 
 const User = (props) => {
+  const setIsPostModalOn = props.setIsPostModalOn;
+  const handleOnClick = () => {
+    setIsPostModalOn((prev) => !prev);
+  };
+
   return (
     <UserLayout margin={props.margin}>
       <Link to={`/profile/${props.accountname}`}>
@@ -16,7 +21,7 @@ const User = (props) => {
           <UserTitle>{props.username}</UserTitle>
           <UserContent>{props.content} </UserContent>
         </div>
-        {props.moreBtn && <MoreBtn />}
+        {props.moreBtn && <MoreBtn type='button' onClick={handleOnClick} />}
         {props.followers && (
           <Button width='56px' fontSize='var(--xs)' border='none' padding='5.75px'>
             팔로우

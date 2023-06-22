@@ -11,6 +11,7 @@ import isLogin from '../../../Recoil/isLogin/isLogin';
 import accountName from '../../../Recoil/accountName/accountName';
 import AlertModal from '../AlertModal';
 import ProductDeleteAPI from '../../../Utils/ProductDeleteAPI';
+import { useEffect } from 'react';
 
 const BasicHeader = (props) => {
   const navigate = useNavigate();
@@ -21,6 +22,10 @@ const BasicHeader = (props) => {
   const [name, setName] = useRecoilState(accountName);
   // const productDelete = ProductDeleteAPI(props.isDelete);
   const deleteId = props.deleteId;
+
+  useEffect(() => {
+    setModal(false);
+  }, []);
 
   const handleMorebutton = () => {
     setModal(!modal);
@@ -59,13 +64,14 @@ const BasicHeader = (props) => {
         />
         {props.children && <div>{props.children}</div>}
       </ContentLayout>
-     {props.empty? null : <MoreButton onClick={handleMorebutton} />}
+      {props.empty ? null : <MoreButton onClick={handleMorebutton} />}
       {modal && (
         <Modal
           btn1={props.btn1}
           btn2={props.btn2}
           handleMorebutton={handleMorebutton}
           handleLogoutbutton={handleLogoutbutton}
+          bottom={props.isPost && '60px'}
         />
       )}
       {alertModal && (
