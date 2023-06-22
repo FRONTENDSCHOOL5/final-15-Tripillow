@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { LayoutStyle } from '../Styles/Layout';
 import iconImg from '../Assets/icons/upload-file.svg';
@@ -12,6 +13,7 @@ import ImageUploadAPI from '../Utils/ImageUploadAPI';
 import { validateImageFile } from '../Utils/validate';
 
 export default function Post() {
+  const navigate = useNavigate();
   const textarea = useRef();
   const [inputValue, setInputValue] = useState('');
   const [imgURL, setImgURL] = useState([]);
@@ -45,6 +47,7 @@ export default function Post() {
       const res = await response.json();
       textarea.current.value = '';
       setImgURL([]);
+      navigate('/profile');
       return res;
     } catch (error) {
       console.error(error);
