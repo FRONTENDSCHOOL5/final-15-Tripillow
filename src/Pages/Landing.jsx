@@ -1,19 +1,21 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Layout } from '../Styles/Layout';
+import { LayoutStyle } from '../Styles/Layout';
 import styled from 'styled-components';
+import character from '../Assets/tripillowmain.svg';
+import LoginMethod from '../Components/LoginMethod';
 
 const Landing = () => {
   return (
-    <Layout>
-      <Test to='/login'>이메일로 로그인하기</Test>
-    </Layout>
+    <LandingLayout>
+      <img src={character} alt='캐릭터' />
+      <LoginMethod />
+    </LandingLayout>
   );
 };
 
-const Test = styled(Link)`
-  display: block;
-  margin-top: 300px;
+const LandingLayout = styled.div`
+  ${LayoutStyle}
+  background-color: var(--secondary);
   text-align: center;
 `;
 
