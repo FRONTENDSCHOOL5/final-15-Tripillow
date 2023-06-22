@@ -125,12 +125,13 @@ const Product = () => {
       </GridLayout>
       {showSpinner && products.length > 0 && <Spinner />}
       <div>
+        <CircleButton onClick={handleRandom} position='absolute' right='16px' bottom='150px'></CircleButton>
         <CircleButton
           onClick={() => {
             navigate('/addproduct');
           }}
-          position='fixed'
-          right='34%'
+          position='absolute'
+          right='16px'
           bottom='94px'
         ></CircleButton>
       </div>
