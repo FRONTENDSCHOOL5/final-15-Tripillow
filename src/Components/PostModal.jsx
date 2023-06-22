@@ -4,29 +4,30 @@ import styled from 'styled-components';
 import DeletePostAPI from '../Utils/DeletePostAPI';
 import ReportPostAPI from '../Utils/ReportPostAPI';
 
-const PostModal = ({ isMyPost, postId }) => {
-  const navigate = useNavigate();
-  const deletePost = DeletePostAPI(postId);
-  const reportPost = ReportPostAPI(postId);
+const PostModal = ({ isMyPost, postId, handleAlertModal }) => {
+  // const navigate = useNavigate();
+  // const deletePost = DeletePostAPI(postId);
+  // const reportPost = ReportPostAPI(postId);
 
-  const handleDelete = () => {
-    deletePost();
-    console.log('Delete');
-    navigate('/profile');
-  };
+  // const handleDelete = () => {
+  //   deletePost();
+  //   console.log('Delete');
+  //   navigate('/profile');
+  // };
+
   const handleModify = () => {
     console.log('Modify');
   };
-  const handleReport = () => {
-    reportPost();
-    console.log('Report');
-  };
+  // const handleReport = () => {
+  //   reportPost();
+  //   console.log('Report');
+  // };
   return (
     <ModalLayout>
       <SlideBar></SlideBar>
       {isMyPost ? (
         <>
-          <button type='button' onClick={handleDelete}>
+          <button type='button' onClick={handleAlertModal}>
             삭제
           </button>
           <button type='button' onClick={handleModify}>
@@ -35,7 +36,7 @@ const PostModal = ({ isMyPost, postId }) => {
         </>
       ) : (
         <>
-          <button type='button' onClick={handleReport}>
+          <button type='button' onClick={handleAlertModal}>
             신고하기
           </button>
         </>

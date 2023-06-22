@@ -14,9 +14,9 @@ import { useNavigate } from 'react-router-dom';
 import defaultImg from '../../Assets/defaultImg.png';
 import PostModal from '../PostModal';
 import { useEffect } from 'react';
-// import AlertModal from '../common/AlertModal';
-// import DeletePostAPI from '../Utils/DeletePostAPI';
-// import ReportPostAPI from '../Utils/ReportPostAPI';
+import PostAlertModal from '../common/PostAlertModal';
+import DeletePostAPI from '../../Utils/DeleteCommentAPI';
+import ReportPostAPI from '../../Utils/ReportPostAPI';
 
 const HomePostLayout = (props) => {
   const name = useRecoilValue(accountname);
@@ -30,6 +30,11 @@ const HomePostLayout = (props) => {
   const createdAt =
     post.createdAt.slice(0, 4) + '년 ' + post.createdAt.slice(5, 7) + '월 ' + post.createdAt.slice(8, 10) + '일 ';
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setIsModalOn(false);
+    setIsAlerModalOn(false);
+  }, []);
 
   const handlePostClick = () => {
     // Navigate to the post detail page with the postId
@@ -47,10 +52,34 @@ const HomePostLayout = (props) => {
     e.target.src = defaultImg;
   };
 
-  useEffect(() => {
-    setIsModalOn(false);
-    setIsAlerModalOn(false);
-  }, []);
+  const handleModal = () => {
+    setIsModalOn(!isModalOn);
+  };
+
+  const closeModal = () => {
+    setIsModalOn(!isModalOn);
+    setIsAlerModalOn(!isAlertModalOn);
+  };
+
+  const handleAlertModal = () => {
+    setIsAlerModalOn(!isAlertModalOn);
+  };
+
+  const deletePost = DeletePostAPI(post.id);
+  const reportPost = ReportPostAPI(post.id);
+
+  const handleDelete = () => {
+    deletePost();
+    console.log('Delete');
+    navigate('/profile');
+  };
+  // const handleModify = () => {
+  //   console.log('Modify');
+  // };
+  const handleReport = () => {
+    reportPost();
+    console.log('Report');
+  };
 
   return (
     <Layout>
@@ -88,8 +117,16 @@ const HomePostLayout = (props) => {
       </IconLayout>
       <Content onClick={handlePostClick}>{post.content}</Content>
       <span>{createdAt}</span>
-      {isModalOn && <PostModal isMyPost={isMyPost} postId={post.id}></PostModal>}
-      {/* {isAlertModalOn && <AlertModal></AlertModal>} */}
+      {isModalOn && <PostModal isMyPost={isMyPost} postId={post.id} handleAlertModal={handleAlertModal}></PostModal>}
+      {isAlertModalOn && (
+        <PostAlertModal
+          isMyPost={isMyPost}
+          setIsModalOn={setIsModalOn}
+          handleDelete={handleDelete}
+          closeModal={closeModal}
+          handleReport={handleReport}
+        ></PostAlertModal>
+      )}
     </Layout>
   );
 };
