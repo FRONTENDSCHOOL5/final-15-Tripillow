@@ -104,7 +104,7 @@ const Product = (props) => {
           <Spinner />
         </SpinnerLayout>
       )}
-      <BasicHeader>판매 중인 상품</BasicHeader>
+      <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='확인'>판매 중인 상품</BasicHeader>
       {/* <Toggle leftButton='외화' rightButton='여행용품' margin='25px 0' /> */}
       <TitleLayout>{usernames[random]}님의 판매상품</TitleLayout>
       <GridLayout>
@@ -124,15 +124,15 @@ const Product = (props) => {
         )}
       </GridLayout>
       <div>
+        <CircleButton onClick={handleRandom} position='absolute' right='16px' bottom='150px'></CircleButton>
         <CircleButton
           onClick={() => {
             navigate('/addproduct');
           }}
-          position='fixed'
-          right='34%'
+          position='absolute'
+          right='16px'
           bottom='94px'
         ></CircleButton>
-        <CircleButton onClick={handleRandom} position='fixed' right='34%' bottom='150px'></CircleButton>
       </div>
       <Navbar />
     </StyledLayout>
