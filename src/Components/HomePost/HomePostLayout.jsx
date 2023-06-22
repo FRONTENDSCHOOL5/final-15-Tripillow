@@ -52,10 +52,6 @@ const HomePostLayout = (props) => {
     e.target.src = defaultImg;
   };
 
-  // const handleModal = () => {
-  //   setIsModalOn(!isModalOn);
-  // };
-
   const closeModal = () => {
     setIsModalOn(false);
     setIsAlerModalOn(false);
@@ -71,7 +67,6 @@ const HomePostLayout = (props) => {
   const handleDelete = async () => {
     const response = await deletePost();
     console.log(response);
-    // console.log('post delete quest');
     closeModal();
     navigate('/profile');
   };
@@ -207,6 +202,7 @@ const Content = styled.p`
   font-size: var(--sm);
   margin-bottom: 13px;
   line-height: 1.4;
+  cursor: pointer;
 
   & + span {
     font-size: 10px;
