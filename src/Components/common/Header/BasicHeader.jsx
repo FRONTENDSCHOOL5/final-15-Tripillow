@@ -70,7 +70,7 @@ const BasicHeader = (props) => {
           btn2={props.btn2}
           handleMorebutton={handleMorebutton}
           handleLogoutbutton={handleLogoutbutton}
-          handleProductModify={handleModify}
+          handleProductModify={userId ? handleModify : null}
         />
       )}
       {alertModal && (
