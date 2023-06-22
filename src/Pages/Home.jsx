@@ -55,15 +55,6 @@ const Home = () => {
   };
 
   useEffect(() => {
-    if (!showSpinner) {
-      window.addEventListener('scroll', handleScroll);
-    }
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [showSpinner]);
-
-  useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);

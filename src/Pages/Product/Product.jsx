@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate, Link } from 'react-router-dom';
 
@@ -8,36 +7,36 @@ import Navbar from '../../Components/common/Navbar';
 import ProductItem from '../../Components/common/ProductItem';
 import { Layout } from '../../Styles/Layout';
 import CircleButton from '../../Components/common/CircleButton';
-import Toggle from '../../Components/common/Toggle';
 import accountName from '../../Recoil/accountName/accountName';
-import SkeletonItem from '../../Styles/SkeletonItem';
+// import Toggle from '../../Components/common/Toggle';
 
 import ProductDetailAPI from '../../Utils/ProductDetailAPI';
-import ProductListAPI from '../../Utils/ProductListAPI';
+
 import URL from '../../Utils/URL';
 import useFetch from '../../Hooks/useFetch';
 import userToken from '../../Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
 import Spinner from '../../Components/common/Spinner';
+import ProductItemSkeleton from '../../Components/common/Skeleton/ProductItemSkeleton';
 
-const Product = (props) => {
+const Product = () => {
   const navigate = useNavigate();
   const name = useRecoilValue(accountName);
-  const productData = ProductListAPI(name);
-  const productList = productData?.product;
-
   const token = useRecoilValue(userToken);
   let accountnames = [];
-  let usernames = [];
+
   const [products, setProducts] = useState([]);
-  const [random, setRandom] = useState(0);
+  const [count, setCount] = useState(0);
+  const [showSpinner, setShowSpinner] = useState(false);
+
+  const ShowSkeletonArr = new Array(8).fill(0);
 
   const {
     data: user,
     loading: userLoading,
     error: userError,
   } = useFetch({
-    url: `${URL}/profile/${name}/following`,
+    url: `${URL}/profile/${name}/following/`,
     req: {
       method: 'GET',
       headers: {
@@ -48,22 +47,19 @@ const Product = (props) => {
   });
 
   if (user) {
-    user.map((item) => accountnames.push(item.accountname));
-    user.map((item) => usernames.push(item.username));
+    user.map((item) => {
+      accountnames.push(item.accountname);
+    });
   }
 
   if (userError) console.log(userError);
-
-  const handleRandom = () => {
-    setRandom((prev) => (prev === accountnames.length - 1 ? 0 : prev + 1));
-  };
 
   const {
     data: product,
     loading: productLoading,
     error: productError,
   } = useFetch({
-    url: `${URL}/product/${accountnames[random]}`,
+    url: `${URL}/product/${accountnames[count]}`,
     req: {
       method: 'GET',
       headers: {
@@ -73,64 +69,68 @@ const Product = (props) => {
     },
   });
 
+  if (productError) console.log(productError);
+
   useEffect(() => {
     if (product) {
-      const productsArray = Object.values(product?.product || []);
-      setProducts(productsArray);
+      const productsArray = [...(product?.product || [])];
+      setProducts((prev) => [...prev, ...productsArray]);
     } else {
       setProducts([]);
     }
   }, [product]);
 
-  // Random 번호를 productItem에 갔다가 나와도 유지할 수 있도록
-  // 무한스크롤로 안되고 계속 사용시에는 Recoil에 저장할 예정
-  // ====
-  useEffect(() => {
-    const savedRandom = localStorage.getItem('random');
-    if (savedRandom) {
-      setRandom(Number(savedRandom));
+  const handleScroll = () => {
+    const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+    if (scrollTop + clientHeight >= scrollHeight && !showSpinner) {
+      setShowSpinner(true);
+      setTimeout(() => {
+        setCount((prev) => prev + 1);
+        setShowSpinner(false);
+        document.documentElement.scrollTop -= 55;
+      }, 1000);
     }
-  }, []);
+  };
 
   useEffect(() => {
-    localStorage.setItem('random', random);
-  }, [random]);
-  // ====
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
     <StyledLayout>
-      {userLoading && (
-        <SpinnerLayout>
-          <Spinner />
-        </SpinnerLayout>
-      )}
-      <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='확인'>판매 중인 상품</BasicHeader>
+      <BasicHeader>판매 중인 상품</BasicHeader>
       {/* <Toggle leftButton='외화' rightButton='여행용품' margin='25px 0' /> */}
-      <TitleLayout>{usernames[random]}님의 판매상품</TitleLayout>
       <GridLayout>
-        {productLoading && (
-          <SpinnerLayout>
-            <Spinner />
-          </SpinnerLayout>
+        {userLoading && (
+          <>
+            {ShowSkeletonArr.map(() => (
+              <GridItem>
+                <ProductItemSkeleton />
+              </GridItem>
+            ))}
+          </>
         )}
-        {products.length === 0 ? (
-          <p>등록된 상품이 없습니다.</p>
-        ) : (
-          products.map((product, i) => (
-            <Link to={`/product/detail/${product?.id}`} key={i}>
-              <ProductItem key={i} product={product} onClick={ProductDetailAPI} />
-            </Link>
-          ))
-        )}
+        {products
+          ? products.map((product, i) => (
+              <GridItem>
+                <Link to={`/product/detail/${product?.id}`} key={i}>
+                  <ProductItem key={i} product={product} onClick={() => ProductDetailAPI(product)} />
+                </Link>
+              </GridItem>
+            ))
+          : !productLoading && <p>등록된 상품이 없습니다.</p>}
       </GridLayout>
+      {showSpinner && products.length > 0 && <Spinner />}
       <div>
-        <CircleButton onClick={handleRandom} position='absolute' right='16px' bottom='150px'></CircleButton>
         <CircleButton
           onClick={() => {
             navigate('/addproduct');
           }}
-          position='absolute'
-          right='16px'
+          position='fixed'
+          right='34%'
           bottom='94px'
         ></CircleButton>
       </div>
@@ -140,14 +140,7 @@ const Product = (props) => {
 };
 
 const StyledLayout = styled(Layout)`
-  padding: 48px 12px 73px 16px;
-  position: relative;
-`;
-
-const TitleLayout = styled.h2`
-  display: inline-block;
-  margin: 20px 0;
-  font-size: var(--md);
+  padding: 63px 12px 88px 16px;
 `;
 
 const GridLayout = styled.div`
@@ -156,11 +149,7 @@ const GridLayout = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
 `;
 
-const SpinnerLayout = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+const GridItem = styled.div`
+  margin: 0 auto;
 `;
-
 export default Product;

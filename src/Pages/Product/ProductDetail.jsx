@@ -7,11 +7,13 @@ import ProductDetailAPI from '../../Utils/ProductDetailAPI';
 import Navbar from '../../Components/common/Navbar';
 import BasicHeader from '../../Components/common/Header/BasicHeader';
 import hearticon from '../../Assets/icons/icon-heart.svg';
+import heartfill from '../../Assets/icons/icon-heart-fill.svg';
 import Button from '../../Components/common/Button';
 import User from '../../Components/common/User';
 
 const AddProduct = (props) => {
   const [productId, setProductId] = useState('');
+  const [isClick, setIsClick] = useState(false);
   const params = useParams();
 
   const productDetail = ProductDetailAPI(params.id);
@@ -47,9 +49,18 @@ const AddProduct = (props) => {
           </ProductContent>
           <ProductContent size='var(--lg)'>{productDetail.link}</ProductContent>
           <ProductLayout>
-            <Icon src={hearticon} />
-            <ProudctPrice>{productDetail.price}원</ProudctPrice>
-            <Button>채팅하기</Button>
+            <div style={{ display: 'flex', marginLeft: '20px' }}>
+              <Icon
+                src={isClick === false ? hearticon : heartfill}
+                onClick={() => {
+                  setIsClick(!isClick);
+                }}
+              />
+              <ProudctPrice>{productDetail.price?.toLocaleString()}원</ProudctPrice>
+            </div>
+            <Button right='12px' position='absolute'>
+              채팅하기
+            </Button>
           </ProductLayout>
           <Navbar />
         </Layout>
@@ -97,7 +108,7 @@ const ProductContent = styled.p`
 // fixme: width 길이가 부모의 100% 안먹음.(fixed는 뷰포트 기준이기 때문에 width 100% 안됨)
 const ProductLayout = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  /* justify-content: space-around; */
   width: 390px;
   align-items: center;
   position: fixed;
@@ -109,7 +120,8 @@ const ProductLayout = styled.div`
 const Icon = styled.img`
   width: 20px;
   height: 20px;
-  margin-right: 11px;
+  margin-right: 8px;
+  /* margin-left: -35px; */
   cursor: pointer;
 `;
 
@@ -117,7 +129,7 @@ const Icon = styled.img`
 const ProudctPrice = styled.div`
   font-size: 18px;
   font-weight: 700;
-  margin-right: 82px;
+  /* margin-right: 82px; */
 `;
 
 const ButtonLayout = styled.button`

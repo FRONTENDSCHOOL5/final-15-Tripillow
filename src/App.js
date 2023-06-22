@@ -11,6 +11,7 @@ import Product from './Pages/Product/Product';
 import ProductDetail from './Pages/Product/ProductDetail';
 import AddProduct from './Pages/Product/AddProduct';
 import Chat from './Pages/Chat/Chat';
+import ChatDetail from './Pages/Chat/ChatDetail';
 import NotFound from './Pages/NotFound';
 import ProductModification from './Pages/Product/ProductModification';
 import Post from './Pages/Post';
@@ -32,7 +33,10 @@ function App() {
           <Route path='/profile' element={<Profile />} />
           <Route path='/profile/:accountname' element={<Profile />} />
           <Route path='/profile/edit' element={<UserProfileSetting />} />
-          <Route path='/followers' element={<Followers />} />
+          <Route path='/profile/followers' element={<Followers />} />
+          <Route path='/profile/:accountname/followers' element={<Followers />} />
+          <Route path='/profile/followings' element={<Followers />} />
+          <Route path='/profile/:accountname/followings' element={<Followers />} />
           <Route path='/post' element={<Post />} />
           <Route path='/post/:id' element={<PostDetail />} />
           <Route path='/product' element={<Product />} />
@@ -40,6 +44,7 @@ function App() {
           <Route path='/modifyproduct' element={<ProductModification />} />
           <Route path='/product/detail/:id' element={<ProductDetail />} />
           <Route path='/chat' element={<Chat />} />
+          <Route path='/chatdetail' element={<ChatDetail />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </RecoilRoot>

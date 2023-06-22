@@ -1,18 +1,63 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import User from '../Components/common/User';
+import FollowUser from '../Components/common/FollowUser';
 import BasicHeader from '../Components/common/Header/BasicHeader';
 import UserProfile from '../Components/Profile/UserProfile';
 import Navbar from '../Components/common/Navbar';
-export default function Followers() {
+import FollowingListAPI from '../Utils/FollowingListAPI';
+import FollowerListAPI from '../Utils/FollowerListAPI';
+
+const Followers = () => {
+  const location = useLocation();
+  const pathIdentifier = location.pathname.split('/');
+  const last = pathIdentifier.length - 1;
+  const accountname = location.state?.accountname;
+  const [current, setCurrent] = useState('followers');
+  const [followerData, setFollowerData] = useState([]);
+  const [followingData, setFollowingData] = useState([]);
+
+  const { fetchFollower } = FollowerListAPI({ accountname });
+  const { fetchFollowing } = FollowingListAPI({ accountname });
+
+  useEffect(() => {
+    if (pathIdentifier) {
+      setCurrent(pathIdentifier[last]);
+    }
+  }, [accountname]);
+
+  useEffect(() => {
+    const handleFetch = async () => {
+      if (pathIdentifier[last] === 'followers') {
+        const follower = await fetchFollower();
+        if (follower) setFollowerData(follower);
+      } else if (pathIdentifier[last] === 'followings') {
+        const following = await fetchFollowing();
+        if (following) setFollowingData(following);
+      }
+    };
+
+    handleFetch();
+  }, [accountname]);
+
   return (
     <Layout>
       <BasicHeader empty>Followers</BasicHeader>
-      <User followers margin='24px 0 0 0' />
-      <Navbar />
+      <main>
+        {pathIdentifier[last] === 'followers'
+          ? followerData.map((follower, index) => (
+              <FollowUser followers key={index} user={follower} margin='24px 0 0 0' />
+            ))
+          : followingData.map((following, index) => (
+              <FollowUser followers key={index} user={following} margin='24px 0 0 0' />
+            ))}
+      </main>
+      <footer>
+        <Navbar />
+      </footer>
     </Layout>
   );
-}
+};
 
 const Layout = styled.div`
   max-width: 390px;
@@ -22,3 +67,5 @@ const Layout = styled.div`
   border: 0.5px solid var(--light-gray);
   box-sizing: border-box;
 `;
+
+export default Followers;

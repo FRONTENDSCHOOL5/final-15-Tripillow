@@ -15,7 +15,6 @@ const AddProduct = (props) => {
   const [productName, setproductName] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
-  console.log(description);
   const [imageLink, setImageLink] = useState('');
   const token = useRecoilValue(userToken);
   const navigate = useNavigate();
@@ -55,6 +54,15 @@ const AddProduct = (props) => {
     // console.log(response)
   };
 
+  const handleMinMax = (e) => {
+   let price = parseInt(e.target.value);
+    const maxPrice = 10000000;
+    if (price > maxPrice) {
+      setPrice(maxPrice);
+    } else {
+      setPrice(price);
+    }
+  };
   return (
     <Layout>
       <UploadHeader onClick={handleSubmit} disabled={!productName || !price || !description}>
@@ -72,16 +80,21 @@ const AddProduct = (props) => {
         width='100%'
         value={productName}
         onChange={(e) => setproductName(e.target.value)}
+        maxLength='16'
         // htmlFor={forId}
         label='상품명'
-        placeholder='2~15자 이내여야 합니다.'
+        placeholder='1~15자 이내여야 합니다.'
         mb='16px'
       />
       <SecondInput
         value={price}
-        onChange={(e) => setPrice(e.target.value)}
+        // onChange={(e) => setPrice(e.target.value);
+        // handleMinMax}
+        onChange={handleMinMax}
         label='가격'
-        placeholder='숫자만 입력 가능합니다.'
+        min='1'
+        max='10000000'
+        placeholder='1원부터 1천만원 사이의 값만 입력 가능합니다.'
         type='number'
         mb='16px'
       />

@@ -30,6 +30,9 @@ const Profile = () => {
   const [userInfo, setUserInfo] = useState({});
   const [postData, setPostData] = useState([]);
   const [productList, setProductList] = useState([]);
+  const [followCount, setFollowCount] = useState(0);
+  const [followerURL, setFollowerURL] = useState('');
+  const [followingURL, setFollowingURL] = useState('');
 
   const { getUserData } = MyInfoAPI({ setMyInfo });
   const { getUserInfo } = UserInfoAPI({ setUserInfo, userAccountname });
@@ -44,14 +47,24 @@ const Profile = () => {
 
   useEffect(() => {
     const handleFetch = async () => {
-      await getUserData();
       await getUserInfo();
+      await getUserData();
       await getPostData();
       await getProductList();
     };
 
     handleFetch();
-  }, [userAccountname]);
+  }, [userAccountname, followCount]);
+
+  useEffect(() => {
+    if (userAccountname === myAccount || !userAccountname) {
+      setFollowerURL('/profile/followers');
+      setFollowingURL('/profile/followings');
+    } else if (userAccountname !== myAccount) {
+      setFollowerURL(`/profile/${userAccountname}/followers`);
+      setFollowingURL(`/profile/${userAccountname}/followings`);
+    }
+  }, []);
 
   const handleView = () => {
     setView(!view);
@@ -61,7 +74,13 @@ const Profile = () => {
     <Layout>
       <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='로그아웃' />
       <main>
-        <UserProfile user={userAccountname ? userInfo : myInfo} />
+        <UserProfile
+          user={userAccountname ? userInfo : myInfo}
+          followCount={followCount}
+          setFollowCount={setFollowCount}
+          followerURL={followerURL}
+          followingURL={followingURL}
+        />
         <UserProductLayout>
           <h2>판매 중인 상품</h2>
           <ProductListLayout>
