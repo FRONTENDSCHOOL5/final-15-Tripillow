@@ -1,42 +1,84 @@
-import React from 'react';
+import React, { useState } from 'react';
 import profileImg from '../Assets/profile-sm.png';
 import styled from 'styled-components';
 import more from '../Assets/icons/icon-more-vertical.svg';
+import CommentModal from './CommentModal';
+import { useEffect } from 'react';
+import PostAlertModal from './common/PostAlertModal';
+import accountname from '../Recoil/accountName/accountName';
+import { useRecoilValue } from 'recoil';
+import DeleteCommentAPI from '../Utils/DeleteCommentAPI';
+import ReportCommentAPI from '../Utils/ReportCommentAPI';
 
-// "comment": [
-// 	{
-// 			"id": String,
-// 			"content": String,
-// 			"createdAt": "2021-12-20T06:10:26.803Z",
-// 			"author": {
-// 					"_id": "작성자 id",
-// 					"username": "1",
-// 					"accountname": "1",
-// 					"intro": "1",
-// 					"image": "1",
-// 					"following": [],
-// 					"follower": [],
-// 					"followerCount": 0,
-// 					"followingCount": 0
-// 			}
-// 	}
-// ]
+export default function Comment({ commentInfo, postId, idx, setNewComment }) {
+  const name = useRecoilValue(accountname);
+  const [isModalOn, setIsModalOn] = useState(false);
+  const [isAlertModalOn, setIsAlertModalOn] = useState(false);
+  const createdAt =
+    commentInfo.createdAt.slice(0, 4) +
+    '년 ' +
+    commentInfo.createdAt.slice(5, 7) +
+    '월 ' +
+    commentInfo.createdAt.slice(8, 10) +
+    '일 ';
+  const isMine = name === commentInfo.author.accountname;
+  console.log(commentInfo);
+  const deleteComment = DeleteCommentAPI(postId, commentInfo.id);
+  const reportComment = ReportCommentAPI(postId, commentInfo.id);
 
-export default function Comment(props) {
+  const handleModal = () => {
+    setIsModalOn(!isModalOn);
+    // console.log('clicked');
+  };
+
+  const handleDelete = async () => {
+    const response = await deleteComment();
+    console.log(response);
+    setNewComment(true);
+  };
+
+  const handleReport = async () => {
+    const response = await reportComment();
+    console.log(response);
+  };
+
+  const closeModal = () => {
+    setIsModalOn(false);
+    setIsAlertModalOn(false);
+  };
+
+  useEffect(() => {
+    setIsModalOn(false);
+    setIsAlertModalOn(false);
+  }, []);
+
   return (
-    <Ldiv>
+    <CommentLayout>
       <Profile>
-        <ProfileImg src={props.image || profileImg} alt='프로필 이미지'></ProfileImg>
-        <UserName>{props.author.username || '더미유저'}</UserName>
-        <Time>5분전</Time>
-        <MoreBtn></MoreBtn>
+        <ProfileImg src={commentInfo.image || profileImg} alt='프로필 이미지'></ProfileImg>
+        <UserName>{commentInfo.author.username || '더미유저'}</UserName>
+        <Time>{createdAt}</Time>
+        <MoreBtn onClick={handleModal}></MoreBtn>
       </Profile>
-      <Text>{props.content || '더미코멘트'}</Text>
-    </Ldiv>
+      <Text>{commentInfo.content || '더미코멘트'}</Text>
+      {isModalOn && (
+        <CommentModal postId={postId} commentInfo={commentInfo} setIsAlertModalOn={setIsAlertModalOn}></CommentModal>
+      )}
+      {isAlertModalOn && (
+        <PostAlertModal
+          isMine={isMine}
+          isComment={true}
+          setIsModalOn={setIsModalOn}
+          handleDelete={handleDelete}
+          handleReport={handleReport}
+          closeModal={closeModal}
+        ></PostAlertModal>
+      )}
+    </CommentLayout>
   );
 }
 
-const Ldiv = styled.div`
+const CommentLayout = styled.div`
   margin: 0 12px 16px 16px;
 `;
 

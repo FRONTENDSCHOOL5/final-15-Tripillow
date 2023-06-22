@@ -1,17 +1,30 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Modal = ({ btn1, btn2, handleMorebutton, handleLogoutbutton, bottom, ...props }) => {
-  console.log(props);
+const PostModal = ({ isMine, postId, handleAlertModal }) => {
+  const handleModify = () => {
+    console.log('Modify');
+  };
+
   return (
-    <ModalLayout bottom={bottom}>
+    <ModalLayout>
       <SlideBar></SlideBar>
-      <button type='buton' {...props} onClick={props.handleProductModify}>
-        {btn1}
-      </button>
-      <button type='button' onClick={handleLogoutbutton} {...props}>
-        {btn2}
-      </button>
+      {isMine ? (
+        <>
+          <button type='button' onClick={handleAlertModal}>
+            삭제
+          </button>
+          <button type='button' onClick={handleModify}>
+            수정
+          </button>
+        </>
+      ) : (
+        <>
+          <button type='button' onClick={handleAlertModal}>
+            신고하기
+          </button>
+        </>
+      )}
     </ModalLayout>
   );
 };
@@ -19,15 +32,16 @@ const Modal = ({ btn1, btn2, handleMorebutton, handleLogoutbutton, bottom, ...pr
 const ModalLayout = styled.div`
   position: fixed;
   left: 50%;
-  bottom: ${(props) => (props.bottom ? props.bottom : '74px')};
+  bottom: 84px;
   transform: translate(-50%);
   width: 389px;
-  height: 138px;
+  height: ${(props) => (props.isMine ? '138px' : '92px')};
   padding: 16px 0;
   background-color: #fff;
   box-shadow: 0px -2px 2px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   border-radius: 10px 10px 0 0;
+  z-index: 9999;
 
   button {
     display: block;
@@ -36,6 +50,7 @@ const ModalLayout = styled.div`
     font-size: var(--sm);
     padding: 14px 26px;
     box-sizing: border-box;
+    z-index: 99999;
 
     :hover {
       background-color: rgba(0, 0, 0, 0.03);
@@ -51,4 +66,4 @@ const SlideBar = styled.div`
   background-color: var(--light-gray);
 `;
 
-export default Modal;
+export default PostModal;
