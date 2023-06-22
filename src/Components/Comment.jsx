@@ -10,7 +10,7 @@ import { useRecoilValue } from 'recoil';
 import DeleteCommentAPI from '../Utils/DeleteCommentAPI';
 import ReportCommentAPI from '../Utils/ReportCommentAPI';
 
-export default function Comment({ commentInfo, postId, idx, setNewComment }) {
+const Comment = ({ commentInfo, postId, idx, setNewComment }) => {
   const name = useRecoilValue(accountname);
   const [isModalOn, setIsModalOn] = useState(false);
   const [isAlertModalOn, setIsAlertModalOn] = useState(false);
@@ -22,7 +22,6 @@ export default function Comment({ commentInfo, postId, idx, setNewComment }) {
     commentInfo.createdAt.slice(8, 10) +
     '일 ';
   const isMine = name === commentInfo.author.accountname;
-  console.log(commentInfo);
   const deleteComment = DeleteCommentAPI(postId, commentInfo.id);
   const reportComment = ReportCommentAPI(postId, commentInfo.id);
 
@@ -31,20 +30,22 @@ export default function Comment({ commentInfo, postId, idx, setNewComment }) {
     // console.log('clicked');
   };
 
+  const closeModal = () => {
+    setIsModalOn(false);
+    setIsAlertModalOn(false);
+  };
+
   const handleDelete = async () => {
     const response = await deleteComment();
     console.log(response);
+    closeModal();
     setNewComment(true);
   };
 
   const handleReport = async () => {
     const response = await reportComment();
     console.log(response);
-  };
-
-  const closeModal = () => {
-    setIsModalOn(false);
-    setIsAlertModalOn(false);
+    closeModal();
   };
 
   useEffect(() => {
@@ -76,7 +77,7 @@ export default function Comment({ commentInfo, postId, idx, setNewComment }) {
       )}
     </CommentLayout>
   );
-}
+};
 
 const CommentLayout = styled.div`
   margin: 0 12px 16px 16px;
@@ -118,3 +119,5 @@ const Text = styled.p`
   box-shadow: solid 1px 0 0;
   font-size: var(--sm);
 `;
+
+export default Comment;
