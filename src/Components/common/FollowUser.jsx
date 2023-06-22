@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import profileSm from '../../Assets/profile-sm.png';
 import Button from './Button';
 
-const User = (props) => {
+const FollowUser = (props) => {
   const url = props.user?.image.split('/') || null;
 
   return (
@@ -66,4 +66,4 @@ const UserContentsLayout = styled.div`
   width: 100%;
 `;
 
-export default User;
+export default FollowUser;
