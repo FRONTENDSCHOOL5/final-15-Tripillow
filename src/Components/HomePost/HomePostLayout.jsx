@@ -15,7 +15,7 @@ import defaultImg from '../../Assets/defaultImg.png';
 import PostModal from '../PostModal';
 import { useEffect } from 'react';
 import PostAlertModal from '../common/PostAlertModal';
-import DeletePostAPI from '../../Utils/DeleteCommentAPI';
+import DeletePostAPI from '../../Utils/DeletePostAPI';
 import ReportPostAPI from '../../Utils/ReportPostAPI';
 
 const HomePostLayout = (props) => {
@@ -24,7 +24,7 @@ const HomePostLayout = (props) => {
   const [isModalOn, setIsModalOn] = useState(false);
   const [isAlertModalOn, setIsAlerModalOn] = useState(false);
   const post = props.post;
-  const isMyPost = post.author.accountname === name;
+  const isMine = post.author.accountname === name;
   const userImg = post.author.image;
   const pictures = post.image.split(', ');
   const createdAt =
@@ -52,13 +52,13 @@ const HomePostLayout = (props) => {
     e.target.src = defaultImg;
   };
 
-  const handleModal = () => {
-    setIsModalOn(!isModalOn);
-  };
+  // const handleModal = () => {
+  //   setIsModalOn(!isModalOn);
+  // };
 
   const closeModal = () => {
-    setIsModalOn(!isModalOn);
-    setIsAlerModalOn(!isAlertModalOn);
+    setIsModalOn(false);
+    setIsAlerModalOn(false);
   };
 
   const handleAlertModal = () => {
@@ -68,17 +68,18 @@ const HomePostLayout = (props) => {
   const deletePost = DeletePostAPI(post.id);
   const reportPost = ReportPostAPI(post.id);
 
-  const handleDelete = () => {
-    deletePost();
-    console.log('Delete');
+  const handleDelete = async () => {
+    const response = await deletePost();
+    console.log(response);
+    // console.log('post delete quest');
+    closeModal();
     navigate('/profile');
   };
-  // const handleModify = () => {
-  //   console.log('Modify');
-  // };
-  const handleReport = () => {
-    reportPost();
-    console.log('Report');
+
+  const handleReport = async () => {
+    const response = await reportPost();
+    closeModal();
+    console.log(response);
   };
 
   return (
@@ -117,14 +118,14 @@ const HomePostLayout = (props) => {
       </IconLayout>
       <Content onClick={handlePostClick}>{post.content}</Content>
       <span>{createdAt}</span>
-      {isModalOn && <PostModal isMyPost={isMyPost} postId={post.id} handleAlertModal={handleAlertModal}></PostModal>}
+      {isModalOn && <PostModal isMine={isMine} postId={post.id} handleAlertModal={handleAlertModal}></PostModal>}
       {isAlertModalOn && (
         <PostAlertModal
-          isMyPost={isMyPost}
+          isMine={isMine}
           setIsModalOn={setIsModalOn}
           handleDelete={handleDelete}
-          closeModal={closeModal}
           handleReport={handleReport}
+          closeModal={closeModal}
         ></PostAlertModal>
       )}
     </Layout>

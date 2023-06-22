@@ -1,15 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const PostAlertModal = ({ isMyPost, setIsModalOn, handleDelete, closeModal, handleReport }) => {
+const PostAlertModal = ({ isMine, isComment, setIsModalOn, handleDelete, closeModal, handleReport }) => {
+  const name = isComment ? '댓글' : '게시글';
   setIsModalOn(false);
   return (
     <ModalBackground>
       <ModalLayout>
-        <ModalTxt>{isMyPost ? '게시글을 삭제할까요?' : '게시글을 신고할까요?'}</ModalTxt>
+        <ModalTxt>{isMine ? `${name}을 삭제할까요?` : `${name}을 신고할까요?`}</ModalTxt>
         <ModalButtonLayout>
           <ModalButton onClick={closeModal}>취소</ModalButton>
-          {isMyPost ? (
+          {isMine ? (
             <ModalButton onClick={handleDelete} color='var(--primary)'>
               삭제
             </ModalButton>

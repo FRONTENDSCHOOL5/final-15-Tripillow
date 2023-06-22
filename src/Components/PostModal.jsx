@@ -1,31 +1,15 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import DeletePostAPI from '../Utils/DeletePostAPI';
-import ReportPostAPI from '../Utils/ReportPostAPI';
 
-const PostModal = ({ isMyPost, postId, handleAlertModal }) => {
-  // const navigate = useNavigate();
-  // const deletePost = DeletePostAPI(postId);
-  // const reportPost = ReportPostAPI(postId);
-
-  // const handleDelete = () => {
-  //   deletePost();
-  //   console.log('Delete');
-  //   navigate('/profile');
-  // };
-
+const PostModal = ({ isMine, postId, handleAlertModal }) => {
   const handleModify = () => {
     console.log('Modify');
   };
-  // const handleReport = () => {
-  //   reportPost();
-  //   console.log('Report');
-  // };
+
   return (
     <ModalLayout>
       <SlideBar></SlideBar>
-      {isMyPost ? (
+      {isMine ? (
         <>
           <button type='button' onClick={handleAlertModal}>
             삭제
@@ -48,10 +32,10 @@ const PostModal = ({ isMyPost, postId, handleAlertModal }) => {
 const ModalLayout = styled.div`
   position: fixed;
   left: 50%;
-  bottom: 60px;
+  bottom: 84px;
   transform: translate(-50%);
   width: 389px;
-  height: 138px;
+  height: ${(props) => (props.isMine ? '138px' : '92px')};
   padding: 16px 0;
   background-color: #fff;
   box-shadow: 0px -2px 2px rgba(0, 0, 0, 0.1);
@@ -66,6 +50,7 @@ const ModalLayout = styled.div`
     font-size: var(--sm);
     padding: 14px 26px;
     box-sizing: border-box;
+    z-index: 99999;
 
     :hover {
       background-color: rgba(0, 0, 0, 0.03);

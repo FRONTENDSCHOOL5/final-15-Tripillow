@@ -1,37 +1,25 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import DeleteCommentAPI from '../Utils/DeleteCommentAPI';
-import ReportCommentAPI from '../Utils/ReportCommentAPI';
 import accountname from '../Recoil/accountName/accountName';
 import { useRecoilValue } from 'recoil';
 
-const CommentModal = ({ postId, commentInfo }) => {
+const CommentModal = ({ postId, commentInfo, setIsAlertModalOn }) => {
   const accName = useRecoilValue(accountname);
-  const isMyComment = commentInfo.author.accountname === accName;
-  const deleteComment = DeleteCommentAPI(postId, commentInfo.id);
-  const reportComment = ReportCommentAPI(postId, commentInfo.id);
-  // console.log(postId, commentInfo.id);
+  const isMine = commentInfo.author.accountname === accName;
 
-  const handleDelete = async () => {
-    // setCommentModalClicked('D');
-    deleteComment();
-    console.log('Delete');
+  const handleAlertModal = () => {
+    setIsAlertModalOn(true);
   };
 
-  const handleReport = async () => {
-    // setCommentModalClicked('R');
-    reportComment();
-    console.log('Report');
-  };
   return (
     <ModalLayout>
       <SlideBar></SlideBar>
-      {isMyComment ? (
-        <button type='button' onClick={handleDelete}>
+      {isMine ? (
+        <button type='button' onClick={handleAlertModal}>
           삭제
         </button>
       ) : (
-        <button type='button' onClick={handleReport}>
+        <button type='button' onClick={handleAlertModal}>
           신고하기
         </button>
       )}

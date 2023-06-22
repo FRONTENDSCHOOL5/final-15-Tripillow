@@ -4,9 +4,16 @@ import styled from 'styled-components';
 import more from '../Assets/icons/icon-more-vertical.svg';
 import CommentModal from './CommentModal';
 import { useEffect } from 'react';
+import PostAlertModal from './common/PostAlertModal';
+import accountname from '../Recoil/accountName/accountName';
+import { useRecoilValue } from 'recoil';
+import DeleteCommentAPI from '../Utils/DeleteCommentAPI';
+import ReportCommentAPI from '../Utils/ReportCommentAPI';
 
-export default function Comment({ commentInfo, postId, idx }) {
-  const [isClicked, setIsClicked] = useState(false);
+export default function Comment({ commentInfo, postId, idx, setNewComment }) {
+  const name = useRecoilValue(accountname);
+  const [isModalOn, setIsModalOn] = useState(false);
+  const [isAlertModalOn, setIsAlertModalOn] = useState(false);
   const createdAt =
     commentInfo.createdAt.slice(0, 4) +
     '년 ' +
@@ -14,14 +21,35 @@ export default function Comment({ commentInfo, postId, idx }) {
     '월 ' +
     commentInfo.createdAt.slice(8, 10) +
     '일 ';
+  const isMine = name === commentInfo.author.accountname;
+  console.log(commentInfo);
+  const deleteComment = DeleteCommentAPI(postId, commentInfo.id);
+  const reportComment = ReportCommentAPI(postId, commentInfo.id);
 
-  const handleClick = () => {
-    setIsClicked(!isClicked);
+  const handleModal = () => {
+    setIsModalOn(!isModalOn);
     // console.log('clicked');
   };
 
+  const handleDelete = async () => {
+    const response = await deleteComment();
+    console.log(response);
+    setNewComment(true);
+  };
+
+  const handleReport = async () => {
+    const response = await reportComment();
+    console.log(response);
+  };
+
+  const closeModal = () => {
+    setIsModalOn(false);
+    setIsAlertModalOn(false);
+  };
+
   useEffect(() => {
-    setIsClicked(false);
+    setIsModalOn(false);
+    setIsAlertModalOn(false);
   }, []);
 
   return (
@@ -30,10 +58,22 @@ export default function Comment({ commentInfo, postId, idx }) {
         <ProfileImg src={commentInfo.image || profileImg} alt='프로필 이미지'></ProfileImg>
         <UserName>{commentInfo.author.username || '더미유저'}</UserName>
         <Time>{createdAt}</Time>
-        <MoreBtn onClick={handleClick}></MoreBtn>
+        <MoreBtn onClick={handleModal}></MoreBtn>
       </Profile>
       <Text>{commentInfo.content || '더미코멘트'}</Text>
-      {isClicked && <CommentModal postId={postId} commentInfo={commentInfo}></CommentModal>}
+      {isModalOn && (
+        <CommentModal postId={postId} commentInfo={commentInfo} setIsAlertModalOn={setIsAlertModalOn}></CommentModal>
+      )}
+      {isAlertModalOn && (
+        <PostAlertModal
+          isMine={isMine}
+          isComment={true}
+          setIsModalOn={setIsModalOn}
+          handleDelete={handleDelete}
+          handleReport={handleReport}
+          closeModal={closeModal}
+        ></PostAlertModal>
+      )}
     </CommentLayout>
   );
 }
