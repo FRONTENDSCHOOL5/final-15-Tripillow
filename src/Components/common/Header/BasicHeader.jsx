@@ -76,7 +76,7 @@ const BasicHeader = (props) => {
           handleMorebutton={handleMorebutton}
           handleLogoutbutton={handleLogoutbutton}
           bottom={props.isPost && '60px'}
-          handleProductModify={handleModify}
+          handleProductModify={userId ? handleModify : null}
         />
       )}
       {alertModal && (
