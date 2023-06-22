@@ -6,10 +6,22 @@ import more from '../../Assets/icons/s-icon-more-vertical.svg';
 import Button from './Button';
 
 const User = (props) => {
+  const url = props.userImg?.split('/') || 'null';
   return (
     <UserLayout margin={props.margin}>
       <Link to={`/profile/${props.accountname}`}>
-        <UserImg src={props.userImg || profileSm} alt={props.username} />
+        <UserImgLayout>
+          <UserImg
+            src={
+              url[url.length - 1] === 'null' ||
+              url[url.length - 1] === 'undefined' ||
+              (url[0] !== 'data:image' && url[0] !== 'https:')
+                ? profileSm
+                : props.userImg
+            }
+            alt={props.username}
+          />
+        </UserImgLayout>
       </Link>
       <UserContentsLayout>
         <div>
@@ -35,11 +47,17 @@ const UserLayout = styled.div`
   cursor: pointer;
   margin: ${(props) => props.margin};
 `;
-
-const UserImg = styled.img`
+const UserImgLayout = styled.div`
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  overflow: hidden;
+`;
+
+const UserImg = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const UserTitle = styled.h3`
