@@ -6,9 +6,9 @@ import more from '../../Assets/icons/s-icon-more-vertical.svg';
 import Button from './Button';
 
 const User = (props) => {
-  const setIsPostModalOn = props.setIsPostModalOn;
+  const setIsModalOn = props.setIsModalOn;
   const handleOnClick = () => {
-    setIsPostModalOn((prev) => !prev);
+    setIsModalOn((prev) => !prev);
   };
 
   return (

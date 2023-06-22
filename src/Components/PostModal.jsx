@@ -15,7 +15,6 @@ const PostModal = ({ isMyPost, postId }) => {
     navigate('/profile');
   };
   const handleModify = () => {
-		
     console.log('Modify');
   };
   const handleReport = () => {
@@ -57,6 +56,7 @@ const ModalLayout = styled.div`
   box-shadow: 0px -2px 2px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   border-radius: 10px 10px 0 0;
+  z-index: 9999;
 
   button {
     display: block;

@@ -2,7 +2,7 @@ import userToken from '../Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
 import URL from './URL';
 
-const ReportPostAPI = (postId, commentId) => {
+const ReportPostAPI = (postId) => {
   const token = useRecoilValue(userToken);
 
   const reportPost = async () => {

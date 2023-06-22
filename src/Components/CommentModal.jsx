@@ -1,41 +1,39 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-// import DeleteCommentAPI from '../Utils/DeleteCommentAPI';
-// import ReportCommentAPI from '../Utils/ReportCommentAPI';
+import DeleteCommentAPI from '../Utils/DeleteCommentAPI';
+import ReportCommentAPI from '../Utils/ReportCommentAPI';
+import accountname from '../Recoil/accountName/accountName';
+import { useRecoilValue } from 'recoil';
 
-const CommentModal = ({ isMyComment, postId, comment, setCommentModalClicked }) => {
-  console.log(postId, comment.id);
+const CommentModal = ({ postId, commentInfo }) => {
+  const accName = useRecoilValue(accountname);
+  const isMyComment = commentInfo.author.accountname === accName;
+  const deleteComment = DeleteCommentAPI(postId, commentInfo.id);
+  const reportComment = ReportCommentAPI(postId, commentInfo.id);
+  // console.log(postId, commentInfo.id);
 
   const handleDelete = async () => {
-    setCommentModalClicked('D');
+    // setCommentModalClicked('D');
+    deleteComment();
     console.log('Delete');
   };
-  const handleModify = () => {
-    setCommentModalClicked('M');
-    console.log('Modify');
-  };
+
   const handleReport = async () => {
-    setCommentModalClicked('R');
+    // setCommentModalClicked('R');
+    reportComment();
     console.log('Report');
   };
   return (
     <ModalLayout>
       <SlideBar></SlideBar>
       {isMyComment ? (
-        <>
-          <button type='button' onClick={handleDelete}>
-            삭제
-          </button>
-          <button type='button' onClick={handleModify}>
-            수정
-          </button>
-        </>
+        <button type='button' onClick={handleDelete}>
+          삭제
+        </button>
       ) : (
-        <>
-          <button type='button' onClick={handleReport}>
-            신고하기
-          </button>
-        </>
+        <button type='button' onClick={handleReport}>
+          신고하기
+        </button>
       )}
     </ModalLayout>
   );
@@ -47,12 +45,13 @@ const ModalLayout = styled.div`
   bottom: 60px;
   transform: translate(-50%);
   width: 389px;
-  height: 138px;
+  height: 92px;
   padding: 16px 0;
   background-color: #fff;
   box-shadow: 0px -2px 2px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   border-radius: 10px 10px 0 0;
+  z-index: 9999;
 
   button {
     display: block;

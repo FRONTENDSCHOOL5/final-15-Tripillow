@@ -2,53 +2,38 @@ import React, { useState } from 'react';
 import profileImg from '../Assets/profile-sm.png';
 import styled from 'styled-components';
 import more from '../Assets/icons/icon-more-vertical.svg';
-import Modal from './common/Modal';
+import CommentModal from './CommentModal';
+import { useEffect } from 'react';
 
-// "comment": [
-// 	{
-// 			"id": String,
-// 			"content": String,
-// 			"createdAt": "2021-12-20T06:10:26.803Z",
-// 			"author": {
-// 					"_id": "작성자 id",
-// 					"username": "1",
-// 					"accountname": "1",
-// 					"intro": "1",
-// 					"image": "1",
-// 					"following": [],
-// 					"follower": [],
-// 					"followerCount": 0,
-// 					"followingCount": 0
-// 			}
-// 	}
-// ]
-
-export default function Comment({ comment, setNthCommentModal, id }) {
-  // const [isClicked, setIsClicked] = useState(false);
+export default function Comment({ commentInfo, postId, idx }) {
+  const [isClicked, setIsClicked] = useState(false);
   const createdAt =
-    comment.createdAt.slice(0, 4) +
+    commentInfo.createdAt.slice(0, 4) +
     '년 ' +
-    comment.createdAt.slice(5, 7) +
+    commentInfo.createdAt.slice(5, 7) +
     '월 ' +
-    comment.createdAt.slice(8, 10) +
+    commentInfo.createdAt.slice(8, 10) +
     '일 ';
 
   const handleClick = () => {
-    // setIsClicked(!isClicked);
+    setIsClicked(!isClicked);
     // console.log('clicked');
-
-    setNthCommentModal((prev) => (prev !== null ? null : id));
   };
+
+  useEffect(() => {
+    setIsClicked(false);
+  }, []);
 
   return (
     <CommentLayout>
       <Profile>
-        <ProfileImg src={comment.image || profileImg} alt='프로필 이미지'></ProfileImg>
-        <UserName>{comment.author.username || '더미유저'}</UserName>
+        <ProfileImg src={commentInfo.image || profileImg} alt='프로필 이미지'></ProfileImg>
+        <UserName>{commentInfo.author.username || '더미유저'}</UserName>
         <Time>{createdAt}</Time>
         <MoreBtn onClick={handleClick}></MoreBtn>
       </Profile>
-      <Text>{comment.content || '더미코멘트'}</Text>
+      <Text>{commentInfo.content || '더미코멘트'}</Text>
+      {isClicked && <CommentModal postId={postId} commentInfo={commentInfo}></CommentModal>}
     </CommentLayout>
   );
 }

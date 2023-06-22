@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 // import UserName from '../Components/common/UserName';
+import accountname from '../../Recoil/accountName/accountName';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import URL from '../../Utils/URL';
 import User from '../common/User';
@@ -10,10 +12,19 @@ import iconHeart from '../../Assets/icons/icon-heart.svg';
 import iconChat from '../../Assets/icons/icon-message-circle-1.svg';
 import { useNavigate } from 'react-router-dom';
 import defaultImg from '../../Assets/defaultImg.png';
+import PostModal from '../PostModal';
+import { useEffect } from 'react';
+// import AlertModal from '../common/AlertModal';
+// import DeletePostAPI from '../Utils/DeletePostAPI';
+// import ReportPostAPI from '../Utils/ReportPostAPI';
 
 const HomePostLayout = (props) => {
+  const name = useRecoilValue(accountname);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isModalOn, setIsModalOn] = useState(false);
+  const [isAlertModalOn, setIsAlerModalOn] = useState(false);
   const post = props.post;
+  const isMyPost = post.author.accountname === name;
   const userImg = post.author.image;
   const pictures = post.image.split(', ');
   const createdAt =
@@ -36,6 +47,11 @@ const HomePostLayout = (props) => {
     e.target.src = defaultImg;
   };
 
+  useEffect(() => {
+    setIsModalOn(false);
+    setIsAlerModalOn(false);
+  }, []);
+
   return (
     <Layout>
       <User
@@ -44,7 +60,8 @@ const HomePostLayout = (props) => {
         username={post.author.username}
         content={'@' + post.author.accountname}
         moreBtn
-        setIsPostModalOn={props.setIsPostModalOn ? props.setIsPostModalOn : null}
+        setIsModalOn={setIsModalOn}
+        productId={post.id}
       >
         애월읍 위니브
       </User>
@@ -71,6 +88,8 @@ const HomePostLayout = (props) => {
       </IconLayout>
       <Content onClick={handlePostClick}>{post.content}</Content>
       <span>{createdAt}</span>
+      {isModalOn && <PostModal isMyPost={isMyPost} postId={post.id}></PostModal>}
+      {/* {isAlertModalOn && <AlertModal></AlertModal>} */}
     </Layout>
   );
 };
