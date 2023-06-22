@@ -15,6 +15,10 @@ const Landing = () => {
 
 const LandingLayout = styled.div`
   ${LayoutStyle}
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 300px;
   background-color: var(--secondary);
   text-align: center;
 `;
