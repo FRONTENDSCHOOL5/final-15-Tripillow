@@ -11,6 +11,7 @@ import Product from './Pages/Product/Product';
 import ProductDetail from './Pages/Product/ProductDetail';
 import AddProduct from './Pages/Product/AddProduct';
 import Chat from './Pages/Chat/Chat';
+import ChatDetail from './Pages/Chat/ChatDetail';
 import NotFound from './Pages/NotFound';
 import ProductModification from './Pages/Product/ProductModification';
 import Post from './Pages/Post';
@@ -41,6 +42,7 @@ function App() {
           <Route path='/modifyproduct' element={<ProductModification />} />
           <Route path='/product/detail/:id' element={<ProductDetail />} />
           <Route path='/chat' element={<Chat />} />
+          <Route path='/chatdetail' element={<ChatDetail />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </RecoilRoot>
