@@ -1,12 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import accountname from '../Recoil/accountName/accountName';
+import accountName from '../Recoil/accountName/accountName';
 import { useRecoilValue } from 'recoil';
 
-const CommentModal = ({ postId, commentInfo, setIsAlertModalOn }) => {
-  const accName = useRecoilValue(accountname);
-  const isMine = commentInfo.author.accountname === accName;
-
+const CommentModal = ({ isMine, commentInfo, setIsAlertModalOn }) => {
   const handleAlertModal = () => {
     setIsAlertModalOn(true);
   };

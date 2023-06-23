@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-// import UserName from '../Components/common/UserName';
-import accountname from '../../Recoil/accountName/accountName';
+import accountName from '../../Recoil/accountName/accountName';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import URL from '../../Utils/URL';
@@ -19,10 +18,11 @@ import DeletePostAPI from '../../Utils/DeletePostAPI';
 import ReportPostAPI from '../../Utils/ReportPostAPI';
 
 const HomePostLayout = (props) => {
-  const name = useRecoilValue(accountname);
+  const name = useRecoilValue(accountName);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isModalOn, setIsModalOn] = useState(false);
   const [isAlertModalOn, setIsAlerModalOn] = useState(false);
+  // console.log(props);
   const post = props.post;
   const isMine = post.author.accountname === name;
   const userImg = post.author.image;
@@ -71,10 +71,15 @@ const HomePostLayout = (props) => {
     navigate('/profile');
   };
 
+  const handleModify = () => {
+    navigate('/modifypost', { state: post.id });
+  };
+
   const handleReport = async () => {
     const response = await reportPost();
     closeModal();
     console.log(response);
+    // TODO 리포트 되었다는 모달 띄우기
   };
 
   return (
@@ -113,7 +118,15 @@ const HomePostLayout = (props) => {
       </IconLayout>
       <Content onClick={handlePostClick}>{post.content}</Content>
       <span>{createdAt}</span>
-      {isModalOn && <PostModal isMine={isMine} postId={post.id} handleAlertModal={handleAlertModal}></PostModal>}
+      {isModalOn && (
+        <PostModal
+          isMine={isMine}
+          postId={post.id}
+          handleAlertModal={handleAlertModal}
+          handleModify={handleModify}
+          handleReport={handleReport}
+        ></PostModal>
+      )}
       {isAlertModalOn && (
         <PostAlertModal
           isMine={isMine}

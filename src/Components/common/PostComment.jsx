@@ -21,17 +21,9 @@ export default function PostComment({ postId, setNewComment }) {
     e.preventDefault();
     const response = await handlePostComment();
     setNewComment(true);
-    console.log('@@#@@##@@#res:', response);
     input.current.value = '';
     return;
   };
-
-  // const handleKeyPress = async (e) => {
-  //   if (e.key === 'Enter') {
-  //     console.log('??????');
-  //     await handleClick();
-  //   }
-  // };
 
   return (
     <FooterFormLayout>

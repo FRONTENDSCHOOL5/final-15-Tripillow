@@ -63,7 +63,7 @@ const Comment = ({ commentInfo, postId, idx, setNewComment }) => {
       </Profile>
       <Text>{commentInfo.content || '더미코멘트'}</Text>
       {isModalOn && (
-        <CommentModal postId={postId} commentInfo={commentInfo} setIsAlertModalOn={setIsAlertModalOn}></CommentModal>
+        <CommentModal isMine={isMine} commentInfo={commentInfo} setIsAlertModalOn={setIsAlertModalOn}></CommentModal>
       )}
       {isAlertModalOn && (
         <PostAlertModal
