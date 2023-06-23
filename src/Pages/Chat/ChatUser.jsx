@@ -8,7 +8,7 @@ const ChatUser = (props) => {
   return (
     <UserLayout
       onClick={() => {
-        navigate('/ChatDetail');
+        navigate('/ChatDetail', { state: props.username });
       }}
     >
       <UserImg src={props.userImg || profileSm} alt={props.username} />

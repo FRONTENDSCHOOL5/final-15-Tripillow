@@ -24,6 +24,7 @@ const Comment = ({ commentInfo, postId, idx, setNewComment }) => {
   const isMine = name === commentInfo.author.accountname;
   const deleteComment = DeleteCommentAPI(postId, commentInfo.id);
   const reportComment = ReportCommentAPI(postId, commentInfo.id);
+  console.log(commentInfo);
 
   const handleModal = () => {
     setIsModalOn(!isModalOn);
@@ -53,7 +54,7 @@ const Comment = ({ commentInfo, postId, idx, setNewComment }) => {
   return (
     <CommentLayout>
       <Profile>
-        <ProfileImg src={commentInfo.image || profileImg} alt='프로필 이미지'></ProfileImg>
+        <ProfileImg src={commentInfo.author.image || profileImg} alt='프로필 이미지'></ProfileImg>
         <UserName>{commentInfo.author.username || '더미유저'}</UserName>
         <Time>{createdAt}</Time>
         <MoreBtn onClick={handleModal}></MoreBtn>

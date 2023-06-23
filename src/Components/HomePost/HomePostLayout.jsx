@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import accountName from '../../Recoil/accountName/accountName';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
@@ -7,17 +7,21 @@ import User from '../common/User';
 import Profile from '../../Assets/profile-sm.png';
 import arrowRight from '../../Assets/icons/icon-arrow-right.svg';
 import arrowLeft from '../../Assets/icons/icon-arrow-left.svg';
-import iconHeart from '../../Assets/icons/icon-heart.svg';
+import iconUnheart from '../../Assets/icons/icon-heart.svg';
+import iconHeart from '../../Assets/icons/icon-heart-fill.svg';
 import iconChat from '../../Assets/icons/icon-message-circle-1.svg';
-import { useNavigate } from 'react-router-dom';
 import defaultImg from '../../Assets/defaultImg.png';
 import PostModal from '../PostModal';
-import { useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import PostAlertModal from '../common/PostAlertModal';
 import DeletePostAPI from '../../Utils/DeletePostAPI';
 import ReportPostAPI from '../../Utils/ReportPostAPI';
+import HeartPostAPI from '../../Utils/HeartPostAPI';
+import UnheartPostAPI from '../../Utils/UnheartPostAPI';
 
 const HomePostLayout = (props) => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const name = useRecoilValue(accountName);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isModalOn, setIsModalOn] = useState(false);
@@ -26,9 +30,11 @@ const HomePostLayout = (props) => {
   const isMine = post.author.accountname === name;
   const userImg = post.author.image;
   const pictures = post.image.split(', ');
+  console.log(pictures);
   const createdAt =
     post.createdAt.slice(0, 4) + '년 ' + post.createdAt.slice(5, 7) + '월 ' + post.createdAt.slice(8, 10) + '일 ';
-  const navigate = useNavigate();
+  const [isHearted, setIsHearted] = useState(post.isHearted);
+  const [heartCount, setHeartCount] = useState(post.heartCount);
 
   useEffect(() => {
     setIsModalOn(false);
@@ -62,11 +68,17 @@ const HomePostLayout = (props) => {
 
   const deletePost = DeletePostAPI(post.id);
   const reportPost = ReportPostAPI(post.id);
+  const heartPost = HeartPostAPI(post.id);
+  const unheartPost = UnheartPostAPI(post.id);
 
   const handleDelete = async () => {
     const response = await deletePost();
     closeModal();
-    navigate('/profile');
+    if (location.pathname === '/profile') {
+      window.location.reload();
+    } else {
+      navigate('/profile');
+    }
   };
 
   const handleModify = () => {
@@ -77,6 +89,13 @@ const HomePostLayout = (props) => {
     const response = await reportPost();
     closeModal();
     // TODO 리포트 되었다는 모달 띄우기
+  };
+
+  const handleHeart = async () => {
+    const response = isHearted ? await unheartPost() : await heartPost();
+    console.log(response);
+    setIsHearted(response.post.hearted);
+    setHeartCount(response.post.heartCount);
   };
 
   return (
@@ -92,21 +111,23 @@ const HomePostLayout = (props) => {
       >
         애월읍 위니브
       </User>
-      <ImageLayout>
-        {pictures.length > 1 && <ArrowButton onClick={handlePrev} bgImage={arrowLeft} left='16px'></ArrowButton>}
-        <img src={URL + '/' + pictures[currentIndex]} onError={handleError} alt='' />
-        {pictures.length > 1 && <ArrowButton onClick={handleNext} bgImage={arrowRight} right='16px'></ArrowButton>}
-        <IndicatorLayout>
-          {pictures.length > 1 &&
-            pictures.map((_, index) => {
-              return <Indicator key={index} indicator={index === currentIndex}></Indicator>;
-            })}
-        </IndicatorLayout>
-      </ImageLayout>
+      {pictures[0] !== '' && (
+        <ImageLayout>
+          {pictures.length > 1 && <ArrowButton onClick={handlePrev} bgImage={arrowLeft} left='16px'></ArrowButton>}
+          <img src={URL + '/' + pictures[currentIndex]} onError={handleError} alt='' />
+          {pictures.length > 1 && <ArrowButton onClick={handleNext} bgImage={arrowRight} right='16px'></ArrowButton>}
+          <IndicatorLayout>
+            {pictures.length > 1 &&
+              pictures.map((_, index) => {
+                return <Indicator key={index} indicator={index === currentIndex}></Indicator>;
+              })}
+          </IndicatorLayout>
+        </ImageLayout>
+      )}
       <IconLayout>
         <IconButton>
-          <img src={iconHeart} alt='하트 아이콘' />
-          <span>{post.heartCount}</span>
+          <img src={isHearted ? iconHeart : iconUnheart} alt='하트 아이콘' onClick={handleHeart} />
+          <span>{heartCount}</span>
         </IconButton>
         <IconButton>
           <img src={iconChat} alt='채팅 아이콘' />
