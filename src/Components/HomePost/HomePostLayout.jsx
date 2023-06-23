@@ -30,6 +30,7 @@ const HomePostLayout = (props) => {
   const isMine = post.author.accountname === name;
   const userImg = post.author.image;
   const pictures = post.image.split(', ');
+  console.log(pictures);
   const createdAt =
     post.createdAt.slice(0, 4) + '년 ' + post.createdAt.slice(5, 7) + '월 ' + post.createdAt.slice(8, 10) + '일 ';
   const [isHearted, setIsHearted] = useState(post.isHearted);
@@ -110,7 +111,7 @@ const HomePostLayout = (props) => {
       >
         애월읍 위니브
       </User>
-      {pictures.length !== 1 && (
+      {pictures[0] !== '' && (
         <ImageLayout>
           {pictures.length > 1 && <ArrowButton onClick={handlePrev} bgImage={arrowLeft} left='16px'></ArrowButton>}
           <img src={URL + '/' + pictures[currentIndex]} onError={handleError} alt='' />
