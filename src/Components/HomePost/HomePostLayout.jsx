@@ -33,7 +33,7 @@ const HomePostLayout = (props) => {
   console.log(pictures);
   const createdAt =
     post.createdAt.slice(0, 4) + '년 ' + post.createdAt.slice(5, 7) + '월 ' + post.createdAt.slice(8, 10) + '일 ';
-  const [isHearted, setIsHearted] = useState(post.isHearted);
+  const [isHearted, setIsHearted] = useState(post.hearted);
   const [heartCount, setHeartCount] = useState(post.heartCount);
 
   useEffect(() => {
