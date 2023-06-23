@@ -10,7 +10,6 @@ import PostDetailAPI from '../Utils/PostDetailAPI';
 import GetCommentAPI from '../Utils/GetCommentAPI';
 import HomePostLayout from '../Components/HomePost/HomePostLayout';
 import accountName from '../Recoil/accountName/accountName';
-
 export default function PostDetail() {
   const accName = useRecoilValue(accountName);
   const { id } = useParams();
@@ -32,6 +31,7 @@ export default function PostDetail() {
     }
   }, [newComment]);
 
+  console.log('@#$%@', postInfo);
   return (
     <Layout>
       <BasicHeader
@@ -41,12 +41,12 @@ export default function PostDetail() {
         rightbtn='로그아웃'
         isPost
       ></BasicHeader>
-      {Object.keys(postInfo).length ? <HomePostLayout post={postInfo}></HomePostLayout> : <></>}
+      {Object.keys(postInfo).length ? <HomePostLayout post={postInfo.post}></HomePostLayout> : <></>}
       {comments.length !== 0 &&
         comments.map((el, i) => (
           <Comment key={i} idx={i} postId={id} commentInfo={el} setNewComment={setNewComment}></Comment>
         ))}
-      <PostComment setNewComment={setNewComment} postId={postInfo.id}></PostComment>
+      <PostComment setNewComment={setNewComment} postId={id}></PostComment>
     </Layout>
   );
 }
