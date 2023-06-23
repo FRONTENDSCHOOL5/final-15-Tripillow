@@ -20,7 +20,7 @@ const PostModal = ({ postId, handleAlertModal, ...props }) => {
         </>
       ) : (
         <>
-          <button type='button' onClick={handleAlertModal}>
+          <button type='button' onClick={handleReport}>
             신고하기
           </button>
         </>

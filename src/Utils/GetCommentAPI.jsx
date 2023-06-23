@@ -9,8 +9,6 @@ const GetCommentAPI = (postId, setComments) => {
   const getComment = async () => {
     try {
       // TODO 10개 이상일때
-      console.log(postId);
-      console.log(`${URL}/post/${postId}/comments`);
 
       const response = await fetch(`${URL}/post/${postId}/comments`, {
         method: 'GET',
@@ -20,7 +18,6 @@ const GetCommentAPI = (postId, setComments) => {
         },
       });
       const data = await response.json();
-      console.log(data.comments);
       setComments(data.comments);
     } catch (error) {
       console.error('[ERROR] on GetComment');

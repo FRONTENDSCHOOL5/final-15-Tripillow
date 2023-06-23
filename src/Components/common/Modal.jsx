@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Modal = ({ btn1, btn2, handleMorebutton, handleLogoutbutton, bottom, ...props }) => {
-  console.log(props);
   return (
     <ModalLayout bottom={bottom}>
       <SlideBar></SlideBar>
