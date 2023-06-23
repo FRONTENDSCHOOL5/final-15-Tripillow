@@ -27,7 +27,6 @@ const Comment = ({ commentInfo, postId, idx, setNewComment }) => {
 
   const handleModal = () => {
     setIsModalOn(!isModalOn);
-    // console.log('clicked');
   };
 
   const closeModal = () => {
@@ -37,14 +36,12 @@ const Comment = ({ commentInfo, postId, idx, setNewComment }) => {
 
   const handleDelete = async () => {
     const response = await deleteComment();
-    console.log(response);
     closeModal();
     setNewComment(true);
   };
 
   const handleReport = async () => {
     const response = await reportComment();
-    console.log(response);
     closeModal();
   };
 
@@ -63,7 +60,7 @@ const Comment = ({ commentInfo, postId, idx, setNewComment }) => {
       </Profile>
       <Text>{commentInfo.content || '더미코멘트'}</Text>
       {isModalOn && (
-        <CommentModal postId={postId} commentInfo={commentInfo} setIsAlertModalOn={setIsAlertModalOn}></CommentModal>
+        <CommentModal isMine={isMine} commentInfo={commentInfo} setIsAlertModalOn={setIsAlertModalOn}></CommentModal>
       )}
       {isAlertModalOn && (
         <PostAlertModal

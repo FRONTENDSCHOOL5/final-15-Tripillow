@@ -4,7 +4,6 @@ import URL from '../../Utils/URL';
 
 const ViewImage = (props) => {
   const images = props.post.image.split(', ').pop();
-  console.log(images);
   return (
     <ImageLayout>
       <img src={`${URL}/${images}`} alt={props.post.content} />

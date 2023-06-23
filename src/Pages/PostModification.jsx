@@ -1,48 +1,79 @@
-import React, { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import { useLocation, useNavigate } from 'react-router-dom';
+import PostDetailAPI from '../Utils/PostDetailAPI';
 import { LayoutStyle } from '../Styles/Layout';
-import iconImg from '../Assets/icons/upload-file.svg';
 import UploadHeader from '../Components/common/Header/UploadHeader';
 import Toggle from '../Components/common/Toggle';
 import URL from '../Utils/URL';
 import x from '../Assets/icons/x.svg';
+import iconImg from '../Assets/icons/upload-file.svg';
 import userToken from '../Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
 import ImageUploadAPI from '../Utils/ImageUploadAPI';
 import { validateImageFile } from '../Utils/validate';
 
-export default function Post() {
+const PostModification = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const postId = location.state;
+  const [postInput, setPostInput] = useState({
+    post: {
+      content: '',
+      image: '',
+    },
+  }); //새로 제출할 값
+  const [postDetail, setPostDetail] = useState({}); // 기존값
   const textarea = useRef();
-  const [inputValue, setInputValue] = useState('');
-  const [imgURL, setImgURL] = useState([]);
+  const [imgURL, setImgURL] = useState([]); // [234, 456]
   const token = useRecoilValue(userToken);
+  const getPostDetail = PostDetailAPI(postId, setPostDetail);
+  useEffect(() => {
+    const getDetail = async () => {
+      await getPostDetail();
+    };
+    getDetail();
+  }, []);
+
+  useEffect(() => {
+    Object.keys(postDetail).length &&
+      setPostInput({
+        post: {
+          content: postDetail.post.content,
+          image: postDetail.post.image,
+        },
+      });
+  }, [postDetail]);
+
+  useEffect(() => {
+    setImgURL(postInput.post.image.split(', '));
+  }, [postInput]);
 
   const handleImageInput = async (e) => {
     if (imgURL.length >= 3 || e.target.files.length === 0) return;
-    if (!validateImageFile(e.target.files[0].name)) return console.log('ERROR: 파일 확장자');
+    if (!validateImageFile(e.target.files[0].name)) return console.error('ERROR: 파일 확장자');
     const data = await ImageUploadAPI(e);
     if (data) {
+      setPostInput((prev) => ({
+        ...prev,
+        post: {
+          ...prev.post,
+          image: prev.post.image + `, ${data.filename}`,
+        },
+      }));
       setImgURL((prev) => prev.concat(data.filename));
     }
   };
 
   const handleSubmit = async () => {
-    const images = imgURL.join(', ');
     try {
-      const response = await fetch(URL + '/post', {
-        method: 'POST',
+      const response = await fetch(`${URL}/post/${postId}`, {
+        method: 'PUT',
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-type': 'application/json',
         },
-        body: JSON.stringify({
-          post: {
-            content: inputValue,
-            image: images,
-          },
-        }),
+        body: JSON.stringify({ ...postInput }),
       });
       const res = await response.json();
       textarea.current.value = '';
@@ -53,23 +84,37 @@ export default function Post() {
       console.error(error);
     }
   };
-
   const handleResizeHeight = () => {
     textarea.current.style.height = 'auto';
     textarea.current.style.height = textarea.current.scrollHeight + 'px';
   };
 
   const handleInputChange = (e) => {
-    setInputValue(e.target.value);
+    const value = e.target.value;
+    setPostInput((prev) => ({
+      ...prev,
+      post: {
+        ...prev.post,
+        content: value,
+      },
+    }));
     handleResizeHeight();
   };
 
   const handleImgClose = (i) => {
-    setImgURL([...imgURL.slice(0, i), ...imgURL.slice(i + 1, imgURL.length)]);
+    const newImg = [...imgURL.slice(0, i), ...imgURL.slice(i + 1, imgURL.length)].join(', ');
+    setPostInput((prev) => ({
+      ...prev,
+      post: {
+        ...prev.post,
+        image: newImg,
+      },
+    }));
   };
+
   return (
     <PostLayout>
-      <UploadHeader disabled={!inputValue} onClick={handleSubmit}>
+      <UploadHeader disabled={!postInput.post.content} onClick={handleSubmit}>
         업로드
       </UploadHeader>
       <form>
@@ -77,7 +122,13 @@ export default function Post() {
           <ToggleTitle>여행지</ToggleTitle>
           <Toggle leftButton='국내' rightButton='환전' margin='0 0 22px 0'></Toggle>
         </ToggleLayout>
-        <TextInput placeholder='게시글 입력하기...' ref={textarea} onChange={handleInputChange} rows='1'></TextInput>
+        <TextInput
+          placeholder='게시글 입력하기...'
+          value={postInput.post.content}
+          ref={textarea}
+          onChange={handleInputChange}
+          rows='1'
+        ></TextInput>
         {imgURL.map((el, i) => (
           <ImgLayout key={`ImgLayout-${i}`}>
             <Img src={`${URL}/${el}`} key={`Img-${i}`} />
@@ -91,7 +142,8 @@ export default function Post() {
       </form>
     </PostLayout>
   );
-}
+};
+
 const PostLayout = styled.div`
   ${LayoutStyle};
   position: relative;
@@ -146,3 +198,5 @@ const ImgIcon = styled.img`
   border-radius: 50%;
   cursor: pointer;
 `;
+
+export default PostModification;

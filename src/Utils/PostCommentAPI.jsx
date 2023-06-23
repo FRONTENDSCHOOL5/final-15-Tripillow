@@ -7,10 +7,6 @@ const PostCommentAPI = (postId, userInput) => {
 
   const PostComment = async () => {
     try {
-      console.log(token);
-      console.log({ ...userInput });
-      console.log(`${URL}/post/${postId}/comments`);
-
       const response = await fetch(`${URL}/post/${postId}/comments`, {
         method: 'POST',
         headers: {

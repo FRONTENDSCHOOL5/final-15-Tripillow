@@ -1,11 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const PostModal = ({ isMine, postId, handleAlertModal }) => {
-  const handleModify = () => {
-    console.log('Modify');
-  };
-
+const PostModal = ({ isMine, postId, handleAlertModal, handleModify, handleReport }) => {
   return (
     <ModalLayout>
       <SlideBar></SlideBar>
@@ -20,7 +16,7 @@ const PostModal = ({ isMine, postId, handleAlertModal }) => {
         </>
       ) : (
         <>
-          <button type='button' onClick={handleAlertModal}>
+          <button type='button' onClick={handleReport}>
             신고하기
           </button>
         </>
