@@ -96,17 +96,19 @@ const HomePostLayout = (props) => {
       >
         애월읍 위니브
       </User>
-      <ImageLayout>
-        {pictures.length > 1 && <ArrowButton onClick={handlePrev} bgImage={arrowLeft} left='16px'></ArrowButton>}
-        <img src={URL + '/' + pictures[currentIndex]} onError={handleError} alt='' />
-        {pictures.length > 1 && <ArrowButton onClick={handleNext} bgImage={arrowRight} right='16px'></ArrowButton>}
-        <IndicatorLayout>
-          {pictures.length > 1 &&
-            pictures.map((_, index) => {
-              return <Indicator key={index} indicator={index === currentIndex}></Indicator>;
-            })}
-        </IndicatorLayout>
-      </ImageLayout>
+      {pictures.length !== 1 && (
+        <ImageLayout>
+          {pictures.length > 1 && <ArrowButton onClick={handlePrev} bgImage={arrowLeft} left='16px'></ArrowButton>}
+          <img src={URL + '/' + pictures[currentIndex]} onError={handleError} alt='' />
+          {pictures.length > 1 && <ArrowButton onClick={handleNext} bgImage={arrowRight} right='16px'></ArrowButton>}
+          <IndicatorLayout>
+            {pictures.length > 1 &&
+              pictures.map((_, index) => {
+                return <Indicator key={index} indicator={index === currentIndex}></Indicator>;
+              })}
+          </IndicatorLayout>
+        </ImageLayout>
+      )}
       <IconLayout>
         <IconButton>
           <img src={iconHeart} alt='하트 아이콘' />
