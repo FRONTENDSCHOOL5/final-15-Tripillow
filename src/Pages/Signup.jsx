@@ -65,6 +65,9 @@ const Signup = () => {
 
   const goNext = () => {
     if (userInfo.user.email && userInfo.user.password && !passwordError) {
+      setTimeout(() => {
+        setEmailPwCheck(false);
+      }, 2000);
       setEmailPwCheck(true);
     }
   };
