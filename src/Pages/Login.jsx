@@ -58,7 +58,6 @@ const Login = () => {
   const handleLogin = async () => {
     const res = await LoginAPI(userInput);
     if (res && res.hasOwnProperty('user')) {
-      console.log(res);
       navigate('/home');
       setToken(res.user.token);
       setIsLoginState(true);

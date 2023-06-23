@@ -22,7 +22,6 @@ const HomePostLayout = (props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isModalOn, setIsModalOn] = useState(false);
   const [isAlertModalOn, setIsAlerModalOn] = useState(false);
-  // console.log(props);
   const post = props.post;
   const isMine = post.author.accountname === name;
   const userImg = post.author.image;
@@ -66,7 +65,6 @@ const HomePostLayout = (props) => {
 
   const handleDelete = async () => {
     const response = await deletePost();
-    console.log(response);
     closeModal();
     navigate('/profile');
   };
@@ -78,7 +76,6 @@ const HomePostLayout = (props) => {
   const handleReport = async () => {
     const response = await reportPost();
     closeModal();
-    console.log(response);
     // TODO 리포트 되었다는 모달 띄우기
   };
 

@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom';
 
 const ProductItem = (props) => {
   const product = props.product;
-  // console.log(product)
-  // console.log(productList);
+
   return (
     <>
       {

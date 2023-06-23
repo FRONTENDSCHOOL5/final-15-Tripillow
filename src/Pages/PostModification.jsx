@@ -17,7 +17,6 @@ const PostModification = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const postId = location.state;
-  // console.log(postId);
   const [postInput, setPostInput] = useState({
     post: {
       content: '',
@@ -47,7 +46,6 @@ const PostModification = () => {
   }, [postDetail]);
 
   useEffect(() => {
-    console.log(postInput.post.image);
     setImgURL(postInput.post.image.split(', '));
   }, [postInput]);
 
@@ -68,7 +66,6 @@ const PostModification = () => {
   };
 
   const handleSubmit = async () => {
-    console.log(postInput);
     try {
       const response = await fetch(`${URL}/post/${postId}`, {
         method: 'PUT',
@@ -106,7 +103,6 @@ const PostModification = () => {
 
   const handleImgClose = (i) => {
     const newImg = [...imgURL.slice(0, i), ...imgURL.slice(i + 1, imgURL.length)].join(', ');
-    console.log('newImg: ', newImg);
     setPostInput((prev) => ({
       ...prev,
       post: {

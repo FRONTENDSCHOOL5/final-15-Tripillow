@@ -31,7 +31,6 @@ export default function PostDetail() {
     }
   }, [newComment]);
 
-  console.log('@#$%@', postInfo);
   return (
     <Layout>
       <BasicHeader

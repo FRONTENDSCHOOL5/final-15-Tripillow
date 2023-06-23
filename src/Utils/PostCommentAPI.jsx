@@ -3,7 +3,6 @@ import { useRecoilValue } from 'recoil';
 import URL from './URL';
 
 const PostCommentAPI = (postId, userInput) => {
-  console.log(postId, '  ', userInput);
   const token = useRecoilValue(userToken);
 
   const PostComment = async () => {

@@ -5,7 +5,6 @@ import userToken from '../Recoil/userToken/userToken';
 
 const PostDetailAPI = (postId, setPostDetail) => {
   const token = useRecoilValue(userToken);
-  // console.log(postId); 잘들어옴
 
   const getPostDetail = async () => {
     try {
@@ -17,9 +16,7 @@ const PostDetailAPI = (postId, setPostDetail) => {
         },
       });
       const data = await response.json();
-      console.log(data.post);
       await setPostDetail({ ...data });
-      // console.log(data);
     } catch (error) {
       console.error('[ERROR] on PostDetail');
     }
