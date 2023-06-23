@@ -1,17 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Layout } from '../../Styles/Layout';
 import BasicHeader from '../../Components/common/Header/BasicHeader';
 import Navbar from '../../Components/common/Navbar';
 import ChatUser from './ChatUser';
 import ChatLists from './ChatLists';
+import FollowingListAPI from '../../Utils/FollowingListAPI';
+import accountName from '../../Recoil/accountName/accountName';
+import { useRecoilValue } from 'recoil';
 
 const Chat = () => {
+  const accountname = useRecoilValue(accountName);
+  const { fetchFollowing } = FollowingListAPI({ accountname });
+  const [followingData, setFollowingData] = useState([]);
+
+  useEffect(() => {
+    const handleFetch = async () => {
+      const data = await fetchFollowing();
+      if (data) setFollowingData(data);
+      console.log(data);
+    };
+
+    handleFetch();
+  }, []);
+
   return (
     <Layout>
       <BasicHeader></BasicHeader>
-      {ChatLists.chatLists.map((chatItem) => (
-        <ChatUser key={chatItem.id} username={chatItem.username} content={chatItem.content} date={chatItem.date} />
-      ))}
+      {followingData &&
+        followingData.map((item, index) => (
+          <ChatUser key={index} userImg={item.image} username={item.username} content={item.intro} />
+        ))}
       <Navbar />
     </Layout>
   );
