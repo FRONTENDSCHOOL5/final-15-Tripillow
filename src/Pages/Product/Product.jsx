@@ -129,9 +129,9 @@ const Product = () => {
           onClick={() => {
             navigate('/addproduct');
           }}
-          position='fixed'
-          right='34%'
-          bottom='94px'
+          position='absolute'
+          right='18px'
+          bottom='144px'
         ></CircleButton>
       </div>
       <Navbar />
@@ -141,6 +141,7 @@ const Product = () => {
 
 const StyledLayout = styled(Layout)`
   padding: 63px 12px 88px 16px;
+  position: relative;
 `;
 
 const GridLayout = styled.div`

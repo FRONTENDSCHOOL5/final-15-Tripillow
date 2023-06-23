@@ -4,14 +4,22 @@ import styled from 'styled-components';
 import { LayoutStyle } from '../../Styles/Layout';
 import BasicHeader from '../../Components/common/Header/BasicHeader';
 import profileSm from '../../Assets/profile-sm.png';
+import { useLocation } from 'react-router-dom';
+import ChatLists from './ChatLists';
 
 const ChatDetail = () => {
+  const location = useLocation();
+  console.log(location);
   const [inputValue, setInputValue] = useState('');
   const [chatValue, setChatValue] = useState([]);
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
+
+  const random = Math.floor(Math.random() * 4);
+  console.log(random)
+  console.log(ChatLists[random].message)
 
   const handleButtonClicked = () => {
     setTimeout(() => {
@@ -32,12 +40,11 @@ const ChatDetail = () => {
 
   return (
     <ChatLayout>
-      <BasicHeader></BasicHeader>
+      <BasicHeader>{location.state}</BasicHeader>
       <ChatContentLayout>
         <UserImage src={profileSm} alt='프로필 이미지' />
         <ChatContent bgColor='white' radius='0 22px 22px 22px'>
-          옷을 인생을 그러므로 없으면 것은 이상은 것은 우리의 위하여, 뿐이다. 이상의 청춘의 뼈 따뜻한 그들의 그와
-          약동하다. 대고, 못할 넣는 풍부하게 뛰노는 인생의 힘있다.
+        {ChatLists[random].message}
         </ChatContent>
         <ChatTime>12:39</ChatTime>
       </ChatContentLayout>
