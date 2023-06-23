@@ -7,7 +7,8 @@ import User from '../common/User';
 import Profile from '../../Assets/profile-sm.png';
 import arrowRight from '../../Assets/icons/icon-arrow-right.svg';
 import arrowLeft from '../../Assets/icons/icon-arrow-left.svg';
-import iconHeart from '../../Assets/icons/icon-heart.svg';
+import iconUnheart from '../../Assets/icons/icon-heart.svg';
+import iconHeart from '../../Assets/icons/icon-heart-fill.svg';
 import iconChat from '../../Assets/icons/icon-message-circle-1.svg';
 import defaultImg from '../../Assets/defaultImg.png';
 import PostModal from '../PostModal';
@@ -15,8 +16,12 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import PostAlertModal from '../common/PostAlertModal';
 import DeletePostAPI from '../../Utils/DeletePostAPI';
 import ReportPostAPI from '../../Utils/ReportPostAPI';
+import HeartPostAPI from '../../Utils/HeartPostAPI';
+import UnheartPostAPI from '../../Utils/UnheartPostAPI';
 
 const HomePostLayout = (props) => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const name = useRecoilValue(accountName);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isModalOn, setIsModalOn] = useState(false);
@@ -27,8 +32,8 @@ const HomePostLayout = (props) => {
   const pictures = post.image.split(', ');
   const createdAt =
     post.createdAt.slice(0, 4) + '년 ' + post.createdAt.slice(5, 7) + '월 ' + post.createdAt.slice(8, 10) + '일 ';
-  const navigate = useNavigate();
-  const location = useLocation();
+  const [isHearted, setIsHearted] = useState(post.isHearted);
+  const [heartCount, setHeartCount] = useState(post.heartCount);
 
   useEffect(() => {
     setIsModalOn(false);
@@ -62,6 +67,8 @@ const HomePostLayout = (props) => {
 
   const deletePost = DeletePostAPI(post.id);
   const reportPost = ReportPostAPI(post.id);
+  const heartPost = HeartPostAPI(post.id);
+  const unheartPost = UnheartPostAPI(post.id);
 
   const handleDelete = async () => {
     const response = await deletePost();
@@ -81,6 +88,13 @@ const HomePostLayout = (props) => {
     const response = await reportPost();
     closeModal();
     // TODO 리포트 되었다는 모달 띄우기
+  };
+
+  const handleHeart = async () => {
+    const response = isHearted ? await unheartPost() : await heartPost();
+    console.log(response);
+    setIsHearted(response.post.hearted);
+    setHeartCount(response.post.heartCount);
   };
 
   return (
@@ -111,8 +125,8 @@ const HomePostLayout = (props) => {
       )}
       <IconLayout>
         <IconButton>
-          <img src={iconHeart} alt='하트 아이콘' />
-          <span>{post.heartCount}</span>
+          <img src={isHearted ? iconHeart : iconUnheart} alt='하트 아이콘' onClick={handleHeart} />
+          <span>{heartCount}</span>
         </IconButton>
         <IconButton>
           <img src={iconChat} alt='채팅 아이콘' />
