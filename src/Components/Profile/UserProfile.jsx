@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import styled, { css } from 'styled-components';
 import accountName from '../../Recoil/accountName/accountName';
@@ -10,9 +10,12 @@ import Share from '../../Assets/icons/icon-share.svg';
 import CommonButton from '../../Components/common/Button';
 import FollowAPI from '../../Utils/FollowAPI';
 import UnFollowAPI from '../../Utils/UnFollowAPI';
+import URL from '../../Utils/URL';
+import AlertTop from '../common/AlertTop';
 
 const UserProfile = ({ followCount, setFollowCount, followerURL, followingURL, ...props }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const user = props.user || props.author;
   const follow = user?.isfollow;
   const account = user?.accountname;
@@ -24,6 +27,7 @@ const UserProfile = ({ followCount, setFollowCount, followerURL, followingURL, .
   const [myData, setMyData] = useState({});
   const [isFollow, setIsFollow] = useState(user?.isfollow);
   const [followText, setFollowText] = useState(!follow ? '팔로우' : '언팔로우');
+  const [isModal, setIsModal] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -46,6 +50,15 @@ const UserProfile = ({ followCount, setFollowCount, followerURL, followingURL, .
     }
   }, [isFollow]);
 
+  const handleCopyClipBoard = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setIsModal(true);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const handleFollowButtonClick = async (e) => {
     if (isFollow) {
       setIsFollow(false);
@@ -64,6 +77,7 @@ const UserProfile = ({ followCount, setFollowCount, followerURL, followingURL, .
     <>
       {user && (
         <UserProfileLayout>
+          {isModal && <AlertTop isModal={isModal}>클립보드에 복사되었습니다</AlertTop>}
           <h1 className='a11y-hidden'>사용자 프로필</h1>
           <ImgFollowLayout>
             <FollowLayout to={followerURL} state={user}>
@@ -98,7 +112,12 @@ const UserProfile = ({ followCount, setFollowCount, followerURL, followingURL, .
               <CommonButton width='120px' clicked={followText === '언팔로우'} onClick={handleFollowButtonClick}>
                 {followText}
               </CommonButton>
-              <ShareIconStyle />
+              <ShareIconStyle
+                onClick={() => {
+                  setIsModal(false);
+                  return handleCopyClipBoard(URL + '/' + location.pathname);
+                }}
+              />
             </IconLayout>
           )}
         </UserProfileLayout>

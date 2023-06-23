@@ -1,12 +1,54 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useRecoilValue } from 'recoil';
+import accountName from '../../Recoil/accountName/accountName';
 import profileSm from '../../Assets/profile-sm.png';
 import Button from './Button';
+import FollowAPI from '../../Utils/FollowAPI';
+import UnFollowAPI from '../../Utils/UnFollowAPI';
+import MyInfoAPI from '../../Utils/MyInfoAPI';
 
 const FollowUser = (props) => {
   const url = props.user?.image.split('/') || null;
+  const isFollowed = props.user?.isfollow;
+  const name = useRecoilValue(accountName);
+  const pathIdentifier = props.pathIdentifier;
+  const { getUserData } = MyInfoAPI();
+  const { followUser } = FollowAPI({ account: props.user?.accountname });
+  const { unFollowUser } = UnFollowAPI({ account: props.user?.accountname });
 
+  const [followCount, setFollowCount] = useState(props.user?.followingCount);
+  const [isFollow, setIsFollow] = useState(props.user?.isfollow);
+  const [followText, setFollowText] = useState(!isFollowed ? '팔로우' : '취소');
+
+  useEffect(() => {
+    if (isFollowed) {
+      setFollowText('취소');
+    } else if (!isFollowed) {
+      setFollowText('팔로우');
+    }
+  }, [isFollowed]);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const data = await getUserData();
+      setFollowCount(data.followingCount);
+    };
+    fetchUserData();
+  }, []);
+
+  const handleFollowButtonClick = async (e) => {
+    if (isFollow) {
+      setFollowText('팔로우');
+      setFollowCount((prevCount) => prevCount - 1);
+      const data = await unFollowUser();
+    } else {
+      setFollowText('취소');
+      setFollowCount((prevCount) => prevCount + 1);
+      const data = await followUser();
+    }
+  };
   return (
     <UserLayout margin={props.margin}>
       <Link to={`/profile/${props.user.accountname}`}>
@@ -19,9 +61,16 @@ const FollowUser = (props) => {
           <UserTitle>{props.user?.username}</UserTitle>
           <UserContent>{props.user?.intro} </UserContent>
         </div>
-        {props.followers && (
-          <Button width='56px' fontSize='var(--xs)' border='none' padding='5.75px'>
-            팔로우
+        {props.followers && pathIdentifier.length < 4 && (
+          <Button
+            onClick={handleFollowButtonClick}
+            clicked={followText === '취소'}
+            width='56px'
+            fontSize='var(--xs)'
+            border='none'
+            padding={props.user?.intro ? '5.75px' : '8.5px'}
+          >
+            {followText}
           </Button>
         )}
       </UserContentsLayout>

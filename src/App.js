@@ -16,7 +16,9 @@ import NotFound from './Pages/NotFound';
 import ProductModification from './Pages/Product/ProductModification';
 import Post from './Pages/Post';
 import Followers from './Pages/Followers';
+import PostDetail from './Pages/PostDetail';
 import UserProfileSetting from './Components/Profile/UserProfileSetting';
+import PostModification from './Pages/PostModification';
 
 function App() {
   return (
@@ -37,6 +39,8 @@ function App() {
           <Route path='/profile/followings' element={<Followers />} />
           <Route path='/profile/:accountname/followings' element={<Followers />} />
           <Route path='/post' element={<Post />} />
+          <Route path='/post/:id' element={<PostDetail />} />
+          <Route path='/modifypost' element={<PostModification />} />
           <Route path='/product' element={<Product />} />
           <Route path='/addproduct' element={<AddProduct />} />
           <Route path='/modifyproduct' element={<ProductModification />} />

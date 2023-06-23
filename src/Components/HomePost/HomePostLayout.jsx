@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-// import UserName from '../Components/common/UserName';
+import accountName from '../../Recoil/accountName/accountName';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import URL from '../../Utils/URL';
 import User from '../common/User';
@@ -8,21 +9,74 @@ import arrowRight from '../../Assets/icons/icon-arrow-right.svg';
 import arrowLeft from '../../Assets/icons/icon-arrow-left.svg';
 import iconHeart from '../../Assets/icons/icon-heart.svg';
 import iconChat from '../../Assets/icons/icon-message-circle-1.svg';
+import { useNavigate } from 'react-router-dom';
+import defaultImg from '../../Assets/defaultImg.png';
+import PostModal from '../PostModal';
+import { useEffect } from 'react';
+import PostAlertModal from '../common/PostAlertModal';
+import DeletePostAPI from '../../Utils/DeletePostAPI';
+import ReportPostAPI from '../../Utils/ReportPostAPI';
 
 const HomePostLayout = (props) => {
+  const name = useRecoilValue(accountName);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isModalOn, setIsModalOn] = useState(false);
+  const [isAlertModalOn, setIsAlerModalOn] = useState(false);
   const post = props.post;
+  const isMine = post.author.accountname === name;
   const userImg = post.author.image;
   const pictures = post.image.split(', ');
   const createdAt =
     post.createdAt.slice(0, 4) + '년 ' + post.createdAt.slice(5, 7) + '월 ' + post.createdAt.slice(8, 10) + '일 ';
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    setIsModalOn(false);
+    setIsAlerModalOn(false);
+  }, []);
+
+  const handlePostClick = () => {
+    // Navigate to the post detail page with the postId
+    navigate(`/post/${post.id}`);
+  };
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev === 0 ? pictures.length - 1 : prev - 1));
   };
 
   const handleNext = () => {
     setCurrentIndex((prev) => (prev === pictures.length - 1 ? 0 : prev + 1));
+  };
+
+  const handleError = (e) => {
+    e.target.src = defaultImg;
+  };
+
+  const closeModal = () => {
+    setIsModalOn(false);
+    setIsAlerModalOn(false);
+  };
+
+  const handleAlertModal = () => {
+    setIsAlerModalOn(!isAlertModalOn);
+  };
+
+  const deletePost = DeletePostAPI(post.id);
+  const reportPost = ReportPostAPI(post.id);
+
+  const handleDelete = async () => {
+    const response = await deletePost();
+    closeModal();
+    navigate('/profile');
+  };
+
+  const handleModify = () => {
+    navigate('/modifypost', { state: post.id });
+  };
+
+  const handleReport = async () => {
+    const response = await reportPost();
+    closeModal();
+    // TODO 리포트 되었다는 모달 띄우기
   };
 
   return (
@@ -33,12 +87,14 @@ const HomePostLayout = (props) => {
         username={post.author.username}
         content={'@' + post.author.accountname}
         moreBtn
+        setIsModalOn={setIsModalOn}
+        productId={post.id}
       >
         애월읍 위니브
       </User>
       <ImageLayout>
         {pictures.length > 1 && <ArrowButton onClick={handlePrev} bgImage={arrowLeft} left='16px'></ArrowButton>}
-        <img src={URL + '/' + pictures[currentIndex]} alt='' />
+        <img src={URL + '/' + pictures[currentIndex]} onError={handleError} alt='' />
         {pictures.length > 1 && <ArrowButton onClick={handleNext} bgImage={arrowRight} right='16px'></ArrowButton>}
         <IndicatorLayout>
           {pictures.length > 1 &&
@@ -57,8 +113,26 @@ const HomePostLayout = (props) => {
           <span>{post.commentCount}</span>
         </IconButton>
       </IconLayout>
-      <Content>{post.content}</Content>
+      <Content onClick={handlePostClick}>{post.content}</Content>
       <span>{createdAt}</span>
+      {isModalOn && (
+        <PostModal
+          isMine={isMine}
+          postId={post.id}
+          handleAlertModal={handleAlertModal}
+          handleModify={handleModify}
+          handleReport={handleReport}
+        ></PostModal>
+      )}
+      {isAlertModalOn && (
+        <PostAlertModal
+          isMine={isMine}
+          setIsModalOn={setIsModalOn}
+          handleDelete={handleDelete}
+          handleReport={handleReport}
+          closeModal={closeModal}
+        ></PostAlertModal>
+      )}
     </Layout>
   );
 };
@@ -138,6 +212,7 @@ const Content = styled.p`
   font-size: var(--sm);
   margin-bottom: 13px;
   line-height: 1.4;
+  cursor: pointer;
 
   & + span {
     font-size: 10px;
