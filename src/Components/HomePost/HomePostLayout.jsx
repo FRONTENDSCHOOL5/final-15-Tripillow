@@ -113,7 +113,14 @@ const HomePostLayout = (props) => {
       </IconLayout>
       <Content onClick={handlePostClick}>{post.content}</Content>
       <span>{createdAt}</span>
-      {isModalOn && <PostModal isMine={isMine} postId={post.id} handleAlertModal={handleAlertModal}></PostModal>}
+      {isModalOn && (
+        <PostModal
+          mine={post.author.accountname === name}
+          isMine={isMine}
+          postId={post.id}
+          handleAlertModal={handleAlertModal}
+        ></PostModal>
+      )}
       {isAlertModalOn && (
         <PostAlertModal
           isMine={isMine}

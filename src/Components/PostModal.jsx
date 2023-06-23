@@ -1,7 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-const PostModal = ({ isMine, postId, handleAlertModal }) => {
+const PostModal = ({ postId, handleAlertModal, ...props }) => {
   const handleModify = () => {
     console.log('Modify');
   };
@@ -9,7 +9,7 @@ const PostModal = ({ isMine, postId, handleAlertModal }) => {
   return (
     <ModalLayout>
       <SlideBar></SlideBar>
-      {isMine ? (
+      {props.isMine ? (
         <>
           <button type='button' onClick={handleAlertModal}>
             삭제
@@ -32,10 +32,9 @@ const PostModal = ({ isMine, postId, handleAlertModal }) => {
 const ModalLayout = styled.div`
   position: fixed;
   left: 50%;
-  bottom: 84px;
+  bottom: 74px;
   transform: translate(-50%);
   width: 389px;
-  height: ${(props) => (props.isMine ? '138px' : '92px')};
   padding: 16px 0;
   background-color: #fff;
   box-shadow: 0px -2px 2px rgba(0, 0, 0, 0.1);
