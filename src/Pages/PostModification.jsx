@@ -17,6 +17,7 @@ const PostModification = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const postId = location.state;
+  // console.log(postId);
   const [postInput, setPostInput] = useState({
     post: {
       content: '',
@@ -25,16 +26,14 @@ const PostModification = () => {
   }); //새로 제출할 값
   const [postDetail, setPostDetail] = useState({}); // 기존값
   const textarea = useRef();
-  // const [inputValue, setInputValue] = useState('');
   const [imgURL, setImgURL] = useState([]); // [234, 456]
   const token = useRecoilValue(userToken);
-  const getPostInput = PostDetailAPI(postId, setPostDetail);
+  const getPostDetail = PostDetailAPI(postId, setPostDetail);
   useEffect(() => {
     const getDetail = async () => {
-      await getPostInput();
+      await getPostDetail();
     };
     getDetail();
-    console.log(postInput);
   }, []);
 
   useEffect(() => {
@@ -48,6 +47,7 @@ const PostModification = () => {
   }, [postDetail]);
 
   useEffect(() => {
+    console.log(postInput.post.image);
     setImgURL(postInput.post.image.split(', '));
   }, [postInput]);
 

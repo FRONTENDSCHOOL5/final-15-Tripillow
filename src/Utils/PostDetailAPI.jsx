@@ -17,8 +17,8 @@ const PostDetailAPI = (postId, setPostDetail) => {
         },
       });
       const data = await response.json();
-      // console.log(data.post);
-      setPostDetail({ ...data });
+      console.log(data.post);
+      await setPostDetail({ ...data });
       // console.log(data);
     } catch (error) {
       console.error('[ERROR] on PostDetail');
