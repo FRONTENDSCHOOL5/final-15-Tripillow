@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import accountName from '../../Recoil/accountName/accountName';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
@@ -9,10 +9,9 @@ import arrowRight from '../../Assets/icons/icon-arrow-right.svg';
 import arrowLeft from '../../Assets/icons/icon-arrow-left.svg';
 import iconHeart from '../../Assets/icons/icon-heart.svg';
 import iconChat from '../../Assets/icons/icon-message-circle-1.svg';
-import { useNavigate } from 'react-router-dom';
 import defaultImg from '../../Assets/defaultImg.png';
 import PostModal from '../PostModal';
-import { useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import PostAlertModal from '../common/PostAlertModal';
 import DeletePostAPI from '../../Utils/DeletePostAPI';
 import ReportPostAPI from '../../Utils/ReportPostAPI';
@@ -29,6 +28,7 @@ const HomePostLayout = (props) => {
   const createdAt =
     post.createdAt.slice(0, 4) + '년 ' + post.createdAt.slice(5, 7) + '월 ' + post.createdAt.slice(8, 10) + '일 ';
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     setIsModalOn(false);
@@ -66,7 +66,11 @@ const HomePostLayout = (props) => {
   const handleDelete = async () => {
     const response = await deletePost();
     closeModal();
-    navigate('/profile');
+    if (location.pathname === '/profile') {
+      window.location.reload();
+    } else {
+      navigate('/profile');
+    }
   };
 
   const handleModify = () => {
