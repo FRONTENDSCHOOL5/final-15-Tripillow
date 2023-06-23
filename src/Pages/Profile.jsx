@@ -13,6 +13,9 @@ import ProductListAPI from '../Utils/ProductListAPI';
 import UserInfoAPI from '../Utils/UserInfoAPI';
 import accountName from '../Recoil/accountName/accountName';
 import ViewImage from '../Components/HomePost/ViewImage';
+import SkeletonItem from '../Styles/SkeletonItem';
+import ProductItemSkeleton from '../Components/common/Skeleton/ProductItemSkeleton';
+import HomePostSkeleton from '../Components/common/Skeleton/HomePostSkeleton';
 
 import listOn from '../Assets/icons/icon-post-list-on.svg';
 import listOff from '../Assets/icons/icon-post-list-off.svg';
@@ -33,6 +36,7 @@ const Profile = () => {
   const [followCount, setFollowCount] = useState(0);
   const [followerURL, setFollowerURL] = useState('');
   const [followingURL, setFollowingURL] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   const { getUserData } = MyInfoAPI({ setMyInfo });
   const { getUserInfo } = UserInfoAPI({ setUserInfo, userAccountname });
@@ -46,11 +50,17 @@ const Profile = () => {
   });
 
   useEffect(() => {
+    setIsLoading(true);
+  }, []);
+
+  useEffect(() => {
     const handleFetch = async () => {
       await getUserInfo();
       await getUserData();
       await getPostData();
       await getProductList();
+
+      setTimeout(() => setIsLoading(false), 300);
     };
 
     handleFetch();
@@ -74,43 +84,80 @@ const Profile = () => {
     <Layout>
       <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='로그아웃' />
       <main>
-        <UserProfile
-          user={userAccountname ? userInfo : myInfo}
-          followCount={followCount}
-          setFollowCount={setFollowCount}
-          followerURL={followerURL}
-          followingURL={followingURL}
-        />
-        <UserProductLayout>
-          <h2>판매 중인 상품</h2>
-          <ProductListLayout>
-            {productList && productList.product?.map((product, index) => <ProductItem key={index} product={product} />)}
-            <ProductItem />
-          </ProductListLayout>
-        </UserProductLayout>
-        <ViewLayout>
-          <ViewButton bgImg={!view ? listOn : listOff} onClick={handleView}></ViewButton>
-          <ViewButton bgImg={view ? AlbumOn : AlbumOff} onClick={handleView}></ViewButton>
-        </ViewLayout>
-        <article>
-          {postData.length > 0 ? (
-            <>
-              {!view ? (
-                postData.map((post, index) => <HomePostLayout key={index} post={post} />)
+        {isLoading ? (
+          <>
+            <ProfileSkeletonLayout>
+              <ProfileSkeleton mb='6px' />
+              <ProfileTextSkeleton mb='6px' />
+              <ProfileTextSkeleton mb='16px' />
+              <ProfileTextSkeleton mb='24px' />
+              {!userAccountname ? (
+                <>
+                  <ProfileButtonSkeleton />
+                  <ProfileButtonSkeleton />
+                </>
               ) : (
-                <ImageLayoutBackground>
-                  <ImageLayout>
-                    {postData.map((post, index) => (
-                      <ViewImage key={index} post={post} />
-                    ))}
-                  </ImageLayout>
-                </ImageLayoutBackground>
+                <ProfileButtonSkeleton />
               )}
-            </>
-          ) : (
-            <NoContent>게시물이 없습니다.</NoContent>
-          )}
-        </article>
+            </ProfileSkeletonLayout>
+            <UserProductLayout>
+              <h2>판매 중인 상품</h2>
+              <ProductItemSkeleton />
+            </UserProductLayout>
+            <ViewLayout>
+              <ViewButton bgImg={!view ? listOn : listOff} onClick={handleView}></ViewButton>
+              <ViewButton bgImg={view ? AlbumOn : AlbumOff} onClick={handleView}></ViewButton>
+            </ViewLayout>
+            <article>
+              <HomePostSkeleton />
+            </article>
+          </>
+        ) : (
+          <>
+            <UserProfile
+              user={userAccountname ? userInfo : myInfo}
+              followCount={followCount}
+              setFollowCount={setFollowCount}
+              followerURL={followerURL}
+              followingURL={followingURL}
+            />
+            <UserProductLayout>
+              <h2>판매 중인 상품</h2>
+              <ProductListLayout>
+                <ProductListLayout>
+                  {productList.data > 0 ? (
+                    productList.product.map((product, index) => <ProductItem key={index} product={product} />)
+                  ) : (
+                    <NoProduct>상품을 등록해주세요!</NoProduct>
+                  )}
+                </ProductListLayout>
+              </ProductListLayout>
+            </UserProductLayout>
+            <ViewLayout>
+              <ViewButton bgImg={!view ? listOn : listOff} onClick={handleView}></ViewButton>
+              <ViewButton bgImg={view ? AlbumOn : AlbumOff} onClick={handleView}></ViewButton>
+            </ViewLayout>
+            <article>
+              {postData.length > 0 ? (
+                <>
+                  {!view ? (
+                    postData.map((post, index) => <HomePostLayout key={index} post={post} />)
+                  ) : (
+                    <ImageLayoutBackground>
+                      <ImageLayout>
+                        {postData.map((post, index) => (
+                          <ViewImage key={index} post={post} />
+                        ))}
+                      </ImageLayout>
+                    </ImageLayoutBackground>
+                  )}
+                </>
+              ) : (
+                <NoContent>게시물이 없습니다.</NoContent>
+              )}
+            </article>
+          </>
+        )}
       </main>
       <footer>
         <Navbar />
@@ -154,6 +201,11 @@ const NoContent = styled.p`
   color: var(--dark-gray);
 `;
 
+const NoProduct = styled(NoContent)`
+  margin-top: 0;
+  font-size: var(--xs);
+`;
+
 const ViewLayout = styled.div`
   padding: 9px 21px;
   background-color: #fff;
@@ -186,6 +238,37 @@ const ImageLayout = styled.div`
   gap: 8px;
   padding: 14px 12px 20px 16px;
   padding-bottom: ${(props) => props.pb || '20px'};
+`;
+
+const ProfileSkeletonLayout = styled.div`
+  margin: 0 auto;
+  padding: 30px 0 26px;
+  text-align: center;
+  background-color: #fff;
+`;
+
+const ProfileSkeleton = styled(SkeletonItem)`
+  margin: 0 auto;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin-bottom: 16px;
+`;
+
+const ProfileTextSkeleton = styled(SkeletonItem)`
+  margin: 0 auto;
+  width: 120px;
+  height: 12px;
+  border-radius: 20px;
+  margin-bottom: ${(props) => props.mb || '16px'};
+`;
+
+const ProfileButtonSkeleton = styled(SkeletonItem)`
+  display: inline-block;
+  margin: 0 auto;
+  width: 100px;
+  height: 36px;
+  border-radius: 44px;
 `;
 
 export default Profile;
