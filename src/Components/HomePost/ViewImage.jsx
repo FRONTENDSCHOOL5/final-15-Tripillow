@@ -1,12 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 import URL from '../../Utils/URL';
+import defaultImg from '../../Assets/defaultImg.png';
 
 const ViewImage = (props) => {
   const images = props.post.image.split(', ').pop();
+
+  const handleError = (e) => {
+    e.target.src = defaultImg;
+  };
   return (
     <ImageLayout>
-      <img src={`${URL}/${images}`} alt={props.post.content} />
+      <img src={`${URL}/${images}`} onError={handleError} alt={props.post.content} />
     </ImageLayout>
   );
 };
