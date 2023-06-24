@@ -54,17 +54,25 @@ const Profile = () => {
   }, []);
 
   useEffect(() => {
-    const handleFetch = async () => {
-      await getUserInfo();
-      await getUserData();
-      await getPostData();
-      await getProductList();
+    const handleFetch = () => {
+      getUserInfo();
+      getUserData();
+      getPostData();
+      getProductList();
 
-      setTimeout(() => setIsLoading(false), 300);
+      setTimeout(() => setIsLoading(false), 500);
     };
 
     handleFetch();
   }, [userAccountname, followCount]);
+
+  useEffect(() => {
+    const handleUserFetch = () => {
+      getUserInfo();
+    };
+
+    handleUserFetch();
+  }, [followCount]);
 
   useEffect(() => {
     if (userAccountname === myAccount || !userAccountname) {
