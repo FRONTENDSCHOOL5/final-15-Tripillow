@@ -71,6 +71,7 @@ const AddProduct = (props) => {
               />
               <ProudctPrice>{productDetail.price?.toLocaleString()}원</ProudctPrice>
             </div>
+            {/* //fixme: userImg, randomMessage 코드 다시 짜기 */}
             <Button
               onClick={() => {
                 navigate(`/chat/${username}`, { state: { username, userImg, randomMessage } });
@@ -126,7 +127,6 @@ const ProductContent = styled.p`
   word-break: break-all;
 `;
 
-// fixme: width 길이가 부모의 100% 안먹음.(fixed는 뷰포트 기준이기 때문에 width 100% 안됨)
 const ProductLayout = styled.div`
   display: flex;
   /* justify-content: space-around; */
@@ -146,7 +146,6 @@ const Icon = styled.img`
   cursor: pointer;
 `;
 
-// fixme: price 길어질때 처리, ',' 처리
 const ProudctPrice = styled.div`
   font-size: 18px;
   font-weight: 700;

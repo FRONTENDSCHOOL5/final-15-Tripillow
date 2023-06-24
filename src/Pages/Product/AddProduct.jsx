@@ -137,7 +137,6 @@ const Layout = styled.div`
 `;
 const Label = styled.label`
   display: block;
-  //fixme: 패딩 값 무시하고 가로 꽉 채우는 다른 방법?
   width: calc(100% + 16px + 12px); // Image 너비에 패딩값 차감
   height: 232px;
   margin-left: -16px;
@@ -156,7 +155,7 @@ const SecondInput = styled(Input)`
     margin: 0;
   }
 `;
-//fixme: 상세설명이 layout 밖으로 나옴
+
 const ProductText = styled.textarea.attrs({
   placeholder: '제품에 대한 설명을 입력해주세요!',
 })`

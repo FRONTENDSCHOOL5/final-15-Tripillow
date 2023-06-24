@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import userToken from '../Recoil/userToken/userToken';
 import URL from './URL';

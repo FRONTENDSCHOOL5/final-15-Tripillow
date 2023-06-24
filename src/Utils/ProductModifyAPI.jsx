@@ -1,7 +1,6 @@
 import userToken from '../Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
 import URL from '../Utils/URL';
-import { useState } from 'react';
 
 const ProductModifyAPI = ({ productId, productInputs }) => {
   const token = useRecoilValue(userToken);
@@ -23,7 +22,7 @@ const ProductModifyAPI = ({ productId, productInputs }) => {
     }
   };
 
-  return {  handleProductModify };
+  return { handleProductModify };
 };
 
 export default ProductModifyAPI;
