@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import ProductDetailAPI from '../../Utils/ProductDetailAPI';
@@ -10,7 +10,6 @@ import hearticon from '../../Assets/icons/icon-heart.svg';
 import heartfill from '../../Assets/icons/icon-heart-fill.svg';
 import Button from '../../Components/common/Button';
 import User from '../../Components/common/User';
-import profileSm from '../../Assets/profile-sm.png';
 import chatLists from '../Chat/chatLists';
 
 const AddProduct = (props) => {
@@ -19,11 +18,8 @@ const AddProduct = (props) => {
   const [isClick, setIsClick] = useState(false);
   const params = useParams();
   const navigate = useNavigate();
-  const location = useLocation();
   const productDetail = ProductDetailAPI(params.id);
   const userImg = productDetail.author?.image;
-  // const randomMsg = location.state.randomMessage;
-  console.log(222222, location);
 
   const [randomMessage, setRandomMessage] = useState('');
   console.log('🚀  randomMessage:', randomMessage);
@@ -35,7 +31,6 @@ const AddProduct = (props) => {
   }, []);
 
   console.log(productDetail);
-  // const author = productDetail?.author;
   const username = productDetail.author?.username;
   useEffect(() => {
     setProductId(params.id);
@@ -71,13 +66,13 @@ const AddProduct = (props) => {
               />
               <ProudctPrice>{productDetail.price?.toLocaleString()}원</ProudctPrice>
             </div>
-            {/* //fixme: userImg, randomMessage 코드 다시 짜기 */}
             <Button
               onClick={() => {
                 navigate(`/chat/${username}`, { state: { username, userImg, randomMessage } });
               }}
               right='12px'
               position='absolute'
+              margin='0 0 5px 0'
             >
               채팅하기
             </Button>
@@ -146,9 +141,10 @@ const Icon = styled.img`
   cursor: pointer;
 `;
 
-const ProudctPrice = styled.div`
+const ProudctPrice = styled.p`
   font-size: 18px;
   font-weight: 700;
+  line-height: 1.3;
   /* margin-right: 82px; */
 `;
 
