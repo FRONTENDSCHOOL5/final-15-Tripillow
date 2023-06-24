@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import profileImg from '../Assets/profile-sm.png';
 import styled from 'styled-components';
 import more from '../Assets/icons/icon-more-vertical.svg';
 import CommentModal from './CommentModal';
-import { useEffect } from 'react';
 import PostAlertModal from './common/PostAlertModal';
 import accountname from '../Recoil/accountName/accountName';
-import { useRecoilValue } from 'recoil';
 import DeleteCommentAPI from '../Utils/DeleteCommentAPI';
 import ReportCommentAPI from '../Utils/ReportCommentAPI';
+import User from './common/User';
 
 const Comment = ({ commentInfo, postId, idx, setNewComment }) => {
   const name = useRecoilValue(accountname);
@@ -24,7 +25,6 @@ const Comment = ({ commentInfo, postId, idx, setNewComment }) => {
   const isMine = name === commentInfo.author.accountname;
   const deleteComment = DeleteCommentAPI(postId, commentInfo.id);
   const reportComment = ReportCommentAPI(postId, commentInfo.id);
-  console.log(commentInfo);
 
   const handleModal = () => {
     setIsModalOn(!isModalOn);
@@ -54,7 +54,11 @@ const Comment = ({ commentInfo, postId, idx, setNewComment }) => {
   return (
     <CommentLayout>
       <Profile>
-        <ProfileImg src={commentInfo.author.image || profileImg} alt='프로필 이미지'></ProfileImg>
+        <ProfileLink
+          to={commentInfo.author.accountname === name ? `/profile` : `/profile/${commentInfo.author.accountname}`}
+        >
+          <ProfileImg src={commentInfo.author.image || profileImg} alt='프로필 이미지'></ProfileImg>
+        </ProfileLink>
         <UserName>{commentInfo.author.username || '더미유저'}</UserName>
         <Time>{createdAt}</Time>
         <MoreBtn onClick={handleModal}></MoreBtn>
@@ -88,10 +92,18 @@ const Profile = styled.div`
   align-items: center;
 `;
 
-const ProfileImg = styled.img`
+const ProfileLink = styled(Link)`
+  display: block;
   width: 36px;
   height: 36px;
   border-radius: 50%;
+  overflow: hidden;
+`;
+
+const ProfileImg = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const UserName = styled.span`
