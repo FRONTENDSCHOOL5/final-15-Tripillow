@@ -14,10 +14,10 @@ const User = (props) => {
   const url = props.userImg?.split('/') || 'null';
 
   const highlightKeyword = (text, keyword) => {
-    const startIndex = text.indexOf(keyword);
+    const startIndex = text?.indexOf(keyword);
     const endIndex = startIndex + keyword?.length;
-    const leftSide = text.slice(0, startIndex);
-    const rightSide = text.slice(endIndex);
+    const leftSide = text?.slice(0, startIndex);
+    const rightSide = text?.slice(endIndex);
     return { leftSide, rightSide };
   };
 
