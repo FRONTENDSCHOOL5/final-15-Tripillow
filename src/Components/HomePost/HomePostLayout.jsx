@@ -234,6 +234,7 @@ const Content = styled.p`
   margin-bottom: 13px;
   line-height: 1.4;
   cursor: pointer;
+  word-break: break-all;
 
   & + span {
     font-size: 10px;
