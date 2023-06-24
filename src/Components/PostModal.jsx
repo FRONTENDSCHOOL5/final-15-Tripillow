@@ -1,34 +1,48 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
+import { useLocation } from 'react-router-dom';
 
-const PostModal = ({ postId, handleAlertModal, handleModify, handleReport, ...props }) => {
+const PostModal = ({ handleAlertModal, handleModify, handleReport, ...props }) => {
+  const pathname = useLocation().pathname;
+  const handleOnClick = () => {
+    return;
+  };
   return (
-    <ModalLayout>
-      <SlideBar></SlideBar>
-      {props.isMine ? (
-        <>
-          <button type='button' onClick={handleAlertModal}>
-            삭제
-          </button>
-          <button type='button' onClick={handleModify}>
-            수정
-          </button>
-        </>
-      ) : (
-        <>
-          <button type='button' onClick={handleReport}>
-            신고하기
-          </button>
-        </>
-      )}
-    </ModalLayout>
+    <ModalBackground onClick={handleOnClick}>
+      <ModalLayout pathname={pathname}>
+        <SlideBar></SlideBar>
+        {props.isMine ? (
+          <>
+            <button type='button' onClick={handleAlertModal}>
+              삭제
+            </button>
+            <button type='button' onClick={handleModify}>
+              수정
+            </button>
+          </>
+        ) : (
+          <>
+            <button type='button' onClick={handleReport}>
+              신고하기
+            </button>
+          </>
+        )}
+      </ModalLayout>
+    </ModalBackground>
   );
 };
+
+const ModalBackground = styled.div`
+  position: fixed;
+  width: 390px;
+  height: (100% - 60px);
+  background-color: rgba(0, 0, 0, 0.5);
+`;
 
 const ModalLayout = styled.div`
   position: fixed;
   left: 50%;
-  bottom: 74px;
+  bottom: ${(props) => (props.pathname === '/profile' ? '74px' : '60px')};
   transform: translate(-50%);
   width: 389px;
   padding: 16px 0;
