@@ -4,8 +4,11 @@ import styled from 'styled-components';
 import { LayoutStyle } from '../../Styles/Layout';
 import BasicHeader from '../../Components/common/Header/BasicHeader';
 import profileSm from '../../Assets/profile-sm.png';
+import { useLocation } from 'react-router-dom';
 
 const ChatDetail = () => {
+  const location = useLocation();
+  console.log(location);
   const [inputValue, setInputValue] = useState('');
   const [chatValue, setChatValue] = useState([]);
 
@@ -32,12 +35,13 @@ const ChatDetail = () => {
 
   return (
     <ChatLayout>
-      <BasicHeader></BasicHeader>
+      <BasicHeader>{location.state.username}</BasicHeader>
       <ChatContentLayout>
-        <UserImage src={profileSm} alt='프로필 이미지' />
+        <UserImageLayout>
+          <UserImage src={location.state.userImg} alt='location.state.username' />
+        </UserImageLayout>
         <ChatContent bgColor='white' radius='0 22px 22px 22px'>
-          옷을 인생을 그러므로 없으면 것은 이상은 것은 우리의 위하여, 뿐이다. 이상의 청춘의 뼈 따뜻한 그들의 그와
-          약동하다. 대고, 못할 넣는 풍부하게 뛰노는 인생의 힘있다.
+          {location.state.randomMessage}
         </ChatContent>
         <ChatTime>12:39</ChatTime>
       </ChatContentLayout>
@@ -52,7 +56,9 @@ const ChatDetail = () => {
       ))}
 
       <ChatInputBar>
-        <UserImage src={profileSm} alt='프로필 이미지' />
+        <UserImageLayout>
+          <UserImage src={profileSm} alt='프로필 이미지' />
+        </UserImageLayout>
         <ChatInput
           value={inputValue}
           onChange={handleInputChange}
@@ -83,10 +89,18 @@ const ChatContentLayout = styled.div`
   margin-left: ${(props) => props.marginLeft};
 `;
 
-const UserImage = styled.img`
+const UserImageLayout = styled.div`
   width: 42px;
   height: 42px;
+  border-radius: 50%;
+  overflow: hidden;
   margin-right: 12px;
+`;
+
+const UserImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const ChatContent = styled.p`

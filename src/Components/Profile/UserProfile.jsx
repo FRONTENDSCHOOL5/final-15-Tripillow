@@ -12,6 +12,7 @@ import FollowAPI from '../../Utils/FollowAPI';
 import UnFollowAPI from '../../Utils/UnFollowAPI';
 import URL from '../../Utils/URL';
 import AlertTop from '../common/AlertTop';
+import chatLists from '../../Pages/Chat/chatLists';
 
 const UserProfile = ({ followCount, setFollowCount, followerURL, followingURL, ...props }) => {
   const navigate = useNavigate();
@@ -20,6 +21,8 @@ const UserProfile = ({ followCount, setFollowCount, followerURL, followingURL, .
   const follow = user?.isfollow;
   const account = user?.accountname;
   const userCount = user?.followerCount;
+  const username = props.user?.username;
+  const userImg = props.user?.image;
   const name = useRecoilValue(accountName);
   const { getUserData } = MyInfoAPI();
   const { followUser } = FollowAPI({ account });
@@ -28,6 +31,13 @@ const UserProfile = ({ followCount, setFollowCount, followerURL, followingURL, .
   const [isFollow, setIsFollow] = useState(user?.isfollow);
   const [followText, setFollowText] = useState(!follow ? '팔로우' : '언팔로우');
   const [isModal, setIsModal] = useState(false);
+  const [randomMessage, setRandomMessage] = useState('');
+
+  useEffect(() => {
+    const randomIndex = Math.floor(Math.random() * chatLists.length);
+    const selectedMessage = chatLists[randomIndex];
+    setRandomMessage(selectedMessage);
+  }, []);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -73,6 +83,10 @@ const UserProfile = ({ followCount, setFollowCount, followerURL, followingURL, .
     }
   };
 
+  const handleChatClick = () => {
+    navigate(`/chat/${username}`, { state: { username, randomMessage, userImg } });
+  };
+
   return (
     <>
       {user && (
@@ -108,7 +122,7 @@ const UserProfile = ({ followCount, setFollowCount, followerURL, followingURL, .
             </IconLayout>
           ) : (
             <IconLayout>
-              <ChatIconStyle />
+              <ChatIconStyle onClick={handleChatClick} />
               <CommonButton width='120px' clicked={followText === '언팔로우'} onClick={handleFollowButtonClick}>
                 {followText}
               </CommonButton>

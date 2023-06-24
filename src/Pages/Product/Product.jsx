@@ -108,10 +108,8 @@ const Product = () => {
           onClick={() => {
             navigate('/addproduct');
           }}
-          position='relative'
-          margin='0 0 0 auto'
-          width='50px'
-          height='50px'
+       position='relative'
+          margin = '0 0 0 auto' width='50px' height='50px'
         ></CircleButton>
       </div>
       <Navbar />

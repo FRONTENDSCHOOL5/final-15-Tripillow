@@ -1,17 +1,27 @@
 import React from 'react';
 import styled from 'styled-components';
 import URL from '../../Utils/URL';
+import defaultImg from '../../Assets/defaultImg.png';
+import imgLayer from '../../Assets/icons/icon-img-layers.svg';
 
 const ViewImage = (props) => {
+  const longImages = props.post.image.split(', ');
+  console.log('🚀  longImages:', longImages);
   const images = props.post.image.split(', ').pop();
+
+  const handleError = (e) => {
+    e.target.src = defaultImg;
+  };
   return (
     <ImageLayout>
-      <img src={`${URL}/${images}`} alt={props.post.content} />
+      {longImages.length > 1 && <ImageLayerLayout />}
+      <img src={`${URL}/${images}`} onError={handleError} alt={props.post.content} />
     </ImageLayout>
   );
 };
 
 const ImageLayout = styled.div`
+  position: relative;
   width: 114px;
   height: 114px;
   overflow: hidden;
@@ -22,6 +32,14 @@ const ImageLayout = styled.div`
     height: 100%;
     object-fit: cover;
   }
+`;
+
+const ImageLayerLayout = styled.div`
+  position: absolute;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  background: url(${imgLayer}) no-repeat center center;
 `;
 
 export default ViewImage;

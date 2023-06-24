@@ -10,15 +10,17 @@ import userToken from '../../Recoil/userToken/userToken';
 import ImageUploadAPI from '../../Utils/ImageUploadAPI';
 import defaultImage from '../../Assets/addproduct.png';
 import { useNavigate } from 'react-router-dom';
+import ErrorMSG from '../../Styles/ErrorMSG';
 
 const AddProduct = (props) => {
-  const [productName, setproductName] = useState('');
+  const [productName, setProductName] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
   const [imageLink, setImageLink] = useState('');
   const token = useRecoilValue(userToken);
   const navigate = useNavigate();
-
+  const [priceErr, setPriceErr] = useState(false);
+  const [lengthErr, setLengthErr] = useState(null);
   const imageURL = imageLink;
 
   const handleSubmit = async () => {
@@ -46,6 +48,7 @@ const AddProduct = (props) => {
     }
     navigate('/product');
   };
+
   const handleChange = async (e) => {
     const response = await ImageUploadAPI(e);
     setImageLink(`${URL}/${response.filename}`);
@@ -55,14 +58,20 @@ const AddProduct = (props) => {
   };
 
   const handleMinMax = (e) => {
-   let price = parseInt(e.target.value);
+    let price = parseInt(e.target.value);
     const maxPrice = 10000000;
     if (price > maxPrice) {
       setPrice(maxPrice);
+      setPriceErr(true);
     } else {
       setPrice(price);
     }
   };
+
+  const handleInputChange = (e) => {
+    setProductName(e.target.value);
+  };
+
   return (
     <Layout>
       <UploadHeader onClick={handleSubmit} disabled={!productName || !price || !description}>
@@ -79,13 +88,14 @@ const AddProduct = (props) => {
       <Input
         width='100%'
         value={productName}
-        onChange={(e) => setproductName(e.target.value)}
+        onChange={handleInputChange}
         maxLength='16'
         // htmlFor={forId}
         label='상품명'
         placeholder='1~15자 이내여야 합니다.'
         mb='16px'
       />
+      {productName.length >= 16 && <ErrorMSG errorColor>1~15자 이내로 입력하세요.</ErrorMSG>}
       <SecondInput
         value={price}
         // onChange={(e) => setPrice(e.target.value);
@@ -98,6 +108,7 @@ const AddProduct = (props) => {
         type='number'
         mb='16px'
       />
+      {priceErr && <ErrorMSG errorColor>천만원 이하의 상품만 판매가능합니다.</ErrorMSG>}
       {/* <Input
         value={description}
         onChange={(e) => setdescription(e.target.value)}

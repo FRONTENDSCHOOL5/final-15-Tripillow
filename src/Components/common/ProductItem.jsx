@@ -12,7 +12,7 @@ const ProductItem = (props) => {
           <ButtonLayout>
             <ProductImg src={product?.itemImage} alt={product?.itemName} />
             <ProductInfo size='14px' color='black'>
-              {product?.itemName}
+              {product?.itemName?.length < 14 ? product?.itemName : product?.itemName.slice(0, 13) + '...'}
             </ProductInfo>
             <ProductInfo size='12px' color='#6CABFF' weight='700'>
               {product?.price?.toLocaleString()}원
@@ -31,7 +31,7 @@ const ButtonLayout = styled.button`
 
 const ProductImg = styled.img`
   border-radius: 8px;
-  width: 140px;
+  width: 160px;
   height: 90px;
   margin-bottom: 7px;
 `;
