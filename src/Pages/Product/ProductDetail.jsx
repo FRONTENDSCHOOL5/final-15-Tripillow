@@ -49,7 +49,7 @@ const AddProduct = (props) => {
           <ProductContent size='var(--xl)' weight='700'>
             {productDetail.itemName}
           </ProductContent>
-          <ProductContent size='var(--lg)'>{productDetail.link}</ProductContent>
+          <ProductContent size='var(--lg)' height='1.4'>{productDetail.link}</ProductContent>
           <ProductLayout>
             <div style={{ display: 'flex', marginLeft: '20px' }}>
               <Icon
@@ -105,6 +105,7 @@ const ProductContent = styled.p`
   font-weight: ${(props) => props.weight || '400'};
   margin-bottom: ${(props) => props.mb || '4px'};
   margin-top: 29px;
+  line-height: ${(props) => props.height};
 `;
 
 // fixme: width 길이가 부모의 100% 안먹음.(fixed는 뷰포트 기준이기 때문에 width 100% 안됨)

@@ -8,7 +8,6 @@ import ProductItem from '../../Components/common/ProductItem';
 import { Layout } from '../../Styles/Layout';
 import CircleButton from '../../Components/common/CircleButton';
 import accountName from '../../Recoil/accountName/accountName';
-// import Toggle from '../../Components/common/Toggle';
 
 import ProductDetailAPI from '../../Utils/ProductDetailAPI';
 
@@ -115,23 +114,22 @@ const Product = () => {
         )}
         {products
           ? products.map((product, i) => (
-              <GridItem>
-                <Link to={`/product/detail/${product?.id}`} key={i}>
-                  <ProductItem key={i} product={product} onClick={() => ProductDetailAPI(product)} />
+              <GridItem key={i}>
+                <Link to={`/product/detail/${product?.id}`} >
+                  <ProductItem  product={product} onClick={() => ProductDetailAPI(product)} />
                 </Link>
               </GridItem>
             ))
           : !productLoading && <p>등록된 상품이 없습니다.</p>}
       </GridLayout>
       {showSpinner && products.length > 0 && <Spinner />}
-      <div>
+      <div style={{position : 'fixed', width: '360px', height : '48px', bottom : '100px'}}>
         <CircleButton
           onClick={() => {
             navigate('/addproduct');
           }}
-          position='absolute'
-          right='18px'
-          bottom='144px'
+       position='relative'
+          margin = '0 0 0 auto' width='50px' height='50px'
         ></CircleButton>
       </div>
       <Navbar />
