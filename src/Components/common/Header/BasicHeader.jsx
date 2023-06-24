@@ -58,6 +58,10 @@ const BasicHeader = (props) => {
     navigate('/modifyproduct', { state: userId });
   };
 
+  const goSetting = () => {
+    navigate('/profile/setting');
+  };
+
   return (
     <HeaderLayout>
       <ContentLayout>
@@ -77,6 +81,7 @@ const BasicHeader = (props) => {
           handleLogoutbutton={handleLogoutbutton}
           bottom={props.isPost && '60px'}
           handleProductModify={userId ? handleModify : null}
+          goSetting={goSetting}
         />
       )}
       {alertModal && (

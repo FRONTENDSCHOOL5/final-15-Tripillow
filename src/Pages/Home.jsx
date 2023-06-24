@@ -29,7 +29,6 @@ const Home = () => {
             'Content-Type': 'application/json',
           },
         });
-        console.log('피드받아오는중');
         const data = await response.json();
         if (response.ok) {
           setFollowedFeed((prevFeed) => [...prevFeed, ...data.posts]);
