@@ -5,7 +5,7 @@ const Modal = ({ btn1, btn2, handleMorebutton, handleLogoutbutton, bottom, ...pr
   return (
     <ModalLayout bottom={bottom}>
       <SlideBar></SlideBar>
-      <button type='buton' {...props} onClick={props.handleProductModify}>
+      <button type='buton' {...props} onClick={props.handleProductModify || props.goSetting}>
         {btn1}
       </button>
       <button type='button' onClick={handleLogoutbutton} {...props}>
