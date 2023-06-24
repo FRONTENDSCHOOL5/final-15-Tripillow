@@ -103,7 +103,7 @@ const HomePostLayout = (props) => {
               <img src={isHearted ? iconHeart : iconUnheart} alt='하트 아이콘' onClick={handleHeart} />
               <span>{heartCount}</span>
             </IconButton>
-            <IconButton>
+            <IconButton onClick={handlePostClick}>
               <img src={iconChat} alt='채팅 아이콘' />
               <span>{post.commentCount}</span>
             </IconButton>
@@ -118,7 +118,7 @@ const HomePostLayout = (props) => {
               <img src={isHearted ? iconHeart : iconUnheart} alt='하트 아이콘' onClick={handleHeart} />
               <span>{heartCount}</span>
             </IconButton>
-            <IconButton>
+            <IconButton onClick={handlePostClick}>
               <img src={iconChat} alt='채팅 아이콘' />
               <span>{post.commentCount}</span>
             </IconButton>
