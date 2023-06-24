@@ -93,6 +93,8 @@ const Search = () => {
             ? searchData.map((user) => (
                 <SearchedUser key={user._id}>
                   <User
+                    search
+                    keyword={debounceValue}
                     userImg={user.image}
                     username={user.username}
                     content={'@' + user.accountname}
@@ -103,6 +105,8 @@ const Search = () => {
             : searchData.slice(0, 9).map((user) => (
                 <SearchedUser key={user._id}>
                   <User
+                    search
+                    keyword={debounceValue}
                     userImg={user.image}
                     username={user.username}
                     content={'@' + user.accountname}
