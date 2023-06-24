@@ -20,6 +20,7 @@ import PostDetail from './Pages/PostDetail';
 import UserProfileSetting from './Components/Profile/UserProfileSetting';
 import PostModification from './Pages/PostModification';
 import ProtectRoute from './Utils/ProtectRoute/ProtectRoute';
+import Setting from './Pages/Setting';
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
             <Route path='/profile/:accountname/followers' element={<Followers />} />
             <Route path='/profile/followings' element={<Followers />} />
             <Route path='/profile/:accountname/followings' element={<Followers />} />
+            <Route path='/profile/setting' element={<Setting />} />
             <Route path='/post' element={<Post />} />
             <Route path='/post/:id' element={<PostDetail />} />
             <Route path='/modifypost' element={<PostModification />} />
