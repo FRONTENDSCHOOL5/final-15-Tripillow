@@ -64,19 +64,21 @@ const Comment = ({ commentInfo, postId, idx, setNewComment }) => {
         <MoreBtn onClick={handleModal}></MoreBtn>
       </Profile>
       <Text>{commentInfo.content || '더미코멘트'}</Text>
-      {isModalOn && (
-        <CommentModal isMine={isMine} commentInfo={commentInfo} setIsAlertModalOn={setIsAlertModalOn}></CommentModal>
-      )}
-      {isAlertModalOn && (
-        <PostAlertModal
-          isMine={isMine}
-          isComment={true}
-          setIsModalOn={setIsModalOn}
-          handleDelete={handleDelete}
-          handleReport={handleReport}
-          closeModal={closeModal}
-        ></PostAlertModal>
-      )}
+      <ModalOn>
+        {isModalOn && (
+          <CommentModal isMine={isMine} commentInfo={commentInfo} setIsAlertModalOn={setIsAlertModalOn}></CommentModal>
+        )}
+        {isAlertModalOn && (
+          <PostAlertModal
+            isMine={isMine}
+            isComment={true}
+            setIsModalOn={setIsModalOn}
+            handleDelete={handleDelete}
+            handleReport={handleReport}
+            closeModal={closeModal}
+          ></PostAlertModal>
+        )}
+      </ModalOn>
     </CommentLayout>
   );
 };
@@ -128,6 +130,11 @@ const Text = styled.p`
   margin: 0 0 0 51px;
   box-shadow: solid 1px 0 0;
   font-size: var(--sm);
+`;
+
+const ModalOn = styled.div`
+  position: relative;
+  z-index: 9999;
 `;
 
 export default Comment;
