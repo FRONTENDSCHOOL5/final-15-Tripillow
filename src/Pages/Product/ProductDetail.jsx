@@ -53,7 +53,7 @@ const AddProduct = (props) => {
           <ProductContent size='var(--xl)' weight='700'>
             {productDetail.itemName}
           </ProductContent>
-          <ProductContent size='var(--lg)' height='1.4'>
+          <ProductContent size='var(--lg)' height='1.4' style={{ whiteSpace: 'pre-wrap' }}>
             {productDetail.link}
           </ProductContent>
           <ProductLayout>
