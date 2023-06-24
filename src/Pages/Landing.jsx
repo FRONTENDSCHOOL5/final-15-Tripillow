@@ -8,14 +8,13 @@ import AlertTop from '../Components/common/AlertTop';
 
 const Landing = () => {
   const location = useLocation();
-  console.log('🚀  location:', location.state);
   const [errorMSG, setErrorMSG] = useState();
 
   useEffect(() => {
     if (!!location.state) {
       setErrorMSG(location.state);
       setTimeout(() => {
-        setErrorMSG(''); // 2초 후에 알림을 없애기 위해 errorMSG 상태를 null로 업데이트
+        setErrorMSG('');
       }, 2000);
     }
   }, []);

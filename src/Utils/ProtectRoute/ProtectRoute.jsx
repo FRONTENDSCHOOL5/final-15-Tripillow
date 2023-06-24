@@ -16,10 +16,10 @@ const ProtectedRoute = ({ children }) => {
   }, []);
 
   if (!isUser) {
-    return null; // 로그인하지 않은 경우 컴포넌트를 렌더링하지 않음
+    return null;
   }
 
-  return children; // 로그인 상태인 경우 자식 컴포넌트를 반환
+  return children;
 };
 
 export default ProtectedRoute;
