@@ -14,7 +14,7 @@ const FollowAPI = ({ account }) => {
         },
       });
       const result = await response.json();
-      console.log(result);
+      return result;
     } catch (error) {
       console.error('FollowAPI 응답이 없습니다.', error);
     }
