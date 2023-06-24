@@ -6,19 +6,36 @@ import more from '../../Assets/icons/s-icon-more-vertical.svg';
 import Button from './Button';
 
 const User = (props) => {
+  const setIsModalOn = props.setIsModalOn;
+  const handleOnClick = () => {
+    setIsModalOn((prev) => !prev);
+  };
+
+  const url = props.userImg?.split('/') || 'null';
   return (
-    <UserLayout>
+    <UserLayout margin={props.margin}>
       <Link to={`/profile/${props.accountname}`}>
-        <UserImg src={props.userImg || profileSm} alt={props.username} />
+        <UserImgLayout>
+          <UserImg
+            src={
+              url[url.length - 1] === 'null' ||
+              url[url.length - 1] === 'undefined' ||
+              (url[0] !== 'data:image' && url[0] !== 'https:')
+                ? profileSm
+                : props.userImg
+            }
+            alt={props.username}
+          />
+        </UserImgLayout>
       </Link>
       <UserContentsLayout>
         <div>
           <UserTitle>{props.username}</UserTitle>
           <UserContent>{props.content} </UserContent>
         </div>
-        {props.moreBtn && <MoreBtn />}
+        {props.moreBtn && <MoreBtn type='button' onClick={handleOnClick} />}
         {props.followers && (
-          <Button width={'56px'} height={'28px'} fontSize={'var(--xs)'} border={'none'} padding={'0px'}>
+          <Button width='56px' fontSize='var(--xs)' border='none' padding='5.75px'>
             팔로우
           </Button>
         )}
@@ -33,12 +50,19 @@ const UserLayout = styled.div`
   align-items: center;
   gap: 12px;
   cursor: pointer;
+  margin: ${(props) => props.margin};
 `;
-
-const UserImg = styled.img`
+const UserImgLayout = styled.div`
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  overflow: hidden;
+`;
+
+const UserImg = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const UserTitle = styled.h3`

@@ -4,22 +4,22 @@ import { Link } from 'react-router-dom';
 
 const ProductItem = (props) => {
   const product = props.product;
-  console.log(product);
+
   return (
     <>
-      {product && (
-        <Link to={`/product/${product.id}`}>
+      {
+        <Link to={`/product/detail/${product?.id}`}>
           <ButtonLayout>
-            <ProductImg src={product.itemImage} alt={product.itemName} />
+            <ProductImg src={product?.itemImage} alt={product?.itemName} />
             <ProductInfo size='14px' color='black'>
-              {product.itemName}
+              {product?.itemName?.length < 14 ? product?.itemName : product?.itemName.slice(0, 13) + '...'}
             </ProductInfo>
             <ProductInfo size='12px' color='#6CABFF' weight='700'>
-              {product.price.toLocaleString()}원
+              {product?.price?.toLocaleString()}원
             </ProductInfo>
           </ButtonLayout>
         </Link>
-      )}
+      }
     </>
   );
 };
@@ -31,7 +31,7 @@ const ButtonLayout = styled.button`
 
 const ProductImg = styled.img`
   border-radius: 8px;
-  width: 140px;
+  width: 160px;
   height: 90px;
   margin-bottom: 7px;
 `;

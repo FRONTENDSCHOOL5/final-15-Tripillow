@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Modal = ({ btn1, btn2, handleMorebutton, handleLogoutbutton, ...props }) => {
+const Modal = ({ btn1, btn2, handleMorebutton, handleLogoutbutton, bottom, ...props }) => {
   return (
-    <ModalLayout>
+    <ModalLayout bottom={bottom}>
       <SlideBar></SlideBar>
-      <button type='buton' {...props}>
+      <button type='buton' {...props} onClick={props.handleProductModify}>
         {btn1}
       </button>
       <button type='button' onClick={handleLogoutbutton} {...props}>
@@ -18,10 +18,9 @@ const Modal = ({ btn1, btn2, handleMorebutton, handleLogoutbutton, ...props }) =
 const ModalLayout = styled.div`
   position: fixed;
   left: 50%;
-  bottom: 74px;
+  bottom: ${(props) => (props.bottom ? props.bottom : '74px')};
   transform: translate(-50%);
   width: 389px;
-  height: 138px;
   padding: 16px 0;
   background-color: #fff;
   box-shadow: 0px -2px 2px rgba(0, 0, 0, 0.1);

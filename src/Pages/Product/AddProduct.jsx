@@ -9,22 +9,21 @@ import URL from '../../Utils/URL';
 import userToken from '../../Recoil/userToken/userToken';
 import ImageUploadAPI from '../../Utils/ImageUploadAPI';
 import defaultImage from '../../Assets/addproduct.png';
+import { useNavigate } from 'react-router-dom';
+import ErrorMSG from '../../Styles/ErrorMSG';
 
 const AddProduct = (props) => {
-  const [productName, setproductName] = useState('');
+  const [productName, setProductName] = useState('');
   const [price, setPrice] = useState('');
-  const [saleLink, setSaleLink] = useState('');
+  const [description, setDescription] = useState('');
   const [imageLink, setImageLink] = useState('');
   const token = useRecoilValue(userToken);
-
-
-  const imageURL = imageLink
-
+  const navigate = useNavigate();
+  const [priceErr, setPriceErr] = useState(false);
+  const [lengthErr, setLengthErr] = useState(null);
+  const imageURL = imageLink;
 
   const handleSubmit = async () => {
-    // e.preventDefault();
-    // e.stopPropagation();
-
     try {
       const response = await fetch(URL + '/product', {
         method: 'POST',
@@ -37,7 +36,7 @@ const AddProduct = (props) => {
           product: {
             itemName: productName,
             price: parseInt(price), //1원 이상
-            link: saleLink,
+            link: description,
             itemImage: imageLink,
           },
         }),
@@ -47,52 +46,81 @@ const AddProduct = (props) => {
     } catch (error) {
       console.error('에러 발생!!!!!');
     }
+    navigate('/product');
   };
+
   const handleChange = async (e) => {
     const response = await ImageUploadAPI(e);
     setImageLink(`${URL}/${response.filename}`);
+
     console.log('@@@@@@@this2!@!#$#@$@#$', imageLink);
     // console.log(response)
   };
 
+  const handleMinMax = (e) => {
+    let price = parseInt(e.target.value);
+    const maxPrice = 10000000;
+    if (price > maxPrice) {
+      setPrice(maxPrice);
+      setPriceErr(true);
+    } else {
+      setPrice(price);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    setProductName(e.target.value);
+  };
+
   return (
     <Layout>
-      <UploadHeader onClick={handleSubmit} disabled={!productName || !price || !saleLink}>
+      <UploadHeader onClick={handleSubmit} disabled={!productName || !price || !description}>
         저장
       </UploadHeader>
       <Label htmlFor='file-upload'>
         <Image src={imageLink || defaultImage} />
       </Label>
       <input id='file-upload' className='a11y-hidden' onChange={handleChange} type='file' />
-
       <CategoryTxt>카테고리</CategoryTxt>
       <Toggle margin='0 0 20px 0' leftButton='여행용품' rightButton='외화' />
+
+      {/* //fixme: label 클릭하면 input에 위치 */}
       <Input
         width='100%'
         value={productName}
-        onChange={(e) => setproductName(e.target.value)}
+        onChange={handleInputChange}
+        maxLength='16'
+        // htmlFor={forId}
         label='상품명'
-        placeholder='2~15자 이내여야 합니다.'
+        placeholder='1~15자 이내여야 합니다.'
         mb='16px'
       />
-      <Input
+      {productName.length >= 16 && <ErrorMSG errorColor>1~15자 이내로 입력하세요.</ErrorMSG>}
+      <SecondInput
         value={price}
-        onChange={(e) => setPrice(e.target.value)}
+        // onChange={(e) => setPrice(e.target.value);
+        // handleMinMax}
+        onChange={handleMinMax}
         label='가격'
-        placeholder='숫자만 입력 가능합니다.'
+        min='1'
+        max='10000000'
+        placeholder='1원부터 1천만원 사이의 값만 입력 가능합니다.'
         type='number'
         mb='16px'
       />
-      <Input
-        value={saleLink}
-        onChange={(e) => setSaleLink(e.target.value)}
+      {priceErr && <ErrorMSG errorColor>천만원 이하의 상품만 판매가능합니다.</ErrorMSG>}
+      {/* <Input
+        value={description}
+        onChange={(e) => setdescription(e.target.value)}
         label='판매링크'
         placeholder='URL을 입력해주세요.'
         type='url'
         mb='16px'
-      />
-
-
+      /> */}
+      <label htmlFor='product' style={{ color: '#767676', fontSize: 'var(--xs)' }}>
+        상세 설명
+      </label>
+      <ProductText id='product' value={description} onChange={(e) => setDescription(e.target.value)} />
       <Navbar />
     </Layout>
   );
@@ -117,6 +145,38 @@ const Label = styled.label`
   margin-bottom: 14px;
   cursor: pointer;
 `;
+
+const SecondInput = styled(Input)`
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  ::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+`;
+//fixme: 상세설명이 layout 밖으로 나옴
+const ProductText = styled.textarea.attrs({
+  placeholder: '제품에 대한 설명을 입력해주세요!',
+})`
+  width: 100%;
+  min-height: 140px;
+  margin-top: 12px;
+  padding: 10px;
+  resize: none;
+  border: 1px solid var(--light-gray);
+  font-size: var(--xs);
+  box-sizing: border-box;
+
+  ::placeholder {
+    color: var(--light-gray);
+  }
+  &:focus {
+    border: 1px solid var(--primary);
+  }
+`;
+
 const Image = styled.img`
   width: 100%;
   height: 100%;

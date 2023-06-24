@@ -1,43 +1,107 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import styled, { css } from 'styled-components';
-import accountname from '../../Recoil/accountName/accountName';
+import accountName from '../../Recoil/accountName/accountName';
+import MyInfoAPI from '../../Utils/MyInfoAPI';
 import ProfileImg from '../../Assets/profile-lg.png';
 import Chat from '../../Assets/icons/icon-message-circle-1.svg';
 import Share from '../../Assets/icons/icon-share.svg';
 import CommonButton from '../../Components/common/Button';
-import { useRecoilValue } from 'recoil';
-import { useNavigate } from 'react-router-dom';
+import FollowAPI from '../../Utils/FollowAPI';
+import UnFollowAPI from '../../Utils/UnFollowAPI';
+import URL from '../../Utils/URL';
+import AlertTop from '../common/AlertTop';
+import chatLists from '../../Pages/Chat/chatLists';
 
-const UserProfile = (props) => {
-  const user = props.user || props.author;
-  const name = useRecoilValue(accountname);
-  const [isFollowClicked, setIsFollowClicked] = useState(false);
-  const [isFollow, setIsFollow] = useState(user.isfollow);
+const UserProfile = ({ followCount, setFollowCount, followerURL, followingURL, ...props }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const user = props.user || props.author;
+  const follow = user?.isfollow;
+  const account = user?.accountname;
+  const userCount = user?.followerCount;
+  const username = props.user?.username;
+  const userImg = props.user?.image;
+  const name = useRecoilValue(accountName);
+  const { getUserData } = MyInfoAPI();
+  const { followUser } = FollowAPI({ account });
+  const { unFollowUser } = UnFollowAPI({ account });
+  const [myData, setMyData] = useState({});
+  const [isFollow, setIsFollow] = useState(user?.isfollow);
+  const [followText, setFollowText] = useState(!follow ? '팔로우' : '언팔로우');
+  const [isModal, setIsModal] = useState(false);
+  const [randomMessage, setRandomMessage] = useState('');
 
-  const handleFollowButtonClick = (e) => {
-    setIsFollowClicked(!isFollowClicked);
-    if (e.target.textContent === '팔로우') {
-      e.target.textContent = '언팔로우';
-    } else {
-      e.target.textContent = '팔로우';
+  useEffect(() => {
+    const randomIndex = Math.floor(Math.random() * chatLists.length);
+    const selectedMessage = chatLists[randomIndex];
+    setRandomMessage(selectedMessage);
+  }, []);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const data = await getUserData();
+      setMyData(data);
+      setFollowCount(data.followingCount);
+    };
+    fetchUserData();
+  }, []);
+
+  useEffect(() => {
+    setIsFollow(user?.isfollow);
+  }, [follow]);
+
+  useEffect(() => {
+    if (isFollow) {
+      setFollowText('언팔로우');
+    } else if (!isFollow) {
+      setFollowText('팔로우');
     }
+  }, [isFollow]);
+
+  const handleCopyClipBoard = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setIsModal(true);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleFollowButtonClick = async (e) => {
+    if (isFollow) {
+      setIsFollow(false);
+      setFollowText('팔로우');
+      setFollowCount((prevCount) => prevCount - 1);
+      const data = await unFollowUser();
+    } else {
+      setIsFollow(true);
+      setFollowText('언팔로우');
+      setFollowCount((prevCount) => prevCount + 1);
+      const data = await followUser();
+    }
+  };
+
+  const handleChatClick = () => {
+    navigate(`/chat/${username}`, { state: { username, randomMessage, userImg } });
   };
 
   return (
     <>
       {user && (
         <UserProfileLayout>
+          {isModal && <AlertTop isModal={isModal}>클립보드에 복사되었습니다</AlertTop>}
           <h1 className='a11y-hidden'>사용자 프로필</h1>
           <ImgFollowLayout>
-            <FollowLayout>
-              <strong>{user.followerCount}</strong>
+            <FollowLayout to={followerURL} state={user}>
+              <strong>{userCount}</strong>
               <p>followers</p>
             </FollowLayout>
             <ImgLayout>
               <img src={user.image ? user.image : ProfileImg} alt='사용자 프로필 사진' />
             </ImgLayout>
-            <FollowLayout color='#767676'>
+            <FollowLayout to={followingURL} state={user} color='#767676'>
               <strong>{user.followingCount}</strong>
               <p>followings</p>
             </FollowLayout>
@@ -49,20 +113,25 @@ const UserProfile = (props) => {
           </UserInfoLayout>
           {user.accountname === name ? (
             <IconLayout>
-              <CommonButton clicked width='120px' fontSize='var(--sm)' onClick={() => navigate('/mypage')}>
+              <CommonButton clicked width='120px' fontSize='var(--sm)' onClick={() => navigate('/profile/edit')}>
                 프로필 수정
               </CommonButton>
-              <CommonButton clicked width='100px' fontSize='var(--sm)'>
+              <CommonButton onClick={() => navigate('/addproduct')} clicked width='100px' fontSize='var(--sm)'>
                 상품 등록
               </CommonButton>
             </IconLayout>
           ) : (
             <IconLayout>
-              <ChatIconStyle />
-              <CommonButton width='120px' clicked={isFollowClicked} onClick={handleFollowButtonClick}>
-                팔로우
+              <ChatIconStyle onClick={handleChatClick} />
+              <CommonButton width='120px' clicked={followText === '언팔로우'} onClick={handleFollowButtonClick}>
+                {followText}
               </CommonButton>
-              <ShareIconStyle />
+              <ShareIconStyle
+                onClick={() => {
+                  setIsModal(false);
+                  return handleCopyClipBoard(URL + '/' + location.pathname);
+                }}
+              />
             </IconLayout>
           )}
         </UserProfileLayout>
@@ -103,9 +172,10 @@ const ImgLayout = styled.div`
   }
 `;
 
-const FollowLayout = styled.div`
+const FollowLayout = styled(Link)`
   text-align: center;
   color: ${(props) => props.color};
+  cursor: pointer;
 
   strong {
     font-size: 18px;

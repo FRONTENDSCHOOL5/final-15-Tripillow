@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { LayoutStyle } from '../Styles/Layout';
 import iconImg from '../Assets/icons/upload-file.svg';
@@ -12,6 +13,7 @@ import ImageUploadAPI from '../Utils/ImageUploadAPI';
 import { validateImageFile } from '../Utils/validate';
 
 export default function Post() {
+  const navigate = useNavigate();
   const textarea = useRef();
   const [inputValue, setInputValue] = useState('');
   const [imgURL, setImgURL] = useState([]);
@@ -45,6 +47,7 @@ export default function Post() {
       const res = await response.json();
       textarea.current.value = '';
       setImgURL([]);
+      navigate('/profile');
       return res;
     } catch (error) {
       console.error(error);
@@ -69,7 +72,7 @@ export default function Post() {
       <UploadHeader disabled={!inputValue} onClick={handleSubmit}>
         업로드
       </UploadHeader>
-      <Form>
+      <form>
         <ToggleLayout>
           <ToggleTitle>여행지</ToggleTitle>
           <Toggle leftButton='국내' rightButton='환전' margin='0 0 22px 0'></Toggle>
@@ -85,7 +88,7 @@ export default function Post() {
           <ImgIcon src={iconImg}></ImgIcon>
         </label>
         <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
-      </Form>
+      </form>
     </PostLayout>
   );
 }
@@ -143,5 +146,3 @@ const ImgIcon = styled.img`
   border-radius: 50%;
   cursor: pointer;
 `;
-
-const Form = styled.form``;
