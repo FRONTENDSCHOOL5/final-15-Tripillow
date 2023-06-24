@@ -7,10 +7,10 @@ const AlertModal = ({ logout, handleCancel, ...props }) => {
       <ModalLayout>
         <ModalTxt>{props.txt}</ModalTxt>
         <ModalButtonLayout>
-          <ModalButton onClick={handleCancel} {...props}>
+          <ModalButton onClick={props.leftClick ? props.leftClick : handleCancel} {...props}>
             {props.leftbtn || '취소'}
           </ModalButton>
-          <ModalButton onClick={logout} color='var(--primary)' {...props}>
+          <ModalButton onClick={props.rightClick ? props.rightClick : logout} color='var(--primary)' {...props}>
             {props.rightbtn || '삭제'}
           </ModalButton>
         </ModalButtonLayout>
@@ -30,6 +30,7 @@ const ModalBackground = styled.div`
 `;
 
 const ModalLayout = styled.div`
+  padding: 10px 0;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -44,7 +45,7 @@ const ModalLayout = styled.div`
 const ModalTxt = styled.p`
   font-size: var(--md);
   text-align: center;
-  padding: 22px 0;
+  padding: 27px 0;
 `;
 
 const ModalButtonLayout = styled.div`
