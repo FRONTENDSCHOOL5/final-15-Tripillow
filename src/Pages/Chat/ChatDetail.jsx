@@ -5,7 +5,6 @@ import { LayoutStyle } from '../../Styles/Layout';
 import BasicHeader from '../../Components/common/Header/BasicHeader';
 import profileSm from '../../Assets/profile-sm.png';
 import { useLocation } from 'react-router-dom';
-import ChatLists from './ChatLists';
 
 const ChatDetail = () => {
   const location = useLocation();
@@ -16,10 +15,6 @@ const ChatDetail = () => {
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
-
-  const random = Math.floor(Math.random() * 4);
-  console.log(random)
-  console.log(ChatLists[random].message)
 
   const handleButtonClicked = () => {
     setTimeout(() => {
@@ -40,11 +35,13 @@ const ChatDetail = () => {
 
   return (
     <ChatLayout>
-      <BasicHeader>{location.state}</BasicHeader>
+      <BasicHeader>{location.state.username}</BasicHeader>
       <ChatContentLayout>
-        <UserImage src={profileSm} alt='프로필 이미지' />
+        <UserImageLayout>
+          <UserImage src={location.state.userImg} alt='location.state.username' />
+        </UserImageLayout>
         <ChatContent bgColor='white' radius='0 22px 22px 22px'>
-        {ChatLists[random].message}
+          {location.state.randomMessage}
         </ChatContent>
         <ChatTime>12:39</ChatTime>
       </ChatContentLayout>
@@ -59,7 +56,9 @@ const ChatDetail = () => {
       ))}
 
       <ChatInputBar>
-        <UserImage src={profileSm} alt='프로필 이미지' />
+        <UserImageLayout>
+          <UserImage src={profileSm} alt='프로필 이미지' />
+        </UserImageLayout>
         <ChatInput
           value={inputValue}
           onChange={handleInputChange}
@@ -90,10 +89,18 @@ const ChatContentLayout = styled.div`
   margin-left: ${(props) => props.marginLeft};
 `;
 
-const UserImage = styled.img`
+const UserImageLayout = styled.div`
   width: 42px;
   height: 42px;
+  border-radius: 50%;
+  overflow: hidden;
   margin-right: 12px;
+`;
+
+const UserImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const ChatContent = styled.p`
