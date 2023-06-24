@@ -1,11 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 
-const PostModal = ({ postId, handleAlertModal, ...props }) => {
-  const handleModify = () => {
-    console.log('Modify');
-  };
-
+const PostModal = ({ postId, handleAlertModal, handleModify, handleReport, ...props }) => {
   return (
     <ModalLayout>
       <SlideBar></SlideBar>
