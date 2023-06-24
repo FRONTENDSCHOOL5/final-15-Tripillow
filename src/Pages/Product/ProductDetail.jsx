@@ -13,6 +13,7 @@ import User from '../../Components/common/User';
 
 const AddProduct = (props) => {
   const [productId, setProductId] = useState('');
+  console.log('🚀  productId:', productId);
   const [isClick, setIsClick] = useState(false);
   const params = useParams();
 
@@ -40,6 +41,7 @@ const AddProduct = (props) => {
           </BasicHeader>
           <Image src={productDetail.itemImage} />
           <User
+            accountname={productDetail.author?.accountname}
             userImg={productDetail.author?.image}
             username={productDetail.author?.username}
             content={'@' + productDetail.author?.accountname}

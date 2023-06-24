@@ -124,13 +124,11 @@ const Profile = () => {
             <UserProductLayout>
               <h2>판매 중인 상품</h2>
               <ProductListLayout>
-                <ProductListLayout>
-                  {productList.data > 0 ? (
-                    productList.product.map((product, index) => <ProductItem key={index} product={product} />)
-                  ) : (
-                    <NoProduct>상품을 등록해주세요!</NoProduct>
-                  )}
-                </ProductListLayout>
+                {productList.data > 0 ? (
+                  productList.product.map((product, index) => <ProductItem key={index} product={product} />)
+                ) : (
+                  <NoProduct>상품을 등록해주세요!</NoProduct>
+                )}
               </ProductListLayout>
             </UserProductLayout>
             <ViewLayout>
@@ -202,7 +200,7 @@ const NoContent = styled.p`
 `;
 
 const NoProduct = styled(NoContent)`
-  margin-top: 0;
+  margin-top: 5px;
   font-size: var(--xs);
 `;
 
@@ -228,7 +226,7 @@ const ViewButton = styled.button`
 `;
 
 const ImageLayoutBackground = styled.article`
-  min-height: 615px;
+  min-height: 420px;
   background-color: #fff;
 `;
 
