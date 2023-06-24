@@ -10,7 +10,7 @@ import { useRecoilValue } from 'recoil';
 import DeleteCommentAPI from '../Utils/DeleteCommentAPI';
 import ReportCommentAPI from '../Utils/ReportCommentAPI';
 
-const Comment = ({ commentInfo, postId, idx, setNewComment }) => {
+const Comment = ({ commentInfo, postId, setNewComment }) => {
   const name = useRecoilValue(accountname);
   const [isModalOn, setIsModalOn] = useState(false);
   const [isAlertModalOn, setIsAlertModalOn] = useState(false);
