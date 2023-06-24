@@ -1,20 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import profileSm from '../../Assets/profile-sm.png';
 import { useNavigate } from 'react-router-dom';
+import profileSm from '../../Assets/profile-sm.png';
+import chatLists from './chatLists';
 
-const ChatUser = (props) => {
+const ChatUser = ({ username, userImg, ...props }) => {
   const navigate = useNavigate();
+  const [randomMessage, setRandomMessage] = useState('');
+  console.log('🚀  randomMessage:', randomMessage);
+
+  useEffect(() => {
+    const randomIndex = Math.floor(Math.random() * chatLists.length);
+    const selectedMessage = chatLists[randomIndex];
+    setRandomMessage(selectedMessage);
+  }, []);
+
   return (
     <UserLayout
       onClick={() => {
-        navigate('/ChatDetail', { state: props.username });
+        navigate(`/chat/${username}`, {
+          state: { username, randomMessage, userImg },
+        });
       }}
     >
-      <UserImg src={props.userImg || profileSm} alt={props.username} />
+      <UserImg src={userImg || profileSm} alt={username} />
       <UserContentsLayout>
         <div>
-          <UserTitle>{props.username}</UserTitle>
+          <UserTitle>{username}</UserTitle>
           <UserContent>{props.content} </UserContent>
         </div>
         <ChatDate>{props.date}</ChatDate>

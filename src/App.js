@@ -46,7 +46,7 @@ function App() {
           <Route path='/modifyproduct' element={<ProductModification />} />
           <Route path='/product/detail/:id' element={<ProductDetail />} />
           <Route path='/chat' element={<Chat />} />
-          <Route path='/chatdetail' element={<ChatDetail />} />
+          <Route path='/chat/:username' element={<ChatDetail />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </RecoilRoot>

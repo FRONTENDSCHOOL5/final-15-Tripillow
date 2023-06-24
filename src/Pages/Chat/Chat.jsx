@@ -3,7 +3,7 @@ import { Layout } from '../../Styles/Layout';
 import BasicHeader from '../../Components/common/Header/BasicHeader';
 import Navbar from '../../Components/common/Navbar';
 import ChatUser from './ChatUser';
-import ChatLists from './ChatLists';
+import ChatLists from './chatLists';
 import FollowingListAPI from '../../Utils/FollowingListAPI';
 import accountName from '../../Recoil/accountName/accountName';
 import { useRecoilValue } from 'recoil';
