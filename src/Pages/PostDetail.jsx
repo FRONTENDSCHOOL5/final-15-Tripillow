@@ -7,7 +7,8 @@ import PostComment from '../Components/common/PostComment';
 import BasicHeader from '../Components/common/Header/BasicHeader';
 import { useRecoilValue } from 'recoil';
 import PostDetailAPI from '../Utils/PostDetailAPI';
-import GetCommentAPI from '../Utils/GetCommentAPI';
+// import GetCommentAPI from '../Utils/GetNumerousCommentAPI';
+import GetNumerousCommentAPI from '../Utils/GetNumerousCommentAPI';
 import HomePostLayout from '../Components/HomePost/HomePostLayout';
 import accountName from '../Recoil/accountName/accountName';
 
@@ -17,14 +18,16 @@ export default function PostDetail() {
   const postId = id;
   const [postInfo, setPostInfo] = useState({});
   const [comments, setComments] = useState([]);
-  const ft_postDetail = PostDetailAPI(postId, setPostInfo);
-  const ft_getComment = GetCommentAPI(postId, setComments);
+  const postDetail = PostDetailAPI(postId, setPostInfo);
+  // const ft_getComment = GetCommentAPI(postId, setComments);
+  const getNumerousComment = GetNumerousCommentAPI(postId, setComments);
   const [newComment, setNewComment] = useState(false);
 
   useEffect(() => {
     const sync = async () => {
-      await ft_postDetail();
-      await ft_getComment();
+      await postDetail();
+      // await ft_getComment();
+      await getNumerousComment();
       setComments((prev) => prev.reverse());
     };
     sync();
