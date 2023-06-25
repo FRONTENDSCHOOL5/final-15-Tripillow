@@ -6,8 +6,10 @@ const AlertTop = ({ children, ...props }) => {
 };
 
 const AlertLayout = styled.div`
-  position: absolute;
+  position: fixed;
   top: ${(props) => props.top || '48px'};
+  left: calc((100vw - 388px) / 2);
+  transform: translate(0, -50%);
   width: 388px;
   padding: 20px;
   box-sizing: border-box;
