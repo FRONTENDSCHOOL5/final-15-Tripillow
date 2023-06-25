@@ -44,7 +44,7 @@ const AddProduct = (props) => {
     } catch (error) {
       console.error('에러 발생!!!!!');
     }
-    navigate('/product');
+    navigate('/profile');
   };
 
   const handleChange = async (e) => {
@@ -96,8 +96,6 @@ const AddProduct = (props) => {
       {productName.length >= 16 && <ErrorMSG errorColor>1~15자 이내로 입력하세요.</ErrorMSG>}
       <SecondInput
         value={price}
-        // onChange={(e) => setPrice(e.target.value);
-        // handleMinMax}
         onChange={handleMinMax}
         label='가격'
         min='1'
