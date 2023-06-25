@@ -36,6 +36,11 @@ const PostModification = () => {
   }, []);
 
   useEffect(() => {
+    textarea.current.value = postInput.post.content;
+    handleResizeHeight();
+  }, [postInput.post.content]);
+
+  useEffect(() => {
     Object.keys(postDetail).length &&
       setPostInput({
         post: {
@@ -46,6 +51,7 @@ const PostModification = () => {
   }, [postDetail]);
 
   useEffect(() => {
+    console.log('[', postInput.post.image, ']');
     setImgURL(postInput.post.image.split(', '));
   }, [postInput]);
 
@@ -53,16 +59,18 @@ const PostModification = () => {
     if (imgURL.length >= 3 || e.target.files.length === 0) return;
     if (!validateImageFile(e.target.files[0].name)) return console.error('ERROR: 파일 확장자');
     const data = await ImageUploadAPI(e);
+    const image = postInput.post.image === '' ? data.filename : postInput.post.image + `, ${data.filename}`;
     if (data) {
       setPostInput((prev) => ({
         ...prev,
         post: {
           ...prev.post,
-          image: prev.post.image + `, ${data.filename}`,
+          image: image,
         },
       }));
-      setImgURL((prev) => prev.concat(data.filename));
+      // setImgURL((prev) => (prev[0] === '' ? [data.filename] : prev.concat(data.filename)));
     }
+    console.log('{', imgURL, '}');
   };
 
   const handleSubmit = async () => {
@@ -122,19 +130,14 @@ const PostModification = () => {
           <ToggleTitle>여행지</ToggleTitle>
           <Toggle leftButton='국내' rightButton='환전' margin='0 0 22px 0'></Toggle>
         </ToggleLayout>
-        <TextInput
-          placeholder='게시글 입력하기...'
-          value={postInput.post.content}
-          ref={textarea}
-          onChange={handleInputChange}
-          rows='1'
-        ></TextInput>
-        {imgURL.map((el, i) => (
-          <ImgLayout key={`ImgLayout-${i}`}>
-            <Img src={`${URL}/${el}`} key={`Img-${i}`} />
-            <ImgDelete type='button' key={`ImgDelete-${i}`} onClick={() => handleImgClose(i)}></ImgDelete>
-          </ImgLayout>
-        ))}
+        <TextInput placeholder='게시글 입력하기...' ref={textarea} onChange={handleInputChange} rows='1'></TextInput>
+        {imgURL[0] !== '' &&
+          imgURL.map((el, i) => (
+            <ImgLayout key={`ImgLayout-${i}`}>
+              <Img src={`${URL}/${el}`} key={`Img-${i}`} />
+              <ImgDelete type='button' key={`ImgDelete-${i}`} onClick={() => handleImgClose(i)}></ImgDelete>
+            </ImgLayout>
+          ))}
         <label htmlFor='img-input'>
           <ImgIcon src={iconImg}></ImgIcon>
         </label>

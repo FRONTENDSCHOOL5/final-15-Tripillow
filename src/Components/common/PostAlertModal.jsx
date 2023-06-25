@@ -5,7 +5,7 @@ const PostAlertModal = ({ isMine, isComment, setIsModalOn, handleDelete, closeMo
   const name = isComment ? '댓글' : '게시글';
   setIsModalOn(false);
   return (
-    <ModalBackground>
+    <ModalBackground onClick={closeModal}>
       <ModalLayout>
         <ModalTxt>{isMine ? `${name}을 삭제할까요?` : `${name}을 신고할까요?`}</ModalTxt>
         <ModalButtonLayout>

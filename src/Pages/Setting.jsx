@@ -165,7 +165,7 @@ const ContentCommonLayout = styled.div`
     cursor: pointer;
     text-indent: -9999px;
     width: 45px;
-    height: 25px;
+    height: 24px;
     background: grey;
     display: block;
     border-radius: 100px;
@@ -175,7 +175,7 @@ const ContentCommonLayout = styled.div`
   label:after {
     content: '';
     position: absolute;
-    top: 2.5px;
+    top: 2.4px;
     left: 2px;
     width: 20px;
     height: 20px;

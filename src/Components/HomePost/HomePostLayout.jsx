@@ -15,11 +15,13 @@ import ReportPostAPI from '../../Utils/ReportPostAPI';
 import HeartPostAPI from '../../Utils/HeartPostAPI';
 import UnheartPostAPI from '../../Utils/UnheartPostAPI';
 import PostImage from '../common/PostImage';
+import AlertTop from '../common/AlertTop';
 
 const HomePostLayout = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
   const name = useRecoilValue(accountName);
+  const [isTopModalOn, setIsTopModalOn] = useState(false);
   const [isModalOn, setIsModalOn] = useState(false);
   const [isAlertModalOn, setIsAlerModalOn] = useState(false);
   const post = props.post;
@@ -45,8 +47,9 @@ const HomePostLayout = (props) => {
     setIsAlerModalOn(false);
   };
 
-  const handleAlertModal = () => {
-    setIsAlerModalOn(!isAlertModalOn);
+  const handleAlertModal = (e) => {
+    e.stopPropagation();
+    setIsAlerModalOn(true);
   };
 
   const deletePost = DeletePostAPI(post.id);
@@ -70,6 +73,8 @@ const HomePostLayout = (props) => {
 
   const handleReport = async () => {
     const response = await reportPost();
+    setIsTopModalOn(true);
+    // setIsTopModalOn(false);
     closeModal();
     // TODO 리포트 되었다는 모달 띄우기
   };
@@ -83,6 +88,7 @@ const HomePostLayout = (props) => {
 
   return (
     <Layout>
+      {isTopModalOn && <AlertTop isError={true}>게시글이 신고되었습니다.</AlertTop>}
       <User
         accountname={post.author.accountname}
         userImg={userImg || Profile}
@@ -134,6 +140,7 @@ const HomePostLayout = (props) => {
             handleAlertModal={handleAlertModal}
             handleModify={handleModify}
             handleReport={handleReport}
+            closeModal={closeModal}
           ></PostModal>
         )}
         {isAlertModalOn && (
@@ -155,47 +162,6 @@ const Layout = styled.div`
   padding-bottom: ${(props) => props.pb || '20px'};
   background-color: #fff;
 `;
-
-// const ImageLayout = styled.div`
-//   position: relative;
-//   width: calc(100% + 28px);
-//   height: 270px;
-//   margin: 4px -12px 6px -16px;
-
-//   img {
-//     object-fit: cover;
-//     width: 100%;
-//     height: 100%;
-//   }
-// `;
-
-// const ArrowButton = styled.button`
-//   position: absolute;
-//   width: 25px;
-//   height: 25px;
-//   top: ${(props) => props.top || '50%'};
-//   left: ${(props) => props.left};
-//   right: ${(props) => props.right};
-//   bottom: ${(props) => props.bottom};
-//   background: ${(props) => `url(${props.bgImage})`} no-repeat center;
-// `;
-
-// const IndicatorLayout = styled.div`
-//   position: absolute;
-//   bottom: 10px;
-//   left: 50%;
-//   transform: translate(-50%);
-//   display: flex;
-//   align-items: center;
-//   gap: 6px;
-// `;
-
-// const Indicator = styled.div`
-//   width: 6px;
-//   height: 6px;
-//   background-color: ${(props) => (props.indicator ? '#fff' : 'var(--gray)')};
-//   border-radius: 50%;
-// `;
 
 const IconLayout = styled.div`
   display: flex;

@@ -3,7 +3,7 @@ import prev from '../../../Assets/icons/icon-arrow-back.svg';
 import more from '../../../Assets/icons/icon-more-vertical.svg';
 import styled from 'styled-components';
 import HeaderLayout from '../../../Styles/HeaderLayout';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Modal from '../Modal';
 import { useRecoilState } from 'recoil';
 import userToken from '../../../Recoil/userToken/userToken';
@@ -21,7 +21,9 @@ const BasicHeader = (props) => {
   const [token, setToken] = useRecoilState(userToken);
   const [login, setLogin] = useRecoilState(isLogin);
   const [name, setName] = useRecoilState(accountName);
-  // const productDelete = ProductDeleteAPI(props.isDelete);
+  const location = useLocation();
+  const currentPath = location.pathname.split('/');
+
   const userId = props.userId;
 
   const [isAlertTop, setIsAlertTop] = useState(false);
@@ -34,8 +36,10 @@ const BasicHeader = (props) => {
     setModal(!modal);
   };
 
-  const handleLogoutbutton = () => {
-    setAlertModal(!alertModal);
+  const handleLogoutbutton = (e) => {
+    e.stopPropagation();
+    setModal(false);
+    setAlertModal(true);
   };
 
   const handleCancel = () => {
@@ -79,7 +83,9 @@ const BasicHeader = (props) => {
         />
         {props.children && <div>{props.children}</div>}
       </ContentLayout>
-      {props.empty ? null : <MoreButton onClick={handleMorebutton} />}
+      {props.empty || currentPath[currentPath.length - 1] == 'setting' ? null : (
+        <MoreButton onClick={handleMorebutton} />
+      )}
       {modal && (
         <Modal
           btn1={props.btn1}
@@ -89,6 +95,7 @@ const BasicHeader = (props) => {
           bottom={props.isPost && '60px'}
           handleProductModify={userId ? handleModify : null}
           goSetting={goSetting}
+          handleCancel={handleCancel}
         />
       )}
       {alertModal && (
