@@ -50,6 +50,7 @@ const Profile = () => {
     myAccount: userAccountname ? userAccountname : myAccount,
     setProductList,
   });
+  const isDeleted = location.state?.isDeleted;
   const isModified = location.state?.isModified;
 
   useEffect(() => {
@@ -94,7 +95,7 @@ const Profile = () => {
   return (
     <Layout>
       <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='로그아웃' />
-      {isModified && <AlertTop>수정되었습니다.</AlertTop>}
+      {(isModified || isDeleted) && <AlertTop>{isModified ? '수정되었습니다.' : '삭제되었습니다.'}</AlertTop>}
 
       <main>
         {isLoading ? (

@@ -22,8 +22,6 @@ import ProductItemSkeleton from '../../Components/common/Skeleton/ProductItemSke
 const Product = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const isAlertTop = location.state?.isAlertTop;
-  console.log(isAlertTop);
   const name = useRecoilValue(accountName);
   const token = useRecoilValue(userToken);
   const followingAccounts = [];
@@ -85,8 +83,7 @@ const Product = (props) => {
 
   return (
     <StyledLayout>
-      <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?'></BasicHeader>
-      {isAlertTop && <AlertTop>삭제되었습니다.</AlertTop>}
+      <BasicHeader empty></BasicHeader>
       <GridLayout>
         {userLoading ||
           (isLoading && (
