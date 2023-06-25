@@ -19,13 +19,9 @@ const BasicHeader = (props) => {
   const [modal, setModal] = useState(false);
   const [alertModal, setAlertModal] = useState(false);
   const [token, setToken] = useRecoilState(userToken);
-  const [login, setLogin] = useRecoilState(isLogin);
   const [name, setName] = useRecoilState(accountName);
   const location = useLocation();
   const currentPath = location.pathname.split('/');
-  console.log('🚀  currentPath:', currentPath[currentPath.length - 1]);
-  console.log('🚀  location:', location);
-
   const userId = props.userId;
 
   useEffect(() => {
@@ -90,14 +86,7 @@ const BasicHeader = (props) => {
           goSetting={goSetting}
         />
       )}
-      {alertModal && (
-        <AlertModal
-          txt={props.txt}
-          rightbtn={props.rightbtn}
-          logout={userId ? handleDelete : handleLogout}
-          handleCancel={handleCancel}
-        />
-      )}
+      {alertModal && <AlertModal txt={props.txt} rightbtn={props.rightbtn} handleCancel={handleCancel} />}
     </HeaderLayout>
   );
 };
