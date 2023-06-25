@@ -9,10 +9,11 @@ import PostAlertModal from './common/PostAlertModal';
 import accountname from '../Recoil/accountName/accountName';
 import DeleteCommentAPI from '../Utils/DeleteCommentAPI';
 import ReportCommentAPI from '../Utils/ReportCommentAPI';
-import User from './common/User';
+import AlertTop from './common/AlertTop';
 
 const Comment = ({ commentInfo, postId, setNewComment }) => {
   const name = useRecoilValue(accountname);
+  const [isTopModalOn, setIsTopModalOn] = useState(false);
   const [isModalOn, setIsModalOn] = useState(false);
   const [isAlertModalOn, setIsAlertModalOn] = useState(false);
   const createdAt =
@@ -43,6 +44,7 @@ const Comment = ({ commentInfo, postId, setNewComment }) => {
 
   const handleReport = async () => {
     const response = await reportComment();
+    setIsTopModalOn(true);
     closeModal();
   };
 
@@ -53,6 +55,7 @@ const Comment = ({ commentInfo, postId, setNewComment }) => {
 
   return (
     <CommentLayout>
+      {isTopModalOn && <AlertTop isError={true}>댓글이 신고되었습니다.</AlertTop>}
       <Profile>
         <ProfileLink
           to={commentInfo.author.accountname === name ? `/profile` : `/profile/${commentInfo.author.accountname}`}
