@@ -34,8 +34,10 @@ const BasicHeader = (props) => {
     setModal(!modal);
   };
 
-  const handleLogoutbutton = () => {
-    setAlertModal(!alertModal);
+  const handleLogoutbutton = (e) => {
+    e.stopPropagation();
+    setModal(false);
+    setAlertModal(true);
   };
 
   const handleCancel = () => {
@@ -86,6 +88,7 @@ const BasicHeader = (props) => {
           bottom={props.isPost && '60px'}
           handleProductModify={userId ? handleModify : null}
           goSetting={goSetting}
+          handleCancel={handleCancel}
         />
       )}
       {alertModal && (

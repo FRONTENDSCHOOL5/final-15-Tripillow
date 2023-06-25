@@ -45,8 +45,9 @@ const HomePostLayout = (props) => {
     setIsAlerModalOn(false);
   };
 
-  const handleAlertModal = () => {
-    setIsAlerModalOn(!isAlertModalOn);
+  const handleAlertModal = (e) => {
+    e.stopPropagation();
+    setIsAlerModalOn(true);
   };
 
   const deletePost = DeletePostAPI(post.id);
@@ -134,6 +135,7 @@ const HomePostLayout = (props) => {
             handleAlertModal={handleAlertModal}
             handleModify={handleModify}
             handleReport={handleReport}
+            closeModal={closeModal}
           ></PostModal>
         )}
         {isAlertModalOn && (
