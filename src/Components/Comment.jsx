@@ -11,7 +11,7 @@ import DeleteCommentAPI from '../Utils/DeleteCommentAPI';
 import ReportCommentAPI from '../Utils/ReportCommentAPI';
 import AlertTop from './common/AlertTop';
 
-const Comment = ({ commentInfo, postId, setNewComment }) => {
+const Comment = ({ commentInfo, postId, setIsNewComment }) => {
   const name = useRecoilValue(accountname);
   const [isTopModalOn, setIsTopModalOn] = useState(false);
   const [isModalOn, setIsModalOn] = useState(false);
@@ -39,7 +39,7 @@ const Comment = ({ commentInfo, postId, setNewComment }) => {
   const handleDelete = async () => {
     const response = await deleteComment();
     closeModal();
-    setNewComment(true);
+    setIsNewComment(true);
   };
 
   const handleReport = async () => {

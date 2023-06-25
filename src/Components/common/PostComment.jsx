@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import profileImg from '../../Assets/profile-sm.png';
 import PostCommentAPI from '../../Utils/PostCommentAPI';
 
-export default function PostComment({ postId, setNewComment }) {
+export default function PostComment({ postId, setIsNewComment }) {
   const [userInput, setUserInput] = useState('');
   const input = useRef();
   const handleInputChange = (e) => {
@@ -20,7 +20,7 @@ export default function PostComment({ postId, setNewComment }) {
   const handleClick = async (e) => {
     e.preventDefault();
     const response = await handlePostComment();
-    setNewComment(true);
+    setIsNewComment((prev) => !prev);
     input.current.value = '';
     return;
   };
