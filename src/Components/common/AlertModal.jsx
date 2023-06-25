@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const AlertModal = ({ logout, handleCancel, ...props }) => {
   return (
-    <ModalBackground>
+    <ModalBackground onClick={handleCancel}>
       <ModalLayout>
         <ModalTxt>{props.txt}</ModalTxt>
         <ModalButtonLayout>

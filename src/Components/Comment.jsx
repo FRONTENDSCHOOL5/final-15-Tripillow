@@ -66,7 +66,12 @@ const Comment = ({ commentInfo, postId, setNewComment }) => {
       <Text>{commentInfo.content || '더미코멘트'}</Text>
       <ModalOn>
         {isModalOn && (
-          <CommentModal isMine={isMine} commentInfo={commentInfo} setIsAlertModalOn={setIsAlertModalOn}></CommentModal>
+          <CommentModal
+            isMine={isMine}
+            commentInfo={commentInfo}
+            setIsAlertModalOn={setIsAlertModalOn}
+            closeModal={closeModal}
+          ></CommentModal>
         )}
         {isAlertModalOn && (
           <PostAlertModal
@@ -130,6 +135,7 @@ const Text = styled.p`
   margin: 0 0 0 51px;
   box-shadow: solid 1px 0 0;
   font-size: var(--sm);
+  word-break: break-all;
 `;
 
 const ModalOn = styled.div`

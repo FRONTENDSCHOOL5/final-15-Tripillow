@@ -1,33 +1,44 @@
 import React from 'react';
 import styled from 'styled-components';
-import accountName from '../Recoil/accountName/accountName';
-import { useRecoilValue } from 'recoil';
 
-const CommentModal = ({ isMine, commentInfo, setIsAlertModalOn }) => {
-  const handleAlertModal = () => {
+const CommentModal = ({ isMine, setIsAlertModalOn, closeModal }) => {
+  const handleAlertModal = (e) => {
+    e.stopPropagation();
     setIsAlertModalOn(true);
   };
 
   return (
-    <ModalLayout>
-      <SlideBar></SlideBar>
-      {isMine ? (
-        <button type='button' onClick={handleAlertModal}>
-          삭제
-        </button>
-      ) : (
-        <button type='button' onClick={handleAlertModal}>
-          신고하기
-        </button>
-      )}
-    </ModalLayout>
+    <ModalBackground onClick={closeModal}>
+      <ModalLayout>
+        <SlideBar></SlideBar>
+        {isMine ? (
+          <button type='button' onClick={handleAlertModal}>
+            삭제
+          </button>
+        ) : (
+          <button type='button' onClick={handleAlertModal}>
+            신고하기
+          </button>
+        )}
+      </ModalLayout>
+    </ModalBackground>
   );
 };
+
+const ModalBackground = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 390px;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+`;
 
 const ModalLayout = styled.div`
   position: fixed;
   left: 50%;
-  bottom: 60px;
+  bottom: 0px;
   transform: translate(-50%);
   width: 389px;
   height: 92px;
