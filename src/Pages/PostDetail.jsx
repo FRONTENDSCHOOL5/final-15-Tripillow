@@ -10,13 +10,15 @@ import PostDetailAPI from '../Utils/PostDetailAPI';
 import GetCommentAPI from '../Utils/GetCommentAPI';
 import HomePostLayout from '../Components/HomePost/HomePostLayout';
 import accountName from '../Recoil/accountName/accountName';
+
 export default function PostDetail() {
   const accName = useRecoilValue(accountName);
   const { id } = useParams();
+  const postId = id;
   const [postInfo, setPostInfo] = useState({});
   const [comments, setComments] = useState([]);
-  const ft_postDetail = PostDetailAPI(id, setPostInfo);
-  const ft_getComment = GetCommentAPI(id, setComments);
+  const ft_postDetail = PostDetailAPI(postId, setPostInfo);
+  const ft_getComment = GetCommentAPI(postId, setComments);
   const [newComment, setNewComment] = useState(false);
 
   useEffect(() => {
@@ -43,9 +45,9 @@ export default function PostDetail() {
       {Object.keys(postInfo).length ? <HomePostLayout post={postInfo.post}></HomePostLayout> : <></>}
       {comments.length !== 0 &&
         comments.map((el, i) => (
-          <Comment key={i} idx={i} postId={id} commentInfo={el} setNewComment={setNewComment}></Comment>
+          <Comment key={i} postId={postId} commentInfo={el} setNewComment={setNewComment}></Comment>
         ))}
-      <PostComment setNewComment={setNewComment} postId={id}></PostComment>
+      <PostComment setNewComment={setNewComment} postId={postId}></PostComment>
     </Layout>
   );
 }

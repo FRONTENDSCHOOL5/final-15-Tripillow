@@ -11,7 +11,7 @@ import DeleteCommentAPI from '../Utils/DeleteCommentAPI';
 import ReportCommentAPI from '../Utils/ReportCommentAPI';
 import User from './common/User';
 
-const Comment = ({ commentInfo, postId, idx, setNewComment }) => {
+const Comment = ({ commentInfo, postId, setNewComment }) => {
   const name = useRecoilValue(accountname);
   const [isModalOn, setIsModalOn] = useState(false);
   const [isAlertModalOn, setIsAlertModalOn] = useState(false);
