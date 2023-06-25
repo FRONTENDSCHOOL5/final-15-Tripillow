@@ -1,24 +1,37 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Modal = ({ btn1, btn2, handleMorebutton, handleLogoutbutton, bottom, ...props }) => {
+const Modal = ({ btn1, btn2, handleMorebutton, handleLogoutbutton, bottom, handleCancel, ...props }) => {
   return (
-    <ModalLayout bottom={bottom}>
-      <SlideBar></SlideBar>
-      <button type='buton' {...props} onClick={props.handleProductModify || props.goSetting}>
-        {btn1}
-      </button>
-      <button type='button' onClick={handleLogoutbutton} {...props}>
-        {btn2}
-      </button>
-    </ModalLayout>
+    <ModalBackground onClick={handleCancel}>
+      <ModalLayout bottom={bottom}>
+        <SlideBar></SlideBar>
+        <button type='buton' {...props} onClick={props.handleProductModify || props.goSetting}>
+          {btn1}
+        </button>
+        <button type='button' onClick={handleLogoutbutton} {...props}>
+          {btn2}
+        </button>
+      </ModalLayout>
+    </ModalBackground>
   );
 };
+
+const ModalBackground = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 390px;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+`;
 
 const ModalLayout = styled.div`
   position: fixed;
   left: 50%;
   bottom: ${(props) => (props.bottom ? props.bottom : '74px')};
+  bottom: 0;
   transform: translate(-50%);
   width: 389px;
   padding: 16px 0;
