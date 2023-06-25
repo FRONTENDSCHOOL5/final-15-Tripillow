@@ -16,15 +16,17 @@ import ViewImage from '../Components/HomePost/ViewImage';
 import SkeletonItem from '../Styles/SkeletonItem';
 import ProductItemSkeleton from '../Components/common/Skeleton/ProductItemSkeleton';
 import HomePostSkeleton from '../Components/common/Skeleton/HomePostSkeleton';
+import AlertTop from '../Components/common/AlertTop';
 
 import listOn from '../Assets/icons/icon-post-list-on.svg';
 import listOff from '../Assets/icons/icon-post-list-off.svg';
 import AlbumOn from '../Assets/icons/icon-post-album-on.svg';
 import AlbumOff from '../Assets/icons/icon-post-album-off.svg';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 const Profile = () => {
   const params = useParams();
+  const location = useLocation();
   const userAccountname = params.accountname;
   const myAccount = useRecoilValue(accountName);
   const [view, setView] = useState(false);
@@ -48,6 +50,7 @@ const Profile = () => {
     myAccount: userAccountname ? userAccountname : myAccount,
     setProductList,
   });
+  const isModified = location.state?.isModified;
 
   useEffect(() => {
     setIsLoading(true);
@@ -91,6 +94,8 @@ const Profile = () => {
   return (
     <Layout>
       <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='로그아웃' />
+      {isModified && <AlertTop>수정되었습니다.</AlertTop>}
+
       <main>
         {isLoading ? (
           <>

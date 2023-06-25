@@ -26,6 +26,8 @@ const BasicHeader = (props) => {
 
   const userId = props.userId;
 
+  const [isAlertTop, setIsAlertTop] = useState(false);
+
   useEffect(() => {
     setModal(false);
   }, []);
@@ -53,10 +55,15 @@ const BasicHeader = (props) => {
   };
 
   const handleProductDelete = ProductDeleteAPI(userId);
+
   const handleDelete = async () => {
     await handleProductDelete();
-    navigate('/product');
+    setIsAlertTop(true);
   };
+
+  useEffect(() => {
+    if (isAlertTop) navigate('/product', { state: { isAlertTop } });
+  }, [isAlertTop]);
 
   const handleModify = () => {
     navigate('/modifyproduct', { state: userId });
