@@ -20,8 +20,6 @@ const AddProduct = (props) => {
   const token = useRecoilValue(userToken);
   const navigate = useNavigate();
   const [priceErr, setPriceErr] = useState(false);
-  const [lengthErr, setLengthErr] = useState(null);
-  const imageURL = imageLink;
 
   const handleSubmit = async () => {
     try {
