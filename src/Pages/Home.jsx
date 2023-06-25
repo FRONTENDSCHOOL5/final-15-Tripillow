@@ -19,6 +19,7 @@ const Home = () => {
   const [followedFeed, setFollowedFeed] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showSpinner, setShowSpinner] = useState(false);
+  const [showTopButton, setShowTopButton] = useState(false);
 
   useEffect(() => {
     const getFeedFollowed = async () => {
@@ -51,6 +52,9 @@ const Home = () => {
         document.documentElement.scrollTop -= 55;
       }, 1000);
     }
+    if (scrollTop >= clientHeight) {
+      setShowTopButton(true);
+    } else setShowTopButton(false);
   };
 
   useEffect(() => {
@@ -79,7 +83,7 @@ const Home = () => {
         )
       )}
       {showSpinner && <Spinner />}
-      <TopButton />
+      {showTopButton && <TopButton />}
       <Navbar />
     </Layout>
   );
