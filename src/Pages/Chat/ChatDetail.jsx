@@ -35,7 +35,9 @@ const ChatDetail = () => {
 
   return (
     <ChatLayout>
-      <BasicHeader>{location.state.username}</BasicHeader>
+      <BasicHeader btn1='신고하기' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='확인'>
+        {location.state.username}
+      </BasicHeader>
       <ChatContentLayout>
         <UserImageLayout>
           <UserImage src={location.state.userImg} alt='location.state.username' />
