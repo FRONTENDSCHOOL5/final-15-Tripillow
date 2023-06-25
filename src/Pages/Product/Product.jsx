@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 
 import BasicHeader from '../../Components/common/Header/BasicHeader';
 import Navbar from '../../Components/common/Navbar';
@@ -8,6 +8,7 @@ import ProductItem from '../../Components/common/ProductItem';
 import { Layout } from '../../Styles/Layout';
 import CircleButton from '../../Components/common/CircleButton';
 import accountName from '../../Recoil/accountName/accountName';
+import AlertTop from '../../Components/common/AlertTop';
 
 import ProductDetailAPI from '../../Utils/ProductDetailAPI';
 
@@ -18,8 +19,11 @@ import { useRecoilValue } from 'recoil';
 
 import ProductItemSkeleton from '../../Components/common/Skeleton/ProductItemSkeleton';
 
-const Product = () => {
+const Product = (props) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const isAlertTop = location.state?.isAlertTop;
+  console.log(isAlertTop);
   const name = useRecoilValue(accountName);
   const token = useRecoilValue(userToken);
   const followingAccounts = [];
@@ -82,6 +86,7 @@ const Product = () => {
   return (
     <StyledLayout>
       <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?'></BasicHeader>
+      {isAlertTop && <AlertTop>삭제되었습니다.</AlertTop>}
       <GridLayout>
         {userLoading ||
           (isLoading && (
