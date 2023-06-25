@@ -81,7 +81,7 @@ const Product = () => {
 
   return (
     <StyledLayout>
-      <BasicHeader>판매 중인 상품</BasicHeader>
+      <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?'></BasicHeader>
       <GridLayout>
         {userLoading ||
           (isLoading && (
@@ -108,8 +108,10 @@ const Product = () => {
           onClick={() => {
             navigate('/addproduct');
           }}
-       position='relative'
-          margin = '0 0 0 auto' width='50px' height='50px'
+          position='relative'
+          margin='0 0 0 auto'
+          width='50px'
+          height='50px'
         ></CircleButton>
       </div>
       <Navbar />
