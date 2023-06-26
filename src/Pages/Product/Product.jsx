@@ -8,7 +8,6 @@ import ProductItem from '../../Components/common/ProductItem';
 import { Layout } from '../../Styles/Layout';
 import CircleButton from '../../Components/common/CircleButton';
 import accountName from '../../Recoil/accountName/accountName';
-import AlertTop from '../../Components/common/AlertTop';
 
 import ProductDetailAPI from '../../Utils/ProductDetailAPI';
 
@@ -19,9 +18,8 @@ import { useRecoilValue } from 'recoil';
 
 import ProductItemSkeleton from '../../Components/common/Skeleton/ProductItemSkeleton';
 
-const Product = (props) => {
+const Product = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const name = useRecoilValue(accountName);
   const token = useRecoilValue(userToken);
   const followingAccounts = [];
@@ -83,12 +81,9 @@ const Product = (props) => {
 
   return (
     <StyledLayout>
-      <BasicHeader
-        btn1='설정 및 개인정보'
-        btn2='로그아웃'
-        txt='정말 로그아웃 하시겠습니까?'
-        rightbtn='확인'
-      ></BasicHeader>
+      <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='확인'>
+        Pillower의 판매상품
+      </BasicHeader>
       <GridLayout>
         {userLoading ||
           (isLoading && (

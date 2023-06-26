@@ -4,13 +4,14 @@ import styled from 'styled-components';
 
 import ProductDetailAPI from '../../Utils/ProductDetailAPI';
 
-import Navbar from '../../Components/common/Navbar';
 import BasicHeader from '../../Components/common/Header/BasicHeader';
 import hearticon from '../../Assets/icons/icon-heart.svg';
 import heartfill from '../../Assets/icons/icon-heart-fill.svg';
 import Button from '../../Components/common/Button';
 import User from '../../Components/common/User';
 import chatLists from '../Chat/chatLists';
+import accountName from '../../Recoil/accountName/accountName';
+import { useRecoilValue } from 'recoil';
 
 const AddProduct = (props) => {
   const [productId, setProductId] = useState('');
@@ -18,8 +19,10 @@ const AddProduct = (props) => {
   const [isClick, setIsClick] = useState(false);
   const params = useParams();
   const navigate = useNavigate();
+  const userName = useRecoilValue(accountName);
   const productDetail = ProductDetailAPI(params.id);
   const userImg = productDetail.author?.image;
+  const [userCheck, setUserCheck] = useState(false);
 
   const [randomMessage, setRandomMessage] = useState('');
   console.log('🚀  randomMessage:', randomMessage);
@@ -36,11 +39,23 @@ const AddProduct = (props) => {
     setProductId(params.id);
   }, []);
 
+  useEffect(() => {
+    if (userName === productDetail.author?.accountname) setUserCheck(true);
+  }, [accountName, productDetail.author?.accountname]);
+
+  console.log(userCheck);
   return (
     <>
       {productDetail && (
         <Layout>
-          <BasicHeader userId={productId} empty>
+          <BasicHeader
+            empty={!userCheck}
+            userId={productId}
+            btn1='수정'
+            btn2='삭제'
+            txt='정말 삭제 하시겠습니까?'
+            rightbtn='확인'
+          >
             판매 중인 상품
           </BasicHeader>
           <Image src={productDetail.itemImage} />
@@ -77,7 +92,6 @@ const AddProduct = (props) => {
               채팅하기
             </Button>
           </ProductLayout>
-          <Navbar />
         </Layout>
       )}
     </>
@@ -124,13 +138,15 @@ const ProductContent = styled.p`
 
 const ProductLayout = styled.div`
   display: flex;
-  /* justify-content: space-around; */
   width: 390px;
   align-items: center;
+  padding: 25px 0 20px;
   position: fixed;
   left: 50%;
   transform: translate(-50%);
-  bottom: 95px;
+  bottom: 0px;
+  /* background-color: white; */
+  border-top: 0.5px solid #dbdbdb;
 `;
 
 const Icon = styled.img`
