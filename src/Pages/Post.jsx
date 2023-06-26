@@ -72,11 +72,11 @@ export default function Post() {
       <UploadHeader disabled={!inputValue} onClick={handleSubmit}>
         업로드
       </UploadHeader>
+      <ToggleLayout>
+        <ToggleTitle>여행지</ToggleTitle>
+        <Toggle leftButton='국내' rightButton='해외' margin='0 0 22px 0'></Toggle>
+      </ToggleLayout>
       <form>
-        <ToggleLayout>
-          <ToggleTitle>여행지</ToggleTitle>
-          <Toggle leftButton='국내' rightButton='환전' margin='0 0 22px 0'></Toggle>
-        </ToggleLayout>
         <TextInput placeholder='게시글 입력하기...' ref={textarea} onChange={handleInputChange} rows='1'></TextInput>
         {imgURL.map((el, i) => (
           <ImgLayout key={`ImgLayout-${i}`}>
