@@ -150,7 +150,7 @@ const Profile = () => {
               <ViewButton bgImg={view ? AlbumOn : AlbumOff} onClick={handleView}></ViewButton>
             </ViewLayout>
             <article>
-              {postData.length > 0 ? (
+              {postData?.length > 0 ? (
                 <>
                   {!view ? (
                     postData.map((post, index) => <HomePostLayout key={index} post={post} />)
@@ -158,7 +158,7 @@ const Profile = () => {
                     <ImageLayoutBackground>
                       <ImageLayout>
                         {postData
-                          .filter((post) => post.image.length > 0)
+                          .filter((post) => post.image?.length > 0)
                           .map((post, index) => (
                             <ViewImage key={index} post={post} />
                           ))}
