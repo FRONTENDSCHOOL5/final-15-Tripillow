@@ -20,6 +20,8 @@ import AlertTop from '../common/AlertTop';
 const HomePostLayout = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const pathname = location.pathname;
+  const inDetail = pathname !== '/home' && pathname !== '/profile' ? true : false;
   const name = useRecoilValue(accountName);
   const [isTopModalOn, setIsTopModalOn] = useState(false);
   const [isModalOn, setIsModalOn] = useState(false);
@@ -39,6 +41,9 @@ const HomePostLayout = (props) => {
   }, []);
 
   const handlePostClick = () => {
+    if (inDetail) {
+      return;
+    }
     navigate(`/post/${post.id}`);
   };
 
@@ -122,11 +127,15 @@ const HomePostLayout = (props) => {
               <span>{post.commentCount}</span>
             </IconButton>
           </IconLayout>
-          <Content onClick={handlePostClick}>{trimContent(post.content)}</Content>
+          <Content onClick={handlePostClick} inDetail={inDetail}>
+            {trimContent(post.content)}
+          </Content>
         </>
       ) : (
         <>
-          <Content onClick={handlePostClick}>{trimContent(post.content)}</Content>
+          <Content onClick={handlePostClick} inDetail={inDetail}>
+            {trimContent(post.content)}
+          </Content>
           <IconLayout>
             <IconButton onClick={handleHeart}>
               <img src={isHearted ? iconHeart : iconUnheart} alt='하트 아이콘' />
@@ -199,7 +208,7 @@ const Content = styled.p`
   font-size: var(--sm);
   margin-bottom: 13px;
   line-height: 1.4;
-  cursor: pointer;
+  cursor: ${(props) => (props.inDetail === true ? 'auto' : 'pointer')};
   word-break: break-all;
 
   & + span {
