@@ -69,20 +69,21 @@ h1 {
   margin: 0;
 }
 
-  body {
+body {
   box-sizing: border-box;
+  overflow-y: scroll;
+  -ms-overflow-style:none;
+  scrollbar-width: none;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 
   #root {
     min-height: 100vh;
     height: 1px;
   }
-  
-  }
+}
 `;
 
 export default GlobalStyle;
-
-// npm reset
-// =>
-// npm normalize
-// reset.css
