@@ -48,7 +48,8 @@ const Followers = () => {
 
   return (
     <Layout>
-      <BasicHeader empty>{pageTitle}</BasicHeader>
+      {pageTitle === 'Pillowers' && <BasicHeader empty>Pillowers</BasicHeader>}
+      {pageTitle === 'Pillowings' && <BasicHeader empty>Pillowings</BasicHeader>}
       <main>
         {pathIdentifier[last] === 'followers'
           ? followerData.map((follower, index) => (
