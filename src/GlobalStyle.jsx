@@ -60,6 +60,7 @@ input {
     appearance: none;
     box-shadow: none;
     border: none;
+    border-radius: 0;
     padding: 0;
     box-sizing: border-box;
   }
