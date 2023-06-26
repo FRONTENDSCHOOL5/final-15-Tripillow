@@ -33,6 +33,7 @@ const ImageLayout = styled.div`
   height: 114px;
   overflow: hidden;
   margin-bottom: 8px;
+  cursor: pointer;
 
   img {
     width: 100%;
