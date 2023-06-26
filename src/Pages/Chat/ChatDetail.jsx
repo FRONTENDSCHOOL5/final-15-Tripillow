@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import MyInfoAPI from '../../Utils/MyInfoAPI';
 import { LayoutStyle } from '../../Styles/Layout';
 import BasicHeader from '../../Components/common/Header/BasicHeader';
 import profileSm from '../../Assets/profile-sm.png';
-import MyInfoAPI from '../../Utils/MyInfoAPI';
 
 const ChatDetail = () => {
   const location = useLocation();
