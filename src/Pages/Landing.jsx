@@ -11,9 +11,6 @@ import logo from '../Assets/logo.png';
 const Landing = () => {
   const location = useLocation();
   const [errorMSG, setErrorMSG] = useState();
-  const [isSplash, setIsSplash] = useState(true);
-  console.log('🚀  isSplash:', isSplash);
-  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     if (!!location.state) {
@@ -22,15 +19,6 @@ const Landing = () => {
         setErrorMSG('');
       }, 2000);
     }
-
-    // const img = new Image();
-    // img.src = tripillowmain;
-    // img.onload = () => {
-    //   setIsLoaded(true);
-    //   setTimeout(() => {
-    //     setIsSplash(false);
-    //   }, 4000);
-    // };
   }, []);
 
   return (
@@ -97,25 +85,9 @@ const TripillowLayout = styled.div`
   }
 
   img:last-child {
-    width: 200px;
+    width: 230px;
     animation: ${FadeInLogo} 4s forwards;
-  }
-`;
-
-const TripillowSplash = styled.div`
-  width: 390px;
-  /* overflow: hidden; */
-  animation: ${FadeIn} 4s forwards;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  img:last-child {
-    width: 200px;
-    animation: ${FadeInLogo} 4s forwards;
+    margin-top: -30px;
   }
 `;
 
