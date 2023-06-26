@@ -15,6 +15,7 @@ import { validateImageFile } from '../Utils/validate';
 
 const PostModification = () => {
   const navigate = useNavigate();
+  const token = useRecoilValue(userToken);
   const location = useLocation();
   const postId = location.state;
   const [postInput, setPostInput] = useState({
@@ -26,8 +27,10 @@ const PostModification = () => {
   const [postDetail, setPostDetail] = useState({}); // 기존값
   const textarea = useRef();
   const [imgURL, setImgURL] = useState([]); // [234, 456]
-  const token = useRecoilValue(userToken);
+  const [isLeftToggle, setIsLeftToggle] = useState(true);
+  const [rightOn, setRightOn] = useState(false);
   const getPostDetail = PostDetailAPI(postId, setPostDetail);
+
   useEffect(() => {
     const getDetail = async () => {
       await getPostDetail();
@@ -41,17 +44,27 @@ const PostModification = () => {
   }, [postInput.post.content]);
 
   useEffect(() => {
+    const trimContent = (content) => {
+      const match = content.match(/^\[(K|G)\]/);
+      if (match) {
+        if (match[0] === '[G]') {
+          setRightOn(true);
+        }
+        return content.slice(3);
+      }
+      return content;
+    };
+
     Object.keys(postDetail).length &&
       setPostInput({
         post: {
-          content: postDetail.post.content,
+          content: trimContent(postDetail.post.content),
           image: postDetail.post.image,
         },
       });
   }, [postDetail]);
 
   useEffect(() => {
-    console.log('[', postInput.post.image, ']');
     setImgURL(postInput.post.image.split(', '));
   }, [postInput]);
 
@@ -68,12 +81,13 @@ const PostModification = () => {
           image: image,
         },
       }));
-      // setImgURL((prev) => (prev[0] === '' ? [data.filename] : prev.concat(data.filename)));
     }
     console.log('{', imgURL, '}');
   };
 
   const handleSubmit = async () => {
+    const contentSubmit = isLeftToggle ? `[K]${postInput.post.content}` : `[G]${postInput.post.content}`;
+
     try {
       const response = await fetch(`${URL}/post/${postId}`, {
         method: 'PUT',
@@ -81,7 +95,12 @@ const PostModification = () => {
           Authorization: `Bearer ${token}`,
           'Content-type': 'application/json',
         },
-        body: JSON.stringify({ ...postInput }),
+        body: JSON.stringify({
+          post: {
+            content: contentSubmit,
+            image: postInput.image,
+          },
+        }),
       });
       const res = await response.json();
       textarea.current.value = '';
@@ -125,11 +144,18 @@ const PostModification = () => {
       <UploadHeader disabled={!postInput.post.content} onClick={handleSubmit}>
         업로드
       </UploadHeader>
+      <ToggleLayout>
+        <ToggleTitle>여행지</ToggleTitle>
+        <Toggle
+          leftButton='국내'
+          rightButton='해외'
+          margin='0 0 22px 0'
+          setIsLeftToggle={setIsLeftToggle}
+          rightOn={rightOn}
+          setRightOn={setRightOn}
+        ></Toggle>
+      </ToggleLayout>
       <form>
-        <ToggleLayout>
-          <ToggleTitle>여행지</ToggleTitle>
-          <Toggle leftButton='국내' rightButton='환전' margin='0 0 22px 0'></Toggle>
-        </ToggleLayout>
         <TextInput placeholder='게시글 입력하기...' ref={textarea} onChange={handleInputChange} rows='1'></TextInput>
         {imgURL[0] !== '' &&
           imgURL.map((el, i) => (

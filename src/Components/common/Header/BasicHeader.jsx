@@ -81,7 +81,7 @@ const BasicHeader = (props) => {
             navigate(-1);
           }}
         />
-        {props.children && <div>{props.children}</div>}
+        {props.children && <HeaderContent>{props.children}</HeaderContent>}
       </ContentLayout>
       {props.empty || currentPath[currentPath.length - 1] == 'setting' ? null : (
         <MoreButton onClick={handleMorebutton} />
@@ -114,6 +114,12 @@ const ContentLayout = styled.div`
   display: flex;
   align-items: center;
 `;
+
+const HeaderContent = styled.div`
+  height: 22px;
+  line-height: 1.6;
+`;
+
 const PrevButton = styled.button`
   width: 22px;
   height: 22px;
