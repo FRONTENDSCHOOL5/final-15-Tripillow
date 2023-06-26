@@ -15,7 +15,6 @@ import { useRecoilValue } from 'recoil';
 
 const AddProduct = (props) => {
   const [productId, setProductId] = useState('');
-  console.log('🚀  productId:', productId);
   const [isClick, setIsClick] = useState(false);
   const params = useParams();
   const navigate = useNavigate();
@@ -25,15 +24,12 @@ const AddProduct = (props) => {
   const [userCheck, setUserCheck] = useState(false);
 
   const [randomMessage, setRandomMessage] = useState('');
-  console.log('🚀  randomMessage:', randomMessage);
-
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * chatLists.length);
     const selectedMessage = chatLists[randomIndex];
     setRandomMessage(selectedMessage);
   }, []);
 
-  console.log(productDetail);
   const username = productDetail.author?.username;
   useEffect(() => {
     setProductId(params.id);
@@ -43,7 +39,6 @@ const AddProduct = (props) => {
     if (userName === productDetail.author?.accountname) setUserCheck(true);
   }, [accountName, productDetail.author?.accountname]);
 
-  console.log(userCheck);
   return (
     <>
       {productDetail && (
