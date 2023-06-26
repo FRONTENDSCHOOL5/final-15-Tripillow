@@ -21,7 +21,7 @@ const HomePostLayout = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
   const pathname = location.pathname;
-  const inDetail = pathname !== '/home' && pathname !== '/profile' ? true : false;
+  const inDetail = !['/home', '/profile'].some((path) => pathname.startsWith(path));
   const name = useRecoilValue(accountName);
   const [isTopModalOn, setIsTopModalOn] = useState(false);
   const [isModalOn, setIsModalOn] = useState(false);
