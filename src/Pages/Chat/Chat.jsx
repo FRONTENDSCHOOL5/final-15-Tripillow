@@ -16,7 +16,6 @@ const Chat = () => {
     const handleFetch = async () => {
       const data = await fetchFollowing();
       if (data) setFollowingData(data);
-      console.log(data);
     };
 
     handleFetch();

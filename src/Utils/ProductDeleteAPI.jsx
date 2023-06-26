@@ -15,13 +15,12 @@ const ProductDeleteAPI = (userId) => {
         },
       });
       const data = await response.json();
-      console.log(data);
     } catch (error) {
       console.error('api 에러!!', error);
     }
   };
 
-  return  handleProductDelete ;
+  return handleProductDelete;
 };
 
 export default ProductDeleteAPI;

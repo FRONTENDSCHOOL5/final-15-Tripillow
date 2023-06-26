@@ -82,7 +82,6 @@ const PostModification = () => {
         },
       }));
     }
-    console.log('{', imgURL, '}');
   };
 
   const handleSubmit = async () => {

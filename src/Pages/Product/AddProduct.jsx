@@ -40,7 +40,6 @@ const AddProduct = (props) => {
         }),
       });
       const data = await response.json();
-      console.log(data);
     } catch (error) {
       console.error('에러 발생!!!!!');
     }
@@ -50,9 +49,6 @@ const AddProduct = (props) => {
   const handleChange = async (e) => {
     const response = await ImageUploadAPI(e);
     setImageLink(`${URL}/${response.filename}`);
-
-    console.log('@@@@@@@this2!@!#$#@$@#$', imageLink);
-    // console.log(response)
   };
 
   const handleMinMax = (e) => {

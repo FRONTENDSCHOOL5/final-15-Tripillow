@@ -86,7 +86,6 @@ const HomePostLayout = (props) => {
 
   const handleHeart = async () => {
     const response = isHearted ? await unheartPost() : await heartPost();
-    console.log(response);
     setIsHearted(response.post.hearted);
     setHeartCount(response.post.heartCount);
   };
