@@ -49,7 +49,7 @@ const Home = () => {
       setTimeout(() => {
         setFeedCount((prevCount) => prevCount + 1);
         setShowSpinner(false);
-        document.documentElement.scrollTop -= 55;
+        window.scrollTo(0, scrollTop - 55);
       }, 1000);
     }
     if (scrollTop >= clientHeight) {
