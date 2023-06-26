@@ -210,6 +210,7 @@ const Content = styled.p`
   line-height: 1.4;
   cursor: ${(props) => (props.inDetail === true ? 'auto' : 'pointer')};
   word-break: break-all;
+  white-space: pre-wrap;
 
   & + span {
     font-size: 10px;
