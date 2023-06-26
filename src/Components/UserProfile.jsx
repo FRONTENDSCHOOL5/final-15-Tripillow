@@ -2,17 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import styled, { css } from 'styled-components';
-import accountName from '../../Recoil/accountName/accountName';
-import MyInfoAPI from '../../Utils/MyInfoAPI';
-import ProfileImg from '../../Assets/profile-lg.png';
-import Chat from '../../Assets/icons/icon-message-circle-1.svg';
-import Share from '../../Assets/icons/icon-share.svg';
-import CommonButton from '../../Components/common/Button';
-import FollowAPI from '../../Utils/FollowAPI';
-import UnFollowAPI from '../../Utils/UnFollowAPI';
-import URL from '../../Utils/URL';
-import AlertTop from '../common/AlertTop';
-import chatLists from '../../Pages/Chat/chatLists';
+import accountName from '../Recoil/accountName/accountName';
+import MyInfoAPI from '../Utils/MyInfoAPI';
+import ProfileImg from '../Assets/profile-lg.png';
+import Chat from '../Assets/icons/icon-message-circle-1.svg';
+import Share from '../Assets/icons/icon-share.svg';
+import CommonButton from './common/Button';
+import FollowAPI from '../Utils/FollowAPI';
+import UnFollowAPI from '../Utils/UnFollowAPI';
+import URL from '../Utils/URL';
+import AlertTop from './common/Modal/AlertTop';
+import chatLists from '../Mock/chatLists';
 
 const UserProfile = ({ followCount, setFollowCount, followerURL, followingURL, ...props }) => {
   const navigate = useNavigate();

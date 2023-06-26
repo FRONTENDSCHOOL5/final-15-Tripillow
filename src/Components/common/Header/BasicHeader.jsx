@@ -9,7 +9,7 @@ import { useRecoilState } from 'recoil';
 import userToken from '../../../Recoil/userToken/userToken';
 import isLogin from '../../../Recoil/isLogin/isLogin';
 import accountName from '../../../Recoil/accountName/accountName';
-import AlertModal from '../AlertModal';
+import AlertModal from '../Modal/AlertModal';
 import ProductDeleteAPI from '../../../Utils/ProductDeleteAPI';
 import { useEffect } from 'react';
 import ProductModifyAPI from '../../../Utils/ProductModifyAPI';

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
+import styled from 'styled-components';
+import userToken from '../Recoil/userToken/userToken';
 import { Layout } from '../Styles/Layout';
+import URL from '../Utils/URL';
 import SearchHeader from '../Components/common/Header/SearchHeader';
 import Navbar from '../Components/common/Navbar';
 import User from '../Components/common/User';
-import styled from 'styled-components';
-import URL from '../Utils/URL';
-import userToken from '../Recoil/userToken/userToken';
-import { useRecoilValue } from 'recoil';
 import UserSkeleton from '../Components/common/Skeleton/UserSkeleton';
 
 const Search = () => {

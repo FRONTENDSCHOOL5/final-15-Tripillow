@@ -9,13 +9,13 @@ import iconHeart from '../../Assets/icons/icon-heart-fill.svg';
 import iconChat from '../../Assets/icons/icon-message-circle-1.svg';
 import PostModal from '../PostModal';
 import { useLocation, useNavigate } from 'react-router-dom';
-import PostAlertModal from '../common/PostAlertModal';
+import PostAlertModal from '../common/Modal/PostAlertModal';
 import DeletePostAPI from '../../Utils/DeletePostAPI';
 import ReportPostAPI from '../../Utils/ReportPostAPI';
 import HeartPostAPI from '../../Utils/HeartPostAPI';
 import UnheartPostAPI from '../../Utils/UnheartPostAPI';
 import PostImage from '../common/PostImage';
-import AlertTop from '../common/AlertTop';
+import AlertTop from '../common/Modal/AlertTop';
 
 const HomePostLayout = (props) => {
   const navigate = useNavigate();

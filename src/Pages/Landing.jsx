@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { LayoutStyle } from '../Styles/Layout';
 import styled, { keyframes } from 'styled-components';
-import character from '../Assets/tripillow.png';
 import LoginMethod from '../Components/LoginMethod';
 import { useLocation } from 'react-router-dom';
-import AlertTop from '../Components/common/AlertTop';
+import AlertTop from '../Components/common/Modal/AlertTop';
 import tripillowCharacter from '../Assets/tripillowCharacter.gif';
 import logo from '../Assets/logo.png';
 

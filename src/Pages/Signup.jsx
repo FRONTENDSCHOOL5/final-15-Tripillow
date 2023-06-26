@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { LayoutStyle } from '../Styles/Layout';
-import SignupAPI from '../Utils/SignupAPI';
 import URL from '../Utils/URL';
+import SignupAPI from '../Utils/SignupAPI';
 import EmailValidAPI from '../Utils/EmailValidAPI';
 import ImageUploadAPI from '../Utils/ImageUploadAPI';
+import { LayoutStyle } from '../Styles/Layout';
 import Button from '../Components/common/Button';
 import Input from '../Components/common/Input';
-// import ProfileSetting from '../Components/Profile/UserProfileSetting';
 import ErrorMSG from '../Styles/ErrorMSG';
 import profileImg from '../Assets/profile-lg.png';
-import { useNavigate } from 'react-router-dom';
 import uploadfile from '../Assets/icons/upload-file.svg';
 
 const Signup = () => {

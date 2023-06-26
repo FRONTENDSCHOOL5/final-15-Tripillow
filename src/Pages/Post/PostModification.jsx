@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
-import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
-import PostDetailAPI from '../Utils/PostDetailAPI';
-import { LayoutStyle } from '../Styles/Layout';
-import UploadHeader from '../Components/common/Header/UploadHeader';
-import Toggle from '../Components/common/Toggle';
-import URL from '../Utils/URL';
-import x from '../Assets/icons/x.svg';
-import iconImg from '../Assets/icons/upload-file.svg';
-import userToken from '../Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
-import ImageUploadAPI from '../Utils/ImageUploadAPI';
-import { validateImageFile } from '../Utils/validate';
+import styled from 'styled-components';
+import URL from '../../Utils/URL';
+import PostDetailAPI from '../../Utils/PostDetailAPI';
+import ImageUploadAPI from '../../Utils/ImageUploadAPI';
+import { validateImageFile } from '../../Utils/validate';
+import userToken from '../../Recoil/userToken/userToken';
+import { LayoutStyle } from '../../Styles/Layout';
+import UploadHeader from '../../Components/common/Header/UploadHeader';
+import Toggle from '../../Components/common/Toggle';
+import x from '../../Assets/icons/x.svg';
+import iconImg from '../../Assets/icons/upload-file.svg';
 
 const PostModification = () => {
   const navigate = useNavigate();

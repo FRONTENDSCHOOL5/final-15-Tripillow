@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import MyInfoAPI from '../../Utils/MyInfoAPI';
 import { LayoutStyle } from '../../Styles/Layout';
 import BasicHeader from '../../Components/common/Header/BasicHeader';
 import profileSm from '../../Assets/profile-sm.png';
@@ -9,6 +10,12 @@ const ChatDetail = () => {
   const location = useLocation();
   const [inputValue, setInputValue] = useState('');
   const [chatValue, setChatValue] = useState([]);
+  const [myInfo, setMyInfo] = useState({});
+  const { getUserData } = MyInfoAPI({ setMyInfo });
+
+  useEffect(() => {
+    getUserData();
+  }, []);
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -56,7 +63,7 @@ const ChatDetail = () => {
       ))}
       <ChatInputBar>
         <UserImageLayout>
-          <UserImage src={profileSm} alt='프로필 이미지' />
+          <UserImage src={myInfo.image || profileSm} alt='프로필 이미지' />
         </UserImageLayout>
         <ChatInput
           value={inputValue}
