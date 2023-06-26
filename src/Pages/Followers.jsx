@@ -32,13 +32,13 @@ const Followers = () => {
         const follower = await fetchFollower();
         if (follower) {
           setFollowerData(follower);
-          setPageTitle('Followers');
+          setPageTitle('Pillowers');
         }
       } else if (pathIdentifier[last] === 'followings') {
         const following = await fetchFollowing();
         if (following) {
           setFollowingData(following);
-          setPageTitle('Followings');
+          setPageTitle('Pillowings');
         }
       }
     };
