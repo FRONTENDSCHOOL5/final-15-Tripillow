@@ -22,7 +22,6 @@ export default function PostComment({ postId, setIsNewComment, userImg }) {
     const response = await handlePostComment();
     setIsNewComment((prev) => !prev);
     input.current.value = '';
-    return;
   };
 
   return (
