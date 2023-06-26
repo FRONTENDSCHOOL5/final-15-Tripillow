@@ -62,11 +62,11 @@ const Comment = ({ commentInfo, postId, setIsNewComment }) => {
         >
           <ProfileImg src={commentInfo.author.image || profileImg} alt='프로필 이미지'></ProfileImg>
         </ProfileLink>
-        <UserName>{commentInfo.author.username || '더미유저'}</UserName>
+        <UserName>{commentInfo.author.username}</UserName>
         <Time>{createdAt}</Time>
         <MoreBtn onClick={handleModal}></MoreBtn>
       </Profile>
-      <Text>{commentInfo.content || '더미코멘트'}</Text>
+      <Text>{commentInfo.content}</Text>
       <ModalOn>
         {isModalOn && (
           <CommentModal
@@ -92,7 +92,7 @@ const Comment = ({ commentInfo, postId, setIsNewComment }) => {
 };
 
 const CommentLayout = styled.div`
-  margin: 0 12px 16px 16px;
+  margin: 0 12px 14px 16px;
 `;
 
 const Profile = styled.div`
@@ -106,18 +106,20 @@ const ProfileLink = styled(Link)`
   display: block;
   width: 36px;
   height: 36px;
-  border-radius: 50%;
-  overflow: hidden;
+  /* border-radius: 50%; */
+  /* overflow: hidden; */
 `;
 
 const ProfileImg = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 50%;
+  margin: 8px 0 -15px 0;
 `;
 
 const UserName = styled.span`
-  font-size: var('--sm');
+  font-size: var(--sm);
   font-weight: 500;
 `;
 
@@ -135,10 +137,12 @@ const MoreBtn = styled.button`
 `;
 
 const Text = styled.p`
+  width: 80%;
   margin: 0 0 0 51px;
   box-shadow: solid 1px 0 0;
   font-size: var(--sm);
   word-break: break-all;
+  line-height: 1.4;
 `;
 
 const ModalOn = styled.div`
