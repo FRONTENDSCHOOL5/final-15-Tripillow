@@ -68,7 +68,7 @@ export default function PostDetail() {
         rightbtn='로그아웃'
         isPost
       ></BasicHeader>
-      {Object.keys(postInfo).length && <HomePostLayout post={postInfo.post}></HomePostLayout>}
+      {Object.keys(postInfo).length > 0 && <HomePostLayout post={postInfo.post}></HomePostLayout>}
       {showMore && <MoreComment onClick={handleShowMore}>더보기</MoreComment>}
       {visibleComments.map((el, i) => (
         <Comment key={i} postId={postId} commentInfo={el} setIsNewComment={setIsNewComment}></Comment>
