@@ -86,6 +86,14 @@ const HomePostLayout = (props) => {
     setHeartCount(response.post.heartCount);
   };
 
+  const trimContent = (content) => {
+    const match = content.match(/^\[(K|G)\]/);
+    if (match) {
+      return content.slice(3);
+    }
+    return content;
+  };
+
   return (
     <Layout>
       {isTopModalOn && <AlertTop isError={true}>게시글이 신고되었습니다.</AlertTop>}
@@ -114,11 +122,11 @@ const HomePostLayout = (props) => {
               <span>{post.commentCount}</span>
             </IconButton>
           </IconLayout>
-          <Content onClick={handlePostClick}>{post.content}</Content>
+          <Content onClick={handlePostClick}>{trimContent(post.content)}</Content>
         </>
       ) : (
         <>
-          <Content onClick={handlePostClick}>{post.content}</Content>
+          <Content onClick={handlePostClick}>{trimContent(post.content)}</Content>
           <IconLayout>
             <IconButton onClick={handleHeart}>
               <img src={isHearted ? iconHeart : iconUnheart} alt='하트 아이콘' />

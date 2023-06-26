@@ -17,6 +17,7 @@ export default function Post() {
   const textarea = useRef();
   const [inputValue, setInputValue] = useState('');
   const [imgURL, setImgURL] = useState([]);
+  const [isLeftToggle, setIsLeftToggle] = useState(true);
   const token = useRecoilValue(userToken);
 
   const handleImageInput = async (e) => {
@@ -39,7 +40,7 @@ export default function Post() {
         },
         body: JSON.stringify({
           post: {
-            content: inputValue,
+            content: isLeftToggle ? `[K]${inputValue}` : `[G]${inputValue}`,
             image: images,
           },
         }),
@@ -67,14 +68,14 @@ export default function Post() {
   const handleImgClose = (i) => {
     setImgURL([...imgURL.slice(0, i), ...imgURL.slice(i + 1, imgURL.length)]);
   };
+
   return (
     <PostLayout>
       <UploadHeader disabled={!inputValue} onClick={handleSubmit}>
         업로드
       </UploadHeader>
       <ToggleLayout>
-        <ToggleTitle>여행지</ToggleTitle>
-        <Toggle leftButton='국내' rightButton='해외' margin='0 0 22px 0'></Toggle>
+        <Toggle leftButton='국내' rightButton='해외' setIsLeftToggle={setIsLeftToggle} margin='0 0 22px 0'></Toggle>
       </ToggleLayout>
       <form>
         <TextInput placeholder='게시글 입력하기...' ref={textarea} onChange={handleInputChange} rows='1'></TextInput>
@@ -92,6 +93,7 @@ export default function Post() {
     </PostLayout>
   );
 }
+
 const PostLayout = styled.div`
   ${LayoutStyle};
   position: relative;
@@ -99,12 +101,6 @@ const PostLayout = styled.div`
 
 const ToggleLayout = styled.section`
   margin: 10px 12px 0 16px;
-`;
-
-const ToggleTitle = styled.h1`
-  color: var(--dark-gray);
-  font-size: var(--xs);
-  margin-bottom: 10px;
 `;
 
 const TextInput = styled.textarea`
