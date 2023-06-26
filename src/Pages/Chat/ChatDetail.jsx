@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-
 import { LayoutStyle } from '../../Styles/Layout';
 import BasicHeader from '../../Components/common/Header/BasicHeader';
 import profileSm from '../../Assets/profile-sm.png';
-import { useLocation } from 'react-router-dom';
 
 const ChatDetail = () => {
   const location = useLocation();
-  console.log(location);
   const [inputValue, setInputValue] = useState('');
   const [chatValue, setChatValue] = useState([]);
 
@@ -56,7 +54,6 @@ const ChatDetail = () => {
           </ChatContent>
         </ChatContentLayout>
       ))}
-
       <ChatInputBar>
         <UserImageLayout>
           <UserImage src={profileSm} alt='프로필 이미지' />
@@ -87,7 +84,7 @@ const ChatLayout = styled.div`
 
 const ChatContentLayout = styled.div`
   display: flex;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   margin-left: ${(props) => props.marginLeft};
 `;
 
@@ -130,10 +127,10 @@ const ChatInputBar = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 390px;
-  height: 60px;
+  min-height: 60px;
   box-sizing: border-box;
   margin: auto;
-  padding: 0 16px;
+  padding: 13px 16px 30px;
   position: fixed;
   right: 0;
   left: 0;

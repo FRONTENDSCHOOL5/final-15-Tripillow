@@ -42,8 +42,8 @@ const FooterFormLayout = styled.form`
   display: flex;
   justify-content: space-between;
   min-width: 388px;
-  height: 60px;
-  padding: 13px 15px;
+  min-height: 60px;
+  padding: 13px 18px 30px;
   box-sizing: border-box;
   border-top: 0.5px solid #dbdbdb;
   position: fixed;

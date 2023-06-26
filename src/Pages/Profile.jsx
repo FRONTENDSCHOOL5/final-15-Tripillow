@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
+import { useLocation, useParams } from 'react-router-dom';
 import UserProfile from '../Components/Profile/UserProfile';
 import BasicHeader from '../Components/common/Header/BasicHeader';
 import HomePostLayout from '../Components/HomePost/HomePostLayout';
@@ -22,7 +23,6 @@ import listOn from '../Assets/icons/icon-post-list-on.svg';
 import listOff from '../Assets/icons/icon-post-list-off.svg';
 import AlbumOn from '../Assets/icons/icon-post-album-on.svg';
 import AlbumOff from '../Assets/icons/icon-post-album-off.svg';
-import { useLocation, useParams } from 'react-router-dom';
 
 const Profile = () => {
   const params = useParams();
@@ -157,9 +157,11 @@ const Profile = () => {
                   ) : (
                     <ImageLayoutBackground>
                       <ImageLayout>
-                        {postData.map((post, index) => (
-                          <ViewImage key={index} post={post} />
-                        ))}
+                        {postData
+                          .filter((post) => post.image.length > 0)
+                          .map((post, index) => (
+                            <ViewImage key={index} post={post} />
+                          ))}
                       </ImageLayout>
                     </ImageLayoutBackground>
                   )}
