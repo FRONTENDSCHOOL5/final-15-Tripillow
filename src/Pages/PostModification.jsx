@@ -55,7 +55,7 @@ const PostModification = () => {
       return content;
     };
 
-    Object.keys(postDetail).length &&
+    Object.keys(postDetail).length > 0 &&
       setPostInput({
         post: {
           content: trimContent(postDetail.post.content),
@@ -86,8 +86,6 @@ const PostModification = () => {
   };
 
   const handleSubmit = async () => {
-    const contentSubmit = isLeftToggle ? `[K]${postInput.post.content}` : `[G]${postInput.post.content}`;
-
     try {
       const response = await fetch(`${URL}/post/${postId}`, {
         method: 'PUT',
@@ -96,9 +94,10 @@ const PostModification = () => {
           'Content-type': 'application/json',
         },
         body: JSON.stringify({
+          ...postInput,
           post: {
-            content: contentSubmit,
-            image: postInput.image,
+            ...postInput.post,
+            content: isLeftToggle ? `[K]${postInput.post.content}` : `[G]${postInput.post.content}`,
           },
         }),
       });
@@ -111,6 +110,7 @@ const PostModification = () => {
       console.error(error);
     }
   };
+
   const handleResizeHeight = () => {
     textarea.current.style.height = 'auto';
     textarea.current.style.height = textarea.current.scrollHeight + 'px';
