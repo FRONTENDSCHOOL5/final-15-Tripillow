@@ -40,7 +40,7 @@ const AddProduct = (props) => {
     <>
       {productDetail && (
         <Layout>
-          <BasicHeader userId={productId} btn1='수정' btn2='삭제' txt='정말 삭제하시겠습니까?' rightbtn='삭제'>
+          <BasicHeader userId={productId} empty>
             판매 중인 상품
           </BasicHeader>
           <Image src={productDetail.itemImage} />
