@@ -97,10 +97,14 @@ const UserProfileSetting = () => {
 
   return (
     <UserSettingLayout>
-      <Form onSubmit={handleSubmit}>
-        <UploadHeader type='submit' disabled={errorMessage && errorMessage !== '사용 가능한 계정ID 입니다.'}>
-          저장
-        </UploadHeader>
+      <UploadHeader
+        onClick={handleSubmit}
+        type='submit'
+        disabled={errorMessage && errorMessage !== '사용 가능한 계정ID 입니다.'}
+      >
+        저장
+      </UploadHeader>
+      <Form>
         <ImageLayout>
           <ImgLabel htmlFor='file-input'>
             <ProfileImg src={imgURL ? imgURL : data.image ? data.image : profileImg} />
