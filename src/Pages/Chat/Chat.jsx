@@ -25,7 +25,12 @@ const Chat = () => {
 
   return (
     <Layout>
-      <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?'></BasicHeader>
+      <BasicHeader
+        btn1='설정 및 개인정보'
+        btn2='로그아웃'
+        txt='정말 로그아웃 하시겠습니까?'
+        rightbtn='확인'
+      ></BasicHeader>
       {followingData &&
         followingData.map((item, index) => (
           <ChatUser key={index} userImg={item.image} username={item.username} content={item.intro} />
