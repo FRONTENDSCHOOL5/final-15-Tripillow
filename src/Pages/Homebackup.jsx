@@ -21,33 +21,11 @@ const Home = () => {
   const [showSpinner, setShowSpinner] = useState(false);
   const [showTopButton, setShowTopButton] = useState(false);
   const [isLeftToggle, setIsLeftToggle] = useState(true);
-  const [globalPosts, setGlobalPosts] = useState([]);
-  const [koreaPosts, setKoreaPosts] = useState([]);
-
-  useEffect(() => {
-    const setCategory = () => {
-      const updatedKoreaPosts = [];
-      const updatedGlobalPosts = [];
-
-      followedFeed.forEach((post) => {
-        const match = post.content.match(/^\[(K|G)\]/);
-        if (match === null || match[1] !== 'G') {
-          updatedKoreaPosts.push(post);
-        } else {
-          updatedGlobalPosts.push(post);
-        }
-      });
-      setKoreaPosts(updatedKoreaPosts);
-      setGlobalPosts(updatedGlobalPosts);
-    };
-
-    setCategory();
-  }, [followedFeed]);
 
   useEffect(() => {
     const getFeedFollowed = async () => {
       try {
-        const response = await fetch(`${URL}/post/feed/?limit=50&skip=${feedCount * 50}`, {
+        const response = await fetch(`${URL}/post/feed/?limit=20&skip=${feedCount * 20}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -56,7 +34,6 @@ const Home = () => {
         const data = await response.json();
         if (response.ok) {
           setFollowedFeed((prevFeed) => [...prevFeed, ...data.posts]);
-          // setCategory();
           setTimeout(() => setIsLoading(false), 500);
         }
       } catch (error) {
@@ -98,12 +75,7 @@ const Home = () => {
           <HomePostSkeleton />
         </>
       ) : followedFeed.length > 0 ? (
-        // followedFeed.map((post) => <HomePost key={post.id} post={post} />)
-        isLeftToggle ? (
-          koreaPosts.map((post) => <HomePost key={post.id} post={post} />)
-        ) : (
-          globalPosts.map((post) => <HomePost key={post.id} post={post} />)
-        )
+        followedFeed.map((post) => <HomePost key={post.id} post={post} />)
       ) : (
         !isLoading && (
           <Empty image={logo} alt='로고' navigate='/search' buttonName='검색하기'>
