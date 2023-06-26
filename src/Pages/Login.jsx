@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { LayoutStyle } from '../Styles/Layout';
+import { useRecoilState } from 'recoil';
 import userToken from '../Recoil/userToken/userToken';
 import isLogin from '../Recoil/isLogin/isLogin';
 import accountName from '../Recoil/accountName/accountName';
@@ -7,8 +9,6 @@ import styled from 'styled-components';
 import LoginAPI from '../Utils/LoginAPI';
 import Button from '../Components/common/Button';
 import Input from '../Components/common/Input';
-import { LayoutStyle } from '../Styles/Layout';
-import { useRecoilState } from 'recoil';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -21,15 +21,13 @@ const Login = () => {
     },
   });
 
-  // Recoil Atoms
   const [token, setToken] = useRecoilState(userToken);
   const [isLoginState, setIsLoginState] = useRecoilState(isLogin);
   const [name, setName] = useRecoilState(accountName);
 
-  // 로그인 true 일 경우 뒤로가기 막기, 로그아웃기능 넣을 때 사용
-  // useEffect(() => {
-  //   if (isLoginState) navigate('/');
-  // }, []);
+  useEffect(() => {
+    if (isLoginState) navigate('/home');
+  }, []);
 
   const handleError = (e) => {
     const user = userInput.user;
