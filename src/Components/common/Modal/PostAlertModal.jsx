@@ -55,6 +55,7 @@ const ModalTxt = styled.p`
 
 const ModalButtonLayout = styled.div`
   display: flex;
+  height: 50px;
 
   button + button {
     border-left: 1px solid #dbdbdb;
@@ -64,7 +65,7 @@ const ModalButtonLayout = styled.div`
 const ModalButton = styled.button`
   width: 126px;
   padding: 14px 0;
-  /* height: 46px; */
+  height: 100%;
   font-size: var(--sm);
   /* color: ${(props) => (props.color ? 'var(--primary)' : 'black')}; */
   color: ${(props) => props.color || 'black'};
