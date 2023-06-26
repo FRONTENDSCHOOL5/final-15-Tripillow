@@ -22,7 +22,7 @@ export default function Post() {
 
   const handleImageInput = async (e) => {
     if (imgURL.length >= 3 || e.target.files.length === 0) return;
-    if (!validateImageFile(e.target.files[0].name)) return console.log('ERROR: 파일 확장자');
+    if (!validateImageFile(e.target.files[0].name)) return console.log('ERROR: 파일 확장자를 확인해주세요');
     const data = await ImageUploadAPI(e);
     if (data) {
       setImgURL((prev) => prev.concat(data.filename));
@@ -111,6 +111,7 @@ const TextInput = styled.textarea`
   resize: none;
   font: inherit;
   line-height: 1.2em;
+  white-space: pre-wrap;
 
   ::placeholder {
     color: var(--gray);

@@ -68,9 +68,6 @@ const ProductModification = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const res = await handleProductModify();
-    if (res) {
-      console.log(res);
-    }
     setIsModified(true);
   };
 

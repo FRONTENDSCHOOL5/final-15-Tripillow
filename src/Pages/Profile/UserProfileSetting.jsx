@@ -57,9 +57,6 @@ const UserProfileSetting = () => {
 
   const handleAccountValid = async () => {
     const res = await getAccountValidAPI();
-    if (res) {
-      console.log(res);
-    }
   };
 
   const handleImageInput = async (e) => {

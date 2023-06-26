@@ -21,7 +21,7 @@ const HomePostLayout = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
   const pathname = location.pathname;
-  const inDetail = pathname !== '/home' && pathname !== '/profile' ? true : false;
+  const inDetail = !['/home', '/profile'].some((path) => pathname.startsWith(path));
   const name = useRecoilValue(accountName);
   const [isTopModalOn, setIsTopModalOn] = useState(false);
   const [isModalOn, setIsModalOn] = useState(false);
@@ -86,7 +86,6 @@ const HomePostLayout = (props) => {
 
   const handleHeart = async () => {
     const response = isHearted ? await unheartPost() : await heartPost();
-    console.log(response);
     setIsHearted(response.post.hearted);
     setHeartCount(response.post.heartCount);
   };
@@ -210,6 +209,7 @@ const Content = styled.p`
   line-height: 1.4;
   cursor: ${(props) => (props.inDetail === true ? 'auto' : 'pointer')};
   word-break: break-all;
+  white-space: pre-wrap;
 
   & + span {
     font-size: 10px;

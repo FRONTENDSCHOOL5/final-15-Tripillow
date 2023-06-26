@@ -62,7 +62,6 @@ export default function PostDetail() {
       setShowMore(false);
     }
   };
-  // console.log(postInfo.post.author.image);
 
   return (
     <Layout>

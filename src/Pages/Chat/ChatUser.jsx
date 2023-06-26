@@ -7,7 +7,6 @@ import chatLists from '../../Mock/chatLists';
 const ChatUser = ({ username, userImg, ...props }) => {
   const navigate = useNavigate();
   const [randomMessage, setRandomMessage] = useState('');
-  console.log('🚀  randomMessage:', randomMessage);
 
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * chatLists.length);

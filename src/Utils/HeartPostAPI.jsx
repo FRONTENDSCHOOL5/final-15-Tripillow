@@ -15,7 +15,6 @@ const HeartPostAPI = (postId) => {
         },
       });
       const data = await response.json();
-      // console.log('In Heart: ', data);
       return data;
     } catch (error) {
       console.error('[ERROR] on HeartPostAPI');
