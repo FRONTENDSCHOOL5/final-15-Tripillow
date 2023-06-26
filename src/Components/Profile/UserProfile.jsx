@@ -96,14 +96,14 @@ const UserProfile = ({ followCount, setFollowCount, followerURL, followingURL, .
           <ImgFollowLayout>
             <FollowLayout to={followerURL} state={user}>
               <strong>{userCount}</strong>
-              <p>followers</p>
+              <p>pillowers</p>
             </FollowLayout>
             <ImgLayout>
               <img src={user.image ? user.image : ProfileImg} alt='사용자 프로필 사진' />
             </ImgLayout>
             <FollowLayout to={followingURL} state={user} color='#767676'>
               <strong>{user.followingCount}</strong>
-              <p>followings</p>
+              <p>pillowings</p>
             </FollowLayout>
           </ImgFollowLayout>
           <UserInfoLayout>

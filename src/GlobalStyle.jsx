@@ -41,6 +41,7 @@ button {
   padding: 0;
   cursor: pointer;
   border: none;
+  color: inherit;
   background-color: transparent;
 }
 
@@ -59,6 +60,7 @@ input {
     appearance: none;
     box-shadow: none;
     border: none;
+    border-radius: 0;
     padding: 0;
     box-sizing: border-box;
   }
