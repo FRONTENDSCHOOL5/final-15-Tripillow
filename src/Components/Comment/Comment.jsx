@@ -39,7 +39,7 @@ const Comment = ({ commentInfo, postId, setIsNewComment }) => {
   const handleDelete = async () => {
     const response = await deleteComment();
     closeModal();
-    setIsNewComment(true);
+    setIsNewComment((prev) => !prev);
   };
 
   const handleReport = async () => {

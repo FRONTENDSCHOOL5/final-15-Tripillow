@@ -15,7 +15,6 @@ const UnheartPostAPI = (postId) => {
         },
       });
       const data = await response.json();
-      // console.log('In Unheart: ', data);
       return data;
     } catch (error) {
       console.error('[ERROR] on UnheartPostAPI');

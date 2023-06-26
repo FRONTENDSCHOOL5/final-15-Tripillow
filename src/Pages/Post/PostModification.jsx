@@ -82,7 +82,6 @@ const PostModification = () => {
         },
       }));
     }
-    console.log('{', imgURL, '}');
   };
 
   const handleSubmit = async () => {
@@ -196,6 +195,7 @@ const TextInput = styled.textarea`
   resize: none;
   font: inherit;
   line-height: 1.2em;
+  white-space: pre-wrap;
 
   ::placeholder {
     color: var(--gray);
