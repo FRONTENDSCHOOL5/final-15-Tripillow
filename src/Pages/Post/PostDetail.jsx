@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { LayoutStyle } from '../Styles/Layout';
-import Comment from '../Components/Comment';
-import PostComment from '../Components/common/PostComment';
-import BasicHeader from '../Components/common/Header/BasicHeader';
-import PostDetailAPI from '../Utils/PostDetailAPI';
-import GetNumerousCommentAPI from '../Utils/GetNumerousCommentAPI';
-import HomePostLayout from '../Components/HomePost/HomePostLayout';
-import MyInfoAPI from '../Utils/MyInfoAPI';
+import { LayoutStyle } from '../../Styles/Layout';
+import Comment from '../../Components/Comment/Comment';
+import PostComment from '../../Components/common/PostComment';
+import BasicHeader from '../../Components/common/Header/BasicHeader';
+import PostDetailAPI from '../../Utils/PostDetailAPI';
+import GetNumerousCommentAPI from '../../Utils/GetNumerousCommentAPI';
+import HomePostLayout from '../../Components/HomePost/HomePostLayout';
+import MyInfoAPI from '../../Utils/MyInfoAPI';
 
 export default function PostDetail() {
   const { id } = useParams();

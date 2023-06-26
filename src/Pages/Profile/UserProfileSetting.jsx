@@ -6,11 +6,11 @@ import ImageUploadAPI from '../../Utils/ImageUploadAPI';
 import UserInfoAPI from '../../Utils/MyInfoAPI';
 import EditProfileAPI from '../../Utils/EditProfileAPI';
 import AccountValidAPI from '../../Utils/AccountValidAPI';
-import Input from '../common/Input';
+import Input from '../../Components/common/Input';
+import UploadHeader from '../../Components/common/Header/UploadHeader';
 import { LayoutStyle } from '../../Styles/Layout';
 import profileImg from '../../Assets/profile-lg.png';
 import ErrorMSG from '../../Styles/ErrorMSG';
-import UploadHeader from '../../Components/common/Header/UploadHeader';
 import uploadfile from '../../Assets/icons/upload-file.svg';
 
 const UserProfileSetting = () => {

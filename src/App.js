@@ -6,7 +6,7 @@ import Home from './Pages/Home';
 import Search from './Pages/Search';
 import Login from './Pages/Login';
 import Signup from './Pages/Signup';
-import Profile from './Pages/Profile';
+import Profile from './Pages/Profile/Profile';
 import Product from './Pages/Product/Product';
 import ProductDetail from './Pages/Product/ProductDetail';
 import AddProduct from './Pages/Product/AddProduct';
@@ -14,13 +14,13 @@ import Chat from './Pages/Chat/Chat';
 import ChatDetail from './Pages/Chat/ChatDetail';
 import NotFound from './Pages/NotFound';
 import ProductModification from './Pages/Product/ProductModification';
-import Post from './Pages/Post';
-import Followers from './Pages/Followers';
-import PostDetail from './Pages/PostDetail';
-import UserProfileSetting from './Components/Profile/UserProfileSetting';
-import PostModification from './Pages/PostModification';
+import Post from './Pages/Post/Post';
+import Followers from './Pages/Profile/Followers';
+import PostDetail from './Pages/Post/PostDetail';
+import UserProfileSetting from './Pages/Profile/UserProfileSetting';
+import PostModification from './Pages/Post/PostModification';
 import ProtectRoute from './Utils/ProtectRoute/ProtectRoute';
-import Setting from './Pages/Setting';
+import Setting from './Pages/Profile/Setting';
 
 function App() {
   return (

@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import FollowUser from '../Components/common/FollowUser';
-import BasicHeader from '../Components/common/Header/BasicHeader';
-import UserProfile from '../Components/Profile/UserProfile';
-import Navbar from '../Components/common/Navbar';
-import FollowingListAPI from '../Utils/FollowingListAPI';
-import FollowerListAPI from '../Utils/FollowerListAPI';
+import FollowUser from '../../Components/common/FollowUser';
+import BasicHeader from '../../Components/common/Header/BasicHeader';
+import Navbar from '../../Components/common/Navbar';
+import FollowingListAPI from '../../Utils/FollowingListAPI';
+import FollowerListAPI from '../../Utils/FollowerListAPI';
 
 const Followers = () => {
   const location = useLocation();

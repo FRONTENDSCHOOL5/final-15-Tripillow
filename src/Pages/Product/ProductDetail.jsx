@@ -9,7 +9,7 @@ import hearticon from '../../Assets/icons/icon-heart.svg';
 import heartfill from '../../Assets/icons/icon-heart-fill.svg';
 import Button from '../../Components/common/Button';
 import User from '../../Components/common/User';
-import chatLists from '../Chat/chatLists';
+import chatLists from '../../Mock/chatLists';
 import accountName from '../../Recoil/accountName/accountName';
 import { useRecoilValue } from 'recoil';
 
