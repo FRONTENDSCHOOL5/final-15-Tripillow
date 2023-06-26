@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import profileImg from '../Assets/profile-sm.png';
+import profileImg from '../../Assets/profile-sm.png';
 import styled from 'styled-components';
-import more from '../Assets/icons/icon-more-vertical.svg';
+import more from '../../Assets/icons/icon-more-vertical.svg';
 import CommentModal from './CommentModal';
-import PostAlertModal from './common/PostAlertModal';
-import accountname from '../Recoil/accountName/accountName';
-import DeleteCommentAPI from '../Utils/DeleteCommentAPI';
-import ReportCommentAPI from '../Utils/ReportCommentAPI';
-import AlertTop from './common/AlertTop';
+import PostAlertModal from '../common/Modal/PostAlertModal';
+import accountname from '../../Recoil/accountName/accountName';
+import DeleteCommentAPI from '../../Utils/DeleteCommentAPI';
+import ReportCommentAPI from '../../Utils/ReportCommentAPI';
+import AlertTop from '../common/Modal/AlertTop';
 
 const Comment = ({ commentInfo, postId, setIsNewComment }) => {
   const name = useRecoilValue(accountname);
@@ -39,7 +39,7 @@ const Comment = ({ commentInfo, postId, setIsNewComment }) => {
   const handleDelete = async () => {
     const response = await deleteComment();
     closeModal();
-    setIsNewComment(true);
+    setIsNewComment((prev) => !prev);
   };
 
   const handleReport = async () => {

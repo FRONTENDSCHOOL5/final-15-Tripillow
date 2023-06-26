@@ -2,27 +2,27 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { useLocation, useParams } from 'react-router-dom';
-import UserProfile from '../Components/Profile/UserProfile';
-import BasicHeader from '../Components/common/Header/BasicHeader';
-import HomePostLayout from '../Components/HomePost/HomePostLayout';
-import { LayoutStyle } from '../Styles/Layout';
-import Navbar from '../Components/common/Navbar';
-import ProductItem from '../Components/common/ProductItem';
-import MyInfoAPI from '../Utils/MyInfoAPI';
-import GetPostAPI from '../Utils/GetPostAPI';
-import ProductListAPI from '../Utils/ProductListAPI';
-import UserInfoAPI from '../Utils/UserInfoAPI';
-import accountName from '../Recoil/accountName/accountName';
-import ViewImage from '../Components/HomePost/ViewImage';
-import SkeletonItem from '../Styles/SkeletonItem';
-import ProductItemSkeleton from '../Components/common/Skeleton/ProductItemSkeleton';
-import HomePostSkeleton from '../Components/common/Skeleton/HomePostSkeleton';
-import AlertTop from '../Components/common/AlertTop';
+import MyInfoAPI from '../../Utils/MyInfoAPI';
+import GetPostAPI from '../../Utils/GetPostAPI';
+import UserInfoAPI from '../../Utils/UserInfoAPI';
+import ProductListAPI from '../../Utils/ProductListAPI';
+import accountName from '../../Recoil/accountName/accountName';
+import UserProfile from '../../Components/UserProfile';
+import BasicHeader from '../../Components/common/Header/BasicHeader';
+import HomePostLayout from '../../Components/HomePost/HomePostLayout';
+import Navbar from '../../Components/common/Navbar';
+import ProductItem from '../../Components/common/ProductItem';
+import ViewImage from '../../Components/HomePost/ViewImage';
+import ProductItemSkeleton from '../../Components/common/Skeleton/ProductItemSkeleton';
+import { LayoutStyle } from '../../Styles/Layout';
+import SkeletonItem from '../../Styles/SkeletonItem';
+import HomePostSkeleton from '../../Components/common/Skeleton/HomePostSkeleton';
+import AlertTop from '../../Components/common/Modal/AlertTop';
 
-import listOn from '../Assets/icons/icon-post-list-on.svg';
-import listOff from '../Assets/icons/icon-post-list-off.svg';
-import AlbumOn from '../Assets/icons/icon-post-album-on.svg';
-import AlbumOff from '../Assets/icons/icon-post-album-off.svg';
+import listOn from '../../Assets/icons/icon-post-list-on.svg';
+import listOff from '../../Assets/icons/icon-post-list-off.svg';
+import AlbumOn from '../../Assets/icons/icon-post-album-on.svg';
+import AlbumOff from '../../Assets/icons/icon-post-album-off.svg';
 
 const Profile = () => {
   const params = useParams();
@@ -150,7 +150,7 @@ const Profile = () => {
               <ViewButton bgImg={view ? AlbumOn : AlbumOff} onClick={handleView}></ViewButton>
             </ViewLayout>
             <article>
-              {postData.length > 0 ? (
+              {postData?.length > 0 ? (
                 <>
                   {!view ? (
                     postData.map((post, index) => <HomePostLayout key={index} post={post} />)
@@ -158,7 +158,7 @@ const Profile = () => {
                     <ImageLayoutBackground>
                       <ImageLayout>
                         {postData
-                          .filter((post) => post.image.length > 0)
+                          .filter((post) => post.image?.length > 0)
                           .map((post, index) => (
                             <ViewImage key={index} post={post} />
                           ))}

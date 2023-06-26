@@ -49,8 +49,11 @@ const AddProduct = (props) => {
   const handleChange = async (e) => {
     const response = await ImageUploadAPI(e);
     setImageLink(`${URL}/${response.filename}`);
+<<<<<<< HEAD
 
     console.log('@@@@@@@this2!@!#$#@$@#$', imageLink);
+=======
+>>>>>>> fbfad766138a3467b6baece326b67903d40c9084
   };
 
   const handleMinMax = (e) => {

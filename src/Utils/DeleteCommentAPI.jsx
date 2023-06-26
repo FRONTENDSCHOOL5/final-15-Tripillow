@@ -4,7 +4,6 @@ import URL from '../Utils/URL';
 
 const DeleteCommentAPI = (postId, commentId) => {
   const token = useRecoilValue(userToken);
-  console.log(postId, commentId);
 
   const handleCommentDelete = async () => {
     try {

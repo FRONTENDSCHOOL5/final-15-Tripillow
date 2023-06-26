@@ -9,17 +9,19 @@ import iconHeart from '../../Assets/icons/icon-heart-fill.svg';
 import iconChat from '../../Assets/icons/icon-message-circle-1.svg';
 import PostModal from '../PostModal';
 import { useLocation, useNavigate } from 'react-router-dom';
-import PostAlertModal from '../common/PostAlertModal';
+import PostAlertModal from '../common/Modal/PostAlertModal';
 import DeletePostAPI from '../../Utils/DeletePostAPI';
 import ReportPostAPI from '../../Utils/ReportPostAPI';
 import HeartPostAPI from '../../Utils/HeartPostAPI';
 import UnheartPostAPI from '../../Utils/UnheartPostAPI';
 import PostImage from '../common/PostImage';
-import AlertTop from '../common/AlertTop';
+import AlertTop from '../common/Modal/AlertTop';
 
 const HomePostLayout = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const pathname = location.pathname;
+  const inDetail = !['/home', '/profile'].some((path) => pathname.startsWith(path));
   const name = useRecoilValue(accountName);
   const [isTopModalOn, setIsTopModalOn] = useState(false);
   const [isModalOn, setIsModalOn] = useState(false);
@@ -39,6 +41,9 @@ const HomePostLayout = (props) => {
   }, []);
 
   const handlePostClick = () => {
+    if (inDetail) {
+      return;
+    }
     navigate(`/post/${post.id}`);
   };
 
@@ -81,7 +86,6 @@ const HomePostLayout = (props) => {
 
   const handleHeart = async () => {
     const response = isHearted ? await unheartPost() : await heartPost();
-    console.log(response);
     setIsHearted(response.post.hearted);
     setHeartCount(response.post.heartCount);
   };
@@ -122,11 +126,15 @@ const HomePostLayout = (props) => {
               <span>{post.commentCount}</span>
             </IconButton>
           </IconLayout>
-          <Content onClick={handlePostClick}>{trimContent(post.content)}</Content>
+          <Content onClick={handlePostClick} inDetail={inDetail}>
+            {trimContent(post.content)}
+          </Content>
         </>
       ) : (
         <>
-          <Content onClick={handlePostClick}>{trimContent(post.content)}</Content>
+          <Content onClick={handlePostClick} inDetail={inDetail}>
+            {trimContent(post.content)}
+          </Content>
           <IconLayout>
             <IconButton onClick={handleHeart}>
               <img src={isHearted ? iconHeart : iconUnheart} alt='하트 아이콘' />
@@ -199,8 +207,9 @@ const Content = styled.p`
   font-size: var(--sm);
   margin-bottom: 13px;
   line-height: 1.4;
-  cursor: pointer;
+  cursor: ${(props) => (props.inDetail === true ? 'auto' : 'pointer')};
   word-break: break-all;
+  white-space: pre-wrap;
 
   & + span {
     font-size: 10px;

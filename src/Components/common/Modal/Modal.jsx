@@ -30,8 +30,8 @@ const ModalBackground = styled.div`
 const ModalLayout = styled.div`
   position: fixed;
   left: 50%;
+  bottom: ${(props) => (props.bottom ? props.bottom : '74px')};
   bottom: 0;
-  height: 150px;
   transform: translate(-50%);
   width: 389px;
   padding: 16px 0;

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Layout } from '../Styles/Layout';
+import { useRecoilValue } from 'recoil';
+import userToken from '../Recoil/userToken/userToken';
 import MainHeader from '../Components/common/Header/MainHeader';
 import Toggle from '../Components/common/Toggle';
 import HomePost from '../Components/HomePost/HomePostLayout';
 import TopButton from '../Components/common/Topbutton';
 import Navbar from '../Components/common/Navbar';
 import URL from '../Utils/URL';
-import userToken from '../Recoil/userToken/userToken';
-import { useRecoilValue } from 'recoil';
 import HomePostSkeleton from '../Components/common/Skeleton/HomePostSkeleton';
 import Spinner from '../Components/common/Spinner';
 import Empty from '../Components/common/Empty';
@@ -56,7 +56,6 @@ const Home = () => {
         const data = await response.json();
         if (response.ok) {
           setFollowedFeed((prevFeed) => [...prevFeed, ...data.posts]);
-          // setCategory();
           setTimeout(() => setIsLoading(false), 500);
         }
       } catch (error) {

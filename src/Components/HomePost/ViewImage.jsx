@@ -8,7 +8,6 @@ import imgLayer from '../../Assets/icons/icon-img-layers.svg';
 const ViewImage = (props) => {
   const navigate = useNavigate();
   const longImages = props.post.image.split(', ');
-  console.log('🚀  longImages:', longImages);
   const images = props.post.image.split(', ').pop();
 
   const handleError = (e) => {
@@ -33,6 +32,7 @@ const ImageLayout = styled.div`
   height: 114px;
   overflow: hidden;
   margin-bottom: 8px;
+  cursor: pointer;
 
   img {
     width: 100%;

@@ -1,16 +1,16 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import { LayoutStyle } from '../Styles/Layout';
-import iconImg from '../Assets/icons/upload-file.svg';
-import UploadHeader from '../Components/common/Header/UploadHeader';
-import Toggle from '../Components/common/Toggle';
-import URL from '../Utils/URL';
-import x from '../Assets/icons/x.svg';
-import userToken from '../Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
-import ImageUploadAPI from '../Utils/ImageUploadAPI';
-import { validateImageFile } from '../Utils/validate';
+import styled from 'styled-components';
+import URL from '../../Utils/URL';
+import ImageUploadAPI from '../../Utils/ImageUploadAPI';
+import { validateImageFile } from '../../Utils/validate';
+import userToken from '../../Recoil/userToken/userToken';
+import UploadHeader from '../../Components/common/Header/UploadHeader';
+import Toggle from '../../Components/common/Toggle';
+import x from '../../Assets/icons/x.svg';
+import { LayoutStyle } from '../../Styles/Layout';
+import iconImg from '../../Assets/icons/upload-file.svg';
 
 export default function Post() {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ export default function Post() {
 
   const handleImageInput = async (e) => {
     if (imgURL.length >= 3 || e.target.files.length === 0) return;
-    if (!validateImageFile(e.target.files[0].name)) return console.log('ERROR: 파일 확장자');
+    if (!validateImageFile(e.target.files[0].name)) return console.log('ERROR: 파일 확장자를 확인해주세요');
     const data = await ImageUploadAPI(e);
     if (data) {
       setImgURL((prev) => prev.concat(data.filename));
@@ -111,6 +111,7 @@ const TextInput = styled.textarea`
   resize: none;
   font: inherit;
   line-height: 1.2em;
+  white-space: pre-wrap;
 
   ::placeholder {
     color: var(--gray);

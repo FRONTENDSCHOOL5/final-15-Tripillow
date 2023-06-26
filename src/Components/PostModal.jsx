@@ -2,14 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import { useLocation } from 'react-router-dom';
 
-const PostModal = ({ handleAlertModal, handleModify, handleReport, closeModal, ...props }) => {
+const PostModal = ({ isMine, handleAlertModal, handleModify, handleReport, closeModal, ...props }) => {
   const pathname = useLocation().pathname;
 
   return (
     <ModalBackground onClick={closeModal}>
-      <ModalLayout pathname={pathname}>
+      <ModalLayout isMine={isMine}>
         <SlideBar></SlideBar>
-        {props.isMine ? (
+        {isMine ? (
           <>
             <button type='button' onClick={handleAlertModal}>
               삭제
@@ -42,6 +42,7 @@ const ModalLayout = styled.div`
   position: fixed;
   left: 50%;
   /* bottom: ${(props) => (props.pathname === '/profile' ? '74px' : '60px')}; */
+  height: ${(props) => (props.isMine ? '150px' : '105px')};
   bottom: 0;
   transform: translate(-50%);
   width: 389px;

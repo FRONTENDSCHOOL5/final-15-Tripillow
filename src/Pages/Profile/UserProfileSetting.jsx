@@ -6,11 +6,11 @@ import ImageUploadAPI from '../../Utils/ImageUploadAPI';
 import UserInfoAPI from '../../Utils/MyInfoAPI';
 import EditProfileAPI from '../../Utils/EditProfileAPI';
 import AccountValidAPI from '../../Utils/AccountValidAPI';
-import Input from '../common/Input';
+import Input from '../../Components/common/Input';
+import UploadHeader from '../../Components/common/Header/UploadHeader';
 import { LayoutStyle } from '../../Styles/Layout';
 import profileImg from '../../Assets/profile-lg.png';
 import ErrorMSG from '../../Styles/ErrorMSG';
-import UploadHeader from '../../Components/common/Header/UploadHeader';
 import uploadfile from '../../Assets/icons/upload-file.svg';
 
 const UserProfileSetting = () => {
@@ -57,9 +57,6 @@ const UserProfileSetting = () => {
 
   const handleAccountValid = async () => {
     const res = await getAccountValidAPI();
-    if (res) {
-      console.log(res);
-    }
   };
 
   const handleImageInput = async (e) => {
@@ -97,10 +94,14 @@ const UserProfileSetting = () => {
 
   return (
     <UserSettingLayout>
-      <Form onSubmit={handleSubmit}>
-        <UploadHeader type='submit' disabled={errorMessage && errorMessage !== '사용 가능한 계정ID 입니다.'}>
-          저장
-        </UploadHeader>
+      <UploadHeader
+        onClick={handleSubmit}
+        type='submit'
+        disabled={errorMessage && errorMessage !== '사용 가능한 계정ID 입니다.'}
+      >
+        저장
+      </UploadHeader>
+      <Form>
         <ImageLayout>
           <ImgLabel htmlFor='file-input'>
             <ProfileImg src={imgURL ? imgURL : data.image ? data.image : profileImg} />
