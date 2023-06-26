@@ -40,7 +40,6 @@ const AddProduct = (props) => {
         }),
       });
       const data = await response.json();
-      console.log(data);
     } catch (error) {
       console.error('에러 발생!!!!!');
     }
@@ -52,7 +51,6 @@ const AddProduct = (props) => {
     setImageLink(`${URL}/${response.filename}`);
 
     console.log('@@@@@@@this2!@!#$#@$@#$', imageLink);
-    // console.log(response)
   };
 
   const handleMinMax = (e) => {
@@ -105,14 +103,6 @@ const AddProduct = (props) => {
         mb='16px'
       />
       {priceErr && <ErrorMSG errorColor>천만원 이하의 상품만 판매가능합니다.</ErrorMSG>}
-      {/* <Input
-        value={description}
-        onChange={(e) => setdescription(e.target.value)}
-        label='판매링크'
-        placeholder='URL을 입력해주세요.'
-        type='url'
-        mb='16px'
-      /> */}
       <label htmlFor='product' style={{ color: '#767676', fontSize: 'var(--xs)' }}>
         상세 설명
       </label>
