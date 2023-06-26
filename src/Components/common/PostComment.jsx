@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import profileImg from '../../Assets/profile-sm.png';
 import PostCommentAPI from '../../Utils/PostCommentAPI';
 
-export default function PostComment({ postId, setIsNewComment }) {
+export default function PostComment({ postId, setIsNewComment, userImg }) {
   const [userInput, setUserInput] = useState('');
   const input = useRef();
   const handleInputChange = (e) => {
@@ -28,7 +28,7 @@ export default function PostComment({ postId, setIsNewComment }) {
   return (
     <FooterFormLayout>
       <InputLayout>
-        <ProfileImg src={profileImg}></ProfileImg>
+        <ProfileImg src={userImg || profileImg}></ProfileImg>
         <InputStyle type='text' placeholder='댓글 입력하기' ref={input} onChange={handleInputChange} />
       </InputLayout>
       <PostButton type='submit' onClick={handleClick}>
@@ -60,6 +60,7 @@ const ProfileImg = styled.img`
   width: 36px;
   height: 36px;
   margin: 0 18px 0 0;
+  border-radius: 50%;
 `;
 
 const InputStyle = styled.input`

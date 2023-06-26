@@ -8,13 +8,16 @@ import BasicHeader from '../Components/common/Header/BasicHeader';
 import PostDetailAPI from '../Utils/PostDetailAPI';
 import GetNumerousCommentAPI from '../Utils/GetNumerousCommentAPI';
 import HomePostLayout from '../Components/HomePost/HomePostLayout';
+import MyInfoAPI from '../Utils/MyInfoAPI';
 
 export default function PostDetail() {
   const { id } = useParams();
   const postId = id;
   const [postInfo, setPostInfo] = useState({});
+  const [myInfo, setMyInfo] = useState({});
   const [comments, setComments] = useState([]);
   const postDetail = PostDetailAPI(postId, setPostInfo);
+  const { getUserData } = MyInfoAPI({ setMyInfo });
   const getNumerousComment = GetNumerousCommentAPI(postId, setComments);
   const [visibleComments, setVisibleComments] = useState([]);
   const [startIndex, setStartIndex] = useState(0);
@@ -23,6 +26,7 @@ export default function PostDetail() {
 
   useEffect(() => {
     const sync = async () => {
+      await getUserData();
       await postDetail();
       await getNumerousComment();
       setComments((prev) => prev.reverse());
@@ -58,6 +62,7 @@ export default function PostDetail() {
       setShowMore(false);
     }
   };
+  // console.log(postInfo.post.author.image);
 
   return (
     <Layout>
@@ -73,7 +78,7 @@ export default function PostDetail() {
       {visibleComments.map((el, i) => (
         <Comment key={i} postId={postId} commentInfo={el} setIsNewComment={setIsNewComment}></Comment>
       ))}
-      <PostComment setIsNewComment={setIsNewComment} postId={postId}></PostComment>
+      <PostComment setIsNewComment={setIsNewComment} postId={postId} userImg={myInfo.image}></PostComment>
     </Layout>
   );
 }
