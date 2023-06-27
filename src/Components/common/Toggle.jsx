@@ -4,15 +4,15 @@ import { isKorea, isOverseas } from '../../Recoil/whichCountry/whichCountry';
 import { useRecoilState } from 'recoil';
 
 const Toggle = (props) => {
-  const [korea, setKorea] = useRecoilState(isKorea);
-  const [overseas, setOverseas] = useRecoilState(isOverseas);
+  const [toggleLeft, setToggleLeft] = useState(true);
+  const [toggleRight, setToggleRight] = useState(false);
 
   const handleToggleLeft = () => {
     if (props.setRightOn) {
       props.setRightOn(false);
     }
-    setKorea(true);
-    setOverseas(false);
+    setToggleLeft(true);
+    setToggleRight(false);
     if (props.setIsLeftToggle) {
       props.setIsLeftToggle(true);
     }
@@ -21,16 +21,19 @@ const Toggle = (props) => {
     if (props.setRightOn) {
       props.setRightOn(false);
     }
-    setKorea(false);
-    setOverseas(true);
+    setToggleLeft(false);
+    setToggleRight(true);
+    if (props.setIsLeftToggle) {
+      props.setIsLeftToggle(false);
+    }
   };
 
   return (
     <ToggleLayout margin={props.margin}>
-      <ToggleButton onClick={handleToggleLeft} active={props.rightOn ? !props.rightOn : korea}>
+      <ToggleButton onClick={handleToggleLeft} active={props.rightOn ? !props.rightOn : toggleLeft}>
         {props.leftButton}
       </ToggleButton>
-      <ToggleButton onClick={handleToggleRight} active={props.rightOn ? props.rightOn : overseas}>
+      <ToggleButton onClick={handleToggleRight} active={props.rightOn ? props.rightOn : toggleRight}>
         {props.rightButton}
       </ToggleButton>
     </ToggleLayout>
