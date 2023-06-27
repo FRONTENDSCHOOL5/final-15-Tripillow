@@ -62,13 +62,18 @@ Pillower, Pillowing 기능을 활용하여, 친구를 맺은 사용자들은 자
 - 일관된 코드 스타일과 코드 마찰 감소를 위해 Prettier를 사용했습니다.
 
 <br />
- 
+
+### Forking Workflow
+🚀  하나의 중앙 원격 저장소를 각자가 Fork해서 팀원마다 각자 저장소를 가지고 프로젝트를 진행하는 방식 <br/>
+🚀  팀원 모두 각자의 저장소를 가지고 있기 때문에 자유롭게 작업이 가능 <br/>
+🚀  각자 자신의 원격 저장소에 푸시하고, pull Requests를 올리면 팀원들이 코드를 확인하고 merge하기 때문에 안전하게 협업이 가능 <br/>
+  
 ### Git Branch
 🚀 Git Issue 작성 - Develop branch에서 branch 분기 후 작업
   <br/>
   
 ### GitHub Flow
-🚀 main : 배포가 될 branch입니다.
+🚀 main : 배포가 될 branch입니다.<br/>
 🚀 develop : 기능 개발이 완료된 branch가 합쳐지는 곳으로, 2명의 조원의 승인 후에 merge됩니다.
 
 <br />
