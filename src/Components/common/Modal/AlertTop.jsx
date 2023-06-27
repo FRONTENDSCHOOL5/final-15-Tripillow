@@ -25,8 +25,11 @@ const AlertLayout = styled.div`
     60% {
       transform: translateY(0px);
     }
-    100% {
+    99% {
       transform: translateY(-60px);
+    }
+    100% {
+      transform: translateY(-120px);
     }
   }
 
@@ -38,9 +41,11 @@ const AlertLayout = styled.div`
     60% {
       transform: translateY(0px);
     }
-
-    100% {
+    99% {
       transform: translateY(-70px);
+    }
+    100% {
+      transform: translateY(-140px);
     }
   }
 `;
