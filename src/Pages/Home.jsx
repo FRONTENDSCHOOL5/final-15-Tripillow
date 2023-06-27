@@ -99,7 +99,6 @@ const Home = () => {
           <HomePostSkeleton />
         </>
       ) : followedFeed.length > 0 ? (
-        // followedFeed.map((post) => <HomePost key={post.id} post={post} />)
         isLeftToggle ? (
           koreaPosts.map((post) => <HomePost key={post.id} post={post} />)
         ) : (

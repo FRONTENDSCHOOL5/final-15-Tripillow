@@ -7,7 +7,7 @@ function ProductItemSkeleton() {
     <>
       <ProductImgSkeleton />
       <ProductInfoSkeleton />
-      <ProductInfoSkeleton />
+      <ProductPriceSkeleton />
     </>
   );
 }
@@ -20,7 +20,13 @@ const ProductImgSkeleton = styled(SkeletonItem)`
 `;
 
 const ProductInfoSkeleton = styled(SkeletonItem)`
-  width: 50px;
+  width: 95px;
+  height: 15px;
+  margin-bottom: 4px;
+`;
+
+const ProductPriceSkeleton = styled(SkeletonItem)`
+  width: 60px;
   height: 15px;
   margin-bottom: 4px;
 `;
