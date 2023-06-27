@@ -1,10 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useLocation } from 'react-router-dom';
 
 const PostModal = ({ isMine, handleAlertModal, handleModify, handleReport, closeModal, ...props }) => {
-  const pathname = useLocation().pathname;
-
   return (
     <ModalBackground onClick={closeModal}>
       <ModalLayout isMine={isMine}>
@@ -40,18 +37,17 @@ const ModalBackground = styled.div`
 
 const ModalLayout = styled.div`
   position: fixed;
-  left: 50%;
-  /* bottom: ${(props) => (props.pathname === '/profile' ? '74px' : '60px')}; */
+  left: 0;
   height: ${(props) => (props.isMine ? '150px' : '105px')};
   bottom: 0;
-  transform: translate(-50%);
-  width: 389px;
+  width: 100%;
   padding: 16px 0;
   background-color: #fff;
   box-shadow: 0px -2px 2px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   border-radius: 10px 10px 0 0;
   z-index: 9999;
+  animation: fadeInModal 0.5s ease;
 
   button {
     display: block;
