@@ -8,7 +8,7 @@ import isLogin from '../../../Recoil/isLogin/isLogin';
 import accountName from '../../../Recoil/accountName/accountName';
 import { isKorea, isOverseas } from '../../../Recoil/whichCountry/whichCountry';
 import ProductDeleteAPI from '../../../Utils/ProductDeleteAPI';
-import Modal from '../Modal';
+import Modal from '../Modal/Modal';
 import HeaderLayout from '../../../Styles/HeaderLayout';
 import AlertModal from '../Modal/AlertModal';
 import prev from '../../../Assets/icons/icon-arrow-back.svg';
