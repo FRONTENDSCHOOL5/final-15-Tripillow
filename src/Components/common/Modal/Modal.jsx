@@ -29,16 +29,24 @@ const ModalBackground = styled.div`
 
 const ModalLayout = styled.div`
   position: fixed;
-  left: 50%;
-  bottom: ${(props) => (props.bottom ? props.bottom : '74px')};
+  left: 0;
   bottom: 0;
-  transform: translate(-50%);
-  width: 389px;
+  width: 100%;
   padding: 16px 0;
   background-color: #fff;
   box-shadow: 0px -2px 2px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   border-radius: 10px 10px 0 0;
+  animation: fadeInModal 0.5s ease;
+
+  @keyframes fadeInModal {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
 
   button {
     display: block;
