@@ -41,12 +41,16 @@ const AddProduct = (props) => {
       });
       const data = await response.json();
     } catch (error) {
-      console.error('에러 발생!!!!!');
+      console.error('[에러 발생!!!!! in AddProduct submit API]');
     }
     navigate('/profile');
   };
 
   const handleChange = async (e) => {
+    if (e.target.files[0].size > 10 * 1024 * 1024) {
+      console.log('[ERROR 이미지 용량이 10MB를 넘습니다]');
+      return null;
+    }
     const response = await ImageUploadAPI(e);
     setImageLink(`${URL}/${response.filename}`);
   };
