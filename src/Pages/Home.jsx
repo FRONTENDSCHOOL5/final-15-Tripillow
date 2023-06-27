@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Layout } from '../Styles/Layout';
 import { useRecoilValue } from 'recoil';
 import userToken from '../Recoil/userToken/userToken';
+import { isKorea } from '../Recoil/whichCountry/whichCountry';
 import MainHeader from '../Components/common/Header/MainHeader';
 import Toggle from '../Components/common/Toggle';
 import HomePost from '../Components/HomePost/HomePostLayout';
@@ -20,9 +21,9 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [showSpinner, setShowSpinner] = useState(false);
   const [showTopButton, setShowTopButton] = useState(false);
-  const [isLeftToggle, setIsLeftToggle] = useState(true);
   const [globalPosts, setGlobalPosts] = useState([]);
   const [koreaPosts, setKoreaPosts] = useState([]);
+  const korea = useRecoilValue(isKorea);
 
   useEffect(() => {
     const setCategory = () => {
@@ -90,7 +91,7 @@ const Home = () => {
   return (
     <Layout>
       <MainHeader />
-      <Toggle margin='25px 0 0 16px' leftButton='국내' rightButton='해외' setIsLeftToggle={setIsLeftToggle} />
+      <Toggle margin='25px 0 0 16px' leftButton='국내' rightButton='해외' />
       {isLoading ? (
         <>
           <HomePostSkeleton />
@@ -98,7 +99,7 @@ const Home = () => {
         </>
       ) : followedFeed.length > 0 ? (
         // followedFeed.map((post) => <HomePost key={post.id} post={post} />)
-        isLeftToggle ? (
+        korea ? (
           koreaPosts.map((post) => <HomePost key={post.id} post={post} />)
         ) : (
           globalPosts.map((post) => <HomePost key={post.id} post={post} />)
