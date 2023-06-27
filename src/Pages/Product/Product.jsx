@@ -27,8 +27,6 @@ const Product = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [products, setProducts] = useState(null);
 
-  const ShowSkeletonArr = new Array(8).fill(0);
-
   const {
     data: user,
     loading: userLoading,
@@ -88,7 +86,7 @@ const Product = () => {
         {userLoading ||
           (isLoading && (
             <>
-              {ShowSkeletonArr.map((_, index) => (
+              {Array.from({ length: 8 }, (_, index) => (
                 <GridItem key={index}>
                   <ProductItemSkeleton />
                 </GridItem>
