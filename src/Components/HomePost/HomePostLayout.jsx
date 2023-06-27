@@ -123,7 +123,7 @@ const HomePostLayout = (props) => {
             </IconButton>
             <IconButton onClick={handlePostClick}>
               <img src={iconChat} alt='채팅 아이콘' />
-              <span>{post.commentCount}</span>
+              <span>{props.comments?.length || post.commentCount}</span>
             </IconButton>
           </IconLayout>
           <Content onClick={handlePostClick} inDetail={inDetail}>
@@ -142,7 +142,7 @@ const HomePostLayout = (props) => {
             </IconButton>
             <IconButton onClick={handlePostClick}>
               <img src={iconChat} alt='채팅 아이콘' />
-              <span>{post.commentCount}</span>
+              <span>{props.commets?.length || post.commentCount}</span>
             </IconButton>
           </IconLayout>
         </>
