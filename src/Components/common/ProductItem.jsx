@@ -31,16 +31,19 @@ const ProductLayout = styled(Link)`
 `;
 
 const ButtonLayout = styled.button`
-  width: 100%;
+  width: 160px;
+  height: 90px;
+  overflow: hidden;
+  border-radius: 8px;
   text-align: left;
   padding: 0;
+  margin-bottom: 7px;
 `;
 
 const ProductImg = styled.img`
-  border-radius: 8px;
-  width: 160px;
-  height: 90px;
-  margin-bottom: 7px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const ProductInfo = styled.p`
