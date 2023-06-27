@@ -11,9 +11,8 @@ Pillower, Pillowing 기능을 활용하여, 친구를 맺은 사용자들은 자
 
 >**Tripillow를 통해 국내, 해외 방구석 여행러들과 소통해보세요 💙🛩️**
 
->### 배포 URL
->www.test.com
->### 테스트 계정
+>### [🚀 배포 URL](https://frontendschool5.github.io/final-15-Tripillow)
+>#### 테스트 계정
 >ID: sudo@sudo.com <br/>
 >PW: 123123
 
@@ -25,7 +24,7 @@ Pillower, Pillowing 기능을 활용하여, 친구를 맺은 사용자들은 자
 |                                    **FE 김희민**                                    |                                    **FE 이윤석**                                    |                                 **FE 이도하**                                 |                                    **FE 임다솜**                                    |
 | :---------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------: | :---------------------------------------------------------------------------: | :---------------------------------------------------------------------------------: |
 | <img src="https://avatars.githubusercontent.com/u/124167002?v=4" height=180 > | <img src="https://avatars.githubusercontent.com/u/118046282?s=96&v=4" height=180 > | <img src="https://avatars.githubusercontent.com/u/88657261?v=4" height=180 > | <img src="https://avatars.githubusercontent.com/u/81025416?v=4" height=180 > |
-|                        [🔗 GitHub](https://github.com/hmkimm)<br/> 팀장                         |                        [🔗 GitHub](https://github.com/ystone-dev)<br/> 기획 리더                         |           [🔗 GitHub](https://github.com/haron-lee)<br/> 디자인, 기술 리더          |                        [🔗 GitHub](https://github.com/bringvotrevin)<br/> 개발 리더                         |
+|                        [🔗 GitHub](https://github.com/hmkimm)<br/> ![Frontend](https://img.shields.io/badge/-Frontend-green) <br/> ![Team%20Leader](https://img.shields.io/badge/-Team%20leader-blue)                         |                        [🔗 GitHub](https://github.com/ystone-dev)<br/> ![Frontend](https://img.shields.io/badge/-Frontend-green) <br/> ![PM,Comunication%20Leader](https://img.shields.io/badge/-PM,%20Comunication%20leader-yellow)                           |           [🔗 GitHub](https://github.com/haron-lee)<br/> ![Frontend](https://img.shields.io/badge/-Frontend-green) <br/> ![Design,technique%20Leader](https://img.shields.io/badge/-Design,technique%20Leader-orange)          |                        [🔗 GitHub](https://github.com/bringvotrevin)<br/> ![Frontend](https://img.shields.io/badge/-Frontend-green) <br/> ![Development%20Leader](https://img.shields.io/badge/-Development%20Leader-purple)                         |
 
 
 <p align="right"><a href="#top">(🔼 Top)</a></p>
@@ -87,25 +86,41 @@ Pillower, Pillowing 기능을 활용하여, 친구를 맺은 사용자들은 자
 ![정보구조도](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/f57a13b4-2745-4c6f-99ca-7d72cb6e4f09)
 
 ### 각 페이지 기능 
-|스플래쉬|로그인|회원가입|회원가입 프로필 설정|
-|:-:|:-:|:-:|:-:|
-|![landing](https://github.com/haron-lee/LikeALion/assets/88657261/6621f12d-0346-45e4-bf3a-a033f1a6282d) |![login](https://github.com/haron-lee/LikeALion/assets/88657261/6119396d-d05d-49e1-b20e-9d3d4add3406)|![signup](https://github.com/haron-lee/LikeALion/assets/88657261/4aa24619-a150-4251-9d2f-f78a64ba2524) |![signup_profile](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/ff7dbb99-ba60-4748-9cb9-aca592199f76)|
+|스플래쉬|로그인|회원가입|
+|:-:|:-:|:-:|
+|![landing](https://github.com/haron-lee/LikeALion/assets/88657261/6621f12d-0346-45e4-bf3a-a033f1a6282d) |![login](https://github.com/haron-lee/LikeALion/assets/88657261/6119396d-d05d-49e1-b20e-9d3d4add3406)|![signup](https://github.com/haron-lee/LikeALion/assets/88657261/4aa24619-a150-4251-9d2f-f78a64ba2524) |
 
-|메인|나의 프로필|프로필 수정|설정|
-|:-:|:-:|:-:|:-:|
-|![home](https://github.com/haron-lee/LikeALion/assets/88657261/cfe8cb60-4c99-4b02-aa8d-b332c7bbfc0d)|![profile](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/13eefe01-6cbe-42e5-a3bf-a85889ba0e62)|![edit_profile](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/56c0b53f-4d10-41e5-8a75-2a558db9f731)|![profile_setting](https://github.com/haron-lee/LikeALion/assets/88657261/c4d6feb0-303f-4878-a5eb-656a4f29e976)|
 
-|프로필 게시글 삭제|팔로워&팔로잉|유저 프로필|채팅|
-|:-:|:-:|:-:|:-:|
-|![profile_delete-post](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/0b9ea2de-adfb-4160-a988-6e4be0e00e38)|![pillower](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/31cb64a8-22bf-4ed4-931c-0ab87cc206ee)|![postprofile](https://github.com/haron-lee/LikeALion/assets/88657261/54588ed6-5a39-4341-a297-40fa093199e5)|![chat](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/c0fdf5c9-699d-476f-83ec-c6dbb0182e30)|
+|회원가입 프로필 설정|메인|나의 프로필|
+|:-:|:-:|:-:|
+|![signup_profile](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/ff7dbb99-ba60-4748-9cb9-aca592199f76)|![home](https://github.com/haron-lee/LikeALion/assets/88657261/cfe8cb60-4c99-4b02-aa8d-b332c7bbfc0d)|![profile](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/13eefe01-6cbe-42e5-a3bf-a85889ba0e62)|
 
-|로그아웃|채팅|게시물 등록|게시물 삭제|
-|:-:|:-:|:-:|:-:|
-|![profile_logout](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/7f73bdc6-19a4-4a00-b8e3-3737970cb78f)|![chat](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/c0fdf5c9-699d-476f-83ec-c6dbb0182e30)|![post_post](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/cb0f3204-a654-4145-8ea0-434564fa3a83)|![post_post](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/77b7d78e-0fce-4cea-a59b-f46fca029aa1)|
 
-|상품등록|상품 상세 및 채팅|프로필 상품수정|프로필 상품삭제|
-|:-:|:-:|:-:|:-:|
-|![상품_상품등록(예외처리)](https://github.com/haron-lee/LikeALion/assets/88657261/dc846560-f444-4114-a8a9-ccb34c5ad201)|![상품상세_판매자채팅](https://github.com/haron-lee/LikeALion/assets/88657261/650e0c6f-2edd-4816-9227-2d4fe32dd107)|![프로필_상품수정](https://github.com/haron-lee/LikeALion/assets/88657261/5ea68b76-f0f2-4641-b6ec-a7e66c293c40)|![프로필_상품삭제](https://github.com/haron-lee/LikeALion/assets/88657261/5413fdff-012d-48c7-a2b7-0951a4363b8e)|
+|프로필 수정|설정|프로필 게시글 삭제|
+|:-:|:-:|:-:|
+|![edit_profile](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/56c0b53f-4d10-41e5-8a75-2a558db9f731)|![profile_setting](https://github.com/haron-lee/LikeALion/assets/88657261/c4d6feb0-303f-4878-a5eb-656a4f29e976)|![profile_delete-post](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/0b9ea2de-adfb-4160-a988-6e4be0e00e38)|
+
+|팔로워&팔로잉|유저 프로필|채팅|
+|:-:|:-:|:-:|
+|![pillower](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/31cb64a8-22bf-4ed4-931c-0ab87cc206ee)|![postprofile](https://github.com/haron-lee/LikeALion/assets/88657261/54588ed6-5a39-4341-a297-40fa093199e5)|![chat](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/c0fdf5c9-699d-476f-83ec-c6dbb0182e30)|
+
+|게시물 등록|게시물 삭제|게시물 수정|
+|:-:|:-:|:-:|
+|![게시물_등록](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/02ccc09a-4fb5-4380-8f72-0a9d2dfbb953)|![게시물_삭제](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/aca79d1e-7df5-41a8-90b3-e12467bac872)|![게시물_수정(카테고리)](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/24074f5e-967a-4428-8b85-a03488a6eb95)|
+
+|좋아요|댓글 등록|댓글 삭제|
+|:-:|:-:|:-:|
+|![post_heart](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/1409e3ce-b1ee-48ea-bfdb-9fdd9059a5d1)|![comment](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/711356ea-1156-4ae4-8364-ee50db168b44)|![deleteComment](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/de322cf5-b6be-4c15-a5b4-65ecaf826f03)|
+
+|게시물 해외|로그아웃|프로필 상품삭제|
+|:-:|:-:|:-:|
+|![게시물_해외](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/89450a49-5c62-463a-b2b8-17f8ad69dcc7)|![profile_logout](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/7f73bdc6-19a4-4a00-b8e3-3737970cb78f)|![프로필_상품삭제](https://github.com/haron-lee/LikeALion/assets/88657261/5413fdff-012d-48c7-a2b7-0951a4363b8e)|
+
+
+|상품등록|상품 상세 및 채팅|프로필 상품수정|
+|:-:|:-:|:-:|
+|![상품_상품등록(예외처리)](https://github.com/haron-lee/LikeALion/assets/88657261/dc846560-f444-4114-a8a9-ccb34c5ad201)|![상품상세_판매자채팅](https://github.com/haron-lee/LikeALion/assets/88657261/650e0c6f-2edd-4816-9227-2d4fe32dd107)|![프로필_상품수정](https://github.com/haron-lee/LikeALion/assets/88657261/5ea68b76-f0f2-4641-b6ec-a7e66c293c40)|
+
 
 
 <br/>
