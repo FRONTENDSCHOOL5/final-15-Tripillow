@@ -40,7 +40,7 @@ const ModalLayout = styled.div`
   left: 0;
   bottom: 0px;
   width: 100%;
-  height: 92px;
+  height: 110px;
   padding: 16px 0;
   background-color: #fff;
   box-shadow: 0px -2px 2px rgba(0, 0, 0, 0.1);
