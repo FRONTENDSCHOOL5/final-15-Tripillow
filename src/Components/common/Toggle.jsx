@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
+import { isKorea, isOverseas } from '../../Recoil/whichCountry/whichCountry';
+import { useRecoilState } from 'recoil';
 
 const Toggle = (props) => {
-  const [toggleLeft, setToggleLeft] = useState(true);
-  const [toggleRight, setToggleRight] = useState(false);
+  const [korea, setKorea] = useRecoilState(isKorea);
+  const [overseas, setOverseas] = useRecoilState(isOverseas);
 
   const handleToggleLeft = () => {
     if (props.setRightOn) {
       props.setRightOn(false);
     }
-    setToggleLeft(true);
-    setToggleRight(false);
+    setKorea(true);
+    setOverseas(false);
     if (props.setIsLeftToggle) {
       props.setIsLeftToggle(true);
     }
@@ -19,19 +21,16 @@ const Toggle = (props) => {
     if (props.setRightOn) {
       props.setRightOn(false);
     }
-    setToggleLeft(false);
-    setToggleRight(true);
-    if (props.setIsLeftToggle) {
-      props.setIsLeftToggle(false);
-    }
+    setKorea(false);
+    setOverseas(true);
   };
 
   return (
     <ToggleLayout margin={props.margin}>
-      <ToggleButton onClick={handleToggleLeft} active={props.rightOn ? !props.rightOn : toggleLeft}>
+      <ToggleButton onClick={handleToggleLeft} active={props.rightOn ? !props.rightOn : korea}>
         {props.leftButton}
       </ToggleButton>
-      <ToggleButton onClick={handleToggleRight} active={props.rightOn ? props.rightOn : toggleRight}>
+      <ToggleButton onClick={handleToggleRight} active={props.rightOn ? props.rightOn : overseas}>
         {props.rightButton}
       </ToggleButton>
     </ToggleLayout>

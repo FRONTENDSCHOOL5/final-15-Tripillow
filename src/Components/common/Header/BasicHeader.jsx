@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
-import prev from '../../../Assets/icons/icon-arrow-back.svg';
-import more from '../../../Assets/icons/icon-more-vertical.svg';
-import styled from 'styled-components';
-import HeaderLayout from '../../../Styles/HeaderLayout';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Modal from '../Modal';
+import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
+import styled from 'styled-components';
 import userToken from '../../../Recoil/userToken/userToken';
 import isLogin from '../../../Recoil/isLogin/isLogin';
 import accountName from '../../../Recoil/accountName/accountName';
-import AlertModal from '../Modal/AlertModal';
+import { isKorea, isOverseas } from '../../../Recoil/whichCountry/whichCountry';
 import ProductDeleteAPI from '../../../Utils/ProductDeleteAPI';
-import { useEffect } from 'react';
-import ProductModifyAPI from '../../../Utils/ProductModifyAPI';
+import Modal from '../Modal';
+import HeaderLayout from '../../../Styles/HeaderLayout';
+import AlertModal from '../Modal/AlertModal';
+import prev from '../../../Assets/icons/icon-arrow-back.svg';
+import more from '../../../Assets/icons/icon-more-vertical.svg';
 
 const BasicHeader = (props) => {
   const navigate = useNavigate();
@@ -21,6 +21,8 @@ const BasicHeader = (props) => {
   const [token, setToken] = useRecoilState(userToken);
   const [login, setLogin] = useRecoilState(isLogin);
   const [name, setName] = useRecoilState(accountName);
+  const [korea, setKorea] = useRecoilState(isKorea);
+  const [overseas, setOverseas] = useRecoilState(isOverseas);
   const location = useLocation();
   const currentPath = location.pathname.split('/');
 
@@ -52,6 +54,8 @@ const BasicHeader = (props) => {
     setLogin(false);
     setName('');
     navigate('/');
+    setKorea(true);
+    setOverseas(false);
   };
 
   const handleProductDelete = ProductDeleteAPI(userId);
