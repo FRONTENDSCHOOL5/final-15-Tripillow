@@ -40,11 +40,9 @@ const Search = () => {
   const debounceValue = useDebounceValue(searchKeyword, 750);
 
   const searchUser = async () => {
-    setTimeout(() => {
-      setSearchData([]);
-      setShowAllResults(false);
-      setIsLoading(true);
-    }, 0);
+    setSearchData([]);
+    setShowAllResults(false);
+    setIsLoading(true);
     try {
       const response = await fetch(`${URL}/user/searchuser/?keyword=${debounceValue}`, {
         headers: {
@@ -53,9 +51,7 @@ const Search = () => {
         },
       });
       const data = await response.json();
-      setTimeout(() => {
-        setSearchData(data);
-      }, 0);
+      setSearchData(data);
     } catch (error) {
       console.error('에러', error);
     } finally {
@@ -70,7 +66,7 @@ const Search = () => {
     }
 
     searchUser();
-  }, [debounceValue, token]);
+  }, [debounceValue]);
 
   const handleAllResults = () => {
     setShowAllResults(true);
