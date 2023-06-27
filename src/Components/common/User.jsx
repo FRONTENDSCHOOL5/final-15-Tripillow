@@ -46,12 +46,12 @@ const User = (props) => {
             <div>
               <UserTitle>
                 {leftSideUser}
-                <Span>{props.keyword}</Span>
+                <HighLighted>{props.keyword}</HighLighted>
                 {rightSideUser}
               </UserTitle>
               <UserContent>
                 @{leftSideAccount}
-                <Span>{props.keyword}</Span>
+                <HighLighted>{props.keyword}</HighLighted>
                 {rightSideAccount}
               </UserContent>
             </div>
@@ -59,7 +59,7 @@ const User = (props) => {
             <div>
               <UserTitle>
                 {leftSideUser}
-                <Span>{props.keyword}</Span>
+                <HighLighted>{props.keyword}</HighLighted>
                 {rightSideUser}
               </UserTitle>
               <UserContent>{props.content}</UserContent>
@@ -69,7 +69,7 @@ const User = (props) => {
               <UserTitle>{props.username}</UserTitle>
               <UserContent>
                 @{leftSideAccount}
-                <Span>{props.keyword}</Span>
+                <HighLighted>{props.keyword}</HighLighted>
                 {rightSideAccount}
               </UserContent>
             </div>
@@ -98,6 +98,7 @@ const UserLayout = styled.div`
   gap: 12px;
   cursor: pointer;
   margin: ${(props) => props.margin};
+  overflow: hidden;
 `;
 const UserImgLayout = styled.div`
   width: 50px;
@@ -135,7 +136,7 @@ const MoreBtn = styled.button`
   background-image: url(${more});
 `;
 
-const Span = styled.span`
+const HighLighted = styled.span`
   color: var(--primary);
 `;
 

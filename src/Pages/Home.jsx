@@ -21,6 +21,7 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [showSpinner, setShowSpinner] = useState(false);
   const [showTopButton, setShowTopButton] = useState(false);
+  const [isLeftToggle, setIsLeftToggle] = useState(true);
   const [globalPosts, setGlobalPosts] = useState([]);
   const [koreaPosts, setKoreaPosts] = useState([]);
   const korea = useRecoilValue(isKorea);
@@ -91,15 +92,14 @@ const Home = () => {
   return (
     <Layout>
       <MainHeader />
-      <Toggle margin='25px 0 0 16px' leftButton='국내' rightButton='해외' />
+      <Toggle margin='25px 0 0 16px' leftButton='국내' rightButton='해외' setIsLeftToggle={setIsLeftToggle} />
       {isLoading ? (
         <>
           <HomePostSkeleton />
           <HomePostSkeleton />
         </>
       ) : followedFeed.length > 0 ? (
-        // followedFeed.map((post) => <HomePost key={post.id} post={post} />)
-        korea ? (
+        isLeftToggle ? (
           koreaPosts.map((post) => <HomePost key={post.id} post={post} />)
         ) : (
           globalPosts.map((post) => <HomePost key={post.id} post={post} />)
