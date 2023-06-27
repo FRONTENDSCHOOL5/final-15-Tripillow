@@ -12,7 +12,9 @@ const ProductItem = (props) => {
     <>
       <ProductLayout to={`/product/detail/${product?.id}`}>
         <ButtonLayout>
-          <ProductImg src={productImgValidation} alt={product?.itemName} />
+          <ProductImgLayout>
+            <ProductImg src={productImgValidation} alt={product?.itemName} />
+          </ProductImgLayout>
           <ProductInfo size='14px' color='black'>
             {product?.itemName?.length < 14 ? product?.itemName : product?.itemName.slice(0, 13) + '...'}
           </ProductInfo>
@@ -31,13 +33,17 @@ const ProductLayout = styled(Link)`
 `;
 
 const ButtonLayout = styled.button`
-  width: 160px;
-  height: 90px;
-  overflow: hidden;
-  border-radius: 8px;
+  width: 100%;
   text-align: left;
   padding: 0;
+`;
+
+const ProductImgLayout = styled.div`
   margin-bottom: 7px;
+  width: 160px;
+  height: 90px;
+  border-radius: 8px;
+  overflow: hidden;
 `;
 
 const ProductImg = styled.img`
