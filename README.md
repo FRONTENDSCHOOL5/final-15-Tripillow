@@ -1,12 +1,7 @@
 # <span id='top'> 🛩️ Tripillow</span>
 
-## 목차
-[1. 서비스 소개](#1-서비스-소개) <br/>
-[2. 팀 소개](#2-팀-소개)
-
 ## 1. 📱 서비스 소개 
 <img width="1920" alt="tripillow_thumbnail" src="https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/990fc913-0ed3-4663-ab76-e9d2b00e7fd6">
-Tripillow는 여행 경험을 공유하고, 개인 간의 여행ㅇ
 
 Tripillow는 **여행 경험을 공유하고, 개인 간의 여행용품과 외화를 거래하는 SNS 플랫폼**입니다. <br/>
 Trip(여행) + Pillow(베개)를 합친 Tripillow는  방구석 여행을 컨셉으로 간편하게 타인의 여행 후기를 통해 간접적으로 여행을 즐길 수 있습니다. <br/>
@@ -14,17 +9,18 @@ Pillower, Pillowing 기능을 활용하여, 친구를 맺은 사용자들은 자
 자신의 홈 피드에서 Pillowing한 사람들의 게시물을 확인 할 수 있고, 댓글과 좋아요 기능을 통해서 서로 소통할 수 있습니다. <br/>
 더 이상 사용하지 않는 여행 용품과 외화를 간편하게 거래할 수 있습니다.
 
-### 배포 URL
-www.test.com
-### 테스트 계정
-ID: sudo@sudo.com <br/>
-PW: 123123
+>**Tripillow를 통해 국내, 해외 방구석 여행러들과 소통해보세요 💙🛩️**
+
+>### 배포 URL
+>www.test.com
+>### 테스트 계정
+>ID: sudo@sudo.com <br/>
+>PW: 123123
 
 <br/>
 
 ## 2. 👥 팀 소개
 
-멋쟁이사자처럼 프론트엔드 5기 프로젝트 15조 sudo🐧 프로젝트입니다.
 
 |                                    **FE 김희민**                                    |                                    **FE 이윤석**                                    |                                 **FE 이도하**                                 |                                    **FE 임다솜**                                    |
 | :---------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------: | :---------------------------------------------------------------------------: | :---------------------------------------------------------------------------------: |
@@ -78,6 +74,8 @@ PW: 123123
 
 <br />
 
+<p align="right"><a href="#top">(🔼 Top)</a></p>
+
 ## 6. 📁 폴더 구조
 
 ```
@@ -108,6 +106,8 @@ PW: 123123
 └──📄 README.md
 ```
 
+<p align="right"><a href="#top">(🔼 Top)</a></p>
+
 <br />
 
 ## 7. 🙏 팀 컨벤션
@@ -133,8 +133,7 @@ PW: 123123
 
  ### 코드 컨벤션
  통일성 있는 코드 작성을 위해 다양한 코드 컨벤션을 정해 사용했습니다.
- 
-  - <img src="https://img.shields.io/badge/Prettier-F7B93E?style=flat-square&logo=Prettier&logoColor=white"/> 
+ <img src="https://img.shields.io/badge/Prettier-F7B93E?style=flat-square&logo=Prettier&logoColor=white"/> 
 
 ```
 {
@@ -152,4 +151,7 @@ PW: 123123
 	arrowParens:  'always',
 };
 ```
+
+<p align="right"><a href="#top">(🔼 Top)</a></p>
+
 </br>
