@@ -37,10 +37,9 @@ const ModalBackground = styled.div`
 
 const ModalLayout = styled.div`
   position: fixed;
-  left: 50%;
+  left: 0;
   bottom: 0px;
-  transform: translate(-50%);
-  width: 389px;
+  width: 100%;
   height: 92px;
   padding: 16px 0;
   background-color: #fff;
@@ -48,6 +47,7 @@ const ModalLayout = styled.div`
   box-sizing: border-box;
   border-radius: 10px 10px 0 0;
   z-index: 9999;
+  animation: fadeInModal 0.5s ease;
 
   button {
     display: block;
