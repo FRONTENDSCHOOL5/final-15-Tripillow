@@ -1,6 +1,6 @@
 # <span id='top'> 🛩️ Tripillow</span>
 
-## 1. 📱 서비스 소개 
+## 1. 📱 Tripillow 소개 
 <img width="1920" alt="tripillow_thumbnail" src="https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/990fc913-0ed3-4663-ab76-e9d2b00e7fd6">
 
 Tripillow는 **여행 경험을 공유하고, 개인 간의 여행용품과 외화를 거래하는 SNS 플랫폼**입니다. <br/>
@@ -76,7 +76,41 @@ Pillower, Pillowing 기능을 활용하여, 친구를 맺은 사용자들은 자
 
 <p align="right"><a href="#top">(🔼 Top)</a></p>
 
-## 6. 📁 폴더 구조
+## 5. 🎨 UI
+![tripillow_ui](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/91aaee77-227d-4efe-8773-6318801f8f9d)
+
+<br />
+
+## 6. 🛠️ 서비스 기능 소개
+
+### 정보구조도
+![정보구조도](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/f57a13b4-2745-4c6f-99ca-7d72cb6e4f09)
+
+### 각 페이지 기능 
+|스플래쉬|로그인|회원가입|회원가입 프로필 설정|
+|:-:|:-:|:-:|:-:|
+|![landing](https://github.com/haron-lee/LikeALion/assets/88657261/6621f12d-0346-45e4-bf3a-a033f1a6282d) |![login](https://github.com/haron-lee/LikeALion/assets/88657261/6119396d-d05d-49e1-b20e-9d3d4add3406)|![signup](https://github.com/haron-lee/LikeALion/assets/88657261/4aa24619-a150-4251-9d2f-f78a64ba2524) |![signup_profile](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/ff7dbb99-ba60-4748-9cb9-aca592199f76)|
+
+|메인|나의 프로필|프로필 수정|설정|
+|:-:|:-:|:-:|:-:|
+|![home](https://github.com/haron-lee/LikeALion/assets/88657261/cfe8cb60-4c99-4b02-aa8d-b332c7bbfc0d)|![profile](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/13eefe01-6cbe-42e5-a3bf-a85889ba0e62)|![edit_profile](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/56c0b53f-4d10-41e5-8a75-2a558db9f731)|![profile_setting](https://github.com/haron-lee/LikeALion/assets/88657261/c4d6feb0-303f-4878-a5eb-656a4f29e976)|
+
+|프로필 게시글 삭제|팔로워&팔로잉|유저 프로필|채팅|
+|:-:|:-:|:-:|:-:|
+|![profile_delete-post](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/0b9ea2de-adfb-4160-a988-6e4be0e00e38)|![pillower](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/31cb64a8-22bf-4ed4-931c-0ab87cc206ee)|![postprofile](https://github.com/haron-lee/LikeALion/assets/88657261/54588ed6-5a39-4341-a297-40fa093199e5)|![chat](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/c0fdf5c9-699d-476f-83ec-c6dbb0182e30)|
+
+|로그아웃|채팅|게시물 등록|게시물 삭제|
+|:-:|:-:|:-:|:-:|
+|![profile_logout](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/7f73bdc6-19a4-4a00-b8e3-3737970cb78f)|![chat](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/c0fdf5c9-699d-476f-83ec-c6dbb0182e30)|![post_post](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/cb0f3204-a654-4145-8ea0-434564fa3a83)|![post_post](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/77b7d78e-0fce-4cea-a59b-f46fca029aa1)|
+
+|상품등록|상품 상세 및 채팅|프로필 상품수정|프로필 상품삭제|
+|:-:|:-:|:-:|:-:|
+|![상품_상품등록(예외처리)](https://github.com/haron-lee/LikeALion/assets/88657261/dc846560-f444-4114-a8a9-ccb34c5ad201)|![상품상세_판매자채팅](https://github.com/haron-lee/LikeALion/assets/88657261/650e0c6f-2edd-4816-9227-2d4fe32dd107)|![프로필_상품수정](https://github.com/haron-lee/LikeALion/assets/88657261/5ea68b76-f0f2-4641-b6ec-a7e66c293c40)|![프로필_상품삭제](https://github.com/haron-lee/LikeALion/assets/88657261/5413fdff-012d-48c7-a2b7-0951a4363b8e)|
+
+
+<br/>
+
+## 7. 📁 폴더 구조
 
 ```
 📁 Tripillow
@@ -84,7 +118,7 @@ Pillower, Pillowing 기능을 활용하여, 친구를 맺은 사용자들은 자
 ├──📁 node_modules
 ├──📁 public
 ├──📁 src
-│    ├──📁 Assets
+│   ├──📁 Assets
 │   ├──📁 Components
 │   ├──📁 Hooks
 │   ├──📁 Mock
@@ -94,7 +128,7 @@ Pillower, Pillowing 기능을 활용하여, 친구를 맺은 사용자들은 자
 │   │   ├──📁 Product
 │   │   └──📁 Profile    
 │   ├──📁 Recoil
-│  	├──📁 Styles
+│   ├──📁 Styles
 │   └──📁 Utils
 ├──📄 App.js
 ├──📄 GlobalStyle.jsx
@@ -110,7 +144,7 @@ Pillower, Pillowing 기능을 활용하여, 친구를 맺은 사용자들은 자
 
 <br />
 
-## 7. 🙏 팀 컨벤션
+## 8. 🙏 팀 컨벤션
 ### 커밋 컨벤션
  
 ```
@@ -155,3 +189,5 @@ Pillower, Pillowing 기능을 활용하여, 친구를 맺은 사용자들은 자
 <p align="right"><a href="#top">(🔼 Top)</a></p>
 
 </br>
+
+## 9. 💙 회고
