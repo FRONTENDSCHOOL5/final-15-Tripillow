@@ -124,7 +124,7 @@ PW: 123123
 
 <br/>
 
-### [🔍 추가 기능 설명](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/wiki/Tripillow/_edit)
+### [🔍 추가 기능 설명](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/wiki/Tripillow)
 <br/>
 
 ## 7. 📁 폴더 구조
