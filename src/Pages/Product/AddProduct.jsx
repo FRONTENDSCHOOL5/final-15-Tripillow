@@ -75,40 +75,42 @@ const AddProduct = (props) => {
       <UploadHeader onClick={handleSubmit} disabled={!productName || !price || !description}>
         저장
       </UploadHeader>
-      <Label htmlFor='file-upload'>
-        <Image src={imageLink || defaultImage} />
-      </Label>
-      <input id='file-upload' className='a11y-hidden' onChange={handleChange} type='file' />
-      <CategoryTxt>카테고리</CategoryTxt>
-      <Toggle margin='0 0 20px 0' leftButton='여행용품' rightButton='외화' />
+      <main>
+        <Label htmlFor='file-upload'>
+          <Image src={imageLink || defaultImage} />
+        </Label>
+        <input id='file-upload' className='a11y-hidden' onChange={handleChange} type='file' />
+        <CategoryTxt>카테고리</CategoryTxt>
+        <Toggle margin='0 0 20px 0' leftButton='여행용품' rightButton='외화' />
 
-      {/* //fixme: label 클릭하면 input에 위치 */}
-      <Input
-        width='100%'
-        value={productName}
-        onChange={handleInputChange}
-        maxLength='16'
-        // htmlFor={forId}
-        label='상품명'
-        placeholder='1~15자 이내여야 합니다.'
-        mb='16px'
-      />
-      {productName.length >= 16 && <ErrorMSG errorColor>1~15자 이내로 입력하세요.</ErrorMSG>}
-      <SecondInput
-        value={price}
-        onChange={handleMinMax}
-        label='가격'
-        min='1'
-        max='10000000'
-        placeholder='1원부터 1천만원 사이의 값만 입력 가능합니다.'
-        type='number'
-        mb='16px'
-      />
-      {priceErr && <ErrorMSG errorColor>천만원 이하의 상품만 판매가능합니다.</ErrorMSG>}
-      <label htmlFor='product' style={{ color: '#767676', fontSize: 'var(--xs)' }}>
-        상세 설명
-      </label>
-      <ProductText id='product' value={description} onChange={(e) => setDescription(e.target.value)} />
+        {/* //fixme: label 클릭하면 input에 위치 */}
+        <Input
+          width='100%'
+          value={productName}
+          onChange={handleInputChange}
+          maxLength='16'
+          // htmlFor={forId}
+          label='상품명'
+          placeholder='1~15자 이내여야 합니다.'
+          mb='16px'
+        />
+        {productName.length >= 16 && <ErrorMSG errorColor>1~15자 이내로 입력하세요.</ErrorMSG>}
+        <SecondInput
+          value={price}
+          onChange={handleMinMax}
+          label='가격'
+          min='1'
+          max='10000000'
+          placeholder='1원부터 1천만원 사이의 값만 입력 가능합니다.'
+          type='number'
+          mb='16px'
+        />
+        {priceErr && <ErrorMSG errorColor>천만원 이하의 상품만 판매가능합니다.</ErrorMSG>}
+        <label htmlFor='product' style={{ color: '#767676', fontSize: 'var(--xs)' }}>
+          상세 설명
+        </label>
+        <ProductText id='product' value={description} onChange={(e) => setDescription(e.target.value)} />
+      </main>
       <Navbar />
     </Layout>
   );
@@ -122,6 +124,10 @@ const Layout = styled.div`
 
   margin: 0 auto;
   border: 1px solid var(--light-gray);
+
+  main {
+    margin-bottom: 30px;
+  }
 `;
 const Label = styled.label`
   display: block;

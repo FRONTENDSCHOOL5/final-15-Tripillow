@@ -149,7 +149,7 @@ const Profile = () => {
               <ViewButton bgImg={!view ? listOn : listOff} onClick={handleView}></ViewButton>
               <ViewButton bgImg={view ? AlbumOn : AlbumOff} onClick={handleView}></ViewButton>
             </ViewLayout>
-            <article>
+            <PostListLayout>
               {postData?.length > 0 ? (
                 <>
                   {!view ? (
@@ -169,13 +169,11 @@ const Profile = () => {
               ) : (
                 <NoContent>게시물이 없습니다.</NoContent>
               )}
-            </article>
+            </PostListLayout>
           </>
         )}
       </main>
-      <footer>
-        <Navbar />
-      </footer>
+      <Navbar />
     </Layout>
   );
 };
@@ -206,6 +204,12 @@ const ProductListLayout = styled.div`
 
   ::-webkit-scrollbar {
     display: none;
+  }
+`;
+
+const PostListLayout = styled.section`
+  & > div:last-child {
+    padding-bottom: 100px;
   }
 `;
 
