@@ -34,19 +34,21 @@ const Navbar = (props) => {
   }, [location]);
 
   return (
-    <NavbarLayout margin={props.margin}>
-      {icons.map((el, i) => (
-        <IconLayout
-          key={i}
-          onClick={() => {
-            navigate(el.path[0]);
-          }}
-        >
-          <IconImg src={buttonId === i ? el.fillImage : el.image} />
-          <IconInfo setColor={buttonId === i}>{el.name}</IconInfo>
-        </IconLayout>
-      ))}
-    </NavbarLayout>
+    <footer>
+      <NavbarLayout margin={props.margin}>
+        {icons.map((el, i) => (
+          <IconLayout
+            key={i}
+            onClick={() => {
+              navigate(el.path[0]);
+            }}
+          >
+            <IconImg src={buttonId === i ? el.fillImage : el.image} />
+            <IconInfo setColor={buttonId === i}>{el.name}</IconInfo>
+          </IconLayout>
+        ))}
+      </NavbarLayout>
+    </footer>
   );
 };
 
