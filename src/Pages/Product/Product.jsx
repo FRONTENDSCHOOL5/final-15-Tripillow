@@ -18,6 +18,7 @@ import { useRecoilValue } from 'recoil';
 
 import ProductItemSkeleton from '../../Components/common/Skeleton/ProductItemSkeleton';
 
+//
 const Product = () => {
   const navigate = useNavigate();
   const name = useRecoilValue(accountName);
