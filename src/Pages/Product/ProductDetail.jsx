@@ -53,19 +53,21 @@ const AddProduct = (props) => {
           >
             판매 중인 상품
           </BasicHeader>
-          <Image src={productDetail.itemImage} />
-          <User
-            accountname={productDetail.author?.accountname}
-            userImg={productDetail.author?.image}
-            username={productDetail.author?.username}
-            content={'@' + productDetail.author?.accountname}
-          />
-          <ProductContent size='var(--xl)' weight='700'>
-            {productDetail.itemName}
-          </ProductContent>
-          <ProductContent size='var(--lg)' height='1.4' style={{ whiteSpace: 'pre-wrap' }}>
-            {productDetail.link}
-          </ProductContent>
+          <main>
+            <Image src={productDetail.itemImage} />
+            <User
+              accountname={productDetail.author?.accountname}
+              userImg={productDetail.author?.image}
+              username={productDetail.author?.username}
+              content={'@' + productDetail.author?.accountname}
+            />
+            <ProductContent size='var(--xl)' weight='700'>
+              {productDetail.itemName}
+            </ProductContent>
+            <ProductContent size='var(--lg)' height='1.4' style={{ whiteSpace: 'pre-wrap' }}>
+              {productDetail.link}
+            </ProductContent>
+          </main>
           <ProductLayout>
             <div style={{ display: 'flex', marginLeft: '20px' }}>
               <Icon
@@ -140,7 +142,7 @@ const ProductLayout = styled.div`
   left: 50%;
   transform: translate(-50%);
   bottom: 0px;
-  /* background-color: white; */
+  background-color: white;
   border-top: 0.5px solid #dbdbdb;
 `;
 
