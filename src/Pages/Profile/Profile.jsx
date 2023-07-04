@@ -30,8 +30,8 @@ const Profile = () => {
   const location = useLocation();
   const userAccountname = params.accountname;
   const myAccount = useRecoilValue(accountName);
-  const [listView, setListView] = useRecoilState(true);
-  const [albumView, setAlbumView] = useRecoilState(false);
+  const [listView, setListView] = useRecoilState(isList);
+  const [albumView, setAlbumView] = useRecoilState(isAlbum);
 
   const [myInfo, setMyInfo] = useState({});
   const [userInfo, setUserInfo] = useState({});
