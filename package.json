@@ -1,7 +1,7 @@
 {
   "name": "tripillow",
   "version": "0.1.0",
-  "homepage": "https://frontendschool5.github.io/final-15-Tripillow",
+  "homepage": "https://frontendschool5.github.io/final-15-Tripillow/",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -26,7 +26,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "serve": "serve -s build",
-    "build-and-serve": "npm run build && npm run serve"
+    "build-and-serve": "npm run build && npm run serve",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
