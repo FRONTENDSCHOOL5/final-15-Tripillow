@@ -4,6 +4,9 @@ const { default: reset } = require('styled-reset');
 const GlobalStyle = createGlobalStyle`
 // === ROOT ====
 :root {
+  // height
+  --vh: 100%;
+  
   // Color
   --primary: #4594FF;
   --secondary: #B5D5FF;
@@ -80,8 +83,8 @@ body {
   }
 
   #root {
-    min-height: 100vh;
-    height: 1px;
+    height: calc(var(--vh, 1vh) * 100);
+    /* height: 1px; */
   }
 }
 `;
