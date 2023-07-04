@@ -9,7 +9,7 @@ const GetPostAPI = (props) => {
 
   const getPostData = async () => {
     try {
-      const response = await fetch(`${URL}/post/${accountname}/userpost`, {
+      const response = await fetch(`${URL}/post/${accountname}/userpost?limit=50`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,

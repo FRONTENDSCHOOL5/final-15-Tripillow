@@ -26,10 +26,9 @@ const ProductModification = (props) => {
   });
   const location = useLocation();
   const productId = location.state;
-
+  const [isModified, setIsModified] = useState(false);
   const productDetail = ProductDetailAPI(productId);
   const { handleProductModify } = ProductModifyAPI({ productId, productInputs });
-
 
   useEffect(() => {
     if (productDetail) {
@@ -69,16 +68,15 @@ const ProductModification = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const res = await handleProductModify();
-    if (res) {
-      console.log(res);
-    }
+    setIsModified(true);
   };
 
+  useEffect(() => {
+    if (isModified) navigate('/profile', { state: { isModified } });
+  }, [isModified]);
   return (
     <FormLayout onSubmit={handleSubmit}>
-      <UploadHeader type='submit' onClick={() => navigate('/profile')}>
-        저장
-      </UploadHeader>
+      <UploadHeader type='submit'>저장</UploadHeader>
       <Label htmlFor='file-upload'>
         <Image src={productInputs.product?.itemImage || defaultImage} />
       </Label>

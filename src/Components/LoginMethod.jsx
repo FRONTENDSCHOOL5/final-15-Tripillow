@@ -28,6 +28,7 @@ const LinkListsLayout = styled.div`
   flex-direction: column;
   align-items: center;
   width: 390px;
+  transform: translateY(400px);
   padding-top: 20px;
   background-color: white;
   border-radius: 20px 20px 0 0;
@@ -36,6 +37,36 @@ const LinkListsLayout = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
+  animation: FadeIn 2s ease-in-out forwards;
+  animation-delay: 3.5s;
+
+  @keyframes FadeIn {
+    0% {
+      transform: translateY(400px);
+    }
+    25% {
+      transform: translateY(0);
+      height: 350px;
+      padding-top: 50px;
+    }
+
+    50% {
+      height: 274px;
+      padding-top: 20px;
+    }
+    60% {
+      height: 300px;
+    }
+
+    70% {
+      height: 274px;
+      transform: translateY(0px);
+    }
+    100% {
+      height: 274px;
+      transform: translateY(0px);
+    }
+  }
 `;
 
 const LoginLink = styled(Link)`

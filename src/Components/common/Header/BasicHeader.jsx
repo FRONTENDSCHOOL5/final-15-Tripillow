@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
-import prev from '../../../Assets/icons/icon-arrow-back.svg';
-import more from '../../../Assets/icons/icon-more-vertical.svg';
-import styled from 'styled-components';
-import HeaderLayout from '../../../Styles/HeaderLayout';
-import { useNavigate } from 'react-router-dom';
-import Modal from '../Modal';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
+import styled from 'styled-components';
 import userToken from '../../../Recoil/userToken/userToken';
 import isLogin from '../../../Recoil/isLogin/isLogin';
 import accountName from '../../../Recoil/accountName/accountName';
-import AlertModal from '../AlertModal';
+import { isKorea, isOverseas } from '../../../Recoil/whichCountry/whichCountry';
 import ProductDeleteAPI from '../../../Utils/ProductDeleteAPI';
-import { useEffect } from 'react';
-import ProductModifyAPI from '../../../Utils/ProductModifyAPI';
+import Modal from '../Modal/Modal';
+import HeaderLayout from '../../../Styles/HeaderLayout';
+import AlertModal from '../Modal/AlertModal';
+import prev from '../../../Assets/icons/icon-arrow-back.svg';
+import more from '../../../Assets/icons/icon-more-vertical.svg';
 
 const BasicHeader = (props) => {
   const navigate = useNavigate();
@@ -21,8 +21,14 @@ const BasicHeader = (props) => {
   const [token, setToken] = useRecoilState(userToken);
   const [login, setLogin] = useRecoilState(isLogin);
   const [name, setName] = useRecoilState(accountName);
-  // const productDelete = ProductDeleteAPI(props.isDelete);
+  const [korea, setKorea] = useRecoilState(isKorea);
+  const [overseas, setOverseas] = useRecoilState(isOverseas);
+  const location = useLocation();
+  const currentPath = location.pathname.split('/');
+
   const userId = props.userId;
+
+  const [isDeleted, setIsDeleted] = useState(false);
 
   useEffect(() => {
     setModal(false);
@@ -32,8 +38,10 @@ const BasicHeader = (props) => {
     setModal(!modal);
   };
 
-  const handleLogoutbutton = () => {
-    setAlertModal(!alertModal);
+  const handleLogoutbutton = (e) => {
+    e.stopPropagation();
+    setModal(false);
+    setAlertModal(true);
   };
 
   const handleCancel = () => {
@@ -46,16 +54,27 @@ const BasicHeader = (props) => {
     setLogin(false);
     setName('');
     navigate('/');
+    setKorea(true);
+    setOverseas(false);
   };
 
   const handleProductDelete = ProductDeleteAPI(userId);
+
   const handleDelete = async () => {
     await handleProductDelete();
-    navigate('/product');
+    setIsDeleted(true);
   };
+
+  useEffect(() => {
+    if (isDeleted) navigate('/profile', { state: { isDeleted } });
+  }, [isDeleted]);
 
   const handleModify = () => {
     navigate('/modifyproduct', { state: userId });
+  };
+
+  const goSetting = () => {
+    navigate('/profile/setting');
   };
 
   return (
@@ -66,9 +85,11 @@ const BasicHeader = (props) => {
             navigate(-1);
           }}
         />
-        {props.children && <div>{props.children}</div>}
+        {props.children && <HeaderContent>{props.children}</HeaderContent>}
       </ContentLayout>
-      {props.empty ? null : <MoreButton onClick={handleMorebutton} />}
+      {props.empty || currentPath[currentPath.length - 1] == 'setting' ? null : (
+        <MoreButton onClick={handleMorebutton} />
+      )}
       {modal && (
         <Modal
           btn1={props.btn1}
@@ -77,6 +98,8 @@ const BasicHeader = (props) => {
           handleLogoutbutton={handleLogoutbutton}
           bottom={props.isPost && '60px'}
           handleProductModify={userId ? handleModify : null}
+          goSetting={goSetting}
+          handleCancel={handleCancel}
         />
       )}
       {alertModal && (
@@ -95,6 +118,12 @@ const ContentLayout = styled.div`
   display: flex;
   align-items: center;
 `;
+
+const HeaderContent = styled.div`
+  height: 22px;
+  line-height: 1.6;
+`;
+
 const PrevButton = styled.button`
   width: 22px;
   height: 22px;

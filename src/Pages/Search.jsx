@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
+import styled from 'styled-components';
+import userToken from '../Recoil/userToken/userToken';
 import { Layout } from '../Styles/Layout';
+import URL from '../Utils/URL';
 import SearchHeader from '../Components/common/Header/SearchHeader';
 import Navbar from '../Components/common/Navbar';
 import User from '../Components/common/User';
-import styled from 'styled-components';
-import URL from '../Utils/URL';
-import userToken from '../Recoil/userToken/userToken';
-import { useRecoilValue } from 'recoil';
 import UserSkeleton from '../Components/common/Skeleton/UserSkeleton';
 
 const Search = () => {
@@ -40,11 +40,9 @@ const Search = () => {
   const debounceValue = useDebounceValue(searchKeyword, 750);
 
   const searchUser = async () => {
-    setTimeout(() => {
-      setSearchData([]);
-      setShowAllResults(false);
-      setIsLoading(true);
-    }, 0);
+    setSearchData([]);
+    setShowAllResults(false);
+    setIsLoading(true);
     try {
       const response = await fetch(`${URL}/user/searchuser/?keyword=${debounceValue}`, {
         headers: {
@@ -53,9 +51,7 @@ const Search = () => {
         },
       });
       const data = await response.json();
-      setTimeout(() => {
-        setSearchData(data);
-      }, 0);
+      setSearchData(data);
     } catch (error) {
       console.error('에러', error);
     } finally {
@@ -70,7 +66,7 @@ const Search = () => {
     }
 
     searchUser();
-  }, [debounceValue, token]);
+  }, [debounceValue]);
 
   const handleAllResults = () => {
     setShowAllResults(true);
@@ -93,6 +89,8 @@ const Search = () => {
             ? searchData.map((user) => (
                 <SearchedUser key={user._id}>
                   <User
+                    search
+                    keyword={debounceValue}
                     userImg={user.image}
                     username={user.username}
                     content={'@' + user.accountname}
@@ -103,6 +101,8 @@ const Search = () => {
             : searchData.slice(0, 9).map((user) => (
                 <SearchedUser key={user._id}>
                   <User
+                    search
+                    keyword={debounceValue}
                     userImg={user.image}
                     username={user.username}
                     content={'@' + user.accountname}

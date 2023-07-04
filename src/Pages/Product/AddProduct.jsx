@@ -20,8 +20,6 @@ const AddProduct = (props) => {
   const token = useRecoilValue(userToken);
   const navigate = useNavigate();
   const [priceErr, setPriceErr] = useState(false);
-  const [lengthErr, setLengthErr] = useState(null);
-  const imageURL = imageLink;
 
   const handleSubmit = async () => {
     try {
@@ -42,19 +40,19 @@ const AddProduct = (props) => {
         }),
       });
       const data = await response.json();
-      console.log(data);
     } catch (error) {
-      console.error('에러 발생!!!!!');
+      console.error('[에러 발생!!!!! in AddProduct submit API]');
     }
-    navigate('/product');
+    navigate('/profile');
   };
 
   const handleChange = async (e) => {
+    if (e.target.files[0].size > 10 * 1024 * 1024) {
+      console.log('[ERROR 이미지 용량이 10MB를 넘습니다]');
+      return null;
+    }
     const response = await ImageUploadAPI(e);
     setImageLink(`${URL}/${response.filename}`);
-
-    console.log('@@@@@@@this2!@!#$#@$@#$', imageLink);
-    // console.log(response)
   };
 
   const handleMinMax = (e) => {
@@ -98,8 +96,6 @@ const AddProduct = (props) => {
       {productName.length >= 16 && <ErrorMSG errorColor>1~15자 이내로 입력하세요.</ErrorMSG>}
       <SecondInput
         value={price}
-        // onChange={(e) => setPrice(e.target.value);
-        // handleMinMax}
         onChange={handleMinMax}
         label='가격'
         min='1'
@@ -109,14 +105,6 @@ const AddProduct = (props) => {
         mb='16px'
       />
       {priceErr && <ErrorMSG errorColor>천만원 이하의 상품만 판매가능합니다.</ErrorMSG>}
-      {/* <Input
-        value={description}
-        onChange={(e) => setdescription(e.target.value)}
-        label='판매링크'
-        placeholder='URL을 입력해주세요.'
-        type='url'
-        mb='16px'
-      /> */}
       <label htmlFor='product' style={{ color: '#767676', fontSize: 'var(--xs)' }}>
         상세 설명
       </label>
@@ -137,7 +125,6 @@ const Layout = styled.div`
 `;
 const Label = styled.label`
   display: block;
-  //fixme: 패딩 값 무시하고 가로 꽉 채우는 다른 방법?
   width: calc(100% + 16px + 12px); // Image 너비에 패딩값 차감
   height: 232px;
   margin-left: -16px;
@@ -156,7 +143,7 @@ const SecondInput = styled(Input)`
     margin: 0;
   }
 `;
-//fixme: 상세설명이 layout 밖으로 나옴
+
 const ProductText = styled.textarea.attrs({
   placeholder: '제품에 대한 설명을 입력해주세요!',
 })`

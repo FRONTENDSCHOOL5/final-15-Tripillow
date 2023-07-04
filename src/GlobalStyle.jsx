@@ -41,6 +41,7 @@ button {
   padding: 0;
   cursor: pointer;
   border: none;
+  color: inherit;
   background-color: transparent;
 }
 
@@ -59,6 +60,7 @@ input {
     appearance: none;
     box-shadow: none;
     border: none;
+    border-radius: 0;
     padding: 0;
     box-sizing: border-box;
   }
@@ -67,20 +69,21 @@ h1 {
   margin: 0;
 }
 
-  body {
+body {
   box-sizing: border-box;
+  overflow-y: scroll;
+  -ms-overflow-style:none;
+  scrollbar-width: none;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 
   #root {
     min-height: 100vh;
     height: 1px;
   }
-  
-  }
+}
 `;
 
 export default GlobalStyle;
-
-// npm reset
-// =>
-// npm normalize
-// reset.css

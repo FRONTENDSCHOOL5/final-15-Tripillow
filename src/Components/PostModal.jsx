@@ -1,42 +1,53 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
-const PostModal = ({ postId, handleAlertModal, handleModify, handleReport, ...props }) => {
+const PostModal = ({ isMine, handleAlertModal, handleModify, handleReport, closeModal, ...props }) => {
   return (
-    <ModalLayout>
-      <SlideBar></SlideBar>
-      {props.isMine ? (
-        <>
-          <button type='button' onClick={handleAlertModal}>
-            삭제
-          </button>
-          <button type='button' onClick={handleModify}>
-            수정
-          </button>
-        </>
-      ) : (
-        <>
+    <ModalBackground onClick={closeModal}>
+      <ModalLayout isMine={isMine}>
+        <SlideBar></SlideBar>
+        {isMine ? (
+          <>
+            <button type='button' onClick={handleAlertModal}>
+              삭제
+            </button>
+            <button type='button' onClick={handleModify}>
+              수정
+            </button>
+          </>
+        ) : (
           <button type='button' onClick={handleReport}>
             신고하기
           </button>
-        </>
-      )}
-    </ModalLayout>
+        )}
+      </ModalLayout>
+    </ModalBackground>
   );
 };
 
+const ModalBackground = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 390px;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+`;
+
 const ModalLayout = styled.div`
   position: fixed;
-  left: 50%;
-  bottom: 74px;
-  transform: translate(-50%);
-  width: 389px;
+  left: 0;
+  height: ${(props) => (props.isMine ? '150px' : '105px')};
+  bottom: 0;
+  width: 100%;
   padding: 16px 0;
   background-color: #fff;
   box-shadow: 0px -2px 2px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   border-radius: 10px 10px 0 0;
   z-index: 9999;
+  animation: fadeInModal 0.5s ease;
 
   button {
     display: block;

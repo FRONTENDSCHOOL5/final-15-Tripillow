@@ -2,35 +2,34 @@ import React, { useState, useEffect } from 'react';
 import accountName from '../../Recoil/accountName/accountName';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import URL from '../../Utils/URL';
 import User from '../common/User';
 import Profile from '../../Assets/profile-sm.png';
-import arrowRight from '../../Assets/icons/icon-arrow-right.svg';
-import arrowLeft from '../../Assets/icons/icon-arrow-left.svg';
 import iconUnheart from '../../Assets/icons/icon-heart.svg';
 import iconHeart from '../../Assets/icons/icon-heart-fill.svg';
 import iconChat from '../../Assets/icons/icon-message-circle-1.svg';
-import defaultImg from '../../Assets/defaultImg.png';
 import PostModal from '../PostModal';
 import { useLocation, useNavigate } from 'react-router-dom';
-import PostAlertModal from '../common/PostAlertModal';
+import PostAlertModal from '../common/Modal/PostAlertModal';
 import DeletePostAPI from '../../Utils/DeletePostAPI';
 import ReportPostAPI from '../../Utils/ReportPostAPI';
 import HeartPostAPI from '../../Utils/HeartPostAPI';
 import UnheartPostAPI from '../../Utils/UnheartPostAPI';
+import PostImage from '../common/PostImage';
+import AlertTop from '../common/Modal/AlertTop';
 
 const HomePostLayout = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const pathname = location.pathname;
+  const inDetail = !['/home', '/profile'].some((path) => pathname.startsWith(path));
   const name = useRecoilValue(accountName);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isTopModalOn, setIsTopModalOn] = useState(false);
   const [isModalOn, setIsModalOn] = useState(false);
   const [isAlertModalOn, setIsAlerModalOn] = useState(false);
   const post = props.post;
   const isMine = post.author.accountname === name;
   const userImg = post.author.image;
-  const pictures = post.image.split(', ');
-  console.log(pictures);
+  const pictures = post.image?.split(', ');
   const createdAt =
     post.createdAt.slice(0, 4) + '년 ' + post.createdAt.slice(5, 7) + '월 ' + post.createdAt.slice(8, 10) + '일 ';
   const [isHearted, setIsHearted] = useState(post.hearted);
@@ -42,19 +41,10 @@ const HomePostLayout = (props) => {
   }, []);
 
   const handlePostClick = () => {
-    // Navigate to the post detail page with the postId
+    if (inDetail) {
+      return;
+    }
     navigate(`/post/${post.id}`);
-  };
-  const handlePrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? pictures.length - 1 : prev - 1));
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev === pictures.length - 1 ? 0 : prev + 1));
-  };
-
-  const handleError = (e) => {
-    e.target.src = defaultImg;
   };
 
   const closeModal = () => {
@@ -62,8 +52,9 @@ const HomePostLayout = (props) => {
     setIsAlerModalOn(false);
   };
 
-  const handleAlertModal = () => {
-    setIsAlerModalOn(!isAlertModalOn);
+  const handleAlertModal = (e) => {
+    e.stopPropagation();
+    setIsAlerModalOn(true);
   };
 
   const deletePost = DeletePostAPI(post.id);
@@ -87,73 +78,97 @@ const HomePostLayout = (props) => {
 
   const handleReport = async () => {
     const response = await reportPost();
+    setIsTopModalOn(true);
+    // setIsTopModalOn(false);
     closeModal();
     // TODO 리포트 되었다는 모달 띄우기
   };
 
   const handleHeart = async () => {
     const response = isHearted ? await unheartPost() : await heartPost();
-    console.log(response);
     setIsHearted(response.post.hearted);
     setHeartCount(response.post.heartCount);
   };
 
+  const trimContent = (content) => {
+    const match = content.match(/^\[(K|G)\]/);
+    if (match) {
+      return content.slice(3);
+    }
+    return content;
+  };
+
   return (
     <Layout>
+      {isTopModalOn && <AlertTop isError={true}>게시글이 신고되었습니다.</AlertTop>}
       <User
         accountname={post.author.accountname}
         userImg={userImg || Profile}
         username={post.author.username}
         content={'@' + post.author.accountname}
+        margin={'0 0 5px 0'}
         moreBtn
         setIsModalOn={setIsModalOn}
         productId={post.id}
       >
         애월읍 위니브
       </User>
-      {pictures[0] !== '' && (
-        <ImageLayout>
-          {pictures.length > 1 && <ArrowButton onClick={handlePrev} bgImage={arrowLeft} left='16px'></ArrowButton>}
-          <img src={URL + '/' + pictures[currentIndex]} onError={handleError} alt='' />
-          {pictures.length > 1 && <ArrowButton onClick={handleNext} bgImage={arrowRight} right='16px'></ArrowButton>}
-          <IndicatorLayout>
-            {pictures.length > 1 &&
-              pictures.map((_, index) => {
-                return <Indicator key={index} indicator={index === currentIndex}></Indicator>;
-              })}
-          </IndicatorLayout>
-        </ImageLayout>
+      {pictures !== undefined && pictures[0] !== '' ? (
+        <>
+          <PostImage post={post}></PostImage>
+          <IconLayout>
+            <IconButton onClick={handleHeart}>
+              <img src={isHearted ? iconHeart : iconUnheart} alt='하트 아이콘' />
+              <span>{heartCount}</span>
+            </IconButton>
+            <IconButton onClick={handlePostClick}>
+              <img src={iconChat} alt='채팅 아이콘' />
+              <span>{props.comments?.length || post.commentCount}</span>
+            </IconButton>
+          </IconLayout>
+          <Content onClick={handlePostClick} inDetail={inDetail}>
+            {trimContent(post.content)}
+          </Content>
+        </>
+      ) : (
+        <>
+          <Content onClick={handlePostClick} inDetail={inDetail}>
+            {trimContent(post.content)}
+          </Content>
+          <IconLayout>
+            <IconButton onClick={handleHeart}>
+              <img src={isHearted ? iconHeart : iconUnheart} alt='하트 아이콘' />
+              <span>{heartCount}</span>
+            </IconButton>
+            <IconButton onClick={handlePostClick}>
+              <img src={iconChat} alt='채팅 아이콘' />
+              <span>{props.commets?.length || post.commentCount}</span>
+            </IconButton>
+          </IconLayout>
+        </>
       )}
-      <IconLayout>
-        <IconButton>
-          <img src={isHearted ? iconHeart : iconUnheart} alt='하트 아이콘' onClick={handleHeart} />
-          <span>{heartCount}</span>
-        </IconButton>
-        <IconButton>
-          <img src={iconChat} alt='채팅 아이콘' />
-          <span>{post.commentCount}</span>
-        </IconButton>
-      </IconLayout>
-      <Content onClick={handlePostClick}>{post.content}</Content>
-      <span>{createdAt}</span>
-      {isModalOn && (
-        <PostModal
-          isMine={isMine}
-          postId={post.id}
-          handleAlertModal={handleAlertModal}
-          handleModify={handleModify}
-          handleReport={handleReport}
-        ></PostModal>
-      )}
-      {isAlertModalOn && (
-        <PostAlertModal
-          isMine={isMine}
-          setIsModalOn={setIsModalOn}
-          handleDelete={handleDelete}
-          handleReport={handleReport}
-          closeModal={closeModal}
-        ></PostAlertModal>
-      )}
+      <span style={{ fontSize: '10px', color: 'var(--dark-gray)' }}>{createdAt}</span>
+      <ModalOn>
+        {isModalOn && (
+          <PostModal
+            isMine={isMine}
+            postId={post.id}
+            handleAlertModal={handleAlertModal}
+            handleModify={handleModify}
+            handleReport={handleReport}
+            closeModal={closeModal}
+          ></PostModal>
+        )}
+        {isAlertModalOn && (
+          <PostAlertModal
+            isMine={isMine}
+            setIsModalOn={setIsModalOn}
+            handleDelete={handleDelete}
+            handleReport={handleReport}
+            closeModal={closeModal}
+          ></PostAlertModal>
+        )}
+      </ModalOn>
     </Layout>
   );
 };
@@ -162,47 +177,6 @@ const Layout = styled.div`
   padding: 14px 12px 20px 16px;
   padding-bottom: ${(props) => props.pb || '20px'};
   background-color: #fff;
-`;
-
-const ImageLayout = styled.div`
-  position: relative;
-  width: calc(100% + 28px);
-  height: 270px;
-  margin: 4px -12px 6px -16px;
-
-  img {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-  }
-`;
-
-const ArrowButton = styled.button`
-  position: absolute;
-  width: 25px;
-  height: 25px;
-  top: ${(props) => props.top || '50%'};
-  left: ${(props) => props.left};
-  right: ${(props) => props.right};
-  bottom: ${(props) => props.bottom};
-  background: ${(props) => `url(${props.bgImage})`} no-repeat center;
-`;
-
-const IndicatorLayout = styled.div`
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translate(-50%);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-`;
-
-const Indicator = styled.div`
-  width: 6px;
-  height: 6px;
-  background-color: ${(props) => (props.indicator ? '#fff' : 'var(--gray)')};
-  border-radius: 50%;
 `;
 
 const IconLayout = styled.div`
@@ -233,13 +207,20 @@ const Content = styled.p`
   font-size: var(--sm);
   margin-bottom: 13px;
   line-height: 1.4;
-  cursor: pointer;
+  cursor: ${(props) => (props.inDetail === true ? 'auto' : 'pointer')};
   word-break: break-all;
+  white-space: pre-wrap;
 
   & + span {
     font-size: 10px;
     color: var(--dark-gray);
   }
+`;
+
+const ModalOn = styled.div`
+  position: relative;
+  height: (100vh - 60px);
+  z-index: 9999;
 `;
 
 export default HomePostLayout;

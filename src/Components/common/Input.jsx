@@ -17,7 +17,7 @@ const InputStyle = styled.input`
   width: ${(props) => props.width || '100%'};
   font-size: ${(props) => props.fontSize || 'var(--sm)'};
   border-bottom: ${(props) => (props.onError ? '1px solid var(--error)' : '1px solid var(--light-gray)')};
-  padding: ${(props) => props.padding || '0 0 10px 0'};
+  padding: ${(props) => props.padding || '5px 0 10px 0'};
   margin-bottom: ${(props) => props.mb || '0'};
 
   &:focus {

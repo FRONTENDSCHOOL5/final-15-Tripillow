@@ -1,16 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-
+import MyInfoAPI from '../../Utils/MyInfoAPI';
 import { LayoutStyle } from '../../Styles/Layout';
 import BasicHeader from '../../Components/common/Header/BasicHeader';
 import profileSm from '../../Assets/profile-sm.png';
-import { useLocation } from 'react-router-dom';
 
 const ChatDetail = () => {
   const location = useLocation();
-  console.log(location);
   const [inputValue, setInputValue] = useState('');
   const [chatValue, setChatValue] = useState([]);
+  const [myInfo, setMyInfo] = useState({});
+  const { getUserData } = MyInfoAPI({ setMyInfo });
+
+  useEffect(() => {
+    getUserData();
+  }, []);
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -35,7 +40,9 @@ const ChatDetail = () => {
 
   return (
     <ChatLayout>
-      <BasicHeader>{location.state.username}</BasicHeader>
+      <BasicHeader btn1='신고하기' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='확인'>
+        {location.state.username}
+      </BasicHeader>
       <ChatContentLayout>
         <UserImageLayout>
           <UserImage src={location.state.userImg} alt='location.state.username' />
@@ -54,10 +61,9 @@ const ChatDetail = () => {
           </ChatContent>
         </ChatContentLayout>
       ))}
-
       <ChatInputBar>
         <UserImageLayout>
-          <UserImage src={profileSm} alt='프로필 이미지' />
+          <UserImage src={myInfo.image || profileSm} alt='프로필 이미지' />
         </UserImageLayout>
         <ChatInput
           value={inputValue}
@@ -85,7 +91,7 @@ const ChatLayout = styled.div`
 
 const ChatContentLayout = styled.div`
   display: flex;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   margin-left: ${(props) => props.marginLeft};
 `;
 
@@ -128,10 +134,10 @@ const ChatInputBar = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 390px;
-  height: 60px;
+  min-height: 60px;
   box-sizing: border-box;
   margin: auto;
-  padding: 0 16px;
+  padding: 13px 16px 30px;
   position: fixed;
   right: 0;
   left: 0;

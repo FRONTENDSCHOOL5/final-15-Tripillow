@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Layout } from '../Styles/Layout';
+import { useRecoilValue } from 'recoil';
+import userToken from '../Recoil/userToken/userToken';
+import { isKorea } from '../Recoil/whichCountry/whichCountry';
 import MainHeader from '../Components/common/Header/MainHeader';
 import Toggle from '../Components/common/Toggle';
 import HomePost from '../Components/HomePost/HomePostLayout';
 import TopButton from '../Components/common/Topbutton';
 import Navbar from '../Components/common/Navbar';
 import URL from '../Utils/URL';
-import userToken from '../Recoil/userToken/userToken';
-import { useRecoilValue } from 'recoil';
 import HomePostSkeleton from '../Components/common/Skeleton/HomePostSkeleton';
 import Spinner from '../Components/common/Spinner';
 import Empty from '../Components/common/Empty';
@@ -19,11 +20,36 @@ const Home = () => {
   const [followedFeed, setFollowedFeed] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showSpinner, setShowSpinner] = useState(false);
+  const [showTopButton, setShowTopButton] = useState(false);
+  const [isLeftToggle, setIsLeftToggle] = useState(true);
+  const [globalPosts, setGlobalPosts] = useState([]);
+  const [koreaPosts, setKoreaPosts] = useState([]);
+  const korea = useRecoilValue(isKorea);
+
+  useEffect(() => {
+    const setCategory = () => {
+      const updatedKoreaPosts = [];
+      const updatedGlobalPosts = [];
+
+      followedFeed.forEach((post) => {
+        const match = post.content.match(/^\[(K|G)\]/);
+        if (match === null || match[1] !== 'G') {
+          updatedKoreaPosts.push(post);
+        } else {
+          updatedGlobalPosts.push(post);
+        }
+      });
+      setKoreaPosts(updatedKoreaPosts);
+      setGlobalPosts(updatedGlobalPosts);
+    };
+
+    setCategory();
+  }, [followedFeed]);
 
   useEffect(() => {
     const getFeedFollowed = async () => {
       try {
-        const response = await fetch(`${URL}/post/feed/?limit=20&skip=${feedCount * 20}`, {
+        const response = await fetch(`${URL}/post/feed/?limit=50&skip=${feedCount * 50}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -48,9 +74,12 @@ const Home = () => {
       setTimeout(() => {
         setFeedCount((prevCount) => prevCount + 1);
         setShowSpinner(false);
-        document.documentElement.scrollTop -= 55;
+        window.scrollTo(0, scrollTop - 55);
       }, 1000);
     }
+    if (scrollTop >= clientHeight) {
+      setShowTopButton(true);
+    } else setShowTopButton(false);
   };
 
   useEffect(() => {
@@ -63,14 +92,18 @@ const Home = () => {
   return (
     <Layout>
       <MainHeader />
-      <Toggle margin='25px 0 0 16px' leftButton='국내' rightButton='해외' />
+      <Toggle margin='25px 0 0 16px' leftButton='국내' rightButton='해외' setIsLeftToggle={setIsLeftToggle} />
       {isLoading ? (
         <>
           <HomePostSkeleton />
           <HomePostSkeleton />
         </>
       ) : followedFeed.length > 0 ? (
-        followedFeed.map((post) => <HomePost key={post.id} post={post} />)
+        isLeftToggle ? (
+          koreaPosts.map((post) => <HomePost key={post.id} post={post} />)
+        ) : (
+          globalPosts.map((post) => <HomePost key={post.id} post={post} />)
+        )
       ) : (
         !isLoading && (
           <Empty image={logo} alt='로고' navigate='/search' buttonName='검색하기'>
@@ -79,7 +112,7 @@ const Home = () => {
         )
       )}
       {showSpinner && <Spinner />}
-      <TopButton />
+      {showTopButton && <TopButton />}
       <Navbar />
     </Layout>
   );

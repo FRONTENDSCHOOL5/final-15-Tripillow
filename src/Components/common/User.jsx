@@ -12,6 +12,18 @@ const User = (props) => {
   };
 
   const url = props.userImg?.split('/') || 'null';
+
+  const highlightKeyword = (text, keyword) => {
+    const startIndex = text?.indexOf(keyword);
+    const endIndex = startIndex + keyword?.length;
+    const leftSide = text?.slice(0, startIndex);
+    const rightSide = text?.slice(endIndex);
+    return { leftSide, rightSide };
+  };
+
+  const { leftSide: leftSideUser, rightSide: rightSideUser } = highlightKeyword(props.username, props.keyword);
+  const { leftSide: leftSideAccount, rightSide: rightSideAccount } = highlightKeyword(props.accountname, props.keyword);
+
   return (
     <UserLayout margin={props.margin}>
       <Link to={`/profile/${props.accountname}`}>
@@ -29,17 +41,52 @@ const User = (props) => {
         </UserImgLayout>
       </Link>
       <UserContentsLayout>
-        <div>
-          <UserTitle>{props.username}</UserTitle>
-          <UserContent>{props.content} </UserContent>
-        </div>
+        {props.search ? (
+          props.username.includes(props.keyword) && props.accountname.includes(props.keyword) ? (
+            <div>
+              <UserTitle>
+                {leftSideUser}
+                <HighLighted>{props.keyword}</HighLighted>
+                {rightSideUser}
+              </UserTitle>
+              <UserContent>
+                @{leftSideAccount}
+                <HighLighted>{props.keyword}</HighLighted>
+                {rightSideAccount}
+              </UserContent>
+            </div>
+          ) : props.username.includes(props.keyword) ? (
+            <div>
+              <UserTitle>
+                {leftSideUser}
+                <HighLighted>{props.keyword}</HighLighted>
+                {rightSideUser}
+              </UserTitle>
+              <UserContent>{props.content}</UserContent>
+            </div>
+          ) : (
+            <div>
+              <UserTitle>{props.username}</UserTitle>
+              <UserContent>
+                @{leftSideAccount}
+                <HighLighted>{props.keyword}</HighLighted>
+                {rightSideAccount}
+              </UserContent>
+            </div>
+          )
+        ) : (
+          <div>
+            <UserTitle>{props.username}</UserTitle>
+            <UserContent>{props.content}</UserContent>
+          </div>
+        )}
+
         {props.moreBtn && <MoreBtn type='button' onClick={handleOnClick} />}
         {props.followers && (
           <Button width='56px' fontSize='var(--xs)' border='none' padding='5.75px'>
             팔로우
           </Button>
         )}
-        {props.chat && <ChatDate>{props.date}</ChatDate>}
       </UserContentsLayout>
     </UserLayout>
   );
@@ -51,6 +98,7 @@ const UserLayout = styled.div`
   gap: 12px;
   cursor: pointer;
   margin: ${(props) => props.margin};
+  overflow: hidden;
 `;
 const UserImgLayout = styled.div`
   width: 50px;
@@ -81,17 +129,15 @@ const UserContentsLayout = styled.div`
   width: 100%;
 `;
 
-const ChatDate = styled.span`
-  color: var(--light-gray);
-  font-size: 10px;
-  margin-top: auto;
-`;
-
 const MoreBtn = styled.button`
   width: 18px;
   height: 18px;
   margin-right: 3px;
   background-image: url(${more});
+`;
+
+const HighLighted = styled.span`
+  color: var(--primary);
 `;
 
 export default User;

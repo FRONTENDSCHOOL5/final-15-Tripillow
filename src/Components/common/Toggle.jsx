@@ -1,25 +1,39 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
+import { isKorea, isOverseas } from '../../Recoil/whichCountry/whichCountry';
+import { useRecoilState } from 'recoil';
 
 const Toggle = (props) => {
   const [toggleLeft, setToggleLeft] = useState(true);
   const [toggleRight, setToggleRight] = useState(false);
 
   const handleToggleLeft = () => {
+    if (props.setRightOn) {
+      props.setRightOn(false);
+    }
     setToggleLeft(true);
     setToggleRight(false);
+    if (props.setIsLeftToggle) {
+      props.setIsLeftToggle(true);
+    }
   };
   const handleToggleRight = () => {
+    if (props.setRightOn) {
+      props.setRightOn(false);
+    }
     setToggleLeft(false);
     setToggleRight(true);
+    if (props.setIsLeftToggle) {
+      props.setIsLeftToggle(false);
+    }
   };
 
   return (
     <ToggleLayout margin={props.margin}>
-      <ToggleButton onClick={handleToggleLeft} active={toggleLeft}>
+      <ToggleButton onClick={handleToggleLeft} active={props.rightOn ? !props.rightOn : toggleLeft}>
         {props.leftButton}
       </ToggleButton>
-      <ToggleButton onClick={handleToggleRight} active={toggleRight}>
+      <ToggleButton onClick={handleToggleRight} active={props.rightOn ? props.rightOn : toggleRight}>
         {props.rightButton}
       </ToggleButton>
     </ToggleLayout>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 
 import BasicHeader from '../../Components/common/Header/BasicHeader';
 import Navbar from '../../Components/common/Navbar';
@@ -26,8 +26,6 @@ const Product = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [products, setProducts] = useState(null);
-
-  const ShowSkeletonArr = new Array(8).fill(0);
 
   const {
     data: user,
@@ -81,12 +79,14 @@ const Product = () => {
 
   return (
     <StyledLayout>
-      <BasicHeader>판매 중인 상품</BasicHeader>
+      <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='확인'>
+        Pillower의 판매상품
+      </BasicHeader>
       <GridLayout>
         {userLoading ||
           (isLoading && (
             <>
-              {ShowSkeletonArr.map((_, index) => (
+              {Array.from({ length: 8 }, (_, index) => (
                 <GridItem key={index}>
                   <ProductItemSkeleton />
                 </GridItem>
@@ -108,8 +108,10 @@ const Product = () => {
           onClick={() => {
             navigate('/addproduct');
           }}
-       position='relative'
-          margin = '0 0 0 auto' width='50px' height='50px'
+          position='relative'
+          margin='0 0 0 auto'
+          width='50px'
+          height='50px'
         ></CircleButton>
       </div>
       <Navbar />
