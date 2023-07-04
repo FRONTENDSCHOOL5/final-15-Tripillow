@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 const LoginMethod = () => {
   return (
-    <LinkListsLayout>
+    <LinkListsLayout id='이게뭐야'>
       <LoginLink to='login' email>
         이메일로 로그인
       </LoginLink>
@@ -28,7 +28,6 @@ const LinkListsLayout = styled.div`
   flex-direction: column;
   align-items: center;
   width: 390px;
-  transform: translateY(400px);
   padding-top: 20px;
   background-color: white;
   border-radius: 20px 20px 0 0;
@@ -37,14 +36,17 @@ const LinkListsLayout = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
+  opacity: 0;
   animation: FadeIn 2s ease-in-out forwards;
   animation-delay: 3.5s;
 
   @keyframes FadeIn {
     0% {
+      opacity: 0;
       transform: translateY(400px);
     }
     25% {
+      opacity: 1;
       transform: translateY(0);
       height: 350px;
       padding-top: 50px;
@@ -63,6 +65,7 @@ const LinkListsLayout = styled.div`
       transform: translateY(0px);
     }
     100% {
+      opacity: 1;
       height: 274px;
       transform: translateY(0px);
     }
