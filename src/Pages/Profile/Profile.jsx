@@ -215,8 +215,6 @@ const ProductListLayout = styled.div`
   }
 `;
 
-const PostListLayout = styled.section``;
-
 const NoContent = styled.p`
   margin-top: 40px;
   text-align: center;
