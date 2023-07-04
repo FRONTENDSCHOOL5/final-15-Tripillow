@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { useLocation, useParams } from 'react-router-dom';
 import MyInfoAPI from '../../Utils/MyInfoAPI';
 import GetPostAPI from '../../Utils/GetPostAPI';
 import UserInfoAPI from '../../Utils/UserInfoAPI';
 import ProductListAPI from '../../Utils/ProductListAPI';
 import accountName from '../../Recoil/accountName/accountName';
+import { isList, isAlbum } from '../../Recoil/whichView/whichView';
 import UserProfile from '../../Components/UserProfile';
 import BasicHeader from '../../Components/common/Header/BasicHeader';
 import HomePostLayout from '../../Components/HomePost/HomePostLayout';
@@ -29,7 +30,8 @@ const Profile = () => {
   const location = useLocation();
   const userAccountname = params.accountname;
   const myAccount = useRecoilValue(accountName);
-  const [view, setView] = useState(false);
+  const [listView, setListView] = useRecoilState(true);
+  const [albumView, setAlbumView] = useRecoilState(false);
 
   const [myInfo, setMyInfo] = useState({});
   const [userInfo, setUserInfo] = useState({});
@@ -88,8 +90,14 @@ const Profile = () => {
     }
   }, []);
 
-  const handleView = () => {
-    setView(!view);
+  const handleListView = () => {
+    setListView(true);
+    setAlbumView(false);
+  };
+
+  const handleAlbumView = () => {
+    setListView(false);
+    setAlbumView(true);
   };
 
   return (
@@ -119,8 +127,8 @@ const Profile = () => {
               <ProductItemSkeleton />
             </UserProductLayout>
             <ViewLayout>
-              <ViewButton bgImg={!view ? listOn : listOff} onClick={handleView}></ViewButton>
-              <ViewButton bgImg={view ? AlbumOn : AlbumOff} onClick={handleView}></ViewButton>
+              <ViewButton bgImg={listView ? listOn : listOff} onClick={handleListView}></ViewButton>
+              <ViewButton bgImg={albumView ? AlbumOn : AlbumOff} onClick={handleAlbumView}></ViewButton>
             </ViewLayout>
             <article>
               <HomePostSkeleton />
@@ -146,13 +154,13 @@ const Profile = () => {
               </ProductListLayout>
             </UserProductLayout>
             <ViewLayout>
-              <ViewButton bgImg={!view ? listOn : listOff} onClick={handleView}></ViewButton>
-              <ViewButton bgImg={view ? AlbumOn : AlbumOff} onClick={handleView}></ViewButton>
+              <ViewButton bgImg={listView ? listOn : listOff} onClick={handleListView}></ViewButton>
+              <ViewButton bgImg={albumView ? AlbumOn : AlbumOff} onClick={handleAlbumView}></ViewButton>
             </ViewLayout>
             <PostListLayout>
               {postData?.length > 0 ? (
                 <>
-                  {!view ? (
+                  {listView ? (
                     postData.map((post, index) => <HomePostLayout key={index} post={post} />)
                   ) : (
                     <ImageLayoutBackground>
@@ -245,7 +253,7 @@ const ViewButton = styled.button`
   background: ${(props) => `url(${props.bgImg}) no-repeat center center`};
 `;
 
-const ImageLayoutBackground = styled.article`
+const ImageLayoutBackground = styled.div`
   min-height: 420px;
   background-color: #fff;
 `;
@@ -256,6 +264,9 @@ const ImageLayout = styled.div`
   gap: 8px;
   padding: 14px 12px 20px 16px;
   padding-bottom: ${(props) => props.pb || '20px'};
+
+  & > div:last-child {
+  }
 `;
 
 const ProfileSkeletonLayout = styled.div`
