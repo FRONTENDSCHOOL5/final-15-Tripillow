@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 const LoginMethod = () => {
   return (
-    <LinkListsLayout id='이게뭐야'>
+    <LinkListsLayout>
       <LoginLink to='login' email>
         이메일로 로그인
       </LoginLink>

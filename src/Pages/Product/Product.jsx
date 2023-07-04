@@ -128,10 +128,6 @@ const GridLayout = styled.main`
   display: grid;
   grid-gap: 20px;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-
-  & > div:last-child {
-    padding-bottom: 100px;
-  }
 `;
 
 const GridItem = styled.div`

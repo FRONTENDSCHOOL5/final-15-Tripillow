@@ -215,11 +215,7 @@ const ProductListLayout = styled.div`
   }
 `;
 
-const PostListLayout = styled.section`
-  & > div:last-child {
-    padding-bottom: 100px;
-  }
-`;
+const PostListLayout = styled.section``;
 
 const NoContent = styled.p`
   margin-top: 40px;
@@ -264,9 +260,6 @@ const ImageLayout = styled.div`
   gap: 8px;
   padding: 14px 12px 20px 16px;
   padding-bottom: ${(props) => props.pb || '20px'};
-
-  & > div:last-child {
-  }
 `;
 
 const ProfileSkeletonLayout = styled.div`
