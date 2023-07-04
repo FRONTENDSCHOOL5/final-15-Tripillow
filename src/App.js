@@ -21,8 +21,17 @@ import UserProfileSetting from './Pages/Profile/UserProfileSetting';
 import PostModification from './Pages/Post/PostModification';
 import ProtectRoute from './Utils/ProtectRoute/ProtectRoute';
 import Setting from './Pages/Profile/Setting';
+import { useEffect } from 'react';
 
 function App() {
+  const setScreenSize = () => {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+  };
+  useEffect(() => {
+    setScreenSize();
+  });
+
   return (
     <RecoilRoot>
       <>

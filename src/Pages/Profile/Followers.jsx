@@ -58,9 +58,7 @@ const Followers = () => {
               <FollowUser followers key={index} user={following} pathIdentifier={pathIdentifier} margin='24px 0 0 0' />
             ))}
       </main>
-      <footer>
-        <Navbar />
-      </footer>
+      <Navbar />
     </Layout>
   );
 };
