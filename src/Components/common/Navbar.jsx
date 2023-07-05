@@ -61,7 +61,7 @@ const NavbarLayout = styled.div`
   padding: 15px 25px;
   box-sizing: border-box;
   border: 1px solid var(--light-gray);
-  border-top: 0.5px solid #dbdbdb;
+  border-top: 0.5px solid var(--light-gray);
   position: fixed;
   bottom: 0;
   left: 0;
