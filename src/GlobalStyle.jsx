@@ -81,11 +81,6 @@ body {
   ::-webkit-scrollbar {
     display: none;
   }
-
-  #root {
-    height: calc(var(--vh, 1vh) * 100);
-    /* height: 1px; */
-  }
 }
 `;
 

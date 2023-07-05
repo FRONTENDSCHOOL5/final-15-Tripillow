@@ -93,7 +93,7 @@ const Home = () => {
   return (
     <Layout>
       <MainHeader />
-      <PostListLayout>
+      <main>
         <Toggle margin='25px 0 0 16px' leftButton='국내' rightButton='해외' setIsLeftToggle={setIsLeftToggle} />
         {isLoading ? (
           <>
@@ -113,18 +113,12 @@ const Home = () => {
             </Empty>
           )
         )}
-      </PostListLayout>
+      </main>
       {showSpinner && <Spinner />}
       {showTopButton && <TopButton />}
       <Navbar />
     </Layout>
   );
 };
-
-const PostListLayout = styled.main`
-  & > div:last-child {
-    padding-bottom: 120px;
-  }
-`;
 
 export default Home;
