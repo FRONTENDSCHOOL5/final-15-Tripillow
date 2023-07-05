@@ -157,7 +157,7 @@ const Profile = () => {
               <ViewButton bgImg={listView ? listOn : listOff} onClick={handleListView}></ViewButton>
               <ViewButton bgImg={albumView ? AlbumOn : AlbumOff} onClick={handleAlbumView}></ViewButton>
             </ViewLayout>
-            <PostListLayout>
+            <section>
               {postData?.length > 0 ? (
                 <>
                   {listView ? (
@@ -177,7 +177,7 @@ const Profile = () => {
               ) : (
                 <NoContent>게시물이 없습니다.</NoContent>
               )}
-            </PostListLayout>
+            </section>
           </>
         )}
       </main>
