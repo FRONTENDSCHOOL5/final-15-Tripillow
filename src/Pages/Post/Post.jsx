@@ -176,8 +176,10 @@ const ToggleLayout = styled.section`
 
 const TextInput = styled.textarea`
   border: none;
-  width: calc(100% - 28px);
-  margin: 0 12px 20px 16px;
+  display: block;
+  width: 100%;
+  padding: 0 12px 0 16px;
+  box-sizing: border-box;
   font-size: var(--sm);
   resize: none;
   font: inherit;
