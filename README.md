@@ -11,7 +11,7 @@ Pillower, Pillowing 기능을 활용하여, 친구를 맺은 사용자들은 자
 
 >**Tripillow를 통해 국내, 해외 방구석 여행러들과 소통해보세요 💙🛩️**
 
->### [🚀 배포 URL](https://frontendschool5.github.io/final-15-Tripillow)
+>### [🚀 배포 URL](https://tripillow.netlify.app/home)
 
 ```
 테스트 계정
