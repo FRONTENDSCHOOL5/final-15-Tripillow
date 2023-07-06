@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import URL from '../../Utils/URL';
 import PostDetailAPI from '../../Utils/PostDetailAPI';
 import ImageUploadAPI from '../../Utils/ImageUploadAPI';
-import { validateImageFile } from '../../Utils/validate';
+import { validateImageFileFormat } from '../../Utils/validate';
 import userToken from '../../Recoil/userToken/userToken';
 import { LayoutStyle } from '../../Styles/Layout';
 import UploadHeader from '../../Components/common/Header/UploadHeader';
@@ -70,7 +70,7 @@ const PostModification = () => {
 
   const handleImageInput = async (e) => {
     if (imgURL.length >= 3 || e.target.files.length === 0) return;
-    if (!validateImageFile(e.target.files[0].name)) return console.error('ERROR: 파일 확장자');
+    if (!validateImageFileFormat(e.target.files[0].name)) return console.error('ERROR: 파일 확장자');
     const data = await ImageUploadAPI(e);
     const image = postInput.post.image === '' ? data.filename : postInput.post.image + `, ${data.filename}`;
     if (data) {
