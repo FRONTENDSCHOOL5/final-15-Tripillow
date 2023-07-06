@@ -8,6 +8,34 @@ import defaultImg from '../../Assets/defaultImg.png';
 export default function PostImage({ post }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const pictures = post.image.split(', ');
+  const [startX, setStartX] = useState(0);
+  const [endX, setEndX] = useState(0);
+
+  const handleTouchStart = (event) => {
+    const touch = event.touches[0];
+    setStartX(touch.clientX);
+  };
+
+  const handleTouchMove = (event) => {
+    const touch = event.touches[0];
+    setEndX(touch.clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (pictures.length === 1) {
+      return;
+    }
+    if (startX && endX) {
+      const distance = endX - startX;
+      if (distance > 75) {
+        handleNext();
+      } else if (distance < -75) {
+        handlePrev();
+      }
+      setStartX(null);
+      setEndX(null);
+    }
+  };
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev === 0 ? pictures.length - 1 : prev - 1));
@@ -21,7 +49,7 @@ export default function PostImage({ post }) {
     e.target.src = defaultImg;
   };
   return (
-    <ImageLayout>
+    <ImageLayout onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
       {pictures.length > 1 && <ArrowButton onClick={handlePrev} bgImage={arrowLeft} left='16px'></ArrowButton>}
       <img src={URL + '/' + pictures[currentIndex]} onError={handleError} alt='' />
       {pictures.length > 1 && <ArrowButton onClick={handleNext} bgImage={arrowRight} right='16px'></ArrowButton>}
