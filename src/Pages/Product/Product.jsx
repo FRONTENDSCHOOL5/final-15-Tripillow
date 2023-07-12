@@ -8,6 +8,7 @@ import ProductItem from '../../Components/common/ProductItem';
 import { Layout } from '../../Styles/Layout';
 import CircleButton from '../../Components/common/CircleButton';
 import accountName from '../../Recoil/accountName/accountName';
+import Toggle from '../../Components/common/Toggle';
 
 import ProductDetailAPI from '../../Utils/ProductDetailAPI';
 
@@ -83,6 +84,7 @@ const Product = () => {
       <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='확인'>
         Pillower의 판매상품
       </BasicHeader>
+      <Toggle margin='0 0 20px 0' leftButton='여행용품' rightButton='외화' />
       <GridLayout>
         {userLoading ||
           (isLoading && (

@@ -20,6 +20,7 @@ const AddProduct = (props) => {
   const token = useRecoilValue(userToken);
   const navigate = useNavigate();
   const [priceErr, setPriceErr] = useState(false);
+  const [isLeftToggle, setIsLeftToggle] = useState(true);
 
   const handleSubmit = async () => {
     try {
@@ -32,7 +33,7 @@ const AddProduct = (props) => {
 
         body: JSON.stringify({
           product: {
-            itemName: productName,
+            itemName: isLeftToggle ? `[P]${productName}` : `[M]${productName}`,
             price: parseInt(price), //1원 이상
             link: description,
             itemImage: imageLink,
@@ -81,7 +82,7 @@ const AddProduct = (props) => {
         </Label>
         <input id='file-upload' className='a11y-hidden' onChange={handleChange} type='file' />
         <CategoryTxt>카테고리</CategoryTxt>
-        <Toggle margin='0 0 20px 0' leftButton='여행용품' rightButton='외화' />
+        <Toggle margin='0 0 20px 0' leftButton='여행용품' rightButton='외화' setIsLeftToggle={setIsLeftToggle} />
 
         {/* //fixme: label 클릭하면 input에 위치 */}
         <Input

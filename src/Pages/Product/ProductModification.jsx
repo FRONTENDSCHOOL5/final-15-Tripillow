@@ -24,16 +24,19 @@ const ProductModification = (props) => {
       itemImage: '',
     },
   });
+  const [isLeftToggle, setIsLeftToggle] = useState(true);
   const location = useLocation();
   const productId = location.state;
   const [isModified, setIsModified] = useState(false);
   const productDetail = ProductDetailAPI(productId);
   const { handleProductModify } = ProductModifyAPI({ productId, productInputs });
 
+  // 작성한 정보 불러오는 부분
   useEffect(() => {
     if (productDetail) {
       setProductInputs({
         product: {
+          // itemName: isLeftToggle ? `[P]${productDetail.itemName}` : `[M]${productDetail.itemName}`,
           itemName: productDetail.itemName,
           price: productDetail.price,
           link: productDetail.link,
@@ -57,13 +60,14 @@ const ProductModification = (props) => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setProductInputs((prevState) => ({
-      ...prevState,
+      // ...prevState, //현재 상태 유지(복사)
       product: {
         ...prevState.product,
-        [name]: value,
+          [name]: value,//memo: 이 부분 다시 공부
       },
     }));
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -82,7 +86,7 @@ const ProductModification = (props) => {
       </Label>
       <input id='file-upload' className='a11y-hidden' onChange={handleImgChange} type='file' />
       <CategoryTxt>카테고리</CategoryTxt>
-      <Toggle margin='0 0 20px 0' leftButton='여행용품' rightButton='외화' />
+      <Toggle margin='0 0 20px 0' leftButton='여행용품' rightButton='외화' setIsLeftToggle={setIsLeftToggle} />
 
       {/* //fixme: label 클릭하면 input에 위치 */}
       <Input
