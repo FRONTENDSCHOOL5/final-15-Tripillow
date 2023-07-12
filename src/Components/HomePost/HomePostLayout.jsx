@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import accountName from '../../Recoil/accountName/accountName';
 import { useRecoilValue } from 'recoil';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import User from '../common/User';
 import Profile from '../../Assets/profile-sm.png';
 import iconUnheart from '../../Assets/icons/icon-heart.svg';
@@ -215,6 +215,15 @@ const Content = styled.p`
     font-size: 10px;
     color: var(--dark-gray);
   }
+
+  ${(props) =>
+    !props.inDetail &&
+    css`
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    `}
 `;
 
 const ModalOn = styled.div`

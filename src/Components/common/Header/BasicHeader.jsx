@@ -7,6 +7,7 @@ import userToken from '../../../Recoil/userToken/userToken';
 import isLogin from '../../../Recoil/isLogin/isLogin';
 import accountName from '../../../Recoil/accountName/accountName';
 import { isKorea, isOverseas } from '../../../Recoil/whichCountry/whichCountry';
+import { isList, isAlbum } from '../../../Recoil/whichView/whichView';
 import ProductDeleteAPI from '../../../Utils/ProductDeleteAPI';
 import Modal from '../Modal/Modal';
 import HeaderLayout from '../../../Styles/HeaderLayout';
@@ -23,6 +24,8 @@ const BasicHeader = (props) => {
   const [name, setName] = useRecoilState(accountName);
   const [korea, setKorea] = useRecoilState(isKorea);
   const [overseas, setOverseas] = useRecoilState(isOverseas);
+  const [listView, setListView] = useRecoilState(isList);
+  const [albumView, setAlbumView] = useRecoilState(isAlbum);
   const location = useLocation();
   const currentPath = location.pathname.split('/');
 
@@ -56,6 +59,8 @@ const BasicHeader = (props) => {
     navigate('/');
     setKorea(true);
     setOverseas(false);
+    setListView(true);
+    setAlbumView(false);
   };
 
   const handleProductDelete = ProductDeleteAPI(userId);

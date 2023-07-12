@@ -3,14 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import URL from '../../Utils/URL';
-import ImageUploadAPI from '../../Utils/ImageUploadAPI';
-import { validateImageFile } from '../../Utils/validate';
+// import ImageUploadAPI from '../../Utils/ImageUploadAPI';
+import { validateImageFileFormat } from '../../Utils/validate';
 import userToken from '../../Recoil/userToken/userToken';
 import UploadHeader from '../../Components/common/Header/UploadHeader';
 import Toggle from '../../Components/common/Toggle';
 import x from '../../Assets/icons/x.svg';
 import { LayoutStyle } from '../../Styles/Layout';
 import iconImg from '../../Assets/icons/upload-file.svg';
+import imageCompression from 'browser-image-compression';
 
 export default function Post() {
   const navigate = useNavigate();
@@ -20,13 +21,83 @@ export default function Post() {
   const [isLeftToggle, setIsLeftToggle] = useState(true);
   const token = useRecoilValue(userToken);
 
-  const handleImageInput = async (e) => {
-    if (imgURL.length >= 3 || e.target.files.length === 0) return;
-    if (!validateImageFile(e.target.files[0].name)) return console.log('ERROR: 파일 확장자를 확인해주세요');
-    const data = await ImageUploadAPI(e);
+  const compressedImageUploadAPI = async (file) => {
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+      const response = await fetch(URL + '/image/uploadfile', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('에러발생!!!');
+    }
+  };
+
+  const handleDataForm = async (dataURI) => {
+    const byteString = atob(dataURI.split(',')[1]);
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    const blob = new Blob([ia], {
+      type: 'image/jpeg',
+    });
+    const file = new File([blob], 'image.jpg');
+    console.log('after: ', file);
+    const data = await compressedImageUploadAPI(file);
     if (data) {
       setImgURL((prev) => prev.concat(data.filename));
     }
+  };
+
+  const handleImageInput = async (e) => {
+    console.log('before: ', e.target?.files);
+    console.log(imgURL);
+    const file = e.target?.files[0];
+    if (file.length === 0) {
+      return;
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      return alert('파일은 10MB를 넘길 수 없습니다.');
+    }
+    if (imgURL.length >= 3) {
+      alert('파일은 3장을 넘길 수 없습니다.');
+      return;
+    }
+    if (!validateImageFileFormat(file.name)) {
+      return alert('파일 확장자를 확인해주세요');
+    }
+
+    const options = {
+      maxSizeMB: 0.9,
+      maxWidthOrHeight: 490,
+      useWebWorker: true,
+    };
+
+    try {
+      // 압축 결과
+      const compressedFile = await imageCompression(file, options);
+
+      const reader = new FileReader();
+      reader.readAsDataURL(compressedFile);
+      reader.onloadend = () => {
+        const base64data = reader.result;
+        handleDataForm(base64data);
+      };
+    } catch (error) {
+      console.log(error);
+    }
+
+    // const data = await ImageUploadAPI(e);
+    // if (data) {
+    //   setImgURL((prev) => prev.concat(data.filename));
+    // }
   };
 
   const handleSubmit = async () => {
@@ -105,8 +176,10 @@ const ToggleLayout = styled.section`
 
 const TextInput = styled.textarea`
   border: none;
-  width: calc(100% - 28px);
-  margin: 0 12px 20px 16px;
+  display: block;
+  width: 100%;
+  padding: 0 12px 0 16px;
+  box-sizing: border-box;
   font-size: var(--sm);
   resize: none;
   font: inherit;

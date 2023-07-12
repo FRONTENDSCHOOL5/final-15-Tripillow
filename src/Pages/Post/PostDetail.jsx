@@ -10,7 +10,7 @@ import GetNumerousCommentAPI from '../../Utils/GetNumerousCommentAPI';
 import HomePostLayout from '../../Components/HomePost/HomePostLayout';
 import MyInfoAPI from '../../Utils/MyInfoAPI';
 
-export default function PostDetail() {
+const PostDetail = () => {
   const { id } = useParams();
   const postId = id;
   const [postInfo, setPostInfo] = useState({});
@@ -72,15 +72,23 @@ export default function PostDetail() {
         rightbtn='로그아웃'
         isPost
       ></BasicHeader>
-      {Object.keys(postInfo).length > 0 && <HomePostLayout post={postInfo.post} comments={comments}></HomePostLayout>}
-      {showMore && <MoreComment onClick={handleShowMore}>더보기</MoreComment>}
-      {visibleComments.map((el, i) => (
-        <Comment key={i} postId={postId} commentInfo={el} setIsNewComment={setIsNewComment}></Comment>
-      ))}
+      <main>
+        <section>
+          {Object.keys(postInfo).length > 0 && (
+            <HomePostLayout post={postInfo.post} comments={comments}></HomePostLayout>
+          )}
+        </section>
+        <section>
+          {showMore && <MoreComment onClick={handleShowMore}>더보기</MoreComment>}
+          {visibleComments.map((el, i) => (
+            <Comment key={i} postId={postId} commentInfo={el} setIsNewComment={setIsNewComment}></Comment>
+          ))}
+        </section>
+      </main>
       <PostComment setIsNewComment={setIsNewComment} postId={postId} userImg={myInfo.image}></PostComment>
     </Layout>
   );
-}
+};
 
 const Layout = styled.div`
   ${LayoutStyle};
@@ -93,3 +101,5 @@ const MoreComment = styled.button`
   display: block;
   margin: 0 auto 10px;
 `;
+
+export default PostDetail;

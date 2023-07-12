@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-
+import { useRecoilValue } from 'recoil';
+import accountName from '../../Recoil/accountName/accountName';
 import ProductDetailAPI from '../../Utils/ProductDetailAPI';
-
+import { LayoutStyle } from '../../Styles/Layout';
 import BasicHeader from '../../Components/common/Header/BasicHeader';
 import hearticon from '../../Assets/icons/icon-heart.svg';
 import heartfill from '../../Assets/icons/icon-heart-fill.svg';
 import Button from '../../Components/common/Button';
 import User from '../../Components/common/User';
 import chatLists from '../../Mock/chatLists';
-import accountName from '../../Recoil/accountName/accountName';
-import { useRecoilValue } from 'recoil';
 
 const AddProduct = (props) => {
   const [productId, setProductId] = useState('');
@@ -53,20 +52,22 @@ const AddProduct = (props) => {
           >
             판매 중인 상품
           </BasicHeader>
-          <Image src={productDetail.itemImage} />
-          <User
-            accountname={productDetail.author?.accountname}
-            userImg={productDetail.author?.image}
-            username={productDetail.author?.username}
-            content={'@' + productDetail.author?.accountname}
-          />
-          <ProductContent size='var(--xl)' weight='700'>
-            {productDetail.itemName}
-          </ProductContent>
-          <ProductContent size='var(--lg)' height='1.4' style={{ whiteSpace: 'pre-wrap' }}>
-            {productDetail.link}
-          </ProductContent>
-          <ProductLayout>
+          <main>
+            <Image src={productDetail.itemImage} />
+            <User
+              accountname={productDetail.author?.accountname}
+              userImg={productDetail.author?.image}
+              username={productDetail.author?.username}
+              content={'@' + productDetail.author?.accountname}
+            />
+            <ProductContent size='var(--xl)' weight='700'>
+              {productDetail.itemName}
+            </ProductContent>
+            <ProductContent size='var(--lg)' height='1.4' style={{ whiteSpace: 'pre-wrap' }}>
+              {productDetail.link}
+            </ProductContent>
+          </main>
+          <ProductButtonLayout>
             <div style={{ display: 'flex', marginLeft: '20px' }}>
               <Icon
                 src={isClick === false ? hearticon : heartfill}
@@ -86,7 +87,7 @@ const AddProduct = (props) => {
             >
               채팅하기
             </Button>
-          </ProductLayout>
+          </ProductButtonLayout>
         </Layout>
       )}
     </>
@@ -94,28 +95,15 @@ const AddProduct = (props) => {
 };
 
 const Layout = styled.div`
-  max-width: 390px;
-  min-height: 100%;
+  ${LayoutStyle}
   padding: 48px 12px 73px 16px;
-  box-sizing: border-box;
-  margin: 0 auto;
-  border: 1px solid var(--light-gray);
 `;
 
-const Label = styled.label`
-  display: block;
-  /* width: calc(100% + 16px + 12px); // Image 너비에 패딩값 차감 */
-
-  height: 232px;
-  margin-left: -16px;
-  margin-right: -12px;
-  margin-bottom: 14px;
-`;
 const Image = styled.img`
   width: 100%;
   width: calc(100% + 16px + 12px);
   margin-left: -16px;
-  margin-right: -12px; // Image 너비에 패딩값 차감
+  margin-right: -12px;
   margin-bottom: 13px;
   height: 232px;
   object-fit: cover;
@@ -131,24 +119,26 @@ const ProductContent = styled.p`
   word-break: break-all;
 `;
 
-const ProductLayout = styled.div`
+const ProductButtonLayout = styled.div`
   display: flex;
   width: 390px;
+  margin: 0 auto;
   align-items: center;
   padding: 25px 0 20px;
   position: fixed;
-  left: 50%;
-  transform: translate(-50%);
-  bottom: 0px;
-  /* background-color: white; */
-  border-top: 0.5px solid #dbdbdb;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  box-sizing: border-box;
+  background-color: white;
+  border-top: 0.5px solid var(--light-gray);
+  border: 1px solid var(--light-gray);
 `;
 
 const Icon = styled.img`
   width: 20px;
   height: 20px;
   margin-right: 8px;
-  /* margin-left: -35px; */
   cursor: pointer;
 `;
 
@@ -156,12 +146,6 @@ const ProudctPrice = styled.p`
   font-size: 18px;
   font-weight: 700;
   line-height: 1.3;
-  /* margin-right: 82px; */
-`;
-
-const ButtonLayout = styled.button`
-  text-align: left;
-  padding: 0;
 `;
 
 export default AddProduct;

@@ -8,7 +8,7 @@ import imgLayer from '../../Assets/icons/icon-img-layers.svg';
 const ViewImage = (props) => {
   const navigate = useNavigate();
   const longImages = props.post.image.split(', ');
-  const images = props.post.image.split(', ').pop();
+  const images = props.post.image.split(', ').shift();
 
   const handleError = (e) => {
     e.target.src = defaultImg;

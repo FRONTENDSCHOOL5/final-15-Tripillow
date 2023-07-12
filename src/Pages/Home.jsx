@@ -13,6 +13,7 @@ import HomePostSkeleton from '../Components/common/Skeleton/HomePostSkeleton';
 import Spinner from '../Components/common/Spinner';
 import Empty from '../Components/common/Empty';
 import logo from '../Assets/logo-gray.png';
+import styled from 'styled-components';
 
 const Home = () => {
   const token = useRecoilValue(userToken);
@@ -92,25 +93,27 @@ const Home = () => {
   return (
     <Layout>
       <MainHeader />
-      <Toggle margin='25px 0 0 16px' leftButton='국내' rightButton='해외' setIsLeftToggle={setIsLeftToggle} />
-      {isLoading ? (
-        <>
-          <HomePostSkeleton />
-          <HomePostSkeleton />
-        </>
-      ) : followedFeed.length > 0 ? (
-        isLeftToggle ? (
-          koreaPosts.map((post) => <HomePost key={post.id} post={post} />)
+      <main>
+        <Toggle margin='25px 0 0 16px' leftButton='국내' rightButton='해외' setIsLeftToggle={setIsLeftToggle} />
+        {isLoading ? (
+          <>
+            <HomePostSkeleton />
+            <HomePostSkeleton />
+          </>
+        ) : followedFeed.length > 0 ? (
+          isLeftToggle ? (
+            koreaPosts.map((post) => <HomePost key={post.id} post={post} />)
+          ) : (
+            globalPosts.map((post) => <HomePost key={post.id} post={post} />)
+          )
         ) : (
-          globalPosts.map((post) => <HomePost key={post.id} post={post} />)
-        )
-      ) : (
-        !isLoading && (
-          <Empty image={logo} alt='로고' navigate='/search' buttonName='검색하기'>
-            유저를 검색해 팔로우 해보세요!
-          </Empty>
-        )
-      )}
+          !isLoading && (
+            <Empty image={logo} alt='로고' navigate='/search' buttonName='검색하기'>
+              유저를 검색해 팔로우 해보세요!
+            </Empty>
+          )
+        )}
+      </main>
       {showSpinner && <Spinner />}
       {showTopButton && <TopButton />}
       <Navbar />

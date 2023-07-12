@@ -4,6 +4,9 @@ const { default: reset } = require('styled-reset');
 const GlobalStyle = createGlobalStyle`
 // === ROOT ====
 :root {
+  // height
+  --vh: 100%;
+  
   // Color
   --primary: #4594FF;
   --secondary: #B5D5FF;
@@ -77,11 +80,6 @@ body {
 
   ::-webkit-scrollbar {
     display: none;
-  }
-
-  #root {
-    min-height: 100vh;
-    height: 1px;
   }
 }
 `;

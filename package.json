@@ -1,11 +1,13 @@
 {
   "name": "tripillow",
   "version": "0.1.0",
+  "homepage": "https://tripillow.netlify.app/",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "browser-image-compression": "^2.0.2",
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -22,8 +24,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "serve": "serve -s build",
-    "build-and-serve": "npm run build && npm run serve"
+    "serve": "serve -s build"
   },
   "eslintConfig": {
     "extends": [
@@ -44,7 +45,7 @@
     ]
   },
   "devDependencies": {
-    "prettier": "2.8.8",
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "prettier": "2.8.8"
   }
 }

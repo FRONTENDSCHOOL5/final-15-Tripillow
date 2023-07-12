@@ -34,19 +34,21 @@ const Navbar = (props) => {
   }, [location]);
 
   return (
-    <NavbarLayout margin={props.margin}>
-      {icons.map((el, i) => (
-        <IconLayout
-          key={i}
-          onClick={() => {
-            navigate(el.path[0]);
-          }}
-        >
-          <IconImg src={buttonId === i ? el.fillImage : el.image} />
-          <IconInfo setColor={buttonId === i}>{el.name}</IconInfo>
-        </IconLayout>
-      ))}
-    </NavbarLayout>
+    <footer>
+      <NavbarLayout margin={props.margin}>
+        {icons.map((el, i) => (
+          <IconLayout
+            key={i}
+            onClick={() => {
+              navigate(el.path[0]);
+            }}
+          >
+            <IconImg src={buttonId === i ? el.fillImage : el.image} />
+            <IconInfo setColor={buttonId === i}>{el.name}</IconInfo>
+          </IconLayout>
+        ))}
+      </NavbarLayout>
+    </footer>
   );
 };
 
@@ -59,7 +61,7 @@ const NavbarLayout = styled.div`
   padding: 15px 25px;
   box-sizing: border-box;
   border: 1px solid var(--light-gray);
-  border-top: 0.5px solid #dbdbdb;
+  border-top: 0.5px solid var(--light-gray);
   position: fixed;
   bottom: 0;
   left: 0;

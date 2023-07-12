@@ -21,6 +21,10 @@ const User = (props) => {
     return { leftSide, rightSide };
   };
 
+  const handleImageError = (e) => {
+    e.target.src = profileSm;
+  };
+
   const { leftSide: leftSideUser, rightSide: rightSideUser } = highlightKeyword(props.username, props.keyword);
   const { leftSide: leftSideAccount, rightSide: rightSideAccount } = highlightKeyword(props.accountname, props.keyword);
 
@@ -37,6 +41,7 @@ const User = (props) => {
                 : props.userImg
             }
             alt={props.username}
+            onError={handleImageError}
           />
         </UserImgLayout>
       </Link>
