@@ -17,8 +17,6 @@ export default function PostImage({ post }) {
   const [startX, setStartX] = useState(0);
   const [endX, setEndX] = useState(0);
   const $onModal = document.getElementById('OnModal');
-  // const layout = document.getElementById('postImage-layout');
-  // const layout = getTopLevelRoot();
   const [modalOn, setModalOn] = useState(false);
   const imgSrc = URL + '/' + pictures[currentIndex];
 
@@ -74,9 +72,13 @@ export default function PostImage({ post }) {
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        {pictures.length > 1 && <ArrowButton onClick={handlePrev} bgImage={arrowLeft} left='16px'></ArrowButton>}
-        <img src={imgSrc} onError={handleError} alt='' />
-        {pictures.length > 1 && <ArrowButton onClick={handleNext} bgImage={arrowRight} right='16px'></ArrowButton>}
+        {pictures.length > 1 && pictures[0] !== pictures[currentIndex] && (
+          <ArrowButton onClick={handlePrev} bgImage={arrowLeft} left='16px'></ArrowButton>
+        )}
+        <img src={URL + '/' + pictures[currentIndex]} onError={handleError} alt='' />
+        {pictures.length > 1 && pictures[pictures.length - 1] !== pictures[currentIndex] && (
+          <ArrowButton onClick={handleNext} bgImage={arrowRight} right='16px'></ArrowButton>
+        )}
         <IndicatorLayout>
           {pictures.length > 1 &&
             pictures.map((_, index) => {
