@@ -2,7 +2,7 @@ import userToken from '../Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
 import URL from '../Utils/URL';
 
-const ProductModifyAPI = ({ productId, productInputs }) => {
+const ProductModifyAPI = ({ productId, productInputs, isLeftToggle }) => {
   const token = useRecoilValue(userToken);
 
   const handleProductModify = async () => {
@@ -13,7 +13,11 @@ const ProductModifyAPI = ({ productId, productInputs }) => {
           Authorization: `Bearer ${token}`,
           'Content-type': 'application/json',
         },
-        body: JSON.stringify({ ...productInputs }),
+        body: JSON.stringify({ 
+          product: {
+            ...productInputs.product, //기존의 값 유지(복사)
+            itemName: isLeftToggle ? `[P]${productInputs.product.itemName}` : `[M]${productInputs.product.itemName}`,
+          },}),
       });
 
       const result = response.json();
