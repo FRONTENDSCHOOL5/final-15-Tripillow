@@ -148,7 +148,7 @@ const HomePostLayout = (props) => {
         </>
       )}
       <span style={{ fontSize: '10px', color: 'var(--dark-gray)' }}>{createdAt}</span>
-      <ModalOn>
+      <OnModal id='OnModal'>
         {isModalOn && (
           <PostModal
             isMine={isMine}
@@ -168,7 +168,7 @@ const HomePostLayout = (props) => {
             closeModal={closeModal}
           ></PostAlertModal>
         )}
-      </ModalOn>
+      </OnModal>
     </Layout>
   );
 };
@@ -187,7 +187,7 @@ const IconLayout = styled.div`
 
 const IconButton = styled.button`
   width: 39px;
-  color: var(--gary);
+  color: var(--gray);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -226,9 +226,9 @@ const Content = styled.p`
     `}
 `;
 
-const ModalOn = styled.div`
+const OnModal = styled.div`
   position: relative;
-  height: (100vh - 60px);
+  /* height: (100vh - 60px); */
   z-index: 9999;
 `;
 
