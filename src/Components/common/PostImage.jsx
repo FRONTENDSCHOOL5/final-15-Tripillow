@@ -4,12 +4,25 @@ import styled from 'styled-components';
 import arrowRight from '../../Assets/icons/icon-arrow-right.svg';
 import arrowLeft from '../../Assets/icons/icon-arrow-left.svg';
 import defaultImg from '../../Assets/defaultImg.png';
+import Modal from './Modal/Modal';
+import { createPortal } from 'react-dom';
+import ImageModal from './Modal/ImageModal';
+function getTopLevelRoot() {
+  return document.documentElement;
+}
 
 export default function PostImage({ post }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const pictures = post.image.split(', ');
   const [startX, setStartX] = useState(0);
   const [endX, setEndX] = useState(0);
+  const $onModal = document.getElementById('OnModal');
+  const [modalOn, setModalOn] = useState(false);
+  const imgSrc = URL + '/' + pictures[currentIndex];
+
+  const handleClick = () => {
+    setModalOn(true);
+  };
 
   const handleTouchStart = (event) => {
     const touch = event.touches[0];
@@ -37,35 +50,44 @@ export default function PostImage({ post }) {
     }
   };
 
-  const handlePrev = () => {
+  const handlePrev = (e) => {
+    e.stopPropagation();
     setCurrentIndex((prev) => (prev === 0 ? pictures.length - 1 : prev - 1));
   };
 
-  const handleNext = () => {
+  const handleNext = (e) => {
+    e.stopPropagation();
     setCurrentIndex((prev) => (prev === pictures.length - 1 ? 0 : prev + 1));
   };
 
   const handleError = (e) => {
     e.target.src = defaultImg;
   };
-
   return (
-    <ImageLayout onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
-      {pictures.length > 1 && pictures[0] !== pictures[currentIndex] && (
-        <ArrowButton onClick={handlePrev} bgImage={arrowLeft} left='16px'></ArrowButton>
-      )}
-      <img src={URL + '/' + pictures[currentIndex]} onError={handleError} alt='' />
-      {pictures.length > 1 && pictures[pictures.length - 1] !== pictures[currentIndex] && (
-        <ArrowButton onClick={handleNext} bgImage={arrowRight} right='16px'></ArrowButton>
-      )}
-
-      <IndicatorLayout>
-        {pictures.length > 1 &&
-          pictures.map((_, index) => {
-            return <Indicator key={index} indicator={index === currentIndex}></Indicator>;
-          })}
-      </IndicatorLayout>
-    </ImageLayout>
+    <>
+      <ImageLayout
+        id='postImage-layout'
+        onClick={handleClick}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        {pictures.length > 1 && pictures[0] !== pictures[currentIndex] && (
+          <ArrowButton onClick={handlePrev} bgImage={arrowLeft} left='16px'></ArrowButton>
+        )}
+        <img src={URL + '/' + pictures[currentIndex]} onError={handleError} alt='' />
+        {pictures.length > 1 && pictures[pictures.length - 1] !== pictures[currentIndex] && (
+          <ArrowButton onClick={handleNext} bgImage={arrowRight} right='16px'></ArrowButton>
+        )}
+        <IndicatorLayout>
+          {pictures.length > 1 &&
+            pictures.map((_, index) => {
+              return <Indicator key={index} indicator={index === currentIndex}></Indicator>;
+            })}
+        </IndicatorLayout>
+      </ImageLayout>
+      {modalOn && createPortal(<ImageModal setModalOn={setModalOn} imgSrc={imgSrc} />, $onModal)}
+    </>
   );
 }
 
