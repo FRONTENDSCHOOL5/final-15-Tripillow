@@ -8,6 +8,7 @@ import ProductItem from '../../Components/common/ProductItem';
 import { Layout } from '../../Styles/Layout';
 import CircleButton from '../../Components/common/CircleButton';
 import accountName from '../../Recoil/accountName/accountName';
+import Toggle from '../../Components/common/Toggle';
 
 import ProductDetailAPI from '../../Utils/ProductDetailAPI';
 
@@ -18,6 +19,7 @@ import { useRecoilValue } from 'recoil';
 
 import ProductItemSkeleton from '../../Components/common/Skeleton/ProductItemSkeleton';
 
+//
 const Product = () => {
   const navigate = useNavigate();
   const name = useRecoilValue(accountName);
@@ -26,7 +28,9 @@ const Product = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [products, setProducts] = useState(null);
-
+  const [isLeftToggle, setIsLeftToggle] = useState(true);
+  const [tripProduct, setTripProduct] = useState([]);
+  const [tirpMoney, setTripMoney] = useState([]);
   const {
     data: user,
     loading: userLoading,
@@ -43,6 +47,25 @@ const Product = () => {
   });
 
   if (userError) console.log(userError);
+
+  useEffect(() => {
+    const setCategory = () => {
+      const updatedProduct = [];
+      const updatedMoney = [];
+
+      products?.forEach((item) => {
+        const match = item.itemName.match(/^\[(P|M)\]/);
+        if (match === null || match[1] !== 'M') {
+          updatedProduct.push(item);
+        } else {
+          updatedMoney.push(item);
+        }
+      });
+      setTripProduct(updatedProduct);
+      setTripMoney(updatedMoney);
+    };
+    setCategory();
+  }, [products]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -82,6 +105,7 @@ const Product = () => {
       <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='확인'>
         Pillower의 판매상품
       </BasicHeader>
+      <Toggle margin='0 0 20px 0' leftButton='여행용품' rightButton='외화' setIsLeftToggle={setIsLeftToggle} />
       <GridLayout>
         {userLoading ||
           (isLoading && (
@@ -93,11 +117,18 @@ const Product = () => {
               ))}
             </>
           ))}
+
+        {isLeftToggle
+          ? tripProduct.map((product) => <ProductItem product={product} />)
+          : tirpMoney.map((product) => <ProductItem product={product} />)}
+
         {products?.length > 0 &&
           products.map((product, i) => (
             <GridItem key={i}>
               <Link to={`/product/detail/${product?.id}`}>
-                <ProductItem product={product} onClick={() => ProductDetailAPI(product)} />
+                
+
+                {/* <ProductItem product={product} onClick={() => ProductDetailAPI(product)} /> */}
               </Link>
             </GridItem>
           ))}

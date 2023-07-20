@@ -61,7 +61,7 @@ const AddProduct = (props) => {
               content={'@' + productDetail.author?.accountname}
             />
             <ProductContent size='var(--xl)' weight='700'>
-              {productDetail.itemName}
+              {productDetail.itemName?.substring(3)}
             </ProductContent>
             <ProductContent size='var(--lg)' height='1.4' style={{ whiteSpace: 'pre-wrap' }}>
               {productDetail.link}
