@@ -8,7 +8,7 @@ import URL from '../../Utils/URL';
 import userToken from '../../Recoil/userToken/userToken';
 import ImageUploadAPI from '../../Utils/ImageUploadAPI';
 import defaultImage from '../../Assets/addproduct.png';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import UploadHeader from '../../Components/common/Header/UploadHeader';
 import ProductModifyAPI from '../../Utils/ProductModifyAPI';
 import ProductDetailAPI from '../../Utils/ProductDetailAPI';
@@ -86,7 +86,7 @@ const ProductModification = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await handleProductModify();
+    await handleProductModify();
     setIsModified(true);
   };
 
