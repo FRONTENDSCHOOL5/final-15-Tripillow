@@ -73,7 +73,7 @@ const AddProduct = (props) => {
 
   return (
     <Layout>
-      <UploadHeader onClick={handleSubmit} disabled={!productName || !price || !description}>
+      <UploadHeader onClick={handleSubmit} disabled={!imageLink || !productName || !price || !description}>
         저장
       </UploadHeader>
       <main>
@@ -119,10 +119,9 @@ const AddProduct = (props) => {
 
 const Layout = styled.div`
   max-width: 390px;
-  min-height: 100%;
+  min-height: 100vh;
   padding: 48px 12px 73px 16px;
   box-sizing: border-box;
-
   margin: 0 auto;
   border: 1px solid var(--light-gray);
 
