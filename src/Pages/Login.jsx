@@ -82,6 +82,7 @@ const Login = () => {
         value={userInput.user.email}
         onChange={handleInputChange}
         autoComplete='off'
+        autoFocus
       />
       {errorMsg && !userInput.user.email && !userInput.user.password && <IdErrorStyle>{errorMsg}</IdErrorStyle>}
       <Input

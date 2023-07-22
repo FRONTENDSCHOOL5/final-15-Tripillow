@@ -31,7 +31,13 @@ const Chat = () => {
       ></BasicHeader>
       {followingData &&
         followingData.map((item, index) => (
-          <ChatUser key={index} userImg={item.image} username={item.username} content={item.intro} />
+          <ChatUser
+            key={index}
+            userImg={item.image}
+            username={item.username}
+            content={item.intro}
+            account={item.accountname}
+          />
         ))}
       <Navbar />
     </Layout>
