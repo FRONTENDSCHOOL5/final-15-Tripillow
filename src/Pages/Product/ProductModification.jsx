@@ -12,6 +12,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import UploadHeader from '../../Components/common/Header/UploadHeader';
 import ProductModifyAPI from '../../Utils/ProductModifyAPI';
 import ProductDetailAPI from '../../Utils/ProductDetailAPI';
+import { LayoutStyle } from '../../Styles/Layout';
 
 const ProductModification = (props) => {
   const navigate = useNavigate();
@@ -95,7 +96,7 @@ const ProductModification = (props) => {
   }, [isModified]);
 
   return (
-    <FormLayout>
+    <Layout>
       <UploadHeader type='submit' onClick={handleSubmit}>
         저장
       </UploadHeader>
@@ -138,23 +139,18 @@ const ProductModification = (props) => {
       </label>
       <ProductText id='product' name='link' value={productInputs.product.link} onChange={handleInputChange} />
       <Navbar />
-    </FormLayout>
+    </Layout>
   );
 };
 
-const FormLayout = styled.div`
-  max-width: 390px;
-  min-height: 100%;
+const Layout = styled.div`
+  ${LayoutStyle}
   padding: 48px 12px 73px 16px;
-  box-sizing: border-box;
-
-  margin: 0 auto;
-  border: 1px solid var(--light-gray);
 `;
+
 const Label = styled.label`
   display: block;
-  //fixme: 패딩 값 무시하고 가로 꽉 채우는 다른 방법?
-  width: calc(100% + 16px + 12px); // Image 너비에 패딩값 차감
+  width: calc(100% + 16px + 12px);
   height: 232px;
   margin-left: -16px;
   margin-right: -12px;
