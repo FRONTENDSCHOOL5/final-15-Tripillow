@@ -4,6 +4,7 @@ import Toggle from '../../Components/common/Toggle';
 import styled from 'styled-components';
 import Navbar from '../../Components/common/Navbar';
 import Input from '../../Components/common/Input';
+import { LayoutStyle } from '../../Styles/Layout';
 import UploadHeader from '../../Components/common/Header/UploadHeader';
 import URL from '../../Utils/URL';
 import userToken from '../../Recoil/userToken/userToken';
@@ -73,7 +74,7 @@ const AddProduct = (props) => {
 
   return (
     <Layout>
-      <UploadHeader onClick={handleSubmit} disabled={!productName || !price || !description}>
+      <UploadHeader onClick={handleSubmit} disabled={!imageLink || !productName || !price || !description}>
         저장
       </UploadHeader>
       <main>
@@ -116,20 +117,11 @@ const AddProduct = (props) => {
     </Layout>
   );
 };
-
 const Layout = styled.div`
-  max-width: 390px;
-  min-height: 100%;
+  ${LayoutStyle}
   padding: 48px 12px 73px 16px;
-  box-sizing: border-box;
-
-  margin: 0 auto;
-  border: 1px solid var(--light-gray);
-
-  main {
-    margin-bottom: 30px;
-  }
 `;
+
 const Label = styled.label`
   display: block;
   width: calc(100% + 16px + 12px); // Image 너비에 패딩값 차감
