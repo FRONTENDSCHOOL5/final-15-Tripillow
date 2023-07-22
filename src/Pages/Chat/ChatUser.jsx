@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import profileSm from '../../Assets/profile-sm.png';
 import chatLists from '../../Mock/chatLists';
 
-const ChatUser = ({ username, userImg, ...props }) => {
+const ChatUser = ({ username, userImg, account, ...props }) => {
   const navigate = useNavigate();
   const [randomMessage, setRandomMessage] = useState('');
 
@@ -18,7 +18,7 @@ const ChatUser = ({ username, userImg, ...props }) => {
     <UserLayout
       onClick={() => {
         navigate(`/chat/${username}`, {
-          state: { username, randomMessage, userImg },
+          state: { username, randomMessage, userImg, account },
         });
       }}
     >
