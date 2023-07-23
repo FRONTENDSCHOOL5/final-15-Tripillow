@@ -47,7 +47,16 @@ const ModalLayout = styled.div`
   box-sizing: border-box;
   border-radius: 10px 10px 0 0;
   z-index: 9999;
-  animation: fadeInModal 0.5s ease;
+  animation: modalFadeIn 0.5s ease;
+
+  @keyframes modalFadeIn {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
 
   button {
     display: block;

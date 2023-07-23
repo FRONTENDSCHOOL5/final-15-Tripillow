@@ -37,10 +37,10 @@ const LinkListsLayout = styled.div`
   left: 0;
   right: 0;
   opacity: 0;
-  animation: FadeIn 2s ease-in-out forwards;
+  animation: loginFadeIn 2s ease-in-out forwards;
   animation-delay: 3.5s;
 
-  @keyframes FadeIn {
+  @keyframes loginFadeIn {
     0% {
       opacity: 0;
       transform: translateY(400px);
