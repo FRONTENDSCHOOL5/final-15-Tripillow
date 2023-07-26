@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 import URL from './URL';
 import userToken from '../Recoil/userToken/userToken';
 
-const PostDetailAPI = (postId, setPostDetail) => {
+const PostDetailAPI = (postId, updatePostInfo) => {
   const token = useRecoilValue(userToken);
 
   const getPostDetail = async () => {
@@ -16,7 +16,7 @@ const PostDetailAPI = (postId, setPostDetail) => {
         },
       });
       const data = await response.json();
-      await setPostDetail({ ...data });
+      updatePostInfo({ ...data });
     } catch (error) {
       console.error('[ERROR] on PostDetail');
     }

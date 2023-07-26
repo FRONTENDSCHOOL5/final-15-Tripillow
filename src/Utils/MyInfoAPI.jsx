@@ -17,7 +17,8 @@ const MyInfoAPI = (props) => {
       });
 
       const data = await response.json();
-      props?.setData ? props?.setData(data.user) : props?.setMyInfo(data.user);
+      // NOTE updateMyInfo만 캡슐화 진행함. 추후에 setData까지 캡슐화 예정
+      props?.setData ? props?.setData(data.user) : props?.updateMyInfo(data.user);
       return data.user;
     } catch (error) {
       console.error('API 응답에 문제가 있습니다.', error);

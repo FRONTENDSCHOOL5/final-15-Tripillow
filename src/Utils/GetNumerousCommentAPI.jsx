@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import URL from './URL';
 import userToken from '../Recoil/userToken/userToken';
 
-const GetNumerousCommentAPI = (postId, setComments) => {
+const GetNumerousCommentAPI = (postId, updateComments) => {
   const token = useRecoilValue(userToken);
 
   const getComment = async () => {
@@ -18,7 +18,7 @@ const GetNumerousCommentAPI = (postId, setComments) => {
         },
       });
       const data = await response.json();
-      setComments(data.comments);
+      updateComments(data.comments);
     } catch (error) {
       console.error('[ERROR] on GetComment');
     }

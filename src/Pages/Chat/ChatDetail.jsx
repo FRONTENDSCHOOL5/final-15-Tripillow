@@ -11,7 +11,10 @@ const ChatDetail = () => {
   const [inputValue, setInputValue] = useState('');
   const [chatValue, setChatValue] = useState([]);
   const [myInfo, setMyInfo] = useState({});
-  const { getUserData } = MyInfoAPI({ setMyInfo });
+  const updateMyInfo = (data) => {
+    setMyInfo(data);
+  };
+  const { getUserData } = MyInfoAPI({ updateMyInfo });
 
   useEffect(() => {
     getUserData();

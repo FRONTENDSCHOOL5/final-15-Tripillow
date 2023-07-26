@@ -34,6 +34,9 @@ const Profile = () => {
   const [albumView, setAlbumView] = useRecoilState(isAlbum);
 
   const [myInfo, setMyInfo] = useState({});
+  const updateMyInfo = (data) => {
+    setMyInfo(data);
+  };
   const [userInfo, setUserInfo] = useState({});
   const [postData, setPostData] = useState([]);
   const [productList, setProductList] = useState([]);
@@ -42,7 +45,7 @@ const Profile = () => {
   const [followingURL, setFollowingURL] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
-  const { getUserData } = MyInfoAPI({ setMyInfo });
+  const { getUserData } = MyInfoAPI({ updateMyInfo });
   const { getUserInfo } = UserInfoAPI({ setUserInfo, userAccountname });
   const { getPostData } = GetPostAPI({
     myAccount: userAccountname ? userAccountname : myAccount,
