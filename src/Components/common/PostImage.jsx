@@ -96,6 +96,7 @@ const ImageLayout = styled.div`
   width: calc(100% + 28px);
   height: 270px;
   margin: 4px -12px 6px -16px;
+  cursor: pointer;
 
   img {
     object-fit: cover;
