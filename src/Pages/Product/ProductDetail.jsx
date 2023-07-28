@@ -21,6 +21,7 @@ const AddProduct = (props) => {
   const productDetail = ProductDetailAPI(params.id);
   const userImg = productDetail.author?.image;
   const [userCheck, setUserCheck] = useState(false);
+  const [showImg, setShowImg] = useState(false);
 
   const [randomMessage, setRandomMessage] = useState('');
   useEffect(() => {
@@ -53,7 +54,14 @@ const AddProduct = (props) => {
             판매 중인 상품
           </BasicHeader>
           <main>
-            <Image src={productDetail.itemImage} />
+            <Image src={productDetail.itemImage} onClick={() => setShowImg(true)} />
+
+            {showImg && (
+              <ModalBg onClick={() => setShowImg(false)}>
+                <ModalImg src={productDetail.itemImage} />
+              </ModalBg>
+            )}
+
             <User
               accountname={productDetail.author?.accountname}
               userImg={productDetail.author?.image}
@@ -97,6 +105,7 @@ const AddProduct = (props) => {
 const Layout = styled.div`
   ${LayoutStyle}
   padding: 48px 12px 73px 16px;
+  position: relative;
 `;
 
 const Image = styled.img`
@@ -107,6 +116,27 @@ const Image = styled.img`
   margin-bottom: 13px;
   height: 232px;
   object-fit: cover;
+  cursor: pointer;
+`;
+
+const ModalBg = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% + 16px + 12px);
+  margin-left: -16px;
+  margin-right: -12px;
+  margin-bottom: 13px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 999;
+  cursor: pointer;
+`;
+
+const ModalImg = styled.img`
+  width: 100%;
 `;
 
 const ProductContent = styled.p`
