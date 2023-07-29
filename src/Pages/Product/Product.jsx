@@ -18,6 +18,7 @@ import userToken from '../../Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
 
 import ProductItemSkeleton from '../../Components/common/Skeleton/ProductItemSkeleton';
+import PCNavBar from '../../Components/PCNav/PCNavBar';
 
 //
 const Product = () => {
@@ -101,52 +102,53 @@ const Product = () => {
   }, [user]);
 
   return (
-    <StyledLayout>
-      <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='확인'>
-        Pillower의 판매상품
-      </BasicHeader>
-      <Toggle margin='0 0 20px 0' leftButton='여행용품' rightButton='외화' setIsLeftToggle={setIsLeftToggle} />
-      <GridLayout>
-        {userLoading ||
-          (isLoading && (
-            <>
-              {Array.from({ length: 8 }, (_, index) => (
-                <GridItem key={index}>
-                  <ProductItemSkeleton />
-                </GridItem>
-              ))}
-            </>
-          ))}
+    <>
+      <PCNavBar />
+      <StyledLayout>
+        <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='확인'>
+          Pillower의 판매상품
+        </BasicHeader>
+        <Toggle margin='0 0 20px 0' leftButton='여행용품' rightButton='외화' setIsLeftToggle={setIsLeftToggle} />
+        <GridLayout>
+          {userLoading ||
+            (isLoading && (
+              <>
+                {Array.from({ length: 8 }, (_, index) => (
+                  <GridItem key={index}>
+                    <ProductItemSkeleton />
+                  </GridItem>
+                ))}
+              </>
+            ))}
 
-        {isLeftToggle
-          ? tripProduct.map((product) => <ProductItem product={product} />)
-          : tirpMoney.map((product) => <ProductItem product={product} />)}
+          {isLeftToggle
+            ? tripProduct.map((product, i) => <ProductItem key={i} product={product} />)
+            : tirpMoney.map((product, i) => <ProductItem key={i} product={product} />)}
 
-        {products?.length > 0 &&
-          products.map((product, i) => (
-            <GridItem key={i}>
-              <Link to={`/product/detail/${product?.id}`}>
-                
-
-                {/* <ProductItem product={product} onClick={() => ProductDetailAPI(product)} /> */}
-              </Link>
-            </GridItem>
-          ))}
-        {!isLoading && products.length === 0 && <p>등록된 상품이 없습니다.</p>}
-      </GridLayout>
-      <div style={{ position: 'fixed', width: '360px', height: '48px', bottom: '100px' }}>
-        <CircleButton
-          onClick={() => {
-            navigate('/addproduct');
-          }}
-          position='relative'
-          margin='0 0 0 auto'
-          width='50px'
-          height='50px'
-        ></CircleButton>
-      </div>
-      <Navbar />
-    </StyledLayout>
+          {products?.length > 0 &&
+            products.map((product, i) => (
+              <GridItem key={i}>
+                <Link to={`/product/detail/${product?.id}`}>
+                  {/* <ProductItem product={product} onClick={() => ProductDetailAPI(product)} /> */}
+                </Link>
+              </GridItem>
+            ))}
+          {!isLoading && products.length === 0 && <p>등록된 상품이 없습니다.</p>}
+        </GridLayout>
+        <div style={{ position: 'fixed', width: '360px', height: '48px', bottom: '100px' }}>
+          <CircleButton
+            onClick={() => {
+              navigate('/addproduct');
+            }}
+            position='relative'
+            margin='0 0 0 auto'
+            width='50px'
+            height='50px'
+          ></CircleButton>
+        </div>
+        <Navbar />
+      </StyledLayout>
+    </>
   );
 };
 
