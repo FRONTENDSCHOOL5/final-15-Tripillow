@@ -31,17 +31,10 @@ const PCNavBar = (props) => {
     { name: 'Profile', img: profile, imgfill: profilefill, path: '/profile' },
   ];
 
-  const handleClick = (name, path) => {
-    setIsClicked(name);
-  };
-
-  // useEffect(() => {
-  //   // if (isClicked !== '') {
-  //   //   let selectedIcon = icons.find((icon) => icon.name === isClicked);
-  //   //   navigate(selectedIcon.path);
-  //   // }
-  //   setIsClicked(location.pathname);
-  // }, [location]);
+  useEffect(() => {
+    const icon = icons.find((el) => el.path === location.pathname);
+    icon && setIsClicked(icon.name);
+  }, [location]);
 
   return (
     <Layout>
@@ -52,15 +45,13 @@ const PCNavBar = (props) => {
         return (
           <Button
             key={i}
-            onClick={(e) => {
-              handleClick(el.name);
-              navigate(el.path);
+            onClick={() => {
+              setIsClicked(el.name);
+              if (el.path) navigate(el.path);
             }}
           >
-            {/* <div onClick={() => handleClick(el.name)}> */}
             <Icon src={isClicked === el.name ? el.imgfill : el.img} />
             <IconInfo setColor={isClicked === el.name}>{el.name}</IconInfo>
-            {/* </div> */}
           </Button>
         );
       })}
