@@ -117,6 +117,7 @@ const Signup = () => {
               value={userInfo.user.username}
               name='username'
               onChange={handleInputChange}
+              autoFocus
             ></Input>
             <Input
               label='계정 ID'
@@ -174,6 +175,7 @@ const Signup = () => {
               name='email'
               onBlur={handleOnBlur}
               onChange={handleInputChange}
+              autoFocus
             ></Input>
             {emailError && <ErrorMSG errorColor={emailError !== '사용 가능한 이메일 입니다.'}>{emailError}</ErrorMSG>}
             <Input

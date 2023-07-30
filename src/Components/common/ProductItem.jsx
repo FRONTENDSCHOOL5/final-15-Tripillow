@@ -1,13 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import defaultImg from '../../Assets/defaultImg.png';
 
 const ProductItem = (props) => {
   const product = props.product;
-  const productImg = props.product.itemImage;
+  const productImg = product?.itemImage;
+ 
+
   const productImgValidation =
     productImg.startsWith('https:') || productImg.startsWith('data:image') ? product?.itemImage : defaultImg;
+
+  const trimContent = (content) => {
+    const match = content.match(/^\[(P|M)\]/);
+    if (match) {
+      if (match[1] === 'P'||'M') return content.slice(3);
+    }
+    return content;
+  };
+
   return (
     <>
       <ProductLayout to={`/product/detail/${product?.id}`}>
@@ -16,7 +27,10 @@ const ProductItem = (props) => {
             <ProductImg src={productImgValidation} alt={product?.itemName} />
           </ProductImgLayout>
           <ProductInfo size='14px' color='black'>
-            {product?.itemName?.length < 14 ? product?.itemName : product?.itemName.slice(0, 13) + '...'}
+            {product.itemName?.length < 14
+              ? trimContent(product?.itemName)
+              : trimContent(product?.itemName).slice(0, 13) + '...'}
+            {/* {product.itemName?.length < 14 ? product.itemName?.substring(3) : product.itemName?.substring(3).slice(0, 13) + '...'} */}
           </ProductInfo>
           <ProductInfo size='12px' color='#6CABFF' weight='700'>
             {product?.price?.toLocaleString()}원
