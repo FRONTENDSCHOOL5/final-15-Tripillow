@@ -61,7 +61,7 @@ const Profile = () => {
 
   useEffect(() => {
     const handleFetch = () => {
-      getUserInfo();
+      userAccountname && getUserInfo();
       getUserData();
       getPostData();
       getProductList();
@@ -74,7 +74,7 @@ const Profile = () => {
 
   useEffect(() => {
     const handleUserFetch = () => {
-      getUserInfo();
+      userAccountname && getUserInfo();
     };
 
     handleUserFetch();
