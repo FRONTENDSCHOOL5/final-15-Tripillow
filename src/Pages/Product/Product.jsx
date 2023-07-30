@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 import BasicHeader from '../../Components/common/Header/BasicHeader';
 import Navbar from '../../Components/common/Navbar';
@@ -8,25 +8,30 @@ import ProductItem from '../../Components/common/ProductItem';
 import { Layout } from '../../Styles/Layout';
 import CircleButton from '../../Components/common/CircleButton';
 import accountName from '../../Recoil/accountName/accountName';
-
-import ProductDetailAPI from '../../Utils/ProductDetailAPI';
+import Toggle from '../../Components/common/Toggle';
+import ProductItemSkeleton from '../../Components/common/Skeleton/ProductItemSkeleton';
+import PCNavBar from '../../Components/PCNav/PCNavBar';
 
 import URL from '../../Utils/URL';
 import useFetch from '../../Hooks/useFetch';
 import userToken from '../../Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
 
-import ProductItemSkeleton from '../../Components/common/Skeleton/ProductItemSkeleton';
+
 
 const Product = () => {
   const navigate = useNavigate();
+  const isDesktop = () => window.innerWidth > 1280;
+  const [isPCScreen, setIsPCScreen] = useState(isDesktop());
   const name = useRecoilValue(accountName);
   const token = useRecoilValue(userToken);
   const followingAccounts = [];
 
   const [isLoading, setIsLoading] = useState(true);
   const [products, setProducts] = useState(null);
-
+  const [isLeftToggle, setIsLeftToggle] = useState(true);
+  const [tripProduct, setTripProduct] = useState([]);
+  const [tirpMoney, setTripMoney] = useState([]);
   const {
     data: user,
     loading: userLoading,
@@ -43,6 +48,25 @@ const Product = () => {
   });
 
   if (userError) console.log(userError);
+
+  useEffect(() => {
+    const setCategory = () => {
+      const updatedProduct = [];
+      const updatedMoney = [];
+
+      products?.forEach((item) => {
+        const match = item.itemName.match(/^\[(P|M)\]/);
+        if (match === null || match[1] !== 'M') {
+          updatedProduct.push(item);
+        } else {
+          updatedMoney.push(item);
+        }
+      });
+      setTripProduct(updatedProduct);
+      setTripMoney(updatedMoney);
+    };
+    setCategory();
+  }, [products]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -77,45 +101,60 @@ const Product = () => {
     }
   }, [user]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsPCScreen(isDesktop());
+    };
+    window.addEventListener('resize', handleResize);
+  }, []);
+
   return (
-    <StyledLayout>
-      <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='확인'>
-        Pillower의 판매상품
-      </BasicHeader>
-      <GridLayout>
-        {userLoading ||
-          (isLoading && (
-            <>
-              {Array.from({ length: 8 }, (_, index) => (
-                <GridItem key={index}>
-                  <ProductItemSkeleton />
-                </GridItem>
-              ))}
-            </>
-          ))}
-        {products?.length > 0 &&
-          products.map((product, i) => (
-            <GridItem key={i}>
-              <Link to={`/product/detail/${product?.id}`}>
-                <ProductItem product={product} onClick={() => ProductDetailAPI(product)} />
-              </Link>
-            </GridItem>
-          ))}
-        {!isLoading && products.length === 0 && <p>등록된 상품이 없습니다.</p>}
-      </GridLayout>
-      <div style={{ position: 'fixed', width: '360px', height: '48px', bottom: '100px' }}>
-        <CircleButton
-          onClick={() => {
-            navigate('/addproduct');
-          }}
-          position='relative'
-          margin='0 0 0 auto'
-          width='50px'
-          height='50px'
-        ></CircleButton>
-      </div>
-      <Navbar />
-    </StyledLayout>
+    <>
+      {isPCScreen && <PCNavBar />}
+      <StyledLayout>
+        <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='확인'>
+          Pillower의 판매상품
+        </BasicHeader>
+        <Toggle margin='0 0 20px 0' leftButton='여행용품' rightButton='외화' setIsLeftToggle={setIsLeftToggle} />
+        <GridLayout>
+          {userLoading ||
+            (isLoading && (
+              <>
+                {Array.from({ length: 8 }, (_, index) => (
+                  <GridItem key={index}>
+                    <ProductItemSkeleton />
+                  </GridItem>
+                ))}
+              </>
+            ))}
+
+          {isLeftToggle
+            ? tripProduct.map((product, i) => <ProductItem key={i} product={product} />)
+            : tirpMoney.map((product, i) => <ProductItem key={i} product={product} />)}
+
+          {products?.length > 0 &&
+            products.map((product, i) => (
+              <GridItem key={i}>
+                <Link to={`/product/detail/${product?.id}`}>
+                </Link>
+              </GridItem>
+            ))}
+          {!isLoading && products.length === 0 && <p>등록된 상품이 없습니다.</p>}
+        </GridLayout>
+        <div style={{ position: 'fixed', width: '360px', height: '48px', bottom: '100px' }}>
+          <CircleButton
+            onClick={() => {
+              navigate('/addproduct');
+            }}
+            position='relative'
+            margin='0 0 0 auto'
+            width='50px'
+            height='50px'
+          ></CircleButton>
+        </div>
+        <Navbar />
+      </StyledLayout>
+    </>
   );
 };
 

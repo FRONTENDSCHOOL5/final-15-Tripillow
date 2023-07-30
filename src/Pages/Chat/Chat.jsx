@@ -6,6 +6,7 @@ import { Layout } from '../../Styles/Layout';
 import BasicHeader from '../../Components/common/Header/BasicHeader';
 import Navbar from '../../Components/common/Navbar';
 import ChatUser from './ChatUser';
+import PCNavBar from '../../Components/PCNav/PCNavBar';
 
 const Chat = () => {
   const accountname = useRecoilValue(accountName);
@@ -22,6 +23,8 @@ const Chat = () => {
   }, []);
 
   return (
+    <>
+    <PCNavBar/>
     <Layout>
       <BasicHeader
         btn1='설정 및 개인정보'
@@ -31,10 +34,17 @@ const Chat = () => {
       ></BasicHeader>
       {followingData &&
         followingData.map((item, index) => (
-          <ChatUser key={index} userImg={item.image} username={item.username} content={item.intro} />
+          <ChatUser
+            key={index}
+            userImg={item.image}
+            username={item.username}
+            content={item.intro}
+            account={item.accountname}
+          />
         ))}
       <Navbar />
     </Layout>
+    </>
   );
 };
 

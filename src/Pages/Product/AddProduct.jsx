@@ -4,6 +4,7 @@ import Toggle from '../../Components/common/Toggle';
 import styled from 'styled-components';
 import Navbar from '../../Components/common/Navbar';
 import Input from '../../Components/common/Input';
+import { LayoutStyle } from '../../Styles/Layout';
 import UploadHeader from '../../Components/common/Header/UploadHeader';
 import URL from '../../Utils/URL';
 import userToken from '../../Recoil/userToken/userToken';
@@ -20,6 +21,7 @@ const AddProduct = (props) => {
   const token = useRecoilValue(userToken);
   const navigate = useNavigate();
   const [priceErr, setPriceErr] = useState(false);
+  const [isLeftToggle, setIsLeftToggle] = useState(true);
 
   const handleSubmit = async () => {
     try {
@@ -32,7 +34,7 @@ const AddProduct = (props) => {
 
         body: JSON.stringify({
           product: {
-            itemName: productName,
+            itemName: isLeftToggle ? `[P]${productName}` : `[M]${productName}`,
             price: parseInt(price), //1원 이상
             link: description,
             itemImage: imageLink,
@@ -72,7 +74,7 @@ const AddProduct = (props) => {
 
   return (
     <Layout>
-      <UploadHeader onClick={handleSubmit} disabled={!productName || !price || !description}>
+      <UploadHeader onClick={handleSubmit} disabled={!imageLink || !productName || !price || !description}>
         저장
       </UploadHeader>
       <main>
@@ -81,7 +83,7 @@ const AddProduct = (props) => {
         </Label>
         <input id='file-upload' className='a11y-hidden' onChange={handleChange} type='file' />
         <CategoryTxt>카테고리</CategoryTxt>
-        <Toggle margin='0 0 20px 0' leftButton='여행용품' rightButton='외화' />
+        <Toggle margin='0 0 20px 0' leftButton='여행용품' rightButton='외화' setIsLeftToggle={setIsLeftToggle} />
 
         {/* //fixme: label 클릭하면 input에 위치 */}
         <Input
@@ -115,20 +117,11 @@ const AddProduct = (props) => {
     </Layout>
   );
 };
-
 const Layout = styled.div`
-  max-width: 390px;
-  min-height: 100%;
+  ${LayoutStyle}
   padding: 48px 12px 73px 16px;
-  box-sizing: border-box;
-
-  margin: 0 auto;
-  border: 1px solid var(--light-gray);
-
-  main {
-    margin-bottom: 30px;
-  }
 `;
+
 const Label = styled.label`
   display: block;
   width: calc(100% + 16px + 12px); // Image 너비에 패딩값 차감

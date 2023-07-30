@@ -8,10 +8,11 @@ import URL from '../../Utils/URL';
 import userToken from '../../Recoil/userToken/userToken';
 import ImageUploadAPI from '../../Utils/ImageUploadAPI';
 import defaultImage from '../../Assets/addproduct.png';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import UploadHeader from '../../Components/common/Header/UploadHeader';
 import ProductModifyAPI from '../../Utils/ProductModifyAPI';
 import ProductDetailAPI from '../../Utils/ProductDetailAPI';
+import { LayoutStyle } from '../../Styles/Layout';
 
 const ProductModification = (props) => {
   const navigate = useNavigate();
@@ -24,23 +25,42 @@ const ProductModification = (props) => {
       itemImage: '',
     },
   });
+  const [isLeftToggle, setIsLeftToggle] = useState(true);
+  const [rightOn, setRightOn] = useState(false);
+
   const location = useLocation();
   const productId = location.state;
   const [isModified, setIsModified] = useState(false);
   const productDetail = ProductDetailAPI(productId);
-  const { handleProductModify } = ProductModifyAPI({ productId, productInputs });
+  const { handleProductModify } = ProductModifyAPI({ productId, productInputs, isLeftToggle });
 
+  // 작성한 정보 불러오는 부분
   useEffect(() => {
-    if (productDetail) {
-      setProductInputs({
+    const trimContent = (content) => {
+      const match = content.match(/^\[(P|M)\]/);
+      if (match) {
+        if (match[0] === '[M]') {
+          setRightOn(true);
+        }
+        console.log(match);
+        console.log(rightOn);
+        return content.slice(3);
+      }
+      return content;
+    };
+
+    // 수정할 때 []내용 사라지고 상품명 나오게
+    Object.keys(productDetail).length > 0 &&
+      setProductInputs((prev) => ({
         product: {
-          itemName: productDetail.itemName,
+          // ...prev.product,
+
+          itemName: trimContent(productDetail.itemName),
           price: productDetail.price,
           link: productDetail.link,
           itemImage: productDetail.itemImage,
         },
-      });
-    }
+      }));
   }, [productDetail]);
 
   const handleImgChange = async (e) => {
@@ -57,32 +77,42 @@ const ProductModification = (props) => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setProductInputs((prevState) => ({
-      ...prevState,
       product: {
-        ...prevState.product,
-        [name]: value,
+        ...prevState.product, //기존의 값 유지(복사)
+        [name]: value, //동적으로 변화된 부분만 업데이트
       },
     }));
   };
+  //memo: 계산된 속성명 (딥다이브 p.135참고):
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await handleProductModify();
+    await handleProductModify();
     setIsModified(true);
   };
 
   useEffect(() => {
     if (isModified) navigate('/profile', { state: { isModified } });
   }, [isModified]);
+
   return (
-    <FormLayout onSubmit={handleSubmit}>
-      <UploadHeader type='submit'>저장</UploadHeader>
+    <Layout>
+      <UploadHeader type='submit' onClick={handleSubmit}>
+        저장
+      </UploadHeader>
       <Label htmlFor='file-upload'>
         <Image src={productInputs.product?.itemImage || defaultImage} />
       </Label>
       <input id='file-upload' className='a11y-hidden' onChange={handleImgChange} type='file' />
       <CategoryTxt>카테고리</CategoryTxt>
-      <Toggle margin='0 0 20px 0' leftButton='여행용품' rightButton='외화' />
+      <Toggle
+        margin='0 0 20px 0'
+        leftButton='여행용품'
+        rightButton='외화'
+        setIsLeftToggle={setIsLeftToggle}
+        rightOn={rightOn}
+        setRightOn={setRightOn}
+      />
 
       {/* //fixme: label 클릭하면 input에 위치 */}
       <Input
@@ -109,23 +139,18 @@ const ProductModification = (props) => {
       </label>
       <ProductText id='product' name='link' value={productInputs.product.link} onChange={handleInputChange} />
       <Navbar />
-    </FormLayout>
+    </Layout>
   );
 };
 
-const FormLayout = styled.form`
-  max-width: 390px;
-  min-height: 100%;
+const Layout = styled.div`
+  ${LayoutStyle}
   padding: 48px 12px 73px 16px;
-  box-sizing: border-box;
-
-  margin: 0 auto;
-  border: 1px solid var(--light-gray);
 `;
+
 const Label = styled.label`
   display: block;
-  //fixme: 패딩 값 무시하고 가로 꽉 채우는 다른 방법?
-  width: calc(100% + 16px + 12px); // Image 너비에 패딩값 차감
+  width: calc(100% + 16px + 12px);
   height: 232px;
   margin-left: -16px;
   margin-right: -12px;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import MyInfoAPI from '../../Utils/MyInfoAPI';
 import { LayoutStyle } from '../../Styles/Layout';
@@ -44,7 +44,7 @@ const ChatDetail = () => {
         {location.state.username}
       </BasicHeader>
       <ChatContentLayout>
-        <UserImageLayout>
+        <UserImageLayout to={`/profile/${location.state.account}`}>
           <UserImage src={location.state.userImg} alt='location.state.username' />
         </UserImageLayout>
         <ChatContent bgColor='white' radius='0 22px 22px 22px'>
@@ -62,7 +62,7 @@ const ChatDetail = () => {
         </ChatContentLayout>
       ))}
       <ChatInputBar>
-        <UserImageLayout>
+        <UserImageLayout to={`/profile`}>
           <UserImage src={myInfo.image || profileSm} alt='프로필 이미지' />
         </UserImageLayout>
         <ChatInput
@@ -95,7 +95,7 @@ const ChatContentLayout = styled.div`
   margin-left: ${(props) => props.marginLeft};
 `;
 
-const UserImageLayout = styled.div`
+const UserImageLayout = styled(Link)`
   width: 42px;
   height: 42px;
   border-radius: 50%;
