@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 import BasicHeader from '../../Components/common/Header/BasicHeader';
 import Navbar from '../../Components/common/Navbar';
@@ -9,20 +9,20 @@ import { Layout } from '../../Styles/Layout';
 import CircleButton from '../../Components/common/CircleButton';
 import accountName from '../../Recoil/accountName/accountName';
 import Toggle from '../../Components/common/Toggle';
-
-import ProductDetailAPI from '../../Utils/ProductDetailAPI';
+import ProductItemSkeleton from '../../Components/common/Skeleton/ProductItemSkeleton';
+import PCNavBar from '../../Components/PCNav/PCNavBar';
 
 import URL from '../../Utils/URL';
 import useFetch from '../../Hooks/useFetch';
 import userToken from '../../Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
 
-import ProductItemSkeleton from '../../Components/common/Skeleton/ProductItemSkeleton';
-import PCNavBar from '../../Components/PCNav/PCNavBar';
 
-//
+
 const Product = () => {
   const navigate = useNavigate();
+  const isDesktop = () => window.innerWidth > 1280;
+  const [isPCScreen, setIsPCScreen] = useState(isDesktop());
   const name = useRecoilValue(accountName);
   const token = useRecoilValue(userToken);
   const followingAccounts = [];
@@ -101,9 +101,16 @@ const Product = () => {
     }
   }, [user]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsPCScreen(isDesktop());
+    };
+    window.addEventListener('resize', handleResize);
+  }, []);
+
   return (
     <>
-      <PCNavBar />
+      {isPCScreen && <PCNavBar />}
       <StyledLayout>
         <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='확인'>
           Pillower의 판매상품
@@ -129,7 +136,6 @@ const Product = () => {
             products.map((product, i) => (
               <GridItem key={i}>
                 <Link to={`/product/detail/${product?.id}`}>
-                  {/* <ProductItem product={product} onClick={() => ProductDetailAPI(product)} /> */}
                 </Link>
               </GridItem>
             ))}
