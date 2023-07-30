@@ -83,13 +83,9 @@ const Icon = styled.img`
 `;
 
 const IconInfo = styled.span`
-  color: ${(props) => (props.setColor ? 'var(--primary)' : '#767676')};
+  color: ${(props) => (props.setColor ? 'var(--primary)' : 'var(--dark-gray)')};
   text-align: center;
-  font-family: Roboto;
   font-size: 22px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 14px;
 `;
 
 export default PCNavBar;
