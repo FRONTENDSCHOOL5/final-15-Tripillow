@@ -8,9 +8,7 @@ const GetNumerousCommentAPI = (postId, updateComments) => {
 
   const getComment = async () => {
     try {
-      // TODO 10개 이상일때
-
-      const response = await fetch(`${URL}/post/${postId}/comments/?limit=100&skip=0`, {
+      const response = await fetch(`${URL}/post/${postId}/comments/?limit=Number&skip=Number`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
