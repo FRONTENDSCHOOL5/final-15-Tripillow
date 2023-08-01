@@ -1,12 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Modal = ({ btn1, btn2, handleMorebutton, handleLogoutbutton, bottom, handleCancel, ...props }) => {
+const Modal = ({
+  btn1,
+  btn2,
+  handleMorebutton,
+  handleLogoutbutton,
+  bottom,
+  handleCancel,
+  handleProductModify,
+  goSetting,
+  ...props
+}) => {
   return (
     <ModalBackground onClick={handleCancel}>
       <ModalLayout bottom={bottom}>
         <SlideBar></SlideBar>
-        <button type='buton' {...props} onClick={props.handleProductModify || props.goSetting}>
+        <button type='buton' {...props} onClick={handleProductModify || goSetting}>
           {btn1}
         </button>
         <button type='button' onClick={handleLogoutbutton} {...props}>
