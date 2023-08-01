@@ -11,6 +11,7 @@ import accountName from '../../Recoil/accountName/accountName';
 import Toggle from '../../Components/common/Toggle';
 import ProductItemSkeleton from '../../Components/common/Skeleton/ProductItemSkeleton';
 import PCNavBar from '../../Components/PCNav/PCNavBar';
+import useIsDesktop from '../../Components/PCNav/useIsDesktop';
 
 import URL from '../../Utils/URL';
 import useFetch from '../../Hooks/useFetch';
@@ -21,8 +22,7 @@ import { useRecoilValue } from 'recoil';
 
 const Product = () => {
   const navigate = useNavigate();
-  const isDesktop = () => window.innerWidth > 1280;
-  const [isPCScreen, setIsPCScreen] = useState(isDesktop());
+  const isPCScreen = useIsDesktop();
   const name = useRecoilValue(accountName);
   const token = useRecoilValue(userToken);
   const followingAccounts = [];
@@ -101,12 +101,7 @@ const Product = () => {
     }
   }, [user]);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsPCScreen(isDesktop());
-    };
-    window.addEventListener('resize', handleResize);
-  }, []);
+
 
   return (
     <>
