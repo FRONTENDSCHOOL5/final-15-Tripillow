@@ -99,7 +99,7 @@ const Home = () => {
 
       <Layout>
         <MainHeader />
-        <main>
+        <main style={{ paddingBottom: 90 }}>
           <Toggle margin='25px 0 0 16px' leftButton='국내' rightButton='해외' setIsLeftToggle={setIsLeftToggle} />
           {isLoading ? (
             <>
