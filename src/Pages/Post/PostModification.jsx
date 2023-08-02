@@ -11,6 +11,7 @@ import x from '../../Assets/icons/x.svg';
 import iconImg from '../../Assets/icons/upload-file.svg';
 import PostModifyAPI from '../../Utils/PostModifyAPI';
 import imageCompression from 'browser-image-compression';
+import CompressedImageUploadAPI from '../../Utils/CompressedImageUploadAPI';
 
 const PostModification = () => {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ const PostModification = () => {
   const [imgURL, setImgURL] = useState([]); // [234, 456]
   const [isLeftToggle, setIsLeftToggle] = useState(true);
   const [rightOn, setRightOn] = useState(false);
+  const [imgChange, setImgChange] = useState(false);
   const getPostDetail = PostDetailAPI(postId, setOriginalPost);
   const { postModify } = PostModifyAPI(postId, postInput, isLeftToggle);
 
@@ -36,11 +38,6 @@ const PostModification = () => {
     };
     getDetail();
   }, []);
-
-  useEffect(() => {
-    textarea.current.value = postInput.post.content;
-    handleResizeHeight();
-  }, [postInput.post.content]);
 
   useEffect(() => {
     const trimContent = (content) => {
@@ -61,28 +58,18 @@ const PostModification = () => {
           image: originalPost.post.image,
         },
       });
+    setImgChange((prev) => !prev);
   }, [originalPost]);
 
   useEffect(() => {
-    if (postInput.post.image) setImgURL(postInput.post.image.split(', '));
+    textarea.current.value = postInput.post.content;
+    handleResizeHeight();
   }, [postInput]);
 
-  const compressedImageUploadAPI = async (file) => {
-    const formData = new FormData();
-    formData.append('image', file);
-
-    try {
-      const response = await fetch(URL + '/image/uploadfile', {
-        method: 'POST',
-        body: formData,
-      });
-
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error('에러발생!!!');
-    }
-  };
+  useEffect(() => {
+    if (postInput.post.image === '') setImgURL([]);
+    else setImgURL(postInput.post.image.split(', '));
+  }, [imgChange]);
 
   const handleDataForm = async (dataURI) => {
     const byteString = atob(dataURI.split(',')[1]);
@@ -95,8 +82,7 @@ const PostModification = () => {
       type: 'image/jpeg',
     });
     const file = new File([blob], 'image.jpg');
-    const data = await compressedImageUploadAPI(file);
-    // ANCHOR
+    const data = await CompressedImageUploadAPI(file);
     const image = postInput.post.image === '' ? data.filename : postInput.post.image + `, ${data.filename}`;
     if (data) {
       setPostInput((prev) => ({
@@ -106,22 +92,20 @@ const PostModification = () => {
           image: image,
         },
       }));
+      setImgChange((prev) => !prev);
     }
   };
 
   const handleImageInput = async (e) => {
-    if (imgURL.length >= 3 || e.target.files.length === 0) return;
+    if (imgURL.length >= 3) {
+      return alert('파일은 3장을 넘길 수 없습니다.');
+    }
     const file = e.target?.files[0];
-    // NOTE files[0].length ? files.length?
-    if (file.length === 0) {
+    if (!file || file.length === 0) {
       return;
     }
     if (file.size > 10 * 1024 * 1024) {
       return alert('파일은 10MB를 넘길 수 없습니다.');
-    }
-    if (imgURL.length >= 3) {
-      alert('파일은 3장을 넘길 수 없습니다.');
-      return;
     }
     if (!validateImageFileFormat(file.name)) {
       return alert('파일 확장자를 확인해주세요');
@@ -173,6 +157,7 @@ const PostModification = () => {
 
   const handleImgClose = (i) => {
     const newImg = [...imgURL.slice(0, i), ...imgURL.slice(i + 1, imgURL.length)].join(', ');
+
     setPostInput((prev) => ({
       ...prev,
       post: {
@@ -180,6 +165,7 @@ const PostModification = () => {
         image: newImg,
       },
     }));
+    setImgChange((prev) => !prev);
   };
 
   return (

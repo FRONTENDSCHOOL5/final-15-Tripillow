@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import URL from '../../Utils/URL';
-// import ImageUploadAPI from '../../Utils/ImageUploadAPI';
 import { validateImageFileFormat } from '../../Utils/validate';
 import UploadHeader from '../../Components/common/Header/UploadHeader';
 import Toggle from '../../Components/common/Toggle';
@@ -11,6 +10,7 @@ import { LayoutStyle } from '../../Styles/Layout';
 import iconImg from '../../Assets/icons/upload-file.svg';
 import imageCompression from 'browser-image-compression';
 import UploadPostAPI from '../../Utils/UploadPostAPI';
+import CompressedImageUploadAPI from '../../Utils/CompressedImageUploadAPI';
 
 export default function Post() {
   const navigate = useNavigate();
@@ -19,23 +19,6 @@ export default function Post() {
   const [imgURL, setImgURL] = useState([]);
   const [isLeftToggle, setIsLeftToggle] = useState(true);
   const uploadPost = UploadPostAPI(imgURL, inputValue, isLeftToggle);
-
-  const compressedImageUploadAPI = async (file) => {
-    const formData = new FormData();
-    formData.append('image', file);
-
-    try {
-      const response = await fetch(URL + '/image/uploadfile', {
-        method: 'POST',
-        body: formData,
-      });
-
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error('에러발생!!!');
-    }
-  };
 
   const handleDataForm = async (dataURI) => {
     const byteString = atob(dataURI.split(',')[1]);
@@ -48,7 +31,7 @@ export default function Post() {
       type: 'image/jpeg',
     });
     const file = new File([blob], 'image.jpg');
-    const data = await compressedImageUploadAPI(file);
+    const data = await CompressedImageUploadAPI(file);
     if (data) {
       setImgURL((prev) => prev.concat(data.filename));
     }
@@ -56,7 +39,7 @@ export default function Post() {
 
   const handleImageInput = async (e) => {
     const file = e.target?.files[0];
-    if (file.length === 0) {
+    if (!file || file.length === 0) {
       return;
     }
     if (file.size > 10 * 1024 * 1024) {
