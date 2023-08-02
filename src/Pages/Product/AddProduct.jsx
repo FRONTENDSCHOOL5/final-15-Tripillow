@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useRecoilValue } from 'recoil';
 import Toggle from '../../Components/common/Toggle';
 import styled from 'styled-components';
 import Navbar from '../../Components/common/Navbar';
@@ -7,44 +6,24 @@ import Input from '../../Components/common/Input';
 import { LayoutStyle } from '../../Styles/Layout';
 import UploadHeader from '../../Components/common/Header/UploadHeader';
 import URL from '../../Utils/URL';
-import userToken from '../../Recoil/userToken/userToken';
 import ImageUploadAPI from '../../Utils/ImageUploadAPI';
 import defaultImage from '../../Assets/addproduct.png';
 import { useNavigate } from 'react-router-dom';
 import ErrorMSG from '../../Styles/ErrorMSG';
+import UploadProductAPI from '../../Utils/UploadProductAPI';
 
 const AddProduct = (props) => {
   const [productName, setProductName] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
   const [imageLink, setImageLink] = useState('');
-  const token = useRecoilValue(userToken);
   const navigate = useNavigate();
   const [priceErr, setPriceErr] = useState(false);
   const [isLeftToggle, setIsLeftToggle] = useState(true);
+  const uploadProduct = UploadProductAPI({ productName, price, description, imageLink }, isLeftToggle);
 
   const handleSubmit = async () => {
-    try {
-      const response = await fetch(URL + '/product', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
-
-        body: JSON.stringify({
-          product: {
-            itemName: isLeftToggle ? `[P]${productName}` : `[M]${productName}`,
-            price: parseInt(price), //1원 이상
-            link: description,
-            itemImage: imageLink,
-          },
-        }),
-      });
-      const data = await response.json();
-    } catch (error) {
-      console.error('[에러 발생!!!!! in AddProduct submit API]');
-    }
+    await uploadProduct();
     navigate('/profile');
   };
 
