@@ -6,8 +6,11 @@ import { Layout } from '../../Styles/Layout';
 import BasicHeader from '../../Components/common/Header/BasicHeader';
 import Navbar from '../../Components/common/Navbar';
 import ChatUser from './ChatUser';
+import PCNavBar from '../../Components/PCNav/PCNavBar';
+import useIsDesktop from '../../Components/PCNav/useIsDesktop';
 
 const Chat = () => {
+  const isPCScreen = useIsDesktop();
   const accountname = useRecoilValue(accountName);
   const { fetchFollowing } = FollowingListAPI(accountname);
   const [followingData, setFollowingData] = useState([]);
@@ -22,6 +25,9 @@ const Chat = () => {
   }, []);
 
   return (
+    <>
+          {isPCScreen && <PCNavBar />}
+
     <Layout>
       <BasicHeader
         btn1='설정 및 개인정보'
@@ -41,6 +47,7 @@ const Chat = () => {
         ))}
       <Navbar />
     </Layout>
+    </>
   );
 };
 

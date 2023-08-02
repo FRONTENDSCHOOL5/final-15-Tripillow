@@ -11,8 +11,11 @@ import iconImg from '../../Assets/icons/upload-file.svg';
 import imageCompression from 'browser-image-compression';
 import UploadPostAPI from '../../Utils/UploadPostAPI';
 import CompressedImageUploadAPI from '../../Utils/CompressedImageUploadAPI';
+import PCNavBar from '../../Components/PCNav/PCNavBar';
+import useIsDesktop from '../../Components/PCNav/useIsDesktop';
 
 export default function Post() {
+  const isPCScreen = useIsDesktop();
   const navigate = useNavigate();
   const textarea = useRef();
   const [inputValue, setInputValue] = useState('');
@@ -96,6 +99,9 @@ export default function Post() {
   };
 
   return (
+    <>
+          {isPCScreen && <PCNavBar />}
+
     <PostLayout>
       <UploadHeader disabled={!inputValue} onClick={handleSubmit}>
         업로드
@@ -117,6 +123,7 @@ export default function Post() {
         <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
       </form>
     </PostLayout>
+    </>
   );
 }
 
