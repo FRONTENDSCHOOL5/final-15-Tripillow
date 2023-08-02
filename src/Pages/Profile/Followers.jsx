@@ -16,8 +16,8 @@ const Followers = () => {
   const [followerData, setFollowerData] = useState([]);
   const [followingData, setFollowingData] = useState([]);
   const [pageTitle, setPageTitle] = useState('Followers');
-  const { fetchFollower } = FollowerListAPI({ accountname });
-  const { fetchFollowing } = FollowingListAPI({ accountname });
+  const { fetchFollower } = FollowerListAPI(accountname);
+  const { fetchFollowing } = FollowingListAPI(accountname);
 
   useEffect(() => {
     if (pathIdentifier) {

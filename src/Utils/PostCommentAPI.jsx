@@ -13,7 +13,11 @@ const PostCommentAPI = (postId, userInput) => {
           Authorization: `Bearer ${token}`,
           'Content-type': 'application/json',
         },
-        body: JSON.stringify({ ...userInput }),
+        body: JSON.stringify({
+          comment: {
+            content: userInput,
+          },
+        }),
       });
       const result = await response.json();
       return result;

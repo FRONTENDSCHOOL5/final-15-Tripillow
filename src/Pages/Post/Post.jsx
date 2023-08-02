@@ -1,17 +1,16 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import URL from '../../Utils/URL';
 // import ImageUploadAPI from '../../Utils/ImageUploadAPI';
 import { validateImageFileFormat } from '../../Utils/validate';
-import userToken from '../../Recoil/userToken/userToken';
 import UploadHeader from '../../Components/common/Header/UploadHeader';
 import Toggle from '../../Components/common/Toggle';
 import x from '../../Assets/icons/x.svg';
 import { LayoutStyle } from '../../Styles/Layout';
 import iconImg from '../../Assets/icons/upload-file.svg';
 import imageCompression from 'browser-image-compression';
+import UploadPostAPI from '../../Utils/UploadPostAPI';
 
 export default function Post() {
   const navigate = useNavigate();
@@ -19,7 +18,7 @@ export default function Post() {
   const [inputValue, setInputValue] = useState('');
   const [imgURL, setImgURL] = useState([]);
   const [isLeftToggle, setIsLeftToggle] = useState(true);
-  const token = useRecoilValue(userToken);
+  const uploadPost = UploadPostAPI(imgURL, inputValue, isLeftToggle);
 
   const compressedImageUploadAPI = async (file) => {
     const formData = new FormData();
@@ -49,7 +48,6 @@ export default function Post() {
       type: 'image/jpeg',
     });
     const file = new File([blob], 'image.jpg');
-    console.log('after: ', file);
     const data = await compressedImageUploadAPI(file);
     if (data) {
       setImgURL((prev) => prev.concat(data.filename));
@@ -57,8 +55,6 @@ export default function Post() {
   };
 
   const handleImageInput = async (e) => {
-    console.log('before: ', e.target?.files);
-    console.log(imgURL);
     const file = e.target?.files[0];
     if (file.length === 0) {
       return;
@@ -93,37 +89,13 @@ export default function Post() {
     } catch (error) {
       console.log(error);
     }
-
-    // const data = await ImageUploadAPI(e);
-    // if (data) {
-    //   setImgURL((prev) => prev.concat(data.filename));
-    // }
   };
 
   const handleSubmit = async () => {
-    const images = imgURL.join(', ');
-    try {
-      const response = await fetch(URL + '/post', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify({
-          post: {
-            content: isLeftToggle ? `[K]${inputValue}` : `[G]${inputValue}`,
-            image: images,
-          },
-        }),
-      });
-      const res = await response.json();
-      textarea.current.value = '';
-      setImgURL([]);
-      navigate('/profile');
-      return res;
-    } catch (error) {
-      console.error(error);
-    }
+    await uploadPost();
+    textarea.current.value = '';
+    setImgURL([]);
+    navigate('/profile');
   };
 
   const handleResizeHeight = () => {

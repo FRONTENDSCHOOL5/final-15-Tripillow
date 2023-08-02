@@ -9,7 +9,7 @@ import ChatUser from './ChatUser';
 
 const Chat = () => {
   const accountname = useRecoilValue(accountName);
-  const { fetchFollowing } = FollowingListAPI({ accountname });
+  const { fetchFollowing } = FollowingListAPI(accountname);
   const [followingData, setFollowingData] = useState([]);
 
   useEffect(() => {

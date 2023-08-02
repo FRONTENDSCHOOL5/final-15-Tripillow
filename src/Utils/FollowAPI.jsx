@@ -2,7 +2,7 @@ import { useRecoilValue } from 'recoil';
 import URL from './URL';
 import userToken from '../Recoil/userToken/userToken';
 
-const FollowAPI = ({ account }) => {
+const FollowAPI = (account) => {
   const token = useRecoilValue(userToken);
 
   const followUser = async () => {

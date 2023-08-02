@@ -4,10 +4,9 @@ import { useEffect, useState } from 'react';
 import URL from '../Utils/URL';
 import userToken from '../Recoil/userToken/userToken';
 
-const ProductDetailAPI = (id) => {
+const ProductDetailAPI = (productId) => {
   const token = useRecoilValue(userToken);
   const [productDetail, setProductDetail] = useState([]);
-  const productId = id;
   const getProductDetail = async () => {
     try {
       const response = await fetch(URL + `/product/detail/${productId}`, {
@@ -17,7 +16,6 @@ const ProductDetailAPI = (id) => {
           'Content-type': 'application/json',
         },
       });
-
       const data = await response.json();
       setProductDetail(data.product);
     } catch (error) {

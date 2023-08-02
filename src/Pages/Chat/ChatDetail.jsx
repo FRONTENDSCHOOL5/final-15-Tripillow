@@ -14,7 +14,7 @@ const ChatDetail = () => {
   const updateMyInfo = (data) => {
     setMyInfo(data);
   };
-  const { getUserData } = MyInfoAPI({ updateMyInfo });
+  const { getUserData } = MyInfoAPI(null, updateMyInfo);
 
   useEffect(() => {
     getUserData();
