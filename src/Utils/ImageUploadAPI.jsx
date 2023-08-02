@@ -13,7 +13,7 @@ const ImageUploadAPI = async (e) => {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error('에러발생!!!');
+    console.error('API 응답에 실패하였습니다.', error);
   }
 };
 

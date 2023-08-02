@@ -14,7 +14,7 @@ const UnFollowAPI = (account) => {
         },
       });
     } catch (error) {
-      console.error('UnFollowAPI 응답이 없습니다.', error);
+      console.error('API 응답에 실패하였습니다.', error);
     }
   };
 

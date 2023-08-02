@@ -18,7 +18,7 @@ const GetNumerousCommentAPI = (postId, updateComments) => {
       const data = await response.json();
       updateComments(data.comments);
     } catch (error) {
-      console.error('[ERROR] on GetComment');
+      console.error('API 응답에 실패하였습니다.', error);
     }
   };
 

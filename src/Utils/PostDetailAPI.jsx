@@ -17,7 +17,7 @@ const PostDetailAPI = (postId, updatePostInfo) => {
       const data = await response.json();
       updatePostInfo({ ...data });
     } catch (error) {
-      console.error('[ERROR] on PostDetail');
+      console.error('API 응답에 실패하였습니다.', error);
     }
   };
 

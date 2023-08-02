@@ -22,7 +22,7 @@ const UploadPostAPI = (imgURL, inputValue, isLeftToggle) => {
         }),
       });
     } catch (error) {
-      console.error('api 오류!!!', error);
+      console.error('API 응답에 실패하였습니다.', error);
     }
   };
   return uploadPost;
