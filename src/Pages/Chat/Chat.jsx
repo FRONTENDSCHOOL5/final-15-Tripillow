@@ -12,7 +12,7 @@ import useIsDesktop from '../../Components/PCNav/useIsDesktop';
 const Chat = () => {
   const isPCScreen = useIsDesktop();
   const accountname = useRecoilValue(accountName);
-  const { fetchFollowing } = FollowingListAPI({ accountname });
+  const { fetchFollowing } = FollowingListAPI(accountname);
   const [followingData, setFollowingData] = useState([]);
 
   useEffect(() => {

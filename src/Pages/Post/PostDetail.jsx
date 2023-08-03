@@ -13,12 +13,21 @@ import MyInfoAPI from '../../Utils/MyInfoAPI';
 const PostDetail = () => {
   const { id } = useParams();
   const postId = id;
-  const [postInfo, setPostInfo] = useState({});
   const [myInfo, setMyInfo] = useState({});
+  const updateMyInfo = (data) => {
+    setMyInfo(data);
+  };
+  const [postInfo, setPostInfo] = useState({});
+  const updatePostInfo = (data) => {
+    setPostInfo(data);
+  };
   const [comments, setComments] = useState([]);
-  const postDetail = PostDetailAPI(postId, setPostInfo);
-  const { getUserData } = MyInfoAPI({ setMyInfo });
-  const getNumerousComment = GetNumerousCommentAPI(postId, setComments);
+  const updateComments = (data) => {
+    setComments(data);
+  };
+  const postDetail = PostDetailAPI(postId, updatePostInfo);
+  const { getUserData } = MyInfoAPI(null, updateMyInfo); // NOTE 사용부분 바꾸기
+  const getNumerousComment = GetNumerousCommentAPI(postId, updateComments);
   const [visibleComments, setVisibleComments] = useState([]);
   const [startIndex, setStartIndex] = useState(0);
   const [showMore, setShowMore] = useState(false);

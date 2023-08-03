@@ -1,9 +1,8 @@
 import { useRecoilValue } from 'recoil';
-// import { useEffect, useState } from 'react';
 import URL from './URL';
 import userToken from '../Recoil/userToken/userToken';
 
-const PostDetailAPI = (postId, setPostDetail) => {
+const PostDetailAPI = (postId, updatePostInfo) => {
   const token = useRecoilValue(userToken);
 
   const getPostDetail = async () => {
@@ -16,9 +15,9 @@ const PostDetailAPI = (postId, setPostDetail) => {
         },
       });
       const data = await response.json();
-      await setPostDetail({ ...data });
+      updatePostInfo({ ...data });
     } catch (error) {
-      console.error('[ERROR] on PostDetail');
+      console.error('API 응답에 실패하였습니다.', error);
     }
   };
 

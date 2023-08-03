@@ -51,7 +51,7 @@ const FadeIn = keyframes`
     }
 `;
 
-const FadeInLogo = keyframes`
+const logoFadeIn = keyframes`
   0% {
       opacity: 0;
     }
@@ -85,7 +85,7 @@ const TripillowLayout = styled.div`
 
   img:last-child {
     width: 230px;
-    animation: ${FadeInLogo} 4s forwards;
+    animation: ${logoFadeIn} 4s forwards;
     margin-top: -30px;
   }
 `;

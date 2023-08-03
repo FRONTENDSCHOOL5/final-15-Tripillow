@@ -4,10 +4,9 @@ import { useEffect, useState } from 'react';
 import URL from '../Utils/URL';
 import userToken from '../Recoil/userToken/userToken';
 
-const ProductDetailAPI = (id) => {
+const ProductDetailAPI = (productId) => {
   const token = useRecoilValue(userToken);
   const [productDetail, setProductDetail] = useState([]);
-  const productId = id;
   const getProductDetail = async () => {
     try {
       const response = await fetch(URL + `/product/detail/${productId}`, {
@@ -17,11 +16,10 @@ const ProductDetailAPI = (id) => {
           'Content-type': 'application/json',
         },
       });
-
       const data = await response.json();
       setProductDetail(data.product);
     } catch (error) {
-      console.error('api 응답 실패!!!!!!!!', error);
+      console.error('API 응답에 실패하였습니다.', error);
     }
   };
   useEffect(() => {

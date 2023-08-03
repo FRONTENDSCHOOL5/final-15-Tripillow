@@ -12,7 +12,7 @@ const SignupAPI = async (userInfo) => {
     const result = await response.json();
     return result;
   } catch (error) {
-    console.error('API 응답에 문제가 있습니다.', error);
+    console.error('API 응답에 실패하였습니다.', error);
   }
 };
 

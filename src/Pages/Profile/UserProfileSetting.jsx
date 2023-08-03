@@ -17,7 +17,13 @@ const UserProfileSetting = () => {
   const navigate = useNavigate();
   const [imgURL, setImgURL] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const updateErrorMessage = (data) => {
+    setErrorMessage(data);
+  };
   const [data, setData] = useState({});
+  const updateData = (data) => {
+    setData(data);
+  };
   const [text, setText] = useState({
     user: {
       username: '',
@@ -27,8 +33,8 @@ const UserProfileSetting = () => {
     },
   });
   const [account, setAccount] = useState({ user: { accountname: text.user.accountname } });
-  const { getUserData } = UserInfoAPI({ setData });
-  const getAccountValidAPI = AccountValidAPI({ account, setErrorMessage });
+  const { getUserData } = UserInfoAPI(updateData, null);
+  const getAccountValidAPI = AccountValidAPI(account, updateErrorMessage);
 
   useEffect(() => {
     const handleFetch = async () => {

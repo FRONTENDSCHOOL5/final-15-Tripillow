@@ -18,8 +18,6 @@ import useFetch from '../../Hooks/useFetch';
 import userToken from '../../Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
 
-
-
 const Product = () => {
   const navigate = useNavigate();
   const isPCScreen = useIsDesktop();
@@ -101,8 +99,6 @@ const Product = () => {
     }
   }, [user]);
 
-
-
   return (
     <>
       {isPCScreen && <PCNavBar />}
@@ -130,8 +126,7 @@ const Product = () => {
           {/* {products?.length > 0 &&
             products.map((product, i) => (
               <GridItem key={i}>
-                <Link to={`/product/detail/${product?.id}`}>
-                </Link>
+                <Link to={`/product/detail/${product?.id}`}></Link>
               </GridItem>
             ))} */}
             
@@ -160,6 +155,7 @@ const StyledLayout = styled(Layout)`
 `;
 
 const GridLayout = styled.main`
+  padding-bottom: 90px;
   display: grid;
   grid-gap: 20px;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));

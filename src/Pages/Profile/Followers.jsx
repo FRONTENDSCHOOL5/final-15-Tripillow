@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import FollowUser from '../../Components/common/FollowUser';
 import BasicHeader from '../../Components/common/Header/BasicHeader';
 import Navbar from '../../Components/common/Navbar';
+import { LayoutStyle } from '../../Styles/Layout';
 import FollowingListAPI from '../../Utils/FollowingListAPI';
 import FollowerListAPI from '../../Utils/FollowerListAPI';
 
@@ -16,8 +17,8 @@ const Followers = () => {
   const [followerData, setFollowerData] = useState([]);
   const [followingData, setFollowingData] = useState([]);
   const [pageTitle, setPageTitle] = useState('Followers');
-  const { fetchFollower } = FollowerListAPI({ accountname });
-  const { fetchFollowing } = FollowingListAPI({ accountname });
+  const { fetchFollower } = FollowerListAPI(accountname);
+  const { fetchFollowing } = FollowingListAPI(accountname);
 
   useEffect(() => {
     if (pathIdentifier) {
@@ -64,12 +65,8 @@ const Followers = () => {
 };
 
 const Layout = styled.div`
-  max-width: 390px;
-  min-height: 100%;
-  margin: 0 auto;
+  ${LayoutStyle}
   padding: 48px 12px 73px 16px;
-  border: 0.5px solid var(--light-gray);
-  box-sizing: border-box;
 
   footer {
     margin-top: 24px;

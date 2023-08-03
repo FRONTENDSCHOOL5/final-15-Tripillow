@@ -1,11 +1,11 @@
 import URL from './URL';
 
-const ImageUploadAPI = async (e) => {
+const CompressedImageUploadAPI = async (file) => {
   const formData = new FormData();
-  formData.append('image', e.target.files[0]);
+  formData.append('image', file);
 
   try {
-    const response = await fetch(URL + '/image/uploadfile', {
+    const response = await fetch(`${URL}/image/uploadfile`, {
       method: 'POST',
       body: formData,
     });
@@ -17,4 +17,4 @@ const ImageUploadAPI = async (e) => {
   }
 };
 
-export default ImageUploadAPI;
+export default CompressedImageUploadAPI;

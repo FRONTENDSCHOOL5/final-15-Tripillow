@@ -15,8 +15,8 @@ const FollowUser = (props) => {
   const name = useRecoilValue(accountName);
   const pathIdentifier = props.pathIdentifier;
   const { getUserData } = MyInfoAPI();
-  const { followUser } = FollowAPI({ account: props.user?.accountname });
-  const { unFollowUser } = UnFollowAPI({ account: props.user?.accountname });
+  const { followUser } = FollowAPI(props.user?.accountname);
+  const { unFollowUser } = UnFollowAPI(props.user?.accountname);
 
   const [followCount, setFollowCount] = useState(props.user?.followingCount);
   const [isFollow, setIsFollow] = useState(props.user?.isfollow);
@@ -33,7 +33,7 @@ const FollowUser = (props) => {
   useEffect(() => {
     const fetchUserData = async () => {
       const data = await getUserData();
-      setFollowCount(data.followingCount);
+      setFollowCount(data?.followingCount);
     };
     fetchUserData();
   }, []);

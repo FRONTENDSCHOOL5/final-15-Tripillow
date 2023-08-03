@@ -106,7 +106,7 @@ const HomePostLayout = (props) => {
         userImg={userImg || Profile}
         username={post.author.username}
         content={'@' + post.author.accountname}
-        margin={'0 0 5px 0'}
+        margin={'0 0 10px 0'}
         moreBtn
         setIsModalOn={setIsModalOn}
         productId={post.id}

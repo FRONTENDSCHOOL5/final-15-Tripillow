@@ -3,22 +3,21 @@ import URL from './URL';
 import userToken from '../Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
 
-const GetPostAPI = (props) => {
+const GetPostAPI = (accountName, updatePostData) => {
   const token = useRecoilValue(userToken);
-  const accountname = props?.myAccount;
 
   const getPostData = async () => {
     try {
-      const response = await fetch(`${URL}/post/${accountname}/userpost?limit=50`, {
+      const response = await fetch(`${URL}/post/${accountName}/userpost?limit=50`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       const data = await response.json();
-      props.setPostData(data.post);
+      updatePostData(data.post);
     } catch (error) {
-      console.error('API 응답에 문제가 있습니다.', error);
+      console.error('API 응답에 실패하였습니다.', error);
     }
   };
 

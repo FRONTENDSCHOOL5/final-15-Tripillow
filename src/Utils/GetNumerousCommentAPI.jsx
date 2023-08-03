@@ -3,14 +3,12 @@ import { useEffect, useState } from 'react';
 import URL from './URL';
 import userToken from '../Recoil/userToken/userToken';
 
-const GetNumerousCommentAPI = (postId, setComments) => {
+const GetNumerousCommentAPI = (postId, updateComments) => {
   const token = useRecoilValue(userToken);
 
-  const getComment = async () => {
+  const getNumerousComment = async () => {
     try {
-      // TODO 10개 이상일때
-
-      const response = await fetch(`${URL}/post/${postId}/comments/?limit=100&skip=0`, {
+      const response = await fetch(`${URL}/post/${postId}/comments/?limit=Number&skip=Number`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -18,13 +16,13 @@ const GetNumerousCommentAPI = (postId, setComments) => {
         },
       });
       const data = await response.json();
-      setComments(data.comments);
+      updateComments(data.comments);
     } catch (error) {
-      console.error('[ERROR] on GetComment');
+      console.error('API 응답에 실패하였습니다.', error);
     }
   };
 
-  return getComment;
+  return getNumerousComment;
 };
 
 export default GetNumerousCommentAPI;
