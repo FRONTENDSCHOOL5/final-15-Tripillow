@@ -2,7 +2,7 @@ import URL from './URL';
 import userToken from '../Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
 
-const AccountValidAPI = (props) => {
+const AccountValidAPI = (account, updateErrorMessage) => {
   const token = useRecoilValue(userToken);
 
   const getAccountValidAPI = async () => {
@@ -13,12 +13,12 @@ const AccountValidAPI = (props) => {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(props.account),
+        body: JSON.stringify(account),
       });
       const result = await response.json();
-      props.setErrorMessage(result.message);
+      updateErrorMessage(result.message);
     } catch (error) {
-      console.error('AccountValidAPI 응답에 문제가 있습니다.', error);
+      console.error('API 응답에 실패하였습니다.', error);
     }
   };
 

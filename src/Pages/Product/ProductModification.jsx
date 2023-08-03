@@ -32,7 +32,7 @@ const ProductModification = (props) => {
   const productId = location.state;
   const [isModified, setIsModified] = useState(false);
   const productDetail = ProductDetailAPI(productId);
-  const { handleProductModify } = ProductModifyAPI({ productId, productInputs, isLeftToggle });
+  const { handleProductModify } = ProductModifyAPI(productId, productInputs, isLeftToggle);
 
   // 작성한 정보 불러오는 부분
   useEffect(() => {
@@ -42,8 +42,6 @@ const ProductModification = (props) => {
         if (match[0] === '[M]') {
           setRightOn(true);
         }
-        console.log(match);
-        console.log(rightOn);
         return content.slice(3);
       }
       return content;

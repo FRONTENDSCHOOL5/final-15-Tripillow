@@ -1,17 +1,16 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import URL from '../../Utils/URL';
-// import ImageUploadAPI from '../../Utils/ImageUploadAPI';
 import { validateImageFileFormat } from '../../Utils/validate';
-import userToken from '../../Recoil/userToken/userToken';
 import UploadHeader from '../../Components/common/Header/UploadHeader';
 import Toggle from '../../Components/common/Toggle';
 import x from '../../Assets/icons/x.svg';
 import { LayoutStyle } from '../../Styles/Layout';
 import iconImg from '../../Assets/icons/upload-file.svg';
 import imageCompression from 'browser-image-compression';
+import UploadPostAPI from '../../Utils/UploadPostAPI';
+import CompressedImageUploadAPI from '../../Utils/CompressedImageUploadAPI';
 import PCNavBar from '../../Components/PCNav/PCNavBar';
 import useIsDesktop from '../../Components/PCNav/useIsDesktop';
 
@@ -22,24 +21,7 @@ export default function Post() {
   const [inputValue, setInputValue] = useState('');
   const [imgURL, setImgURL] = useState([]);
   const [isLeftToggle, setIsLeftToggle] = useState(true);
-  const token = useRecoilValue(userToken);
-
-  const compressedImageUploadAPI = async (file) => {
-    const formData = new FormData();
-    formData.append('image', file);
-
-    try {
-      const response = await fetch(URL + '/image/uploadfile', {
-        method: 'POST',
-        body: formData,
-      });
-
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error('에러발생!!!');
-    }
-  };
+  const uploadPost = UploadPostAPI(imgURL, inputValue, isLeftToggle);
 
   const handleDataForm = async (dataURI) => {
     const byteString = atob(dataURI.split(',')[1]);
@@ -52,18 +34,15 @@ export default function Post() {
       type: 'image/jpeg',
     });
     const file = new File([blob], 'image.jpg');
-    console.log('after: ', file);
-    const data = await compressedImageUploadAPI(file);
+    const data = await CompressedImageUploadAPI(file);
     if (data) {
       setImgURL((prev) => prev.concat(data.filename));
     }
   };
 
   const handleImageInput = async (e) => {
-    console.log('before: ', e.target?.files);
-    console.log(imgURL);
     const file = e.target?.files[0];
-    if (file.length === 0) {
+    if (!file || file.length === 0) {
       return;
     }
     if (file.size > 10 * 1024 * 1024) {
@@ -96,42 +75,18 @@ export default function Post() {
     } catch (error) {
       console.log(error);
     }
-
-    // const data = await ImageUploadAPI(e);
-    // if (data) {
-    //   setImgURL((prev) => prev.concat(data.filename));
-    // }
   };
 
   const handleSubmit = async () => {
-    const images = imgURL.join(', ');
-    try {
-      const response = await fetch(URL + '/post', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify({
-          post: {
-            content: isLeftToggle ? `[K]${inputValue}` : `[G]${inputValue}`,
-            image: images,
-          },
-        }),
-      });
-      const res = await response.json();
-      textarea.current.value = '';
-      setImgURL([]);
-      navigate('/profile');
-      return res;
-    } catch (error) {
-      console.error(error);
-    }
+    await uploadPost();
+    textarea.current.value = '';
+    setImgURL([]);
+    navigate('/profile');
   };
 
   const handleResizeHeight = () => {
     textarea.current.style.height = 'auto';
-    textarea.current.style.height = textarea.current.scrollHeight + 'px';
+    textarea.current.style.height = parseInt(textarea.current.scrollHeight) + 20 + 'px';
   };
 
   const handleInputChange = (e) => {
@@ -145,29 +100,29 @@ export default function Post() {
 
   return (
     <>
-          {isPCScreen && <PCNavBar />}
+      {isPCScreen && <PCNavBar />}
 
-    <PostLayout>
-      <UploadHeader disabled={!inputValue} onClick={handleSubmit}>
-        업로드
-      </UploadHeader>
-      <ToggleLayout>
-        <Toggle leftButton='국내' rightButton='해외' setIsLeftToggle={setIsLeftToggle} margin='0 0 22px 0'></Toggle>
-      </ToggleLayout>
-      <form>
-        <TextInput placeholder='게시글 입력하기...' ref={textarea} onChange={handleInputChange} rows='1'></TextInput>
-        {imgURL.map((el, i) => (
-          <ImgLayout key={`ImgLayout-${i}`}>
-            <Img src={`${URL}/${el}`} key={`Img-${i}`} />
-            <ImgDelete type='button' key={`ImgDelete-${i}`} onClick={() => handleImgClose(i)}></ImgDelete>
-          </ImgLayout>
-        ))}
-        <label htmlFor='img-input'>
-          <ImgIcon src={iconImg}></ImgIcon>
-        </label>
-        <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
-      </form>
-    </PostLayout>
+      <PostLayout>
+        <UploadHeader disabled={!inputValue} onClick={handleSubmit}>
+          업로드
+        </UploadHeader>
+        <ToggleLayout>
+          <Toggle leftButton='국내' rightButton='해외' setIsLeftToggle={setIsLeftToggle} margin='0 0 22px 0'></Toggle>
+        </ToggleLayout>
+        <form>
+          <TextInput placeholder='게시글 입력하기...' ref={textarea} onChange={handleInputChange} rows='1'></TextInput>
+          {imgURL.map((el, i) => (
+            <ImgLayout key={`ImgLayout-${i}`}>
+              <Img src={`${URL}/${el}`} key={`Img-${i}`} />
+              <ImgDelete type='button' key={`ImgDelete-${i}`} onClick={() => handleImgClose(i)}></ImgDelete>
+            </ImgLayout>
+          ))}
+          <label htmlFor='img-input'>
+            <ImgIcon src={iconImg}></ImgIcon>
+          </label>
+          <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
+        </form>
+      </PostLayout>
     </>
   );
 }

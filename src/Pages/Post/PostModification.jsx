@@ -1,21 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import URL from '../../Utils/URL';
 import PostDetailAPI from '../../Utils/PostDetailAPI';
-import ImageUploadAPI from '../../Utils/ImageUploadAPI';
 import { validateImageFileFormat } from '../../Utils/validate';
-import userToken from '../../Recoil/userToken/userToken';
 import { LayoutStyle } from '../../Styles/Layout';
 import UploadHeader from '../../Components/common/Header/UploadHeader';
 import Toggle from '../../Components/common/Toggle';
 import x from '../../Assets/icons/x.svg';
 import iconImg from '../../Assets/icons/upload-file.svg';
+import PostModifyAPI from '../../Utils/PostModifyAPI';
+import imageCompression from 'browser-image-compression';
+import CompressedImageUploadAPI from '../../Utils/CompressedImageUploadAPI';
 
 const PostModification = () => {
   const navigate = useNavigate();
-  const token = useRecoilValue(userToken);
   const location = useLocation();
   const postId = location.state;
   const [postInput, setPostInput] = useState({
@@ -24,12 +23,14 @@ const PostModification = () => {
       image: '',
     },
   }); //새로 제출할 값
-  const [postDetail, setPostDetail] = useState({}); // 기존값
+  const [originalPost, setOriginalPost] = useState({}); // 기존값
   const textarea = useRef();
   const [imgURL, setImgURL] = useState([]); // [234, 456]
   const [isLeftToggle, setIsLeftToggle] = useState(true);
   const [rightOn, setRightOn] = useState(false);
-  const getPostDetail = PostDetailAPI(postId, setPostDetail);
+  const [imgChange, setImgChange] = useState(false);
+  const getPostDetail = PostDetailAPI(postId, setOriginalPost);
+  const { postModify } = PostModifyAPI(postId, postInput, isLeftToggle);
 
   useEffect(() => {
     const getDetail = async () => {
@@ -37,11 +38,6 @@ const PostModification = () => {
     };
     getDetail();
   }, []);
-
-  useEffect(() => {
-    textarea.current.value = postInput.post.content;
-    handleResizeHeight();
-  }, [postInput.post.content]);
 
   useEffect(() => {
     const trimContent = (content) => {
@@ -55,23 +51,38 @@ const PostModification = () => {
       return content;
     };
 
-    Object.keys(postDetail).length > 0 &&
+    Object.keys(originalPost).length > 0 &&
       setPostInput({
         post: {
-          content: trimContent(postDetail.post.content),
-          image: postDetail.post.image,
+          content: trimContent(originalPost.post.content),
+          image: originalPost.post.image,
         },
       });
-  }, [postDetail]);
+    setImgChange((prev) => !prev);
+  }, [originalPost]);
 
   useEffect(() => {
-    setImgURL(postInput.post.image.split(', '));
+    textarea.current.value = postInput.post.content;
+    handleResizeHeight();
   }, [postInput]);
 
-  const handleImageInput = async (e) => {
-    if (imgURL.length >= 3 || e.target.files.length === 0) return;
-    if (!validateImageFileFormat(e.target.files[0].name)) return console.error('ERROR: 파일 확장자');
-    const data = await ImageUploadAPI(e);
+  useEffect(() => {
+    if (postInput.post.image === '') setImgURL([]);
+    else setImgURL(postInput.post.image.split(', '));
+  }, [imgChange]);
+
+  const handleDataForm = async (dataURI) => {
+    const byteString = atob(dataURI.split(',')[1]);
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    const blob = new Blob([ia], {
+      type: 'image/jpeg',
+    });
+    const file = new File([blob], 'image.jpg');
+    const data = await CompressedImageUploadAPI(file);
     const image = postInput.post.image === '' ? data.filename : postInput.post.image + `, ${data.filename}`;
     if (data) {
       setPostInput((prev) => ({
@@ -81,33 +92,50 @@ const PostModification = () => {
           image: image,
         },
       }));
+      setImgChange((prev) => !prev);
+    }
+  };
+
+  const handleImageInput = async (e) => {
+    if (imgURL.length >= 3) {
+      return alert('파일은 3장을 넘길 수 없습니다.');
+    }
+    const file = e.target?.files[0];
+    if (!file || file.length === 0) {
+      return;
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      return alert('파일은 10MB를 넘길 수 없습니다.');
+    }
+    if (!validateImageFileFormat(file.name)) {
+      return alert('파일 확장자를 확인해주세요');
+    }
+    const options = {
+      maxSizeMB: 0.9,
+      maxWidthOrHeight: 490,
+      useWebWorker: true,
+    };
+
+    try {
+      // 압축 결과
+      const compressedFile = await imageCompression(file, options);
+
+      const reader = new FileReader();
+      reader.readAsDataURL(compressedFile);
+      reader.onloadend = () => {
+        const base64data = reader.result;
+        handleDataForm(base64data);
+      };
+    } catch (error) {
+      console.log(error);
     }
   };
 
   const handleSubmit = async () => {
-    try {
-      const response = await fetch(`${URL}/post/${postId}`, {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...postInput,
-          post: {
-            ...postInput.post,
-            content: isLeftToggle ? `[K]${postInput.post.content}` : `[G]${postInput.post.content}`,
-          },
-        }),
-      });
-      const res = await response.json();
-      textarea.current.value = '';
-      setImgURL([]);
-      navigate('/profile');
-      return res;
-    } catch (error) {
-      console.error(error);
-    }
+    await postModify();
+    textarea.current.value = '';
+    setImgURL([]);
+    navigate('/profile');
   };
 
   const handleResizeHeight = () => {
@@ -129,6 +157,7 @@ const PostModification = () => {
 
   const handleImgClose = (i) => {
     const newImg = [...imgURL.slice(0, i), ...imgURL.slice(i + 1, imgURL.length)].join(', ');
+
     setPostInput((prev) => ({
       ...prev,
       post: {
@@ -136,6 +165,7 @@ const PostModification = () => {
         image: newImg,
       },
     }));
+    setImgChange((prev) => !prev);
   };
 
   return (

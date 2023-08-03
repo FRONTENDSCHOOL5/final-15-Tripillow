@@ -7,16 +7,15 @@ const ProductDeleteAPI = (userId) => {
 
   const handleProductDelete = async () => {
     try {
-      const response = await fetch(`${URL}/product/${userId}`, {
+      await fetch(`${URL}/product/${userId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-type': 'application/json',
         },
       });
-      const data = await response.json();
     } catch (error) {
-      console.error('api 에러!!', error);
+      console.error('API 응답에 실패하였습니다.', error);
     }
   };
 

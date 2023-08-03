@@ -3,7 +3,7 @@ import URL from './URL';
 import { useRecoilValue } from 'recoil';
 import userToken from '../Recoil/userToken/userToken';
 
-const FollowingListAPI = ({ accountname, ...props }) => {
+const FollowingListAPI = (accountname) => {
   const token = useRecoilValue(userToken);
 
   const fetchFollowing = async () => {
@@ -19,7 +19,7 @@ const FollowingListAPI = ({ accountname, ...props }) => {
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error('FollowingAPI가 응답하지 않습니다', error);
+      console.error('API 응답에 실패하였습니다.', error);
     }
   };
 

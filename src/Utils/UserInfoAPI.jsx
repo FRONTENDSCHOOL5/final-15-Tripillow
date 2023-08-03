@@ -3,12 +3,12 @@ import URL from './URL';
 import { useRecoilValue } from 'recoil';
 import userToken from '../Recoil/userToken/userToken';
 
-const UserInfoAPI = (props) => {
+const UserInfoAPI = (accountName, updateUserInfo) => {
   const token = useRecoilValue(userToken);
 
   const getUserInfo = async () => {
     try {
-      const response = await fetch(`${URL}/profile/${props.userAccountname}`, {
+      const response = await fetch(`${URL}/profile/${accountName}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -16,9 +16,9 @@ const UserInfoAPI = (props) => {
         },
       });
       const data = await response.json();
-      props.setUserInfo(data.profile);
+      updateUserInfo(data.profile);
     } catch (error) {
-      console.error('UserInfoAPI 응답에 문제가 있습니다.', error);
+      console.error('API 응답에 실패하였습니다.', error);
     }
   };
 

@@ -11,11 +11,7 @@ export default function PostComment({ postId, setIsNewComment, userImg }) {
     setUserInput(input);
   };
 
-  const handlePostComment = PostCommentAPI(postId, {
-    comment: {
-      content: userInput,
-    },
-  });
+  const handlePostComment = PostCommentAPI(postId, userInput);
 
   const handleClick = async (e) => {
     e.preventDefault();

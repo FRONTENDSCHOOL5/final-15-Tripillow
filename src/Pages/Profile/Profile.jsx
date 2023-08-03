@@ -37,24 +37,30 @@ const Profile = () => {
   const [albumView, setAlbumView] = useRecoilState(isAlbum);
 
   const [myInfo, setMyInfo] = useState({});
+  const updateMyInfo = (data) => {
+    setMyInfo(data);
+  };
   const [userInfo, setUserInfo] = useState({});
+  const updateUserInfo = (data) => {
+    setUserInfo(data);
+  };
   const [postData, setPostData] = useState([]);
+  const updatePostData = (data) => {
+    setPostData(data);
+  };
   const [productList, setProductList] = useState([]);
+  const updateProductList = (data) => {
+    setProductList(data);
+  };
   const [followCount, setFollowCount] = useState(0);
   const [followerURL, setFollowerURL] = useState('');
   const [followingURL, setFollowingURL] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
-  const { getUserData } = MyInfoAPI({ setMyInfo });
-  const { getUserInfo } = UserInfoAPI({ setUserInfo, userAccountname });
-  const { getPostData } = GetPostAPI({
-    myAccount: userAccountname ? userAccountname : myAccount,
-    setPostData,
-  });
-  const { getProductList } = ProductListAPI({
-    myAccount: userAccountname ? userAccountname : myAccount,
-    setProductList,
-  });
+  const { getUserData } = MyInfoAPI(null, updateMyInfo);
+  const { getUserInfo } = UserInfoAPI(userAccountname, updateUserInfo);
+  const { getPostData } = GetPostAPI(userAccountname ? userAccountname : myAccount, updatePostData);
+  const { getProductList } = ProductListAPI(userAccountname ? userAccountname : myAccount, updateProductList);
   const isDeleted = location.state?.isDeleted;
   const isModified = location.state?.isModified;
 

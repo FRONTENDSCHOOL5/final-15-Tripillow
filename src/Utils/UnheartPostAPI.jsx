@@ -17,7 +17,7 @@ const UnheartPostAPI = (postId) => {
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error('[ERROR] on UnheartPostAPI');
+      console.error('API 응답에 실패하였습니다.', error);
     }
   };
 
