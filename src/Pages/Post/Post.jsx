@@ -86,7 +86,7 @@ export default function Post() {
 
   const handleResizeHeight = () => {
     textarea.current.style.height = 'auto';
-    textarea.current.style.height = textarea.current.scrollHeight + 'px';
+    textarea.current.style.height = parseInt(textarea.current.scrollHeight) + 20 + 'px';
   };
 
   const handleInputChange = (e) => {
@@ -100,29 +100,29 @@ export default function Post() {
 
   return (
     <>
-          {isPCScreen && <PCNavBar />}
+      {isPCScreen && <PCNavBar />}
 
-    <PostLayout>
-      <UploadHeader disabled={!inputValue} onClick={handleSubmit}>
-        업로드
-      </UploadHeader>
-      <ToggleLayout>
-        <Toggle leftButton='국내' rightButton='해외' setIsLeftToggle={setIsLeftToggle} margin='0 0 22px 0'></Toggle>
-      </ToggleLayout>
-      <form>
-        <TextInput placeholder='게시글 입력하기...' ref={textarea} onChange={handleInputChange} rows='1'></TextInput>
-        {imgURL.map((el, i) => (
-          <ImgLayout key={`ImgLayout-${i}`}>
-            <Img src={`${URL}/${el}`} key={`Img-${i}`} />
-            <ImgDelete type='button' key={`ImgDelete-${i}`} onClick={() => handleImgClose(i)}></ImgDelete>
-          </ImgLayout>
-        ))}
-        <label htmlFor='img-input'>
-          <ImgIcon src={iconImg}></ImgIcon>
-        </label>
-        <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
-      </form>
-    </PostLayout>
+      <PostLayout>
+        <UploadHeader disabled={!inputValue} onClick={handleSubmit}>
+          업로드
+        </UploadHeader>
+        <ToggleLayout>
+          <Toggle leftButton='국내' rightButton='해외' setIsLeftToggle={setIsLeftToggle} margin='0 0 22px 0'></Toggle>
+        </ToggleLayout>
+        <form>
+          <TextInput placeholder='게시글 입력하기...' ref={textarea} onChange={handleInputChange} rows='1'></TextInput>
+          {imgURL.map((el, i) => (
+            <ImgLayout key={`ImgLayout-${i}`}>
+              <Img src={`${URL}/${el}`} key={`Img-${i}`} />
+              <ImgDelete type='button' key={`ImgDelete-${i}`} onClick={() => handleImgClose(i)}></ImgDelete>
+            </ImgLayout>
+          ))}
+          <label htmlFor='img-input'>
+            <ImgIcon src={iconImg}></ImgIcon>
+          </label>
+          <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
+        </form>
+      </PostLayout>
     </>
   );
 }
