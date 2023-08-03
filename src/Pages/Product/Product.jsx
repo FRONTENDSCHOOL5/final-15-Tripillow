@@ -127,13 +127,14 @@ const Product = () => {
             ? tripProduct.map((product, i) => <ProductItem key={i} product={product} />)
             : tirpMoney.map((product, i) => <ProductItem key={i} product={product} />)}
 
-          {products?.length > 0 &&
+          {/* {products?.length > 0 &&
             products.map((product, i) => (
               <GridItem key={i}>
                 <Link to={`/product/detail/${product?.id}`}>
                 </Link>
               </GridItem>
-            ))}
+            ))} */}
+            
           {!isLoading && products.length === 0 && <p>등록된 상품이 없습니다.</p>}
         </GridLayout>
         <div style={{ position: 'fixed', width: '360px', height: '48px', bottom: '100px' }}>
