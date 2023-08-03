@@ -169,7 +169,7 @@ const Profile = () => {
                 <ViewButton bgImg={listView ? listOn : listOff} onClick={handleListView}></ViewButton>
                 <ViewButton bgImg={albumView ? AlbumOn : AlbumOff} onClick={handleAlbumView}></ViewButton>
               </ViewLayout>
-              <section>
+              <section style={{ paddingBottom: 90 }}>
                 {postData?.length > 0 ? (
                   <>
                     {listView ? (
