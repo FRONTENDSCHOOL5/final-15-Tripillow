@@ -9,7 +9,7 @@ const useIsDesktop = () => {
       if (window.innerWidth > 1280) setIsPCSCreen(true);
       else setIsPCSCreen(false);
     };
-
+    handleResize();
     window.addEventListener('resize', handleResize);
   }, []);
 
