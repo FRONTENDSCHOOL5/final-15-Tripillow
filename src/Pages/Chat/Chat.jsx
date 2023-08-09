@@ -25,9 +25,6 @@ const Chat = () => {
   }, []);
 
   return (
-    <>
-          {isPCScreen && <PCNavBar />}
-
     <Layout>
       <BasicHeader
         btn1='설정 및 개인정보'
@@ -47,7 +44,6 @@ const Chat = () => {
         ))}
       <Navbar />
     </Layout>
-    </>
   );
 };
 

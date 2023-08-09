@@ -94,37 +94,33 @@ const Home = () => {
   }, []);
 
   return (
-    <>
-      {isPCScreen && <PCNavBar />}
-
-      <Layout>
-        <MainHeader />
-        <main style={{ paddingBottom: 90 }}>
-          <Toggle margin='25px 0 0 16px' leftButton='국내' rightButton='해외' setIsLeftToggle={setIsLeftToggle} />
-          {isLoading ? (
-            <>
-              <HomePostSkeleton />
-              <HomePostSkeleton />
-            </>
-          ) : followedFeed.length > 0 ? (
-            isLeftToggle ? (
-              koreaPosts.map((post) => <HomePost key={post.id} post={post} />)
-            ) : (
-              globalPosts.map((post) => <HomePost key={post.id} post={post} />)
-            )
+    <Layout>
+      <MainHeader />
+      <main style={{ paddingBottom: 90 }}>
+        <Toggle margin='25px 0 0 16px' leftButton='국내' rightButton='해외' setIsLeftToggle={setIsLeftToggle} />
+        {isLoading ? (
+          <>
+            <HomePostSkeleton />
+            <HomePostSkeleton />
+          </>
+        ) : followedFeed.length > 0 ? (
+          isLeftToggle ? (
+            koreaPosts.map((post) => <HomePost key={post.id} post={post} />)
           ) : (
-            !isLoading && (
-              <Empty image={logo} alt='로고' navigate='/search' buttonName='검색하기'>
-                유저를 검색해 팔로우 해보세요!
-              </Empty>
-            )
-          )}
-        </main>
-        {showSpinner && <Spinner />}
-        {showTopButton && <TopButton />}
-        <Navbar />
-      </Layout>
-    </>
+            globalPosts.map((post) => <HomePost key={post.id} post={post} />)
+          )
+        ) : (
+          !isLoading && (
+            <Empty image={logo} alt='로고' navigate='/search' buttonName='검색하기'>
+              유저를 검색해 팔로우 해보세요!
+            </Empty>
+          )
+        )}
+      </main>
+      {showSpinner && <Spinner />}
+      {showTopButton && <TopButton />}
+      <Navbar />
+    </Layout>
   );
 };
 

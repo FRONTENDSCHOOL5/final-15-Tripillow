@@ -110,8 +110,7 @@ const Profile = () => {
   };
 
   return (
-    <>
-      {isPCScreen && <PCNavBar />}
+
 
       <Layout>
         <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='로그아웃' />
@@ -195,7 +194,7 @@ const Profile = () => {
         </main>
         <Navbar />
       </Layout>
-    </>
+
   );
 };
 

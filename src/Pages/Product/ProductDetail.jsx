@@ -35,6 +35,16 @@ const AddProduct = (props) => {
     setProductId(params.id);
   }, []);
 
+  const trimContent = (content) => {
+    const match = content?.match(/^\[(P|M)\]/);
+    if (match) {
+
+      return content.slice(3);
+    }
+    else return content;
+  };
+
+
   useEffect(() => {
     if (userName === productDetail.author?.accountname) setUserCheck(true);
   }, [accountName, productDetail.author?.accountname]);
@@ -69,10 +79,10 @@ const AddProduct = (props) => {
               content={'@' + productDetail.author?.accountname}
             />
             <ProductContent size='var(--xl)' weight='700'>
-              {productDetail.itemName?.substring(3)}
+              {trimContent(productDetail?.itemName)}
             </ProductContent>
             <ProductContent size='var(--lg)' height='1.4' style={{ whiteSpace: 'pre-wrap' }}>
-              {productDetail.link}
+              {productDetail?.link}
             </ProductContent>
           </main>
           <ProductButtonLayout>
