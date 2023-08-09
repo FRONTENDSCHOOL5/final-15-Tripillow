@@ -16,9 +16,11 @@ import logo from '../Assets/logo-gray.png';
 import styled from 'styled-components';
 import useIsDesktop from '../Components/PCNav/useIsDesktop';
 import PCNavBar from '../Components/PCNav/PCNavBar';
+import isDesktop from '../Recoil/isDesktop/isDesktop';
 
 const Home = () => {
-  const isPCScreen = useIsDesktop();
+  // const isPCScreen = useIsDesktop();
+  const isPCScreen = useRecoilValue(isDesktop);
   const token = useRecoilValue(userToken);
   const [feedCount, setFeedCount] = useState(0);
   const [followedFeed, setFollowedFeed] = useState([]);
@@ -119,7 +121,7 @@ const Home = () => {
       </main>
       {showSpinner && <Spinner />}
       {showTopButton && <TopButton />}
-      <Navbar />
+      {isPCScreen || <Navbar />}
     </Layout>
   );
 };

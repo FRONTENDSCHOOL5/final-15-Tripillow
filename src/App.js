@@ -1,5 +1,5 @@
 import { Routes, Route, Outlet } from 'react-router-dom';
-import { RecoilRoot } from 'recoil';
+// import { RecoilRoot } from 'recoil';
 import GlobalStyle from './GlobalStyle';
 import Landing from './Pages/Landing';
 import Home from './Pages/Home';
@@ -36,7 +36,7 @@ function App() {
 
   const isPCScreen = useIsDesktop();
   return (
-    <RecoilRoot>
+    // <RecoilRoot>
       <>
         <GlobalStyle />
         {isPCScreen && <PCNavBar />}
@@ -76,7 +76,7 @@ function App() {
           </>
         </Routes>
       </>
-    </RecoilRoot>
+    // </RecoilRoot>
   );
 }
 export default App;

@@ -26,9 +26,11 @@ import listOn from '../../Assets/icons/icon-post-list-on.svg';
 import listOff from '../../Assets/icons/icon-post-list-off.svg';
 import AlbumOn from '../../Assets/icons/icon-post-album-on.svg';
 import AlbumOff from '../../Assets/icons/icon-post-album-off.svg';
+import isDesktop from '../../Recoil/isDesktop/isDesktop';
 
 const Profile = () => {
-  const isPCScreen = useIsDesktop();
+  // const isPCScreen = useIsDesktop();
+  const isPCScreen = useRecoilValue(isDesktop);
   const params = useParams();
   const location = useLocation();
   const userAccountname = params.accountname;
@@ -110,91 +112,88 @@ const Profile = () => {
   };
 
   return (
+    <Layout>
+      <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='로그아웃' />
+      {(isModified || isDeleted) && <AlertTop>{isModified ? '수정되었습니다.' : '삭제되었습니다.'}</AlertTop>}
 
-
-      <Layout>
-        <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='로그아웃' />
-        {(isModified || isDeleted) && <AlertTop>{isModified ? '수정되었습니다.' : '삭제되었습니다.'}</AlertTop>}
-
-        <main>
-          {isLoading ? (
-            <>
-              <ProfileSkeletonLayout>
-                <ProfileSkeleton mb='6px' />
-                <ProfileTextSkeleton mb='6px' />
-                <ProfileTextSkeleton mb='16px' />
-                <ProfileTextSkeleton mb='24px' />
-                {!userAccountname ? (
-                  <>
-                    <ProfileButtonSkeleton />
-                    <ProfileButtonSkeleton />
-                  </>
-                ) : (
+      <main>
+        {isLoading ? (
+          <>
+            <ProfileSkeletonLayout>
+              <ProfileSkeleton mb='6px' />
+              <ProfileTextSkeleton mb='6px' />
+              <ProfileTextSkeleton mb='16px' />
+              <ProfileTextSkeleton mb='24px' />
+              {!userAccountname ? (
+                <>
                   <ProfileButtonSkeleton />
-                )}
-              </ProfileSkeletonLayout>
-              <UserProductLayout>
-                <h2>판매 중인 상품</h2>
-                <ProductItemSkeleton />
-              </UserProductLayout>
-              <ViewLayout>
-                <ViewButton bgImg={listView ? listOn : listOff} onClick={handleListView}></ViewButton>
-                <ViewButton bgImg={albumView ? AlbumOn : AlbumOff} onClick={handleAlbumView}></ViewButton>
-              </ViewLayout>
-              <article>
-                <HomePostSkeleton />
-              </article>
-            </>
-          ) : (
-            <>
-              <UserProfile
-                user={userAccountname ? userInfo : myInfo}
-                followCount={followCount}
-                setFollowCount={setFollowCount}
-                followerURL={followerURL}
-                followingURL={followingURL}
-              />
-              <UserProductLayout>
-                <h2>판매 중인 상품</h2>
-                <ProductListLayout>
-                  {productList.data > 0 ? (
-                    productList.product.map((product, index) => <ProductItem key={index} product={product} />)
-                  ) : (
-                    <NoProduct>상품을 등록해주세요!</NoProduct>
-                  )}
-                </ProductListLayout>
-              </UserProductLayout>
-              <ViewLayout>
-                <ViewButton bgImg={listView ? listOn : listOff} onClick={handleListView}></ViewButton>
-                <ViewButton bgImg={albumView ? AlbumOn : AlbumOff} onClick={handleAlbumView}></ViewButton>
-              </ViewLayout>
-              <section style={{ paddingBottom: 90 }}>
-                {postData?.length > 0 ? (
-                  <>
-                    {listView ? (
-                      postData.map((post, index) => <HomePostLayout key={index} post={post} />)
-                    ) : (
-                      <ImageLayoutBackground>
-                        <ImageLayout>
-                          {postData
-                            .filter((post) => post.image?.length > 0)
-                            .map((post, index) => (
-                              <ViewImage key={index} post={post} />
-                            ))}
-                        </ImageLayout>
-                      </ImageLayoutBackground>
-                    )}
-                  </>
+                  <ProfileButtonSkeleton />
+                </>
+              ) : (
+                <ProfileButtonSkeleton />
+              )}
+            </ProfileSkeletonLayout>
+            <UserProductLayout>
+              <h2>판매 중인 상품</h2>
+              <ProductItemSkeleton />
+            </UserProductLayout>
+            <ViewLayout>
+              <ViewButton bgImg={listView ? listOn : listOff} onClick={handleListView}></ViewButton>
+              <ViewButton bgImg={albumView ? AlbumOn : AlbumOff} onClick={handleAlbumView}></ViewButton>
+            </ViewLayout>
+            <article>
+              <HomePostSkeleton />
+            </article>
+          </>
+        ) : (
+          <>
+            <UserProfile
+              user={userAccountname ? userInfo : myInfo}
+              followCount={followCount}
+              setFollowCount={setFollowCount}
+              followerURL={followerURL}
+              followingURL={followingURL}
+            />
+            <UserProductLayout>
+              <h2>판매 중인 상품</h2>
+              <ProductListLayout>
+                {productList.data > 0 ? (
+                  productList.product.map((product, index) => <ProductItem key={index} product={product} />)
                 ) : (
-                  <NoContent>게시물이 없습니다.</NoContent>
+                  <NoProduct>상품을 등록해주세요!</NoProduct>
                 )}
-              </section>
-            </>
-          )}
-        </main>
-        <Navbar />
-      </Layout>
-
+              </ProductListLayout>
+            </UserProductLayout>
+            <ViewLayout>
+              <ViewButton bgImg={listView ? listOn : listOff} onClick={handleListView}></ViewButton>
+              <ViewButton bgImg={albumView ? AlbumOn : AlbumOff} onClick={handleAlbumView}></ViewButton>
+            </ViewLayout>
+            <section style={{ paddingBottom: 90 }}>
+              {postData?.length > 0 ? (
+                <>
+                  {listView ? (
+                    postData.map((post, index) => <HomePostLayout key={index} post={post} />)
+                  ) : (
+                    <ImageLayoutBackground>
+                      <ImageLayout>
+                        {postData
+                          .filter((post) => post.image?.length > 0)
+                          .map((post, index) => (
+                            <ViewImage key={index} post={post} />
+                          ))}
+                      </ImageLayout>
+                    </ImageLayoutBackground>
+                  )}
+                </>
+              ) : (
+                <NoContent>게시물이 없습니다.</NoContent>
+              )}
+            </section>
+          </>
+        )}
+      </main>
+      {isPCScreen || <Navbar />}
+    </Layout>
   );
 };
 

@@ -11,8 +11,12 @@ import defaultImage from '../../Assets/addproduct.png';
 import { useNavigate } from 'react-router-dom';
 import ErrorMSG from '../../Styles/ErrorMSG';
 import UploadProductAPI from '../../Utils/UploadProductAPI';
+import isDesktop from '../../Recoil/isDesktop/isDesktop';
+import { useRecoilValue } from 'recoil';
 
 const AddProduct = (props) => {
+  const isPCScreen = useRecoilValue(isDesktop);
+
   const [productName, setProductName] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
@@ -92,7 +96,7 @@ const AddProduct = (props) => {
         </label>
         <ProductText id='product' value={description} onChange={(e) => setDescription(e.target.value)} />
       </main>
-      <Navbar />
+      {isPCScreen || <Navbar />}
     </Layout>
   );
 };

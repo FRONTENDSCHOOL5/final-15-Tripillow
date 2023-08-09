@@ -17,10 +17,11 @@ import URL from '../../Utils/URL';
 import useFetch from '../../Hooks/useFetch';
 import userToken from '../../Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
+import isDesktop from '../../Recoil/isDesktop/isDesktop';
 
 const Product = () => {
   const navigate = useNavigate();
-  const isPCScreen = useIsDesktop();
+  const isPCScreen = useRecoilValue(isDesktop);
   const name = useRecoilValue(accountName);
   const token = useRecoilValue(userToken);
   const followingAccounts = [];
@@ -135,7 +136,7 @@ const Product = () => {
           height='50px'
         ></CircleButton>
       </div>
-      <Navbar />
+      {isPCScreen || <Navbar />}
     </StyledLayout>
   );
 };

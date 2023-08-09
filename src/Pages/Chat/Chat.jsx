@@ -8,9 +8,12 @@ import Navbar from '../../Components/common/Navbar';
 import ChatUser from './ChatUser';
 import PCNavBar from '../../Components/PCNav/PCNavBar';
 import useIsDesktop from '../../Components/PCNav/useIsDesktop';
+import isDesktop from '../../Recoil/isDesktop/isDesktop';
 
 const Chat = () => {
-  const isPCScreen = useIsDesktop();
+  // const isPCScreen = useIsDesktop();
+  const isPCScreen = useRecoilValue(isDesktop);
+
   const accountname = useRecoilValue(accountName);
   const { fetchFollowing } = FollowingListAPI(accountname);
   const [followingData, setFollowingData] = useState([]);
@@ -42,7 +45,7 @@ const Chat = () => {
             account={item.accountname}
           />
         ))}
-      <Navbar />
+      {isPCScreen || <Navbar />}
     </Layout>
   );
 };

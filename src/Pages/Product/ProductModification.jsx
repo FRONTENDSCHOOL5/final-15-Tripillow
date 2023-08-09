@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilTransaction_UNSTABLE, useRecoilValue } from 'recoil';
 import Toggle from '../../Components/common/Toggle';
 import styled from 'styled-components';
 import Navbar from '../../Components/common/Navbar';
@@ -13,10 +13,12 @@ import UploadHeader from '../../Components/common/Header/UploadHeader';
 import ProductModifyAPI from '../../Utils/ProductModifyAPI';
 import ProductDetailAPI from '../../Utils/ProductDetailAPI';
 import { LayoutStyle } from '../../Styles/Layout';
+import isDesktop from '../../Recoil/isDesktop/isDesktop';
 
 const ProductModification = (props) => {
   const navigate = useNavigate();
   const token = useRecoilValue(userToken);
+  const isPCScreen = useRecoilValue(isDesktop);
   const [productInputs, setProductInputs] = useState({
     product: {
       itemName: '',
@@ -136,7 +138,7 @@ const ProductModification = (props) => {
         상세 설명
       </label>
       <ProductText id='product' name='link' value={productInputs.product.link} onChange={handleInputChange} />
-      <Navbar />
+      {isPCScreen || <Navbar />}
     </Layout>
   );
 };
