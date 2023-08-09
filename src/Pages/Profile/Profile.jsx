@@ -19,9 +19,6 @@ import { LayoutStyle } from '../../Styles/Layout';
 import SkeletonItem from '../../Styles/SkeletonItem';
 import HomePostSkeleton from '../../Components/common/Skeleton/HomePostSkeleton';
 import AlertTop from '../../Components/common/Modal/AlertTop';
-import PCNavBar from '../../Components/PCNav/PCNavBar';
-import useIsDesktop from '../../Components/PCNav/useIsDesktop';
-
 import listOn from '../../Assets/icons/icon-post-list-on.svg';
 import listOff from '../../Assets/icons/icon-post-list-off.svg';
 import AlbumOn from '../../Assets/icons/icon-post-album-on.svg';
@@ -29,11 +26,10 @@ import AlbumOff from '../../Assets/icons/icon-post-album-off.svg';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
 
 const Profile = () => {
-  // const isPCScreen = useIsDesktop();
-  const isPCScreen = useRecoilValue(isDesktop);
   const params = useParams();
   const location = useLocation();
   const userAccountname = params.accountname;
+  const isPCScreen = useRecoilValue(isDesktop);
   const myAccount = useRecoilValue(accountName);
   const [listView, setListView] = useRecoilState(isList);
   const [albumView, setAlbumView] = useRecoilState(isAlbum);

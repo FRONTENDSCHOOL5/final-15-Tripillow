@@ -6,14 +6,10 @@ import { Layout } from '../../Styles/Layout';
 import BasicHeader from '../../Components/common/Header/BasicHeader';
 import Navbar from '../../Components/common/Navbar';
 import ChatUser from './ChatUser';
-import PCNavBar from '../../Components/PCNav/PCNavBar';
-import useIsDesktop from '../../Components/PCNav/useIsDesktop';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
 
 const Chat = () => {
-  // const isPCScreen = useIsDesktop();
   const isPCScreen = useRecoilValue(isDesktop);
-
   const accountname = useRecoilValue(accountName);
   const { fetchFollowing } = FollowingListAPI(accountname);
   const [followingData, setFollowingData] = useState([]);

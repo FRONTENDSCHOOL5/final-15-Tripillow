@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Layout } from '../Styles/Layout';
 import { useRecoilValue } from 'recoil';
 import userToken from '../Recoil/userToken/userToken';
-import { isKorea } from '../Recoil/whichCountry/whichCountry';
 import MainHeader from '../Components/common/Header/MainHeader';
 import Toggle from '../Components/common/Toggle';
 import HomePost from '../Components/HomePost/HomePostLayout';
@@ -13,13 +12,9 @@ import HomePostSkeleton from '../Components/common/Skeleton/HomePostSkeleton';
 import Spinner from '../Components/common/Spinner';
 import Empty from '../Components/common/Empty';
 import logo from '../Assets/logo-gray.png';
-import styled from 'styled-components';
-import useIsDesktop from '../Components/PCNav/useIsDesktop';
-import PCNavBar from '../Components/PCNav/PCNavBar';
 import isDesktop from '../Recoil/isDesktop/isDesktop';
 
 const Home = () => {
-  // const isPCScreen = useIsDesktop();
   const isPCScreen = useRecoilValue(isDesktop);
   const token = useRecoilValue(userToken);
   const [feedCount, setFeedCount] = useState(0);
@@ -30,7 +25,6 @@ const Home = () => {
   const [isLeftToggle, setIsLeftToggle] = useState(true);
   const [globalPosts, setGlobalPosts] = useState([]);
   const [koreaPosts, setKoreaPosts] = useState([]);
-  const korea = useRecoilValue(isKorea);
 
   useEffect(() => {
     const setCategory = () => {

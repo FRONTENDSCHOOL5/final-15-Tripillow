@@ -11,8 +11,8 @@ import { useRecoilValue } from 'recoil';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
 
 const Followers = () => {
-  const isPCScreen = useRecoilValue(isDesktop);
   const location = useLocation();
+  const isPCScreen = useRecoilValue(isDesktop);
   const pathIdentifier = location.pathname.split('/');
   const last = pathIdentifier.length - 1;
   const accountname = location.state?.accountname;

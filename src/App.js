@@ -36,7 +36,6 @@ function App() {
 
   const isPCScreen = useIsDesktop();
   return (
-    // <RecoilRoot>
       <>
         <GlobalStyle />
         {isPCScreen && <PCNavBar />}
@@ -76,7 +75,6 @@ function App() {
           </>
         </Routes>
       </>
-    // </RecoilRoot>
   );
 }
 export default App;
