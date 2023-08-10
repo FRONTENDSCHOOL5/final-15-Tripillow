@@ -65,6 +65,8 @@ const Layout = styled.div`
   padding-top: 46px;
   position: absolute;
   box-shadow: 2px 0px 8px 0px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+  position: fixed;
 `;
 
 const Button = styled.button`
