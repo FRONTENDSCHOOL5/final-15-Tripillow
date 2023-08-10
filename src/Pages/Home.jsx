@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Layout } from '../Styles/Layout';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import userToken from '../Recoil/userToken/userToken';
+import { isKorea } from '../Recoil/whichCountry/whichCountry';
 import MainHeader from '../Components/common/Header/MainHeader';
 import Toggle from '../Components/common/Toggle';
 import HomePost from '../Components/HomePost/HomePostLayout';
@@ -32,6 +33,7 @@ const Home = () => {
     const updatedGlobalPosts = [];
 
     if (cachedData) {
+      feedCount.current += 1;
       for (let i = 0; i < cachedData.pages.length; i++) {
         cachedData?.pages[i]?.forEach((post) => {
           const match = post.content.match(/^\[(K|G)\]/);
