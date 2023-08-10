@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Layout } from '../Styles/Layout';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import userToken from '../Recoil/userToken/userToken';
+import { isKorea } from '../Recoil/whichCountry/whichCountry';
 import MainHeader from '../Components/common/Header/MainHeader';
 import Toggle from '../Components/common/Toggle';
 import HomePost from '../Components/HomePost/HomePostLayout';
@@ -135,7 +136,7 @@ const Home = () => {
       </main>
       <TopButton />
       {isPCScreen || <Navbar />}
-      <MyPillowers />
+      <MyPillowers $on={isPCScreen} />
     </Layout>
   );
 };

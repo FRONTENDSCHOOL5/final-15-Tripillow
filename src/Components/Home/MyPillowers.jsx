@@ -7,7 +7,7 @@ import FollowingListAPI from '../../Utils/FollowingListAPI';
 import MyInfoAPI from '../../Utils/MyInfoAPI';
 import FollowUser from '../common/FollowUser';
 
-const MyPillowers = () => {
+const MyPillowers = (props) => {
   const accountname = useRecoilValue(accountName);
   const { fetchFollowing } = FollowingListAPI(accountname);
   const { getUserData } = MyInfoAPI();
@@ -26,22 +26,25 @@ const MyPillowers = () => {
   }, []);
 
   return (
-    <Layout>
-      <h2>My Pillowers</h2>
-      <div>
-        {myFollowing &&
-          myFollowing.map((user, idx) => <FollowUser followers key={idx} user={user} margin='24px 0 0 0' />)}
-      </div>
-      <PillowersMore to='/profile/followings' state={user}>
-        pillowers 더 보러가기
-      </PillowersMore>
-    </Layout>
+    <>
+      <Layout {...props}>
+        <h2>My Pillowers</h2>
+        <div>
+          {myFollowing &&
+            myFollowing.map((user, idx) => <FollowUser followers key={idx} user={user} margin='24px 0 0 0' />)}
+        </div>
+        <PillowersMore to='/profile/followings' state={user}>
+          pillowers 더 보러가기
+        </PillowersMore>
+      </Layout>
+    </>
   );
 };
 
 export default MyPillowers;
 
 const Layout = styled.article`
+  display: ${(props) => (props.$on ? 'block' : 'none')};
   position: fixed;
   top: 46px;
   right: 130px;
