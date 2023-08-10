@@ -55,7 +55,7 @@ const AddProduct = (props) => {
   };
 
   return (
-    <Layout>
+    <Layout $isPCScreen={isPCScreen}>
       <UploadHeader onClick={handleSubmit} disabled={!imageLink || !productName || !price || !description}>
         저장
       </UploadHeader>

@@ -12,10 +12,13 @@ import imageCompression from 'browser-image-compression';
 import UploadPostAPI from '../../Utils/UploadPostAPI';
 import CompressedImageUploadAPI from '../../Utils/CompressedImageUploadAPI';
 import useIsDesktop from '../../Components/PCNav/useIsDesktop';
+import { useRecoilValue } from 'recoil';
+import isDesktop from '../../Recoil/isDesktop/isDesktop';
 
 export default function Post() {
   const navigate = useNavigate();
   const textarea = useRef();
+  const isPCScreen = useRecoilValue(isDesktop);
   const [inputValue, setInputValue] = useState('');
   const [imgURL, setImgURL] = useState([]);
   const [isLeftToggle, setIsLeftToggle] = useState(true);
@@ -97,7 +100,7 @@ export default function Post() {
   };
 
   return (
-    <PostLayout>
+    <PostLayout $isPCScreen={isPCScreen}>
       <UploadHeader disabled={!inputValue} onClick={handleSubmit}>
         업로드
       </UploadHeader>

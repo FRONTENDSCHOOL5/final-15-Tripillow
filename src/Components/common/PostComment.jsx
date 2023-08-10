@@ -1,11 +1,14 @@
 import React, { useState, useRef } from 'react';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import profileImg from '../../Assets/profile-sm.png';
+import isDesktop from '../../Recoil/isDesktop/isDesktop';
 import PostCommentAPI from '../../Utils/PostCommentAPI';
 
 export default function PostComment({ postId, setIsNewComment, userImg }) {
   const [userInput, setUserInput] = useState('');
   const input = useRef();
+  const isPCScreen = useRecoilValue(isDesktop);
   const handleInputChange = (e) => {
     const input = e.target.value;
     setUserInput(input);
@@ -21,7 +24,7 @@ export default function PostComment({ postId, setIsNewComment, userImg }) {
   };
 
   return (
-    <FooterFormLayout>
+    <FooterFormLayout $isPCScreen={isPCScreen}>
       <InputLayout>
         <ProfileImg src={userImg || profileImg}></ProfileImg>
         <InputStyle type='text' placeholder='댓글 입력하기' ref={input} onChange={handleInputChange} />
@@ -36,7 +39,8 @@ export default function PostComment({ postId, setIsNewComment, userImg }) {
 const FooterFormLayout = styled.form`
   display: flex;
   justify-content: space-between;
-  min-width: 388px;
+  /* min-width: 388px; */
+  width: ${(props) => (props.$isPCScreen ? '480px' : '390px')};
   min-height: 60px;
   padding: 13px 18px 30px;
   box-sizing: border-box;

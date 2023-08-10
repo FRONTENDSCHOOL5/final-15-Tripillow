@@ -5,9 +5,12 @@ import MyInfoAPI from '../../Utils/MyInfoAPI';
 import { LayoutStyle } from '../../Styles/Layout';
 import BasicHeader from '../../Components/common/Header/BasicHeader';
 import profileSm from '../../Assets/profile-sm.png';
+import { useRecoilValue } from 'recoil';
+import isDesktop from '../../Recoil/isDesktop/isDesktop';
 
 const ChatDetail = () => {
   const location = useLocation();
+  const isPCScreen = useRecoilValue(isDesktop);
   const [inputValue, setInputValue] = useState('');
   const [chatValue, setChatValue] = useState([]);
   const [myInfo, setMyInfo] = useState({});
@@ -42,7 +45,7 @@ const ChatDetail = () => {
   const minutes = now.getMinutes().toString().padStart(2, '0');
 
   return (
-    <ChatLayout>
+    <ChatLayout $isPCScreen={isPCScreen}>
       <BasicHeader btn1='신고하기' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='확인'>
         {location.state.username}
       </BasicHeader>
@@ -64,7 +67,7 @@ const ChatDetail = () => {
           </ChatContent>
         </ChatContentLayout>
       ))}
-      <ChatInputBar>
+      <ChatInputBar $isPCScreen={isPCScreen}>
         <UserImageLayout to={`/profile`}>
           <UserImage src={myInfo.image || profileSm} alt='프로필 이미지' />
         </UserImageLayout>
@@ -136,7 +139,7 @@ const ChatInputBar = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 390px;
+  width: ${(props) => (props.$isPCScreen ? '480px' : '390px')};
   min-height: 60px;
   box-sizing: border-box;
   margin: auto;

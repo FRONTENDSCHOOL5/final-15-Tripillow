@@ -11,6 +11,7 @@ import heartfill from '../../Assets/icons/icon-heart-fill.svg';
 import Button from '../../Components/common/Button';
 import User from '../../Components/common/User';
 import chatLists from '../../Mock/chatLists';
+import isDesktop from '../../Recoil/isDesktop/isDesktop';
 
 const AddProduct = (props) => {
   const [productId, setProductId] = useState('');
@@ -18,6 +19,7 @@ const AddProduct = (props) => {
   const params = useParams();
   const navigate = useNavigate();
   const userName = useRecoilValue(accountName);
+  const isPCScreen = useRecoilValue(isDesktop);
   const productDetail = ProductDetailAPI(params.id);
   const userImg = productDetail.author?.image;
   const [userCheck, setUserCheck] = useState(false);
@@ -38,12 +40,9 @@ const AddProduct = (props) => {
   const trimContent = (content) => {
     const match = content?.match(/^\[(P|M)\]/);
     if (match) {
-
       return content.slice(3);
-    }
-    else return content;
+    } else return content;
   };
-
 
   useEffect(() => {
     if (userName === productDetail.author?.accountname) setUserCheck(true);
@@ -52,7 +51,7 @@ const AddProduct = (props) => {
   return (
     <>
       {productDetail && (
-        <Layout>
+        <Layout $isPCScreen={isPCScreen}>
           <BasicHeader
             empty={!userCheck}
             userId={productId}
@@ -85,7 +84,7 @@ const AddProduct = (props) => {
               {productDetail?.link}
             </ProductContent>
           </main>
-          <ProductButtonLayout>
+          <ProductButtonLayout $isPCScreen={isPCScreen}>
             <div style={{ display: 'flex', marginLeft: '20px' }}>
               <Icon
                 src={isClick === false ? hearticon : heartfill}
@@ -161,7 +160,8 @@ const ProductContent = styled.p`
 
 const ProductButtonLayout = styled.div`
   display: flex;
-  width: 390px;
+  /* width: 390px; */
+  width: ${(props) => (props.$isPCScreen ? '480px' : '390px')};
   margin: 0 auto;
   align-items: center;
   padding: 25px 0 20px;

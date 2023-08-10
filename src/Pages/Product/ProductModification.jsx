@@ -94,7 +94,7 @@ const ProductModification = () => {
   }, [isModified]);
 
   return (
-    <Layout>
+    <Layout $isPCScreen={isPCScreen}>
       <UploadHeader type='submit' onClick={handleSubmit}>
         저장
       </UploadHeader>

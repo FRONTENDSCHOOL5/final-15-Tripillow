@@ -24,7 +24,7 @@ const Chat = () => {
   }, []);
 
   return (
-    <Layout>
+    <Layout $isPCScreen={isPCScreen}>
       <BasicHeader
         btn1='설정 및 개인정보'
         btn2='로그아웃'
