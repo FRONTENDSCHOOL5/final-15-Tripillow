@@ -13,8 +13,8 @@ import HomePostSkeleton from '../Components/common/Skeleton/HomePostSkeleton';
 import Spinner from '../Components/common/Spinner';
 import Empty from '../Components/common/Empty';
 import logo from '../Assets/logo-gray.png';
-import styled from 'styled-components';
 import useIsDesktop from '../Components/PCNav/useIsDesktop';
+import MyPillowers from '../Components/Home/MyPillowers';
 import PCNavBar from '../Components/PCNav/PCNavBar';
 
 const Home = () => {
@@ -119,6 +119,7 @@ const Home = () => {
       </main>
       {showSpinner && <Spinner />}
       {showTopButton && <TopButton />}
+      <MyPillowers />
       <Navbar />
     </Layout>
   );
