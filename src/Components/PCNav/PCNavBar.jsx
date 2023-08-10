@@ -39,7 +39,7 @@ const PCNavBar = (props) => {
   return (
     <Layout>
       <Button onClick={() => navigate('/home')}>
-        <img src={logo} alt='logo' style={{ width: '100%' }} />
+        <img src={logo} alt='logo' style={{ width: '80%' }} />
       </Button>
       {icons.map((el, i) => {
         return (
@@ -71,21 +71,25 @@ const Button = styled.button`
   display: flex;
   align-items: center;
   width: 221px;
-  height: 50px;
+  height: 40px;
   margin: 0 auto;
-  margin-bottom: 60px;
+  margin-bottom: 20px;
+
+  &:first-child {
+    margin-bottom: 40px;
+  }
 `;
 
 const Icon = styled.img`
-  width: 38px;
-  height: 38px;
+  width: 24px;
+  height: 24px;
   margin-right: 39px;
 `;
 
 const IconInfo = styled.span`
   color: ${(props) => (props.setColor ? 'var(--primary)' : 'var(--dark-gray)')};
   text-align: center;
-  font-size: 22px;
+  font-size: var(--md);
 `;
 
 export default PCNavBar;
