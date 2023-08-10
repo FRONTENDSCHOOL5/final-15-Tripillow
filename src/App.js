@@ -24,23 +24,25 @@ import Setting from './Pages/Profile/Setting';
 import { useEffect } from 'react';
 import useIsDesktop from './Components/PCNav/useIsDesktop';
 import PCNavBar from './Components/PCNav/PCNavBar';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 function App() {
   const setScreenSize = () => {
     let vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
   };
+  const queryClient = new QueryClient();
+
   useEffect(() => {
     setScreenSize();
   });
 
   const isPCScreen = useIsDesktop();
   return (
-      <>
+    <QueryClientProvider client={queryClient}>
         <GlobalStyle />
         {isPCScreen && <PCNavBar />}
         <Routes>
-          <>
             <Route path='/' element={<Landing />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
@@ -72,9 +74,8 @@ function App() {
               <Route path='/chat/:username' element={<ChatDetail />} />
             </Route>
             <Route path='*' element={<NotFound />} />
-          </>
         </Routes>
-      </>
+    </QueryClientProvider>
   );
 }
 export default App;

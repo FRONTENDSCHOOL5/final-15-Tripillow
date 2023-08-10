@@ -11,6 +11,8 @@
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-intersection-observer": "^9.5.2",
+    "react-query": "^3.39.3",
     "react-router-dom": "^6.12.1",
     "react-scripts": "5.0.1",
     "recoil": "^0.7.7",
