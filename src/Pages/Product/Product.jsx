@@ -13,8 +13,9 @@ import ProductItemSkeleton from '../../Components/common/Skeleton/ProductItemSke
 import URL from '../../Utils/URL';
 import useFetch from '../../Hooks/useFetch';
 import userToken from '../../Recoil/userToken/userToken';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
+import { isProduct } from '../../Recoil/productCategory/productCategory';
 
 const Product = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const Product = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [products, setProducts] = useState(null);
-  const [isLeftToggle, setIsLeftToggle] = useState(true);
+  const [isLeftToggle, setIsLeftToggle] = useRecoilState(isProduct);
   const [tripProduct, setTripProduct] = useState([]);
   const [tirpMoney, setTripMoney] = useState([]);
   const {
@@ -102,7 +103,8 @@ const Product = () => {
       <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='확인'>
         Pillower의 판매상품
       </BasicHeader>
-      <Toggle margin='0 0 20px 0' leftButton='여행용품' rightButton='외화' setIsLeftToggle={setIsLeftToggle} />
+      <Toggle margin='0 0 20px 0' leftButton='여행용품' rightButton='외화' setIsLeftToggle={setIsLeftToggle}
+      rightOn={!isLeftToggle} />
       <GridLayout>
         {userLoading ||
           (isLoading && (
