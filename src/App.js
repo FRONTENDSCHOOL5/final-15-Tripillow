@@ -1,5 +1,5 @@
 import { Routes, Route, Outlet } from 'react-router-dom';
-import { RecoilRoot } from 'recoil';
+// import { RecoilRoot } from 'recoil';
 import GlobalStyle from './GlobalStyle';
 import Landing from './Pages/Landing';
 import Home from './Pages/Home';
@@ -24,24 +24,25 @@ import Setting from './Pages/Profile/Setting';
 import { useEffect } from 'react';
 import useIsDesktop from './Components/PCNav/useIsDesktop';
 import PCNavBar from './Components/PCNav/PCNavBar';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 function App() {
   const setScreenSize = () => {
     let vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
   };
+  const queryClient = new QueryClient();
+
   useEffect(() => {
     setScreenSize();
   });
 
   const isPCScreen = useIsDesktop();
   return (
-    <RecoilRoot>
-      <>
+    <QueryClientProvider client={queryClient}>
         <GlobalStyle />
         {isPCScreen && <PCNavBar />}
         <Routes>
-          <>
             <Route path='/' element={<Landing />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
@@ -73,10 +74,8 @@ function App() {
               <Route path='/chat/:username' element={<ChatDetail />} />
             </Route>
             <Route path='*' element={<NotFound />} />
-          </>
         </Routes>
-      </>
-    </RecoilRoot>
+    </QueryClientProvider>
   );
 }
 export default App;

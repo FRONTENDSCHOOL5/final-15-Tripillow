@@ -14,6 +14,7 @@ import HeaderLayout from '../../../Styles/HeaderLayout';
 import AlertModal from '../Modal/AlertModal';
 import prev from '../../../Assets/icons/icon-arrow-back.svg';
 import more from '../../../Assets/icons/icon-more-vertical.svg';
+import { useQueryClient } from 'react-query';
 
 const BasicHeader = (props) => {
   const navigate = useNavigate();
@@ -33,6 +34,8 @@ const BasicHeader = (props) => {
 
   const [isDeleted, setIsDeleted] = useState(false);
 
+  const queryClient = useQueryClient();
+
   useEffect(() => {
     setModal(false);
   }, []);
@@ -43,6 +46,7 @@ const BasicHeader = (props) => {
 
   const handleLogoutbutton = (e) => {
     e.stopPropagation();
+    queryClient.clear();
     setModal(false);
     setAlertModal(true);
   };

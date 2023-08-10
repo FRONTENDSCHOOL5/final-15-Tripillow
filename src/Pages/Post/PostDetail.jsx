@@ -9,10 +9,13 @@ import PostDetailAPI from '../../Utils/PostDetailAPI';
 import GetNumerousCommentAPI from '../../Utils/GetNumerousCommentAPI';
 import HomePostLayout from '../../Components/HomePost/HomePostLayout';
 import MyInfoAPI from '../../Utils/MyInfoAPI';
+import { useRecoilValue } from 'recoil';
+import isDesktop from '../../Recoil/isDesktop/isDesktop';
 
 const PostDetail = () => {
   const { id } = useParams();
   const postId = id;
+  const isPCScreen = useRecoilValue(isDesktop);
   const [myInfo, setMyInfo] = useState({});
   const updateMyInfo = (data) => {
     setMyInfo(data);
@@ -73,7 +76,7 @@ const PostDetail = () => {
   };
 
   return (
-    <Layout>
+    <Layout $isPCScreen={isPCScreen}>
       <BasicHeader
         btn1='설정 및 개인정보'
         btn2='로그아웃'

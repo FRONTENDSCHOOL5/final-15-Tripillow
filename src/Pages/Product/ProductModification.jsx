@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import Navbar from '../../Components/common/Navbar';
 import Input from '../../Components/common/Input';
 import URL from '../../Utils/URL';
-import userToken from '../../Recoil/userToken/userToken';
 import ImageUploadAPI from '../../Utils/ImageUploadAPI';
 import defaultImage from '../../Assets/addproduct.png';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -13,10 +12,11 @@ import UploadHeader from '../../Components/common/Header/UploadHeader';
 import ProductModifyAPI from '../../Utils/ProductModifyAPI';
 import ProductDetailAPI from '../../Utils/ProductDetailAPI';
 import { LayoutStyle } from '../../Styles/Layout';
+import isDesktop from '../../Recoil/isDesktop/isDesktop';
 
-const ProductModification = (props) => {
+const ProductModification = () => {
   const navigate = useNavigate();
-  const token = useRecoilValue(userToken);
+  const isPCScreen = useRecoilValue(isDesktop);
   const [productInputs, setProductInputs] = useState({
     product: {
       itemName: '',
@@ -94,7 +94,7 @@ const ProductModification = (props) => {
   }, [isModified]);
 
   return (
-    <Layout>
+    <Layout $isPCScreen={isPCScreen}>
       <UploadHeader type='submit' onClick={handleSubmit}>
         저장
       </UploadHeader>
@@ -136,7 +136,7 @@ const ProductModification = (props) => {
         상세 설명
       </label>
       <ProductText id='product' name='link' value={productInputs.product.link} onChange={handleInputChange} />
-      <Navbar />
+      {isPCScreen || <Navbar />}
     </Layout>
   );
 };

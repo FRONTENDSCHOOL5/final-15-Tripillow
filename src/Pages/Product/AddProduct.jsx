@@ -6,18 +6,21 @@ import Input from '../../Components/common/Input';
 import { LayoutStyle } from '../../Styles/Layout';
 import UploadHeader from '../../Components/common/Header/UploadHeader';
 import URL from '../../Utils/URL';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import ImageUploadAPI from '../../Utils/ImageUploadAPI';
 import defaultImage from '../../Assets/addproduct.png';
-import { useNavigate } from 'react-router-dom';
 import ErrorMSG from '../../Styles/ErrorMSG';
 import UploadProductAPI from '../../Utils/UploadProductAPI';
+import isDesktop from '../../Recoil/isDesktop/isDesktop';
 
 const AddProduct = (props) => {
+  const navigate = useNavigate();
+  const isPCScreen = useRecoilValue(isDesktop);
   const [productName, setProductName] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
   const [imageLink, setImageLink] = useState('');
-  const navigate = useNavigate();
   const [priceErr, setPriceErr] = useState(false);
   const [isLeftToggle, setIsLeftToggle] = useState(true);
   const uploadProduct = UploadProductAPI({ productName, price, description, imageLink }, isLeftToggle);
@@ -52,7 +55,7 @@ const AddProduct = (props) => {
   };
 
   return (
-    <Layout>
+    <Layout $isPCScreen={isPCScreen}>
       <UploadHeader onClick={handleSubmit} disabled={!imageLink || !productName || !price || !description}>
         저장
       </UploadHeader>
@@ -92,7 +95,7 @@ const AddProduct = (props) => {
         </label>
         <ProductText id='product' value={description} onChange={(e) => setDescription(e.target.value)} />
       </main>
-      <Navbar />
+      {isPCScreen || <Navbar />}
     </Layout>
   );
 };

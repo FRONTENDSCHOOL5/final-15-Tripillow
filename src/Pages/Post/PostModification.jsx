@@ -12,11 +12,14 @@ import iconImg from '../../Assets/icons/upload-file.svg';
 import PostModifyAPI from '../../Utils/PostModifyAPI';
 import imageCompression from 'browser-image-compression';
 import CompressedImageUploadAPI from '../../Utils/CompressedImageUploadAPI';
+import { useRecoilValue } from 'recoil';
+import isDesktop from '../../Recoil/isDesktop/isDesktop';
 
 const PostModification = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const postId = location.state;
+  const isPCScreen = useRecoilValue(isDesktop);
   const [postInput, setPostInput] = useState({
     post: {
       content: '',
@@ -169,7 +172,7 @@ const PostModification = () => {
   };
 
   return (
-    <PostLayout>
+    <PostLayout $isPCScreen={isPCScreen}>
       <UploadHeader disabled={!postInput.post.content} onClick={handleSubmit}>
         업로드
       </UploadHeader>

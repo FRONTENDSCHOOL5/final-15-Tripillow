@@ -21,7 +21,7 @@ const TopButton = () => {
 
 const TopButtonLayout = styled.div`
   position: fixed;
-  width: 360px;
+  width: 460px;
   height: 48px;
   bottom: 85px;
 `;
