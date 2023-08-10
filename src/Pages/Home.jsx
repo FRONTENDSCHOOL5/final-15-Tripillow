@@ -13,10 +13,12 @@ import HomePostSkeleton from '../Components/common/Skeleton/HomePostSkeleton';
 import Spinner from '../Components/common/Spinner';
 import Empty from '../Components/common/Empty';
 import logo from '../Assets/logo-gray.png';
+import isDesktop from '../Recoil/isDesktop/isDesktop';
 import { useInfiniteQuery, useQueryClient } from 'react-query';
 import { useInView } from 'react-intersection-observer';
 
 const Home = () => {
+  const isPCScreen = useRecoilValue(isDesktop);
   const token = useRecoilValue(userToken);
   const queryClient = useQueryClient();
 
@@ -102,7 +104,7 @@ const Home = () => {
   }, [inView]);
 
   return (
-    <Layout>
+    <Layout $isPCScreen={isPCScreen}>
       <MainHeader />
       <main style={{ paddingBottom: 90 }}>
         <Toggle
@@ -132,8 +134,8 @@ const Home = () => {
         )}
         <div ref={ref}> {isFetchingNextPage && <Spinner />}</div>
       </main>
-      <Navbar />
       <TopButton />
+      {isPCScreen || <Navbar />}
     </Layout>
   );
 };
