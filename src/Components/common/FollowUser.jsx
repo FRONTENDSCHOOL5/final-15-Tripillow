@@ -53,7 +53,7 @@ const FollowUser = (props) => {
     <UserLayout margin={props.margin}>
       <Link to={`/profile/${props.user.accountname}`}>
         <UserImgLayout>
-          <UserImg src={url[url.length - 1] === 'null' ? profileSm : props.user?.image} alt={props.user?.username} />
+          <UserImg src={url[url?.length - 1] === 'null' ? profileSm : props.user?.image} alt={props.user?.username} />
         </UserImgLayout>
       </Link>
       <UserContentsLayout>
@@ -61,7 +61,7 @@ const FollowUser = (props) => {
           <UserTitle>{props.user?.username}</UserTitle>
           <UserContent>{props.user?.intro} </UserContent>
         </div>
-        {props.followers && pathIdentifier.length < 4 && (
+        {props.followers && pathIdentifier?.length < 4 && (
           <Button
             onClick={handleFollowButtonClick}
             clicked={followText === '취소'}
