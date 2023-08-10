@@ -8,9 +8,12 @@ import SearchHeader from '../Components/common/Header/SearchHeader';
 import Navbar from '../Components/common/Navbar';
 import User from '../Components/common/User';
 import UserSkeleton from '../Components/common/Skeleton/UserSkeleton';
+import isDesktop from '../Recoil/isDesktop/isDesktop';
 
 const Search = () => {
   const token = useRecoilValue(userToken);
+  const isPCScreen = useRecoilValue(isDesktop);
+
   const [searchKeyword, setSearchKeyword] = useState('');
   const [searchData, setSearchData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -114,7 +117,7 @@ const Search = () => {
             (searchData.length > 10 && <ShowAllButton onClick={handleAllResults}>결과 모두 보기</ShowAllButton>)}
         </ul>
       </SearchContentLayout>
-      <Navbar />
+      {isPCScreen || <Navbar />}
     </Layout>
   );
 };

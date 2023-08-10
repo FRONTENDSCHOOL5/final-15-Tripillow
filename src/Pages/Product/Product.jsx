@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import BasicHeader from '../../Components/common/Header/BasicHeader';
 import Navbar from '../../Components/common/Navbar';
@@ -10,17 +10,15 @@ import CircleButton from '../../Components/common/CircleButton';
 import accountName from '../../Recoil/accountName/accountName';
 import Toggle from '../../Components/common/Toggle';
 import ProductItemSkeleton from '../../Components/common/Skeleton/ProductItemSkeleton';
-import PCNavBar from '../../Components/PCNav/PCNavBar';
-import useIsDesktop from '../../Components/PCNav/useIsDesktop';
-
 import URL from '../../Utils/URL';
 import useFetch from '../../Hooks/useFetch';
 import userToken from '../../Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
+import isDesktop from '../../Recoil/isDesktop/isDesktop';
 
 const Product = () => {
   const navigate = useNavigate();
-  const isPCScreen = useIsDesktop();
+  const isPCScreen = useRecoilValue(isDesktop);
   const name = useRecoilValue(accountName);
   const token = useRecoilValue(userToken);
   const followingAccounts = [];
@@ -100,7 +98,7 @@ const Product = () => {
   }, [user]);
 
   return (
-    <StyledLayout>
+    <StyledLayout $isPCScreen={isPCScreen}>
       <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='확인'>
         Pillower의 판매상품
       </BasicHeader>
@@ -125,8 +123,7 @@ const Product = () => {
       </GridLayout>
       <div style={{ position: 'fixed', width: '360px', height: '48px', bottom: '100px' }}>
         <CircleButton
-          onCl
-          ick={() => {
+          onClick={() => {
             navigate('/addproduct');
           }}
           position='relative'
@@ -135,7 +132,7 @@ const Product = () => {
           height='50px'
         ></CircleButton>
       </div>
-      <Navbar />
+      {isPCScreen || <Navbar />}
     </StyledLayout>
   );
 };

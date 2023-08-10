@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Layout } from '../Styles/Layout';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import userToken from '../Recoil/userToken/userToken';
-import { isKorea } from '../Recoil/whichCountry/whichCountry';
 import MainHeader from '../Components/common/Header/MainHeader';
 import Toggle from '../Components/common/Toggle';
 import HomePost from '../Components/HomePost/HomePostLayout';
@@ -13,10 +12,12 @@ import HomePostSkeleton from '../Components/common/Skeleton/HomePostSkeleton';
 import Spinner from '../Components/common/Spinner';
 import Empty from '../Components/common/Empty';
 import logo from '../Assets/logo-gray.png';
+import isDesktop from '../Recoil/isDesktop/isDesktop';
 import { useInfiniteQuery, useQueryClient } from 'react-query';
 import { useInView } from 'react-intersection-observer';
 
 const Home = () => {
+  const isPCScreen = useRecoilValue(isDesktop);
   const token = useRecoilValue(userToken);
   const queryClient = useQueryClient();
 
@@ -101,7 +102,7 @@ const Home = () => {
   }, [inView]);
 
   return (
-    <Layout>
+    <Layout $isPCScreen={isPCScreen}>
       <MainHeader />
       <main style={{ paddingBottom: 90 }}>
         <Toggle
@@ -132,7 +133,7 @@ const Home = () => {
         <div ref={ref}> {isFetchingNextPage && <Spinner />}</div>
       </main>
       <TopButton />
-      <Navbar />
+      {isPCScreen || <Navbar />}
     </Layout>
   );
 };

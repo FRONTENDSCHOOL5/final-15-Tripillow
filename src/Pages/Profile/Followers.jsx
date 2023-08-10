@@ -7,9 +7,12 @@ import Navbar from '../../Components/common/Navbar';
 import { LayoutStyle } from '../../Styles/Layout';
 import FollowingListAPI from '../../Utils/FollowingListAPI';
 import FollowerListAPI from '../../Utils/FollowerListAPI';
+import { useRecoilValue } from 'recoil';
+import isDesktop from '../../Recoil/isDesktop/isDesktop';
 
 const Followers = () => {
   const location = useLocation();
+  const isPCScreen = useRecoilValue(isDesktop);
   const pathIdentifier = location.pathname.split('/');
   const last = pathIdentifier.length - 1;
   const accountname = location.state?.accountname;
@@ -59,7 +62,7 @@ const Followers = () => {
               <FollowUser followers key={index} user={following} pathIdentifier={pathIdentifier} margin='24px 0 0 0' />
             ))}
       </main>
-      <Navbar />
+      {isPCScreen || <Navbar />}
     </Layout>
   );
 };
