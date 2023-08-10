@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Layout } from '../Styles/Layout';
 import { useRecoilValue } from 'recoil';
 import userToken from '../Recoil/userToken/userToken';
@@ -13,29 +13,40 @@ import HomePostSkeleton from '../Components/common/Skeleton/HomePostSkeleton';
 import Spinner from '../Components/common/Spinner';
 import Empty from '../Components/common/Empty';
 import logo from '../Assets/logo-gray.png';
-import styled from 'styled-components';
 import useIsDesktop from '../Components/PCNav/useIsDesktop';
-import PCNavBar from '../Components/PCNav/PCNavBar';
+import { useInfiniteQuery, useQueryClient } from 'react-query';
+import { useInView } from 'react-intersection-observer';
 
 const Home = () => {
-  const isPCScreen = useIsDesktop();
   const token = useRecoilValue(userToken);
-  const [feedCount, setFeedCount] = useState(0);
-  const [followedFeed, setFollowedFeed] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [showSpinner, setShowSpinner] = useState(false);
-  const [showTopButton, setShowTopButton] = useState(false);
+  const queryClient = useQueryClient();
+
+  const feedCount = useRef(0);
   const [isLeftToggle, setIsLeftToggle] = useState(true);
+
   const [globalPosts, setGlobalPosts] = useState([]);
   const [koreaPosts, setKoreaPosts] = useState([]);
   const korea = useRecoilValue(isKorea);
 
-  useEffect(() => {
-    const setCategory = () => {
-      const updatedKoreaPosts = [];
-      const updatedGlobalPosts = [];
+  const [ref, inView] = useInView();
 
-      followedFeed.forEach((post) => {
+  const setCategory = (cachedData, followedFeed) => {
+    const updatedKoreaPosts = [];
+    const updatedGlobalPosts = [];
+
+    if (cachedData) {
+      for (let i = 0; i < cachedData.pages.length; i++) {
+        cachedData?.pages[i]?.forEach((post) => {
+          const match = post.content.match(/^\[(K|G)\]/);
+          if (match === null || match[1] !== 'G') {
+            updatedKoreaPosts.push(post);
+          } else {
+            updatedGlobalPosts.push(post);
+          }
+        });
+      }
+    } else {
+      followedFeed?.pages[feedCount.current]?.forEach((post) => {
         const match = post.content.match(/^\[(K|G)\]/);
         if (match === null || match[1] !== 'G') {
           updatedKoreaPosts.push(post);
@@ -43,67 +54,73 @@ const Home = () => {
           updatedGlobalPosts.push(post);
         }
       });
-      setKoreaPosts(updatedKoreaPosts);
-      setGlobalPosts(updatedGlobalPosts);
-    };
-
-    setCategory();
-  }, [followedFeed]);
-
-  useEffect(() => {
-    const getFeedFollowed = async () => {
-      try {
-        const response = await fetch(`${URL}/post/feed/?limit=50&skip=${feedCount * 50}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-        const data = await response.json();
-        if (response.ok) {
-          setFollowedFeed((prevFeed) => [...prevFeed, ...data.posts]);
-          setTimeout(() => setIsLoading(false), 500);
-        }
-      } catch (error) {
-        console.error('에러', error);
-      }
-    };
-    getFeedFollowed();
-  }, [feedCount]);
-
-  const handleScroll = () => {
-    const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
-    if (scrollTop + clientHeight >= scrollHeight && !showSpinner) {
-      setShowSpinner(true);
-      setTimeout(() => {
-        setFeedCount((prevCount) => prevCount + 1);
-        setShowSpinner(false);
-        window.scrollTo(0, scrollTop - 55);
-      }, 1000);
     }
-    if (scrollTop >= clientHeight) {
-      setShowTopButton(true);
-    } else setShowTopButton(false);
+
+    setKoreaPosts((prev) => [...prev, ...updatedKoreaPosts]);
+    setGlobalPosts((prev) => [...prev, ...updatedGlobalPosts]);
   };
 
+  const fetchFollowedFeed = async ({ pageParam }) => {
+    const response = await fetch(`${URL}/post/feed/?limit=20&skip=${pageParam * 20}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    const data = await response.json();
+    return data.posts;
+  };
+
+  const {
+    data: followedFeed,
+    isLoading,
+    fetchNextPage,
+    isFetchingNextPage,
+    hasNextPage,
+  } = useInfiniteQuery(['followedFeed'], ({ pageParam }) => fetchFollowedFeed({ pageParam }), {
+    getNextPageParam: (lastPage, allPages) => (lastPage.length === 20 ? allPages.length : undefined),
+    onError: (error) => {
+      console.error('Error fetching data:', error);
+    },
+
+    onSuccess: (followedFeed) => setCategory(null, followedFeed),
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 5,
+  });
+
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    const cachedData = queryClient.getQueryData('followedFeed');
+    if (cachedData) {
+      setCategory(cachedData);
+    } else {
+      fetchNextPage();
+    }
   }, []);
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      feedCount.current += 1;
+      fetchNextPage();
+    }
+  }, [inView]);
 
   return (
     <Layout>
       <MainHeader />
       <main style={{ paddingBottom: 90 }}>
-        <Toggle margin='25px 0 0 16px' leftButton='국내' rightButton='해외' setIsLeftToggle={setIsLeftToggle} />
+        <Toggle
+          margin='25px 0 0 16px'
+          leftButton='국내'
+          rightButton='해외'
+          setIsLeftToggle={setIsLeftToggle}
+          rightOn={!isLeftToggle}
+        />
         {isLoading ? (
           <>
             <HomePostSkeleton />
             <HomePostSkeleton />
           </>
-        ) : followedFeed.length > 0 ? (
+        ) : followedFeed?.pages?.length > 0 ? (
           isLeftToggle ? (
             koreaPosts.map((post) => <HomePost key={post.id} post={post} />)
           ) : (
@@ -116,9 +133,9 @@ const Home = () => {
             </Empty>
           )
         )}
+        <div ref={ref}> {isFetchingNextPage && <Spinner />}</div>
       </main>
-      {showSpinner && <Spinner />}
-      {showTopButton && <TopButton />}
+      <TopButton />
       <Navbar />
     </Layout>
   );
