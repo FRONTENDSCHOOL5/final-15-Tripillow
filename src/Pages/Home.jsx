@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Layout } from '../Styles/Layout';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import userToken from '../Recoil/userToken/userToken';
 import { isKorea } from '../Recoil/whichCountry/whichCountry';
 import MainHeader from '../Components/common/Header/MainHeader';
@@ -13,7 +13,6 @@ import HomePostSkeleton from '../Components/common/Skeleton/HomePostSkeleton';
 import Spinner from '../Components/common/Spinner';
 import Empty from '../Components/common/Empty';
 import logo from '../Assets/logo-gray.png';
-import useIsDesktop from '../Components/PCNav/useIsDesktop';
 import { useInfiniteQuery, useQueryClient } from 'react-query';
 import { useInView } from 'react-intersection-observer';
 
@@ -22,12 +21,9 @@ const Home = () => {
   const queryClient = useQueryClient();
 
   const feedCount = useRef(0);
-  const [isLeftToggle, setIsLeftToggle] = useState(true);
-
   const [globalPosts, setGlobalPosts] = useState([]);
   const [koreaPosts, setKoreaPosts] = useState([]);
-  const korea = useRecoilValue(isKorea);
-
+  const [isLeftToggle, setIsLeftToggle] = useRecoilState(isKorea);
   const [ref, inView] = useInView();
 
   const setCategory = (cachedData, followedFeed) => {
