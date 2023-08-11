@@ -157,16 +157,18 @@ const UserProfileSetting = () => {
           name='intro'
           onChange={handleInputChange}
         ></Input>
-        <Button
-          onClick={handleSubmit}
-          type='submit'
-          disabled={errorMessage && errorMessage !== '사용 가능한 계정ID 입니다.'}
-          width='90px'
-          fontSize='14px'
-          padding='7.75px'
-        >
-          저장
-        </Button>
+        {isPCScreen && (
+          <Button
+            onClick={handleSubmit}
+            type='submit'
+            disabled={errorMessage && errorMessage !== '사용 가능한 계정ID 입니다.'}
+            width='90px'
+            fontSize='14px'
+            padding='7.75px'
+          >
+            저장
+          </Button>
+        )}
       </Form>
     </UserSettingLayout>
   );
