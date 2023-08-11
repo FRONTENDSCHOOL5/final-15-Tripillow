@@ -122,7 +122,6 @@ const Layout = styled.div`
 `;
 
 const Image = styled.img`
-  width: 100%;
   width: calc(100% + 16px + 12px);
   margin-left: -16px;
   margin-right: -12px;

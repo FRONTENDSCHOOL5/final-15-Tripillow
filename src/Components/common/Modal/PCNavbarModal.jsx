@@ -62,7 +62,6 @@ const ModalBackground = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  /* background-color: black; */
 `;
 
 const ModalLayout = styled.div`
@@ -70,7 +69,6 @@ const ModalLayout = styled.div`
   bottom: 60px;
   left: 50px;
   width: 300px;
-  /* height: 400px; */
   border-radius: 20px;
   background-color: white;
   box-shadow: 0 0 8px 0px rgba(0, 0, 0, 0.2);
