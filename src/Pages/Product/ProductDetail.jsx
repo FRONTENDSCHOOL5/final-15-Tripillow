@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import accountName from '../../Recoil/accountName/accountName';
 import ProductDetailAPI from '../../Utils/ProductDetailAPI';
@@ -13,7 +13,7 @@ import User from '../../Components/common/User';
 import chatLists from '../../Mock/chatLists';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
 
-const AddProduct = (props) => {
+const AddProduct = () => {
   const [productId, setProductId] = useState('');
   const [isClick, setIsClick] = useState(false);
   const params = useParams();
@@ -66,8 +66,8 @@ const AddProduct = (props) => {
             <Image src={productDetail.itemImage} onClick={() => setShowImg(true)} />
 
             {showImg && (
-              <ModalBg onClick={() => setShowImg(false)}>
-                <ModalImg src={productDetail.itemImage} />
+              <ModalBg onClick={() => setShowImg(false)} $isPCScreen={isPCScreen}>
+                <ModalImg src={productDetail.itemImage} $isPCScreen={isPCScreen} />
               </ModalBg>
             )}
 
@@ -114,7 +114,11 @@ const AddProduct = (props) => {
 const Layout = styled.div`
   ${LayoutStyle}
   padding: 48px 12px 73px 16px;
-  position: relative;
+  ${(props) =>
+    props.$isPCScreen ||
+    css`
+      position: relative;
+    `}
 `;
 
 const Image = styled.img`
@@ -131,8 +135,8 @@ const Image = styled.img`
 const ModalBg = styled.div`
   position: absolute;
   top: 0;
-  left: 0;
-  width: calc(100% + 16px + 12px);
+  left: ${(props) => (props.$isPCScreen ? '335px' : '0')};
+  min-height: 60px;
   margin-left: -16px;
   margin-right: -12px;
   margin-bottom: 13px;
@@ -142,10 +146,17 @@ const ModalBg = styled.div`
   background-color: rgba(0, 0, 0, 0.8);
   z-index: 999;
   cursor: pointer;
+
+  ${(props) =>
+    props.$isPCScreen ||
+    css`
+      width: calc(100% + 16px + 12px);
+    `}
 `;
 
 const ModalImg = styled.img`
-  width: 100%;
+  width: ${(props) => (props.$isPCScreen ? '50%' : '100%')};
+  margin: auto;
 `;
 
 const ProductContent = styled.p`
@@ -160,7 +171,6 @@ const ProductContent = styled.p`
 
 const ProductButtonLayout = styled.div`
   display: flex;
-  /* width: 390px; */
   width: ${(props) => (props.$isPCScreen ? '480px' : '390px')};
   margin: 0 auto;
   align-items: center;
