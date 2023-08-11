@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useRecoilValue } from 'recoil';
 import URL from '../../Utils/URL';
 import ImageUploadAPI from '../../Utils/ImageUploadAPI';
 import UserInfoAPI from '../../Utils/MyInfoAPI';
@@ -9,12 +10,15 @@ import AccountValidAPI from '../../Utils/AccountValidAPI';
 import Input from '../../Components/common/Input';
 import UploadHeader from '../../Components/common/Header/UploadHeader';
 import { LayoutStyle } from '../../Styles/Layout';
-import profileImg from '../../Assets/profile-lg.png';
 import ErrorMSG from '../../Styles/ErrorMSG';
+import profileImg from '../../Assets/profile-lg.png';
 import uploadfile from '../../Assets/icons/upload-file.svg';
+import isDesktop from '../../Recoil/isDesktop/isDesktop';
+import Button from '../../Components/common/Button';
 
 const UserProfileSetting = () => {
   const navigate = useNavigate();
+  const isPCScreen = useRecoilValue(isDesktop);
   const [imgURL, setImgURL] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const updateErrorMessage = (data) => {
@@ -99,14 +103,16 @@ const UserProfileSetting = () => {
   };
 
   return (
-    <UserSettingLayout>
-      <UploadHeader
-        onClick={handleSubmit}
-        type='submit'
-        disabled={errorMessage && errorMessage !== '사용 가능한 계정ID 입니다.'}
-      >
-        저장
-      </UploadHeader>
+    <UserSettingLayout $isPCScreen={isPCScreen}>
+      {!isPCScreen && (
+        <UploadHeader
+          onClick={handleSubmit}
+          type='submit'
+          disabled={errorMessage && errorMessage !== '사용 가능한 계정ID 입니다.'}
+        >
+          저장
+        </UploadHeader>
+      )}
       <Form>
         <ImageLayout>
           <ImgLabel htmlFor='file-input'>
@@ -123,7 +129,6 @@ const UserProfileSetting = () => {
           value={text.user.username}
           name='username'
           onChange={handleInputChange}
-          width='322px'
         ></Input>
         <Input
           label='계정 ID'
@@ -152,6 +157,16 @@ const UserProfileSetting = () => {
           name='intro'
           onChange={handleInputChange}
         ></Input>
+        <Button
+          onClick={handleSubmit}
+          type='submit'
+          disabled={errorMessage && errorMessage !== '사용 가능한 계정ID 입니다.'}
+          width='90px'
+          fontSize='14px'
+          padding='7.75px'
+        >
+          저장
+        </Button>
       </Form>
     </UserSettingLayout>
   );
@@ -166,8 +181,14 @@ const UserSettingLayout = styled.div`
 `;
 
 const Form = styled.form`
+  width: 100%;
   display: flex;
   flex-direction: column;
+
+  button {
+    margin-top: 14px;
+    align-self: flex-end;
+  }
 `;
 
 const ImageLayout = styled.div`
