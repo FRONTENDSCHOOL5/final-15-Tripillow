@@ -52,7 +52,7 @@ const AddProduct = (props) => {
     <>
       {productDetail && (
         <Layout $isPCScreen={isPCScreen}>
-          {!isPCScreen && (
+          {isPCScreen && (
             <BasicHeader
               empty={!userCheck}
               userId={productId}
