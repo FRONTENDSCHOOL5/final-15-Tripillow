@@ -139,9 +139,11 @@ const ProductModification = () => {
           상세 설명
         </label>
         <ProductText id='product' name='link' value={productInputs.product.link} onChange={handleInputChange} />
-        <Button width='90px' fontSize='14px' padding='7.75px'>
-          저장
-        </Button>
+        {isPCScreen && (
+          <Button width='90px' fontSize='14px' padding='7.75px'>
+            저장
+          </Button>
+        )}
       </form>
       {isPCScreen || <Navbar />}
     </Layout>
