@@ -111,8 +111,12 @@ export default function Post() {
         <Toggle leftButton='국내' rightButton='해외' setIsLeftToggle={setIsLeftToggle} margin='0 0 22px 0'></Toggle>
       </ToggleLayout>
       <form>
-        <PCImgUpload htmlFor='img-input'>+ 여행사진 추가하기</PCImgUpload>
-        <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
+        {isPCScreen && (
+          <>
+            <PCImgUpload htmlFor='img-input'>+ 여행사진 추가하기</PCImgUpload>
+            <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
+          </>
+        )}
         <TextInput placeholder='게시글 입력하기...' ref={textarea} onChange={handleInputChange} rows='1'></TextInput>
         {imgURL.map((el, i) => (
           <ImgLayout key={`ImgLayout-${i}`}>
