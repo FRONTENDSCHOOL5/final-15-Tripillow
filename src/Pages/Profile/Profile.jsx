@@ -8,7 +8,7 @@ import UserInfoAPI from '../../Utils/UserInfoAPI';
 import ProductListAPI from '../../Utils/ProductListAPI';
 import accountName from '../../Recoil/accountName/accountName';
 import { isList, isAlbum } from '../../Recoil/whichView/whichView';
-import UserProfile from '../../Components/UserProfile';
+import UserProfile from '../../Components/Profile/UserProfile';
 import BasicHeader from '../../Components/common/Header/BasicHeader';
 import HomePostLayout from '../../Components/HomePost/HomePostLayout';
 import Navbar from '../../Components/common/Navbar';
