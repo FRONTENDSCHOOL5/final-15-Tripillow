@@ -30,7 +30,6 @@ const ProductItem = (props) => {
             {product.itemName?.length < 14
               ? trimContent(product?.itemName)
               : trimContent(product?.itemName).slice(0, 13) + '...'}
-            {/* {product.itemName?.length < 14 ? product.itemName?.substring(3) : product.itemName?.substring(3).slice(0, 13) + '...'} */}
           </ProductInfo>
           <ProductInfo size='12px' color='#6CABFF' weight='700'>
             {product?.price?.toLocaleString()}원
