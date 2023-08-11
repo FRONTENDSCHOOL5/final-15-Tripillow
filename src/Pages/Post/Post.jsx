@@ -14,6 +14,7 @@ import CompressedImageUploadAPI from '../../Utils/CompressedImageUploadAPI';
 import useIsDesktop from '../../Components/PCNav/useIsDesktop';
 import { useRecoilValue } from 'recoil';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
+import Button from '../../Components/common/Button';
 
 export default function Post() {
   const navigate = useNavigate();
@@ -101,24 +102,49 @@ export default function Post() {
 
   return (
     <PostLayout $isPCScreen={isPCScreen}>
-      <UploadHeader disabled={!inputValue} onClick={handleSubmit}>
-        업로드
-      </UploadHeader>
+      {!isPCScreen && (
+        <UploadHeader disabled={!inputValue} onClick={handleSubmit}>
+          업로드
+        </UploadHeader>
+      )}
       <ToggleLayout>
         <Toggle leftButton='국내' rightButton='해외' setIsLeftToggle={setIsLeftToggle} margin='0 0 22px 0'></Toggle>
       </ToggleLayout>
       <form>
+        <PCImgUpload htmlFor='img-input'>+ 여행사진 추가하기</PCImgUpload>
+        <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
         <TextInput placeholder='게시글 입력하기...' ref={textarea} onChange={handleInputChange} rows='1'></TextInput>
         {imgURL.map((el, i) => (
           <ImgLayout key={`ImgLayout-${i}`}>
             <Img src={`${URL}/${el}`} key={`Img-${i}`} />
-            <ImgDelete type='button' key={`ImgDelete-${i}`} onClick={() => handleImgClose(i)}></ImgDelete>
+            <ImgDelete
+              $isPCScreen={isPCScreen}
+              type='button'
+              key={`ImgDelete-${i}`}
+              onClick={() => handleImgClose(i)}
+            ></ImgDelete>
           </ImgLayout>
         ))}
-        <label htmlFor='img-input'>
-          <ImgIcon src={iconImg}></ImgIcon>
-        </label>
-        <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
+        {!isPCScreen && (
+          <>
+            <label htmlFor='img-input'>
+              <ImgIcon src={iconImg}></ImgIcon>
+            </label>
+            <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
+          </>
+        )}
+        {isPCScreen && (
+          <Button
+            disabled={!inputValue}
+            onClick={handleSubmit}
+            width='90px'
+            fontSize='14px'
+            padding='7.75px'
+            style={{ position: 'absolute', top: '55px' }}
+          >
+            업로드
+          </Button>
+        )}
       </form>
     </PostLayout>
   );
@@ -173,5 +199,17 @@ const ImgIcon = styled.img`
   right: 16px;
   bottom: 16px;
   border-radius: 50%;
+  cursor: pointer;
+`;
+
+const PCImgUpload = styled.label`
+  margin-left: 16px;
+  margin-bottom: 20px;
+  display: inline-block;
+  padding: 10px;
+  border: 1px solid var(--light-gray);
+  border-radius: 10px;
+  font-size: var(--xs);
+  color: var(--dark-gray);
   cursor: pointer;
 `;
