@@ -90,9 +90,11 @@ const Product = () => {
 
   return (
     <StyledLayout $isPCScreen={isPCScreen}>
-      <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='확인'>
-        Pillower의 판매상품
-      </BasicHeader>
+      {!isPCScreen && (
+        <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='확인'>
+          Pillower의 판매상품
+        </BasicHeader>
+      )}
       <Toggle
         margin='0 0 20px 0'
         leftButton='여행용품'

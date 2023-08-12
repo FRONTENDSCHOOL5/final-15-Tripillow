@@ -106,7 +106,7 @@ const Home = () => {
 
   return (
     <Layout $isPCScreen={isPCScreen}>
-      <MainHeader />
+      {!isPCScreen && <MainHeader />}
       <main style={{ paddingBottom: 90 }}>
         <Toggle
           margin='25px 0 0 16px'

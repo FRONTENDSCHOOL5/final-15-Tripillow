@@ -13,6 +13,7 @@ import defaultImage from '../../Assets/addproduct.png';
 import ErrorMSG from '../../Styles/ErrorMSG';
 import UploadProductAPI from '../../Utils/UploadProductAPI';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
+import Button from '../../Components/common/Button';
 
 const AddProduct = (props) => {
   const navigate = useNavigate();
@@ -56,10 +57,13 @@ const AddProduct = (props) => {
 
   return (
     <Layout $isPCScreen={isPCScreen}>
-      <UploadHeader onClick={handleSubmit} disabled={!imageLink || !productName || !price || !description}>
-        저장
-      </UploadHeader>
-      <main>
+      <h1 className='a11y-hidden'>상품 등록 페이지</h1>
+      {!isPCScreen && (
+        <UploadHeader onClick={handleSubmit} disabled={!imageLink || !productName || !price || !description}>
+          저장
+        </UploadHeader>
+      )}
+      <AddProductContent>
         <Label htmlFor='file-upload'>
           <Image src={imageLink || defaultImage} />
         </Label>
@@ -94,20 +98,43 @@ const AddProduct = (props) => {
           상세 설명
         </label>
         <ProductText id='product' value={description} onChange={(e) => setDescription(e.target.value)} />
-      </main>
+        {isPCScreen && (
+          <Button
+            type='submit'
+            width='90px'
+            fontSize='14px'
+            padding='7.75px'
+            onClick={handleSubmit}
+            disabled={!imageLink || !productName || !price || !description}
+          >
+            저장
+          </Button>
+        )}
+      </AddProductContent>
       {isPCScreen || <Navbar />}
     </Layout>
   );
 };
 const Layout = styled.div`
   ${LayoutStyle}
+
   padding: 48px 12px 73px 16px;
+`;
+
+const AddProductContent = styled.main`
+  display: flex;
+  flex-direction: column;
+
+  textarea + button {
+    margin-top: 14px;
+    align-self: flex-end;
+  }
 `;
 
 const Label = styled.label`
   display: block;
   width: calc(100% + 16px + 12px); // Image 너비에 패딩값 차감
-  height: 232px;
+  min-height: 232px;
   margin-left: -16px;
   margin-right: -12px;
   margin-bottom: 14px;

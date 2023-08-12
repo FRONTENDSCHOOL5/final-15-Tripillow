@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import styled from 'styled-components';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import styled, { css } from 'styled-components';
 import MyInfoAPI from '../../Utils/MyInfoAPI';
 import { LayoutStyle } from '../../Styles/Layout';
 import BasicHeader from '../../Components/common/Header/BasicHeader';
@@ -10,6 +10,11 @@ import isDesktop from '../../Recoil/isDesktop/isDesktop';
 
 const ChatDetail = () => {
   const location = useLocation();
+  const username = location.state?.username;
+  const randomMessage = location.state?.randomMessage;
+  const userImg = location.state?.userImg;
+  const account = location.state?.account;
+  const navigate = useNavigate();
   const isPCScreen = useRecoilValue(isDesktop);
   const [inputValue, setInputValue] = useState('');
   const [chatValue, setChatValue] = useState([]);
@@ -22,6 +27,12 @@ const ChatDetail = () => {
   useEffect(() => {
     getUserData();
   }, []);
+
+  useEffect(() => {
+    if (isPCScreen) {
+      navigate('/chat', { state: { username, randomMessage, userImg, account } });
+    }
+  }, [isPCScreen]);
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -46,15 +57,17 @@ const ChatDetail = () => {
 
   return (
     <ChatLayout $isPCScreen={isPCScreen}>
-      <BasicHeader btn1='신고하기' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='확인'>
-        {location.state.username}
-      </BasicHeader>
+      {!isPCScreen && (
+        <BasicHeader btn1='신고하기' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='확인'>
+          {username}
+        </BasicHeader>
+      )}
       <ChatContentLayout>
-        <UserImageLayout to={`/profile/${location.state.account}`}>
-          <UserImage src={location.state.userImg} alt='location.state.username' />
+        <UserImageLayout to={`/profile/${account}`}>
+          <UserImage src={userImg} alt='location.state.username' />
         </UserImageLayout>
-        <ChatContent bgColor='white' radius='0 22px 22px 22px'>
-          {location.state.randomMessage}
+        <ChatContent $bgColor='white' radius='0 22px 22px 22px'>
+          {randomMessage}
         </ChatContent>
         <ChatTime>12:39</ChatTime>
       </ChatContentLayout>
@@ -87,12 +100,20 @@ const ChatDetail = () => {
 
 const ChatLayout = styled.div`
   ${LayoutStyle}
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  background-color: #f2f2f2;
+  background-color: ${(props) => (props.$isPCScreen ? '#f2f2f2' : '#f2f2f2')};
   padding-left: 16px;
   padding-right: 16px;
+
+  ${(props) =>
+    props.$isPCScreen &&
+    css`
+      max-width: 100%;
+      padding: 0px 16px 100px;
+    `}
 `;
 
 const ChatContentLayout = styled.div`
@@ -120,7 +141,7 @@ const ChatContent = styled.p`
   border: 1px solid #c4c4c4;
   padding: 12px;
   box-sizing: border-box;
-  background-color: ${(props) => props.bgColor || 'var(--primary)'};
+  background-color: ${(props) => props.$bgColor || 'var(--primary)'};
   color: ${(props) => props.color};
   font-size: var(--sm);
   line-height: 18px;
@@ -139,7 +160,7 @@ const ChatInputBar = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: ${(props) => (props.$isPCScreen ? '480px' : '390px')};
+  width: 390px;
   min-height: 60px;
   box-sizing: border-box;
   margin: auto;
@@ -151,6 +172,16 @@ const ChatInputBar = styled.div`
   background-color: white;
   border: 1px solid var(--light-gray);
   border-top: 0.5px solid var(--light-gray);
+
+  ${(props) =>
+    props.$isPCScreen &&
+    css`
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      border: none;
+      padding: 13px 16px 40px;
+    `}
 `;
 
 const ChatInput = styled.input`

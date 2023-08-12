@@ -8,7 +8,7 @@ import UserInfoAPI from '../../Utils/UserInfoAPI';
 import ProductListAPI from '../../Utils/ProductListAPI';
 import accountName from '../../Recoil/accountName/accountName';
 import { isList, isAlbum } from '../../Recoil/whichView/whichView';
-import UserProfile from '../../Components/UserProfile';
+import UserProfile from '../../Components/Profile/UserProfile';
 import BasicHeader from '../../Components/common/Header/BasicHeader';
 import HomePostLayout from '../../Components/HomePost/HomePostLayout';
 import Navbar from '../../Components/common/Navbar';
@@ -109,7 +109,9 @@ const Profile = () => {
 
   return (
     <Layout $isPCScreen={isPCScreen}>
-      <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='로그아웃' />
+      {!isPCScreen && (
+        <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='로그아웃' />
+      )}
       {(isModified || isDeleted) && <AlertTop>{isModified ? '수정되었습니다.' : '삭제되었습니다.'}</AlertTop>}
 
       <main>
@@ -195,7 +197,7 @@ const Profile = () => {
 
 const Layout = styled.div`
   ${LayoutStyle}
-  background-color:#f2f2f2;
+  background-color:${(props) => (props.$isPCScreen ? '#fff' : '#f2f2f2')};
 `;
 
 const UserProductLayout = styled.article`

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import accountName from '../../Recoil/accountName/accountName';
 import ProductDetailAPI from '../../Utils/ProductDetailAPI';
@@ -52,16 +52,18 @@ const AddProduct = (props) => {
     <>
       {productDetail && (
         <Layout $isPCScreen={isPCScreen}>
-          <BasicHeader
-            empty={!userCheck}
-            userId={productId}
-            btn1='수정'
-            btn2='삭제'
-            txt='정말 삭제 하시겠습니까?'
-            rightbtn='확인'
-          >
-            판매 중인 상품
-          </BasicHeader>
+          {isPCScreen && (
+            <BasicHeader
+              empty={!userCheck}
+              userId={productId}
+              btn1='수정'
+              btn2='삭제'
+              txt='정말 삭제 하시겠습니까?'
+              rightbtn='확인'
+            >
+              판매 중인 상품
+            </BasicHeader>
+          )}
           <main>
             <Image src={productDetail.itemImage} onClick={() => setShowImg(true)} />
 
@@ -80,31 +82,33 @@ const AddProduct = (props) => {
             <ProductContent size='var(--xl)' weight='700'>
               {trimContent(productDetail?.itemName)}
             </ProductContent>
+            <ProductButtonLayout $isPCScreen={isPCScreen}>
+              <div>
+                {!isPCScreen && (
+                  <Icon
+                    src={isClick === false ? hearticon : heartfill}
+                    onClick={() => {
+                      setIsClick(!isClick);
+                    }}
+                  />
+                )}
+                <ProudctPrice>{productDetail.price?.toLocaleString()}원</ProudctPrice>
+              </div>
+              <Button
+                onClick={() => {
+                  navigate(`/chat/${username}`, { state: { username, userImg, randomMessage } });
+                }}
+                right='12px'
+                position='absolute'
+                margin='0 0 5px 0'
+              >
+                채팅하기
+              </Button>
+            </ProductButtonLayout>
             <ProductContent size='var(--lg)' height='1.4' style={{ whiteSpace: 'pre-wrap' }}>
               {productDetail?.link}
             </ProductContent>
           </main>
-          <ProductButtonLayout $isPCScreen={isPCScreen}>
-            <div style={{ display: 'flex', marginLeft: '20px' }}>
-              <Icon
-                src={isClick === false ? hearticon : heartfill}
-                onClick={() => {
-                  setIsClick(!isClick);
-                }}
-              />
-              <ProudctPrice>{productDetail.price?.toLocaleString()}원</ProudctPrice>
-            </div>
-            <Button
-              onClick={() => {
-                navigate(`/chat/${username}`, { state: { username, userImg, randomMessage } });
-              }}
-              right='12px'
-              position='absolute'
-              margin='0 0 5px 0'
-            >
-              채팅하기
-            </Button>
-          </ProductButtonLayout>
         </Layout>
       )}
     </>
@@ -160,7 +164,6 @@ const ProductContent = styled.p`
 
 const ProductButtonLayout = styled.div`
   display: flex;
-  /* width: 390px; */
   width: ${(props) => (props.$isPCScreen ? '480px' : '390px')};
   margin: 0 auto;
   align-items: center;
@@ -171,8 +174,22 @@ const ProductButtonLayout = styled.div`
   right: 0;
   box-sizing: border-box;
   background-color: white;
-  border-top: 0.5px solid var(--light-gray);
-  border: 1px solid var(--light-gray);
+
+  ${(props) =>
+    props.$isPCScreen &&
+    css`
+      position: static;
+      padding: 10px 0 0;
+    `}
+
+  div {
+    display: flex;
+    margin-left: ${(props) => (props.$isPCScreen ? '0' : '20px')};
+  }
+
+  button {
+    margin-top: ${(props) => (props.$isPCScreen ? '-200px' : '0')};
+  }
 `;
 
 const Icon = styled.img`
