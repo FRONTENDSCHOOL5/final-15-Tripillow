@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue, useRecoilState } from 'recoil';
+import { useQuery } from 'react-query';
 
 import BasicHeader from '../../Components/common/Header/BasicHeader';
 import Navbar from '../../Components/common/Navbar';
@@ -10,10 +11,9 @@ import CircleButton from '../../Components/common/CircleButton';
 import accountName from '../../Recoil/accountName/accountName';
 import Toggle from '../../Components/common/Toggle';
 import ProductItemSkeleton from '../../Components/common/Skeleton/ProductItemSkeleton';
+
 import URL from '../../Utils/URL';
-import useFetch from '../../Hooks/useFetch';
 import userToken from '../../Recoil/userToken/userToken';
-import { useRecoilValue, useRecoilState } from 'recoil';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
 import { isProduct } from '../../Recoil/productCategory/productCategory';
 
@@ -22,59 +22,36 @@ const Product = () => {
   const isPCScreen = useRecoilValue(isDesktop);
   const name = useRecoilValue(accountName);
   const token = useRecoilValue(userToken);
-  const followingAccounts = [];
-
-  const [isLoading, setIsLoading] = useState(true);
-  const [products, setProducts] = useState(null);
   const [isLeftToggle, setIsLeftToggle] = useRecoilState(isProduct);
-  const [tripProduct, setTripProduct] = useState([]);
-  const [tirpMoney, setTripMoney] = useState([]);
+
   const {
     data: user,
-    loading: userLoading,
+    isLoading: userLoading,
     error: userError,
-  } = useFetch({
-    url: `${URL}/profile/${name}/following/`,
-    req: {
+  } = useQuery('followingAccounts', async () => {
+    const response = await fetch(`${URL}/profile/${name}/following/`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-type': 'application/json',
       },
-    },
+    });
+    return response.json();
   });
 
   if (userError) console.log(userError);
 
-  useEffect(() => {
-    const setCategory = () => {
-      const updatedProduct = [];
-      const updatedMoney = [];
-
-      products?.forEach((item) => {
-        const match = item.itemName.match(/^\[(P|M)\]/);
-        if (match === null || match[1] !== 'M') {
-          updatedProduct.push(item);
-        } else {
-          updatedMoney.push(item);
-        }
-      });
-      setTripProduct(updatedProduct);
-      setTripMoney(updatedMoney);
-    };
-    setCategory();
-  }, [products]);
-
-  useEffect(() => {
-    setIsLoading(true);
-    if (user) {
-      user.map((item) => {
-        followingAccounts.push(item.accountname);
-      });
-      const fetchProducts = async () => {
+  const {
+    data: productsQuery,
+    error: productError,
+    isLoading: productLoading,
+  } = useQuery(
+    'products',
+    async () => {
+      if (userLoading === false) {
         const productsData = await Promise.all(
-          followingAccounts.map(async (followingAccount) => {
-            const response = await fetch(`${URL}/product/${followingAccount}/`, {
+          user.map(async (followingAccount) => {
+            const response = await fetch(`${URL}/product/${followingAccount.accountname}`, {
               method: 'GET',
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -82,32 +59,50 @@ const Product = () => {
               },
             });
             const responseData = await response.json();
-
-            return responseData.product;
+            return responseData;
           }),
         );
+        return productsData;
+      }
+    },
+    {
+      enabled: !!user,
+    },
+  );
 
-        const mergedProducts = productsData.flat();
-        setProducts(mergedProducts);
-        setIsLoading(false);
-      };
+  if (productError) console.log(productError);
 
-      fetchProducts();
-    } else {
-      setProducts([]);
-    }
-  }, [user]);
+
+  const tripProduct = [];
+  const tripMoney = [];
+
+  productsQuery?.forEach((item) => {
+    item.product.forEach((product) => {
+      if (product.itemName.startsWith('[P]') || !product.itemName.startsWith('[M]')) {
+        tripProduct.push(product);
+      } else if (product.itemName.startsWith('[M]')) {
+        tripMoney.push(product);
+      }
+    });
+  });
+
+
 
   return (
     <StyledLayout $isPCScreen={isPCScreen}>
       <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='확인'>
         Pillower의 판매상품
       </BasicHeader>
-      <Toggle margin='0 0 20px 0' leftButton='여행용품' rightButton='외화' setIsLeftToggle={setIsLeftToggle}
-      rightOn={!isLeftToggle} />
+      <Toggle
+        margin='0 0 20px 0'
+        leftButton='여행용품'
+        rightButton='외화'
+        setIsLeftToggle={setIsLeftToggle}
+        rightOn={!isLeftToggle}
+      />
       <GridLayout>
-        {userLoading ||
-          (isLoading && (
+        {userLoading === true ||
+          (productLoading === true && (
             <>
               {Array.from({ length: 8 }, (_, index) => (
                 <GridItem key={index}>
@@ -116,12 +111,10 @@ const Product = () => {
               ))}
             </>
           ))}
-
         {isLeftToggle
           ? tripProduct.map((product, i) => <ProductItem key={i} product={product} />)
-          : tirpMoney.map((product, i) => <ProductItem key={i} product={product} />)}
-
-        {!isLoading && products.length === 0 && <p>등록된 상품이 없습니다.</p>}
+          : tripMoney.map((product, i) => <ProductItem key={i} product={product} />)}
+        {productLoading === false && productsQuery?.length === 0 && <p>등록된 상품이 없습니다.</p>}
       </GridLayout>
       <div style={{ position: 'fixed', width: '360px', height: '48px', bottom: '100px' }}>
         <CircleButton
