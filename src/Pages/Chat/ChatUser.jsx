@@ -3,9 +3,12 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import profileSm from '../../Assets/profile-sm.png';
 import chatLists from '../../Mock/chatLists';
+import isDesktop from '../../Recoil/isDesktop/isDesktop';
+import { useRecoilValue } from 'recoil';
 
-const ChatUser = ({ username, userImg, account, ...props }) => {
+const ChatUser = ({ username, userImg, account, onChatDetail, ...props }) => {
   const navigate = useNavigate();
+  const isPCScreen = useRecoilValue(isDesktop);
   const [randomMessage, setRandomMessage] = useState('');
 
   useEffect(() => {
@@ -14,14 +17,21 @@ const ChatUser = ({ username, userImg, account, ...props }) => {
     setRandomMessage(selectedMessage);
   }, []);
 
+  const handleMobileChat = () => {
+    if (!isPCScreen) {
+      navigate(`/chat/${username}`, {
+        state: { username, randomMessage, userImg, account },
+      });
+    } else if (isPCScreen) {
+      navigate('/chat', {
+        state: { username, randomMessage, userImg, account },
+      });
+      onChatDetail();
+    }
+  };
+
   return (
-    <UserLayout
-      onClick={() => {
-        navigate(`/chat/${username}`, {
-          state: { username, randomMessage, userImg, account },
-        });
-      }}
-    >
+    <UserLayout onClick={handleMobileChat}>
       <UserImg src={userImg || profileSm} alt={username} />
       <UserContentsLayout>
         <div>

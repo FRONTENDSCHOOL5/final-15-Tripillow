@@ -13,6 +13,7 @@ import ProductModifyAPI from '../../Utils/ProductModifyAPI';
 import ProductDetailAPI from '../../Utils/ProductDetailAPI';
 import { LayoutStyle } from '../../Styles/Layout';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
+import Button from '../../Components/common/Button';
 
 const ProductModification = () => {
   const navigate = useNavigate();
@@ -95,47 +96,55 @@ const ProductModification = () => {
 
   return (
     <Layout $isPCScreen={isPCScreen}>
-      <UploadHeader type='submit' onClick={handleSubmit}>
-        저장
-      </UploadHeader>
-      <Label htmlFor='file-upload'>
-        <Image src={productInputs.product?.itemImage || defaultImage} />
-      </Label>
-      <input id='file-upload' className='a11y-hidden' onChange={handleImgChange} type='file' />
-      <CategoryTxt>카테고리</CategoryTxt>
-      <Toggle
-        margin='0 0 20px 0'
-        leftButton='여행용품'
-        rightButton='외화'
-        setIsLeftToggle={setIsLeftToggle}
-        rightOn={rightOn}
-        setRightOn={setRightOn}
-      />
-
-      {/* //fixme: label 클릭하면 input에 위치 */}
-      <Input
-        width='100%'
-        value={productInputs.product.itemName}
-        name='itemName'
-        onChange={handleInputChange}
-        // htmlFor={forId}
-        label='상품명'
-        placeholder='2~15자 이내여야 합니다.'
-        mb='16px'
-      />
-      <SecondInput
-        value={productInputs.product.price}
-        name='price'
-        onChange={handleInputChange}
-        label='가격'
-        placeholder='숫자만 입력 가능합니다.'
-        type='number'
-        mb='16px'
-      />
-      <label htmlFor='product' style={{ color: '#767676', fontSize: 'var(--xs)' }}>
-        상세 설명
-      </label>
-      <ProductText id='product' name='link' value={productInputs.product.link} onChange={handleInputChange} />
+      {!isPCScreen && (
+        <UploadHeader type='submit' onClick={handleSubmit}>
+          저장
+        </UploadHeader>
+      )}
+      <form>
+        <Label htmlFor='file-upload'>
+          <Image src={productInputs.product?.itemImage || defaultImage} />
+        </Label>
+        <input id='file-upload' className='a11y-hidden' onChange={handleImgChange} type='file' />
+        <CategoryTxt>카테고리</CategoryTxt>
+        <Toggle
+          margin='0 0 20px 0'
+          leftButton='여행용품'
+          rightButton='외화'
+          setIsLeftToggle={setIsLeftToggle}
+          rightOn={rightOn}
+          setRightOn={setRightOn}
+        />
+        {/* //fixme: label 클릭하면 input에 위치 */}
+        <Input
+          width='100%'
+          value={productInputs.product.itemName}
+          name='itemName'
+          onChange={handleInputChange}
+          // htmlFor={forId}
+          label='상품명'
+          placeholder='2~15자 이내여야 합니다.'
+          mb='16px'
+        />
+        <SecondInput
+          value={productInputs.product.price}
+          name='price'
+          onChange={handleInputChange}
+          label='가격'
+          placeholder='숫자만 입력 가능합니다.'
+          type='number'
+          mb='16px'
+        />
+        <label htmlFor='product' style={{ color: '#767676', fontSize: 'var(--xs)' }}>
+          상세 설명
+        </label>
+        <ProductText id='product' name='link' value={productInputs.product.link} onChange={handleInputChange} />
+        {isPCScreen && (
+          <Button type='submit' onClick={handleSubmit} width='90px' fontSize='14px' padding='7.75px'>
+            저장
+          </Button>
+        )}
+      </form>
       {isPCScreen || <Navbar />}
     </Layout>
   );
@@ -144,6 +153,16 @@ const ProductModification = () => {
 const Layout = styled.div`
   ${LayoutStyle}
   padding: 48px 12px 73px 16px;
+
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  textarea + button {
+    align-self: flex-end;
+    margin-top: 14px;
+  }
 `;
 
 const Label = styled.label`
