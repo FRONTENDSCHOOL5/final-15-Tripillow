@@ -107,9 +107,9 @@ const Product = () => {
           (productLoading === true && (
             <>
               {Array.from({ length: 8 }, (_, index) => (
-                <GridItem key={index}>
+                <div key={index}>
                   <ProductItemSkeleton />
-                </GridItem>
+                </div>
               ))}
             </>
           ))}
@@ -144,10 +144,6 @@ const GridLayout = styled.main`
   display: grid;
   grid-gap: 20px;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-`;
-
-const GridItem = styled.div`
-  margin: 0 auto;
 `;
 
 export default Product;
