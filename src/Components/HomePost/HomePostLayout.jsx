@@ -228,7 +228,6 @@ const Content = styled.p`
 
 const OnModal = styled.div`
   position: relative;
-  /* height: (100vh - 60px); */
   z-index: 9999;
 `;
 

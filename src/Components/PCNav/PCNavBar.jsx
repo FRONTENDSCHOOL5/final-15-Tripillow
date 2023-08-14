@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { createPortal } from 'react-dom';
 
 import logo from '../../Assets/logo.png';
 import home from '../../Assets/icons/icon-home.svg';
@@ -9,6 +10,7 @@ import profile from '../../Assets/icons/icon-user.svg';
 import chat from '../../Assets/icons/icon-message-circle.svg';
 import product from '../../Assets/icons/icon-shop.svg';
 import search from '../../Assets/icons/icon-search.svg';
+import menu from '../../Assets/icons/menu.svg';
 import character from '../../Assets/character.svg';
 // 클릭 시 아이콘
 import profilefill from '../../Assets/icons/icon-user-fill.svg';
@@ -17,6 +19,7 @@ import productfill from '../../Assets/icons/icon-shop-fill.svg';
 import chatfill from '../../Assets/icons/icon-message-circle-fill.svg';
 import postfill from '../../Assets/icons/icon-edit-fill.svg';
 import searchfill from '../../Assets/icons/icon-search-fill.svg';
+import PCNavbarModal from '../common/Modal/PCNavbarModal';
 
 const PCNavBar = (props) => {
   const navigate = useNavigate();
@@ -30,6 +33,12 @@ const PCNavBar = (props) => {
     { name: 'Add Post', img: post, imgfill: postfill, path: '/post' },
     { name: 'Profile', img: profile, imgfill: profilefill, path: '/profile' },
   ];
+  const [isModalOn, setIsModalOn] = useState(false);
+  const $PCNavModal = document.getElementById('PCNavModal');
+
+  const handleMoreClick = () => {
+    setIsModalOn((prev) => !prev);
+  };
 
   useEffect(() => {
     const icon = icons.find((el) => el.path === location.pathname);
@@ -37,25 +46,31 @@ const PCNavBar = (props) => {
   }, [location]);
 
   return (
-    <Layout>
-      <Button onClick={() => navigate('/home')}>
-        <img src={logo} alt='logo' style={{ width: '80%' }} />
-      </Button>
-      {icons.map((el, i) => {
-        return (
-          <Button
-            key={i}
-            onClick={() => {
-              setIsClicked(el.name);
-              if (el.path) navigate(el.path);
-            }}
-          >
-            <Icon src={isClicked === el.name ? el.imgfill : el.img} />
-            <IconInfo setColor={isClicked === el.name}>{el.name}</IconInfo>
-          </Button>
-        );
-      })}
-    </Layout>
+    <>
+      <Layout>
+        <Button onClick={() => navigate('/home')}>
+          <img src={logo} alt='logo' style={{ width: '80%' }} />
+        </Button>
+        {icons.map((el, i) => {
+          return (
+            <Button
+              key={i}
+              onClick={() => {
+                setIsClicked(el.name);
+                if (el.path) navigate(el.path);
+              }}
+            >
+              <Icon src={isClicked === el.name ? el.imgfill : el.img} />
+              <IconInfo setColor={isClicked === el.name}>{el.name}</IconInfo>
+            </Button>
+          );
+        })}
+        <More onClick={handleMoreClick} id='PCNavModal'>
+          <img src={menu} alt='menu' /> 더보기
+        </More>
+      </Layout>
+      {isModalOn && createPortal(<PCNavbarModal setIsModalOn={setIsModalOn}></PCNavbarModal>, $PCNavModal)}
+    </>
   );
 };
 
@@ -92,6 +107,23 @@ const IconInfo = styled.span`
   color: ${(props) => (props.setColor ? 'var(--primary)' : 'var(--dark-gray)')};
   text-align: center;
   font-size: var(--md);
+`;
+
+const More = styled.div`
+  display: flex;
+  color: ${(props) => (props.setColor ? 'var(--primary)' : 'var(--dark-gray)')};
+  align-items: center;
+  gap: 30px;
+  width: 221px;
+  height: 40px;
+  margin: auto;
+  position: fixed;
+  bottom: 20px;
+  left: 55px;
+  cursor: pointer;
+  img {
+    width: 30px;
+  }
 `;
 
 export default PCNavBar;

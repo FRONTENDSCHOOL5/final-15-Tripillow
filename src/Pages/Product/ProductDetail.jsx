@@ -13,7 +13,7 @@ import User from '../../Components/common/User';
 import chatLists from '../../Mock/chatLists';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
 
-const AddProduct = (props) => {
+const AddProduct = () => {
   const [productId, setProductId] = useState('');
   const [isClick, setIsClick] = useState(false);
   const params = useParams();
@@ -68,8 +68,8 @@ const AddProduct = (props) => {
             <Image src={productDetail.itemImage} onClick={() => setShowImg(true)} />
 
             {showImg && (
-              <ModalBg onClick={() => setShowImg(false)}>
-                <ModalImg src={productDetail.itemImage} />
+              <ModalBg onClick={() => setShowImg(false)} $isPCScreen={isPCScreen}>
+                <ModalImg src={productDetail.itemImage} $isPCScreen={isPCScreen} />
               </ModalBg>
             )}
 
@@ -118,11 +118,14 @@ const AddProduct = (props) => {
 const Layout = styled.div`
   ${LayoutStyle}
   padding: 48px 12px 73px 16px;
-  position: relative;
+  ${(props) =>
+    props.$isPCScreen ||
+    css`
+      position: relative;
+    `}
 `;
 
 const Image = styled.img`
-  width: 100%;
   width: calc(100% + 16px + 12px);
   margin-left: -16px;
   margin-right: -12px;
@@ -135,8 +138,8 @@ const Image = styled.img`
 const ModalBg = styled.div`
   position: absolute;
   top: 0;
-  left: 0;
-  width: calc(100% + 16px + 12px);
+  left: ${(props) => (props.$isPCScreen ? '335px' : '0')};
+  min-height: 60px;
   margin-left: -16px;
   margin-right: -12px;
   margin-bottom: 13px;
@@ -146,10 +149,17 @@ const ModalBg = styled.div`
   background-color: rgba(0, 0, 0, 0.8);
   z-index: 999;
   cursor: pointer;
+
+  ${(props) =>
+    props.$isPCScreen ||
+    css`
+      width: calc(100% + 16px + 12px);
+    `}
 `;
 
 const ModalImg = styled.img`
-  width: 100%;
+  width: ${(props) => (props.$isPCScreen ? '50%' : '100%')};
+  margin: auto;
 `;
 
 const ProductContent = styled.p`

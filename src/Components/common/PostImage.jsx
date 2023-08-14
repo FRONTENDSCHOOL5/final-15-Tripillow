@@ -4,12 +4,8 @@ import styled from 'styled-components';
 import arrowRight from '../../Assets/icons/icon-arrow-right.svg';
 import arrowLeft from '../../Assets/icons/icon-arrow-left.svg';
 import defaultImg from '../../Assets/defaultImg.png';
-import Modal from './Modal/Modal';
 import { createPortal } from 'react-dom';
 import ImageModal from './Modal/ImageModal';
-function getTopLevelRoot() {
-  return document.documentElement;
-}
 
 export default function PostImage({ post }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -17,11 +13,11 @@ export default function PostImage({ post }) {
   const [startX, setStartX] = useState(0);
   const [endX, setEndX] = useState(0);
   const $onModal = document.getElementById('OnModal');
-  const [modalOn, setModalOn] = useState(false);
+  const [isModalOn, setIsModalOn] = useState(false);
   const imgSrc = URL + '/' + pictures[currentIndex];
 
   const handleClick = () => {
-    setModalOn(true);
+    setIsModalOn(true);
   };
 
   const handleTouchStart = (event) => {
@@ -86,7 +82,7 @@ export default function PostImage({ post }) {
             })}
         </IndicatorLayout>
       </ImageLayout>
-      {modalOn && createPortal(<ImageModal setModalOn={setModalOn} imgSrc={imgSrc} />, $onModal)}
+      {isModalOn && createPortal(<ImageModal setIsModalOn={setIsModalOn} imgSrc={imgSrc} />, $onModal)}
     </>
   );
 }
