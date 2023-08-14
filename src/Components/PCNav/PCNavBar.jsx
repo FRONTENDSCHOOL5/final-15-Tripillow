@@ -20,6 +20,7 @@ import chatfill from '../../Assets/icons/icon-message-circle-fill.svg';
 import postfill from '../../Assets/icons/icon-edit-fill.svg';
 import searchfill from '../../Assets/icons/icon-search-fill.svg';
 import PCNavbarModal from '../common/Modal/PCNavbarModal';
+import PCNavbarAlertModal from '../common/Modal/PCNavbarAlertModal';
 
 const PCNavBar = (props) => {
   const navigate = useNavigate();
@@ -34,7 +35,9 @@ const PCNavBar = (props) => {
     { name: 'Profile', img: profile, imgfill: profilefill, path: '/profile' },
   ];
   const [isModalOn, setIsModalOn] = useState(false);
+  const [isAlertModalOn, setIsAlertModalOn] = useState(false);
   const $PCNavModal = document.getElementById('PCNavModal');
+  const $Root = document.getElementById('root');
 
   const handleMoreClick = () => {
     setIsModalOn((prev) => !prev);
@@ -69,7 +72,20 @@ const PCNavBar = (props) => {
           <img src={menu} alt='menu' /> 더보기
         </More>
       </Layout>
-      {isModalOn && createPortal(<PCNavbarModal setIsModalOn={setIsModalOn}></PCNavbarModal>, $PCNavModal)}
+      {isModalOn &&
+        createPortal(
+          <PCNavbarModal setIsModalOn={setIsModalOn} setIsAlertModalOn={setIsAlertModalOn}></PCNavbarModal>,
+          $PCNavModal,
+        )}
+      {isAlertModalOn &&
+        createPortal(
+          <PCNavbarAlertModal
+            setIsAlertModalOn={setIsAlertModalOn}
+            txt='정말 로그아웃 하시겠습니까?'
+            rightbtn='확인'
+          ></PCNavbarAlertModal>,
+          $Root,
+        )}
     </>
   );
 };

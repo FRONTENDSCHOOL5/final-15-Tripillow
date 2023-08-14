@@ -11,16 +11,8 @@ import { isList, isAlbum } from '../../../Recoil/whichView/whichView';
 
 export default function PCNavbarModal(props) {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
-  const [token, setToken] = useRecoilState(userToken);
-  const [login, setLogin] = useRecoilState(isLogin);
-  const [name, setName] = useRecoilState(accountName);
-  const [korea, setKorea] = useRecoilState(isKorea);
-  const [overseas, setOverseas] = useRecoilState(isOverseas);
-  const [listView, setListView] = useRecoilState(isList);
-  const [albumView, setAlbumView] = useRecoilState(isAlbum);
   const closeModal = (e) => {
-    // e.stopPropagation();
+    e.stopPropagation();
     props.setIsModalOn(false);
   };
 
@@ -29,17 +21,8 @@ export default function PCNavbarModal(props) {
   };
 
   const clickLogout = (e) => {
-    e.stopPropagation();
-    queryClient.clear();
     props.setIsModalOn(false);
-    setToken('');
-    setLogin(false);
-    setName('');
-    navigate('/');
-    setKorea(true);
-    setOverseas(false);
-    setListView(true);
-    setAlbumView(false);
+    props.setIsAlertModalOn(true);
   };
 
   return (
@@ -72,10 +55,31 @@ const ModalLayout = styled.div`
   border-radius: 20px;
   background-color: white;
   box-shadow: 0 0 8px 0px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Button = styled.button`
   width: 100%;
   height: 50px;
   font-size: var(--md);
+  margin: 0 5px;
+
+  &:hover {
+    width: 95%;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+  }
+
+  &:active {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  &:first-child {
+    margin: 5px 5px 0 5px;
+  }
+  &:last-child {
+    margin: 0 5px 5px 5px;
+  }
 `;
