@@ -12,7 +12,6 @@ import { isList, isAlbum } from '../../../Recoil/whichView/whichView';
 export default function PCNavbarModal(props) {
   const navigate = useNavigate();
   const closeModal = (e) => {
-    e.stopPropagation();
     props.setIsModalOn(false);
   };
 
@@ -21,6 +20,7 @@ export default function PCNavbarModal(props) {
   };
 
   const clickLogout = (e) => {
+    e.stopPropagation();
     props.setIsModalOn(false);
     props.setIsAlertModalOn(true);
   };
@@ -45,15 +45,16 @@ const ModalBackground = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
+  cursor: auto;
 `;
 
 const ModalLayout = styled.div`
   position: fixed;
-  bottom: 60px;
-  left: 50px;
-  width: 300px;
+  bottom: 70px;
+  left: 30px;
+  width: 330px;
   border-radius: 20px;
-  background-color: white;
+  background-color: #fff;
   box-shadow: 0 0 8px 0px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;

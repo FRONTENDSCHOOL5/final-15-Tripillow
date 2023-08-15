@@ -46,7 +46,7 @@ export default function PCNavbarAlertModal(props) {
             {props.leftbtn || '취소'}
           </ModalButton>
           <ModalButton onClick={props.rightClick ? props.rightClick : clickLogout} color='var(--primary)' {...props}>
-            {props.rightbtn || '로그아웃'}
+            {props.rightbtn || '확인'}
           </ModalButton>
         </ModalButtonLayout>
       </ModalLayout>
@@ -61,47 +61,63 @@ const ModalBackground = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999999999;
 `;
 
 const ModalLayout = styled.div`
   position: fixed;
-  bottom: 50%;
+  top: 50%;
   left: 50%;
+  transform: translate(-50%, -50%);
   width: 300px;
-  /* width: 100%; */
-
-  height: 110px;
   border-radius: 10px;
   background-color: #fff;
-  padding: 10px 0;
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
 `;
 
 const ModalTxt = styled.p`
   font-size: var(--md);
   text-align: center;
   padding: 27px 0;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 40%;
+    width: 300px;
+    height: 1px;
+    background-color: #dbdbdb;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0%;
+    width: 1px;
+    height: 40%;
+    background-color: #dbdbdb;
+  }
 `;
 
 const ModalButtonLayout = styled.div`
   display: flex;
   height: 50px;
-
-  button + button {
-    border-left: 1px solid #dbdbdb;
-    border-bottom-left-radius: 0;
-  }
 `;
+
 const ModalButton = styled.button`
-  width: 126px;
-  height: 100%;
-  padding: 14px 0;
+  width: 50%;
   font-size: var(--sm);
-  /* color: ${(props) => (props.color ? 'var(--primary)' : 'black')}; */
   color: ${(props) => props.color || 'black'};
   border-radius: 0 0 10px 10px;
-  border-top: 1px solid #dbdbdb;
+  background-color: #fff;
   border-color: ${(props) => (props.border ? 'transparent' : '#dbdbdb')};
   box-sizing: border-box;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  &:active {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
 `;

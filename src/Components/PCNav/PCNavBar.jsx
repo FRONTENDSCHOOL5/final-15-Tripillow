@@ -36,7 +36,6 @@ const PCNavBar = (props) => {
   ];
   const [isModalOn, setIsModalOn] = useState(false);
   const [isAlertModalOn, setIsAlertModalOn] = useState(false);
-  const $PCNavModal = document.getElementById('PCNavModal');
   const $Root = document.getElementById('root');
 
   const handleMoreClick = () => {
@@ -51,9 +50,9 @@ const PCNavBar = (props) => {
   return (
     <>
       <Layout>
-        <Button onClick={() => navigate('/home')}>
+        <MainButton onClick={() => navigate('/home')}>
           <img src={logo} alt='logo' style={{ width: '80%' }} />
-        </Button>
+        </MainButton>
         {icons.map((el, i) => {
           return (
             <Button
@@ -68,21 +67,23 @@ const PCNavBar = (props) => {
             </Button>
           );
         })}
-        <More onClick={handleMoreClick} id='PCNavModal'>
-          <img src={menu} alt='menu' /> 더보기
-        </More>
+        <MoreLayout>
+          <More onClick={handleMoreClick} id='PCNavModal'>
+            <img src={menu} alt='menu' /> 더보기
+          </More>
+        </MoreLayout>
       </Layout>
       {isModalOn &&
         createPortal(
           <PCNavbarModal setIsModalOn={setIsModalOn} setIsAlertModalOn={setIsAlertModalOn}></PCNavbarModal>,
-          $PCNavModal,
+          $Root,
         )}
       {isAlertModalOn &&
         createPortal(
           <PCNavbarAlertModal
             setIsAlertModalOn={setIsAlertModalOn}
             txt='정말 로그아웃 하시겠습니까?'
-            rightbtn='확인'
+            rightbtn='로그아웃'
           ></PCNavbarAlertModal>,
           $Root,
         )}
@@ -95,21 +96,39 @@ const Layout = styled.div`
   height: 100%;
   padding-top: 46px;
   position: absolute;
+  background-color: #fff;
   box-shadow: 2px 0px 8px 0px rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
   position: fixed;
+  overflow: auto;
+`;
+
+const MainButton = styled.button`
+  display: flex;
+  width: 221px;
+  margin: 0 auto 30px;
 `;
 
 const Button = styled.button`
   display: flex;
   align-items: center;
-  width: 221px;
-  height: 40px;
-  margin: 0 auto;
-  margin-bottom: 20px;
+  width: 280px;
+  height: 50px;
+  padding: 10px 30px;
+  margin: 0 auto 10px;
 
-  &:first-child {
-    margin-bottom: 40px;
+  &:last-of-type {
+    margin: 0 auto 70px;
+  }
+
+  &:hover {
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  &:active {
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.1);
   }
 `;
 
@@ -125,20 +144,40 @@ const IconInfo = styled.span`
   font-size: var(--md);
 `;
 
-const More = styled.div`
+const MoreLayout = styled.div`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: inherit;
+  height: 50px;
+  padding: 5px 0 20px;
+  background-color: #fff;
+`;
+
+const More = styled.button`
   display: flex;
   color: ${(props) => (props.setColor ? 'var(--primary)' : 'var(--dark-gray)')};
   align-items: center;
-  gap: 30px;
-  width: 221px;
-  height: 40px;
-  margin: auto;
-  position: fixed;
-  bottom: 20px;
-  left: 55px;
+  gap: 35px;
+  width: 280px;
+  height: 50px;
+  margin: 0 auto;
+  padding: 0 30px;
+  background-color: #fff;
+  font-size: var(--md);
   cursor: pointer;
   img {
     width: 30px;
+  }
+
+  &:hover {
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  &:active {
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.1);
   }
 `;
 
