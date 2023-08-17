@@ -13,7 +13,6 @@ import HomePostSkeleton from '../Components/common/Skeleton/HomePostSkeleton';
 import Spinner from '../Components/common/Spinner';
 import Empty from '../Components/common/Empty';
 import logo from '../Assets/logo-gray.png';
-import MyPillowers from '../Components/Home/MyPillowers';
 import isDesktop from '../Recoil/isDesktop/isDesktop';
 import { useInfiniteQuery, useQueryClient } from 'react-query';
 import { useInView } from 'react-intersection-observer';
@@ -95,6 +94,7 @@ const Home = () => {
     } else {
       fetchNextPage();
     }
+    //eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -102,6 +102,7 @@ const Home = () => {
       feedCount.current += 1;
       fetchNextPage();
     }
+    //eslint-disable-next-line
   }, [inView]);
 
   return (
@@ -137,7 +138,6 @@ const Home = () => {
       </main>
       <TopButton />
       {isPCScreen || <Navbar />}
-      <MyPillowers $on={isPCScreen} />
     </Layout>
   );
 };
