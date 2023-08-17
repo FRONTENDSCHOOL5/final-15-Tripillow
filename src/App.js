@@ -11,10 +11,12 @@ import isDesktop from './Recoil/isDesktop/isDesktop';
 
 function App() {
   const isPC = useRecoilValue(isDesktop);
+  const isPCScreen = useIsDesktop();
   const location = useLocation();
   const path = location.pathname;
-
-  const isRightPath = path !== '/profile/followings' && path !== '/chat';
+  const excludePath = path !== '/' && path !== '/login' && path !== '/signup' && isPCScreen;
+  const isRightPath =
+    path !== '/' && path !== '/login' && path !== '/signup' && path !== '/profile/followings' && path !== '/chat';
 
   const setScreenSize = () => {
     let vh = window.innerHeight * 0.01;
@@ -26,12 +28,11 @@ function App() {
     setScreenSize();
   });
 
-  const isPCScreen = useIsDesktop();
   return (
     <QueryClientProvider client={queryClient}>
       <GlobalStyle />
       {isRightPath && <MyPillowings $on={isPC} />}
-      {isPCScreen && <PCNavBar />}
+      {excludePath && <PCNavBar />}
       <AppRoutes />
     </QueryClientProvider>
   );
