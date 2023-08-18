@@ -92,12 +92,12 @@ const PostDetail = () => {
             <HomePostLayout post={postInfo.post} comments={comments}></HomePostLayout>
           )}
         </section>
-        <section>
+        <CommentLayout>
           {showMore && <MoreComment onClick={handleShowMore}>더보기</MoreComment>}
           {visibleComments.map((el, i) => (
             <Comment key={i} postId={postId} commentInfo={el} setIsNewComment={setIsNewComment}></Comment>
           ))}
-        </section>
+        </CommentLayout>
       </main>
       <PostComment setIsNewComment={setIsNewComment} postId={postId} userImg={myInfo.image}></PostComment>
     </Layout>
@@ -114,6 +114,10 @@ const MoreComment = styled.button`
   font-size: var(--xs);
   display: block;
   margin: 0 auto 10px;
+`;
+
+const CommentLayout = styled.section`
+  padding-bottom: 75px;
 `;
 
 export default PostDetail;
