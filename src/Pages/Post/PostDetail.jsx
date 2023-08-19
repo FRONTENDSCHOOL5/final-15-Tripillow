@@ -11,6 +11,7 @@ import HomePostLayout from '../../Components/HomePost/HomePostLayout';
 import MyInfoAPI from '../../Utils/MyInfoAPI';
 import { useRecoilValue } from 'recoil';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
+import MyPillowings from '../../Components/Home/MyPillowings';
 
 const PostDetail = () => {
   const { id } = useParams();
@@ -100,6 +101,7 @@ const PostDetail = () => {
         </section>
       </main>
       <PostComment setIsNewComment={setIsNewComment} postId={postId} userImg={myInfo.image}></PostComment>
+      {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </Layout>
   );
 };

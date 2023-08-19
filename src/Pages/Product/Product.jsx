@@ -16,6 +16,7 @@ import URL from '../../Utils/URL';
 import userToken from '../../Recoil/userToken/userToken';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
 import { isProduct } from '../../Recoil/productCategory/productCategory';
+import MyPillowings from '../../Components/Home/MyPillowings';
 
 const Product = () => {
   const navigate = useNavigate();
@@ -72,7 +73,6 @@ const Product = () => {
 
   if (productError) console.log(productError);
 
-
   const tripProduct = [];
   const tripMoney = [];
 
@@ -85,8 +85,6 @@ const Product = () => {
       }
     });
   });
-
-
 
   return (
     <StyledLayout $isPCScreen={isPCScreen}>
@@ -130,6 +128,7 @@ const Product = () => {
         ></CircleButton>
       </div>
       {isPCScreen || <Navbar />}
+      {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </StyledLayout>
   );
 };

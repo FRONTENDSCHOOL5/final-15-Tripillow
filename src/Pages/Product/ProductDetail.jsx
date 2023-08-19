@@ -12,6 +12,7 @@ import Button from '../../Components/common/Button';
 import User from '../../Components/common/User';
 import chatLists from '../../Mock/chatLists';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
+import MyPillowings from '../../Components/Home/MyPillowings';
 
 const AddProduct = () => {
   const [productId, setProductId] = useState('');
@@ -52,7 +53,7 @@ const AddProduct = () => {
     <>
       {productDetail && (
         <Layout $isPCScreen={isPCScreen}>
-          {isPCScreen && (
+          {!isPCScreen && (
             <BasicHeader
               empty={!userCheck}
               userId={productId}
@@ -109,6 +110,7 @@ const AddProduct = () => {
               {productDetail?.link}
             </ProductContent>
           </main>
+          {isPCScreen && <MyPillowings $on={isPCScreen} />}
         </Layout>
       )}
     </>

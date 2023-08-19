@@ -15,6 +15,7 @@ import profileImg from '../../Assets/profile-lg.png';
 import uploadfile from '../../Assets/icons/upload-file.svg';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
 import Button from '../../Components/common/Button';
+import MyPillowings from '../../Components/Home/MyPillowings';
 
 const UserProfileSetting = () => {
   const navigate = useNavigate();
@@ -170,6 +171,7 @@ const UserProfileSetting = () => {
           </Button>
         )}
       </Form>
+      {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </UserSettingLayout>
   );
 };

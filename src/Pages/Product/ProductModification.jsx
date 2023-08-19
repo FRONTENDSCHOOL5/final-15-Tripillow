@@ -14,6 +14,7 @@ import ProductDetailAPI from '../../Utils/ProductDetailAPI';
 import { LayoutStyle } from '../../Styles/Layout';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
 import Button from '../../Components/common/Button';
+import MyPillowings from '../../Components/Home/MyPillowings';
 
 const ProductModification = () => {
   const navigate = useNavigate();
@@ -146,6 +147,7 @@ const ProductModification = () => {
         )}
       </form>
       {isPCScreen || <Navbar />}
+      {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </Layout>
   );
 };
