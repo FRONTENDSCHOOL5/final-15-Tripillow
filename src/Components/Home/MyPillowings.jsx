@@ -7,7 +7,7 @@ import FollowingListAPI from '../../Utils/FollowingListAPI';
 import MyInfoAPI from '../../Utils/MyInfoAPI';
 import FollowUser from '../common/FollowUser';
 
-const Mypillowings = (props) => {
+const MyPillowings = (props) => {
   const accountname = useRecoilValue(accountName);
   const { fetchFollowing } = FollowingListAPI(accountname);
   const { getUserData } = MyInfoAPI();
@@ -42,7 +42,7 @@ const Mypillowings = (props) => {
   );
 };
 
-export default Mypillowings;
+export default MyPillowings;
 
 const Layout = styled.article`
   display: ${(props) => (props.$on ? 'block' : 'none')};

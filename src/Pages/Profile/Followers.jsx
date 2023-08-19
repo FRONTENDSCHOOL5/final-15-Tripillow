@@ -9,6 +9,7 @@ import FollowingListAPI from '../../Utils/FollowingListAPI';
 import FollowerListAPI from '../../Utils/FollowerListAPI';
 import { useRecoilValue } from 'recoil';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
+import MyPillowings from '../../Components/Home/MyPillowings';
 
 const Followers = () => {
   const location = useLocation();
@@ -68,6 +69,7 @@ const Followers = () => {
             ))}
       </main>
       {isPCScreen || <Navbar />}
+      {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </Layout>
   );
 };
