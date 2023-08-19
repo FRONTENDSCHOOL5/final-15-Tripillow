@@ -20,7 +20,7 @@ import chatfill from '../../Assets/icons/icon-message-circle-fill.svg';
 import postfill from '../../Assets/icons/icon-edit-fill.svg';
 import searchfill from '../../Assets/icons/icon-search-fill.svg';
 import PCNavbarModal from '../common/Modal/PCNavbarModal';
-import PCNavbarAlertModal from '../common/Modal/PCNavbarAlertModal';
+import PCAlertModal from '../common/Modal/PCAlertModal';
 
 const PCNavBar = (props) => {
   const navigate = useNavigate();
@@ -80,11 +80,11 @@ const PCNavBar = (props) => {
         )}
       {isAlertModalOn &&
         createPortal(
-          <PCNavbarAlertModal
+          <PCAlertModal
             setIsAlertModalOn={setIsAlertModalOn}
             txt='정말 로그아웃 하시겠습니까?'
             rightbtn='로그아웃'
-          ></PCNavbarAlertModal>,
+          ></PCAlertModal>,
           $Root,
         )}
     </>
