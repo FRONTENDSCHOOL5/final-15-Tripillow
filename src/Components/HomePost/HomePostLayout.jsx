@@ -16,16 +16,20 @@ import HeartPostAPI from '../../Utils/HeartPostAPI';
 import UnheartPostAPI from '../../Utils/UnheartPostAPI';
 import PostImage from '../common/PostImage';
 import AlertTop from '../common/Modal/AlertTop';
+import isDesktop from '../../Recoil/isDesktop/isDesktop';
+import PCModal from '../common/Modal/PCModal';
+import PCAlertModal from '../common/Modal/PCAlertModal';
 
 const HomePostLayout = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const isPCScreen = useRecoilValue(isDesktop);
   const pathname = location.pathname;
   const inDetail = !['/home', '/profile'].some((path) => pathname.startsWith(path));
   const name = useRecoilValue(accountName);
   const [isTopModalOn, setIsTopModalOn] = useState(false);
   const [isModalOn, setIsModalOn] = useState(false);
-  const [isAlertModalOn, setIsAlerModalOn] = useState(false);
+  const [isAlertModalOn, setIsAlertModalOn] = useState(false);
   const post = props.post;
   const isMine = post.author.accountname === name;
   const userImg = post.author.image;
@@ -37,7 +41,7 @@ const HomePostLayout = (props) => {
 
   useEffect(() => {
     setIsModalOn(false);
-    setIsAlerModalOn(false);
+    setIsAlertModalOn(false);
   }, []);
 
   const handlePostClick = () => {
@@ -49,12 +53,17 @@ const HomePostLayout = (props) => {
 
   const closeModal = () => {
     setIsModalOn(false);
-    setIsAlerModalOn(false);
+    setIsAlertModalOn(false);
   };
+
+  useEffect(() => {
+    console.log('ineffect');
+  }, [isAlertModalOn]);
 
   const handleAlertModal = (e) => {
     e.stopPropagation();
-    setIsAlerModalOn(true);
+    setIsAlertModalOn(true);
+    console.log('abc');
   };
 
   const deletePost = DeletePostAPI(post.id);
@@ -91,7 +100,7 @@ const HomePostLayout = (props) => {
   };
 
   const trimContent = (content) => {
-    const match = content.match(/^\[(K|G)\]/);
+    const match = content?.match(/^\[(K|G)\]/);
     if (match) {
       return content.slice(3);
     }
@@ -149,25 +158,43 @@ const HomePostLayout = (props) => {
       )}
       <span style={{ fontSize: '10px', color: 'var(--dark-gray)' }}>{createdAt}</span>
       <OnModal id='OnModal'>
-        {isModalOn && (
-          <PostModal
-            isMine={isMine}
-            postId={post.id}
-            handleAlertModal={handleAlertModal}
-            handleModify={handleModify}
-            handleReport={handleReport}
-            closeModal={closeModal}
-          ></PostModal>
-        )}
-        {isAlertModalOn && (
-          <PostAlertModal
-            isMine={isMine}
-            setIsModalOn={setIsModalOn}
-            handleDelete={handleDelete}
-            handleReport={handleReport}
-            closeModal={closeModal}
-          ></PostAlertModal>
-        )}
+        {isModalOn &&
+          (isPCScreen ? (
+            <PCModal
+              handleAlertModal={handleAlertModal}
+              setIsModalOn={setIsModalOn}
+              handleReport={handleReport}
+              handleModify={handleModify}
+              closeModal={closeModal}
+              isMine={isMine}
+              isComment={false}
+            ></PCModal>
+          ) : (
+            <PostModal
+              isMine={isMine}
+              postId={post.id}
+              handleAlertModal={handleAlertModal}
+              handleModify={handleModify}
+              handleReport={handleReport}
+              closeModal={closeModal}
+            ></PostModal>
+          ))}
+        {isAlertModalOn &&
+          (isPCScreen ? (
+            <PCAlertModal
+              setIsAlertModalOn={setIsAlertModalOn}
+              rightClick={handleDelete}
+              txt='게시글을 삭제할까요?'
+            ></PCAlertModal>
+          ) : (
+            <PostAlertModal
+              isMine={isMine}
+              setIsModalOn={setIsModalOn}
+              handleDelete={handleDelete}
+              handleReport={handleReport}
+              closeModal={closeModal}
+            ></PostAlertModal>
+          ))}
       </OnModal>
     </Layout>
   );

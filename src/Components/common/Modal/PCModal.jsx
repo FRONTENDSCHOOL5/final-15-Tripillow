@@ -1,27 +1,33 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const PostAlertModal = ({ isMine, isComment, setIsModalOn, handleDelete, closeModal, handleReport }) => {
-  console.log('postAlertModal');
+const PCModal = ({ handleAlertModal, setIsModalOn, handleReport, handleModify, closeModal, isMine, isComment }) => {
+  const handleDelete = (e) => {
+    setIsModalOn(false);
+    handleAlertModal(e);
+  };
 
-  const name = isComment ? '댓글' : '게시글';
-  // setIsModalOn(false);
   return (
     <ModalBackground onClick={closeModal}>
       <ModalLayout>
-        <ModalTxt>{isMine ? `${name}을 삭제할까요?` : `${name}을 신고할까요?`}</ModalTxt>
-        <ModalButtonLayout>
-          <ModalButton onClick={closeModal}>취소</ModalButton>
-          {isMine ? (
-            <ModalButton onClick={handleDelete} color='var(--primary)'>
+        {isMine ? (
+          isComment ? (
+            <Button color='#ED4956' onClick={handleDelete}>
               삭제
-            </ModalButton>
+            </Button>
           ) : (
-            <ModalButton onClick={handleReport} color='var(--primary)'>
-              신고
-            </ModalButton>
-          )}
-        </ModalButtonLayout>
+            <>
+              <Button onClick={handleModify}>수정</Button>
+              <Button color='#ED4956' onClick={handleDelete}>
+                삭제
+              </Button>
+            </>
+          )
+        ) : (
+          <Button color='#ED4956' onClick={handleReport}>
+            신고
+          </Button>
+        )}
       </ModalLayout>
     </ModalBackground>
   );
@@ -29,24 +35,32 @@ const PostAlertModal = ({ isMine, isComment, setIsModalOn, handleDelete, closeMo
 
 const ModalBackground = styled.div`
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 390px;
+  top: 0;
+  left: 0;
+  width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
 `;
 
 const ModalLayout = styled.div`
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 252px;
-  height: 110px;
+  width: 300px;
   border-radius: 10px;
   background-color: #fff;
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+`;
+
+const Button = styled.button`
+  padding: 20px 0;
+  text-align: center;
+  color: ${(props) => (props.color ? props.color : 'black')};
+  &:not(:last-of-type) {
+    border-bottom: 1px solid #dbdbdb;
+  }
 `;
 
 const ModalTxt = styled.p`
@@ -77,4 +91,4 @@ const ModalButton = styled.button`
   box-sizing: border-box;
 `;
 
-export default PostAlertModal;
+export default PCModal;
