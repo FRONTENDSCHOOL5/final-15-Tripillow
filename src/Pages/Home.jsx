@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Layout } from '../Styles/Layout';
 import { useRecoilValue, useRecoilState } from 'recoil';
+import { useInfiniteQuery, useQueryClient } from 'react-query';
+import { useInView } from 'react-intersection-observer';
 import userToken from '../Recoil/userToken/userToken';
 import { isKorea } from '../Recoil/whichCountry/whichCountry';
 import MainHeader from '../Components/common/Header/MainHeader';
@@ -14,8 +16,7 @@ import Spinner from '../Components/common/Spinner';
 import Empty from '../Components/common/Empty';
 import logo from '../Assets/logo-gray.png';
 import isDesktop from '../Recoil/isDesktop/isDesktop';
-import { useInfiniteQuery, useQueryClient } from 'react-query';
-import { useInView } from 'react-intersection-observer';
+import MyPillowings from '../Components/Home/MyPillowings';
 
 const Home = () => {
   const isPCScreen = useRecoilValue(isDesktop);
@@ -138,6 +139,7 @@ const Home = () => {
       </main>
       <TopButton />
       {isPCScreen || <Navbar />}
+      {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </Layout>
   );
 };

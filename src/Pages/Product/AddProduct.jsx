@@ -14,6 +14,7 @@ import ErrorMSG from '../../Styles/ErrorMSG';
 import UploadProductAPI from '../../Utils/UploadProductAPI';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
 import Button from '../../Components/common/Button';
+import MyPillowings from '../../Components/Home/MyPillowings';
 
 const AddProduct = (props) => {
   const navigate = useNavigate();
@@ -112,6 +113,7 @@ const AddProduct = (props) => {
         )}
       </AddProductContent>
       {isPCScreen || <Navbar />}
+      {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </Layout>
   );
 };

@@ -24,6 +24,7 @@ import listOff from '../../Assets/icons/icon-post-list-off.svg';
 import AlbumOn from '../../Assets/icons/icon-post-album-on.svg';
 import AlbumOff from '../../Assets/icons/icon-post-album-off.svg';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
+import MyPillowings from '../../Components/Home/MyPillowings';
 
 const Profile = () => {
   const params = useParams();
@@ -191,6 +192,7 @@ const Profile = () => {
         )}
       </main>
       {isPCScreen || <Navbar />}
+      {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </Layout>
   );
 };

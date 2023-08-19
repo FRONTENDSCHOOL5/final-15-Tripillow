@@ -15,6 +15,7 @@ import useIsDesktop from '../../Components/PCNav/useIsDesktop';
 import { useRecoilValue } from 'recoil';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
 import Button from '../../Components/common/Button';
+import MyPillowings from '../../Components/Home/MyPillowings';
 
 export default function Post() {
   const navigate = useNavigate();
@@ -150,6 +151,7 @@ export default function Post() {
           </Button>
         )}
       </form>
+      {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </PostLayout>
   );
 }

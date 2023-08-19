@@ -15,6 +15,7 @@ import CompressedImageUploadAPI from '../../Utils/CompressedImageUploadAPI';
 import { useRecoilValue } from 'recoil';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
 import Button from '../../Components/common/Button';
+import MyPillowings from '../../Components/Home/MyPillowings';
 
 const PostModification = () => {
   const navigate = useNavigate();
@@ -225,6 +226,7 @@ const PostModification = () => {
           </>
         )}
       </form>
+      {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </PostLayout>
   );
 };
