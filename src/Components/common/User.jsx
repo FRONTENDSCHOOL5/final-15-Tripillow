@@ -29,71 +29,73 @@ const User = (props) => {
   const { leftSide: leftSideAccount, rightSide: rightSideAccount } = highlightKeyword(props.accountname, props.keyword);
 
   return (
-    <UserLayout margin={props.margin}>
-      <Link to={`/profile/${props.accountname}`}>
-        <UserImgLayout>
-          <UserImg
-            src={
-              url[url.length - 1] === 'null' ||
-              url[url.length - 1] === 'undefined' ||
-              (url[0] !== 'data:image' && url[0] !== 'https:')
-                ? profileSm
-                : props.userImg
-            }
-            alt={props.username}
-            onError={handleImageError}
-          />
-        </UserImgLayout>
-      </Link>
-      <UserContentsLayout>
-        {props.search ? (
-          props.username.includes(props.keyword) && props.accountname.includes(props.keyword) ? (
-            <div>
-              <UserTitle>
-                {leftSideUser}
-                <HighLighted>{props.keyword}</HighLighted>
-                {rightSideUser}
-              </UserTitle>
-              <UserContent>
-                @{leftSideAccount}
-                <HighLighted>{props.keyword}</HighLighted>
-                {rightSideAccount}
-              </UserContent>
-            </div>
-          ) : props.username.includes(props.keyword) ? (
-            <div>
-              <UserTitle>
-                {leftSideUser}
-                <HighLighted>{props.keyword}</HighLighted>
-                {rightSideUser}
-              </UserTitle>
-              <UserContent>{props.content}</UserContent>
-            </div>
+    <Link to={`/profile/${props.accountname}`} onClick={() => props.setIsSearch(false)}>
+      <UserLayout margin={props.margin}>
+        <div>
+          <UserImgLayout>
+            <UserImg
+              src={
+                url[url.length - 1] === 'null' ||
+                url[url.length - 1] === 'undefined' ||
+                (url[0] !== 'data:image' && url[0] !== 'https:')
+                  ? profileSm
+                  : props.userImg
+              }
+              alt={props.username}
+              onError={handleImageError}
+            />
+          </UserImgLayout>
+        </div>
+        <UserContentsLayout>
+          {props.search ? (
+            props.username.includes(props.keyword) && props.accountname.includes(props.keyword) ? (
+              <div>
+                <UserTitle>
+                  {leftSideUser}
+                  <HighLighted>{props.keyword}</HighLighted>
+                  {rightSideUser}
+                </UserTitle>
+                <UserContent>
+                  @{leftSideAccount}
+                  <HighLighted>{props.keyword}</HighLighted>
+                  {rightSideAccount}
+                </UserContent>
+              </div>
+            ) : props.username.includes(props.keyword) ? (
+              <div>
+                <UserTitle>
+                  {leftSideUser}
+                  <HighLighted>{props.keyword}</HighLighted>
+                  {rightSideUser}
+                </UserTitle>
+                <UserContent>{props.content}</UserContent>
+              </div>
+            ) : (
+              <div>
+                <UserTitle>{props.username}</UserTitle>
+                <UserContent>
+                  @{leftSideAccount}
+                  <HighLighted>{props.keyword}</HighLighted>
+                  {rightSideAccount}
+                </UserContent>
+              </div>
+            )
           ) : (
             <div>
               <UserTitle>{props.username}</UserTitle>
-              <UserContent>
-                @{leftSideAccount}
-                <HighLighted>{props.keyword}</HighLighted>
-                {rightSideAccount}
-              </UserContent>
+              <UserContent>{props.content}</UserContent>
             </div>
-          )
-        ) : (
-          <div>
-            <UserTitle>{props.username}</UserTitle>
-            <UserContent>{props.content}</UserContent>
-          </div>
-        )}
+          )}
 
-        {props.moreBtn && <MoreBtn type='button' onClick={handleOnClick} />}
-        {props.followers && (
-          <Button width='56px' fontSize='var(--xs)' border='none' padding='5.75px'>
-            팔로우
-          </Button>
-        )}
-      </UserContentsLayout>
-    </UserLayout>
+          {props.moreBtn && <MoreBtn type='button' onClick={handleOnClick} />}
+          {props.followers && (
+            <Button width='56px' fontSize='var(--xs)' border='none' padding='5.75px'>
+              팔로우
+            </Button>
+          )}
+        </UserContentsLayout>
+      </UserLayout>
+    </Link>
   );
 };
 
