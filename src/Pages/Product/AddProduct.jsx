@@ -15,6 +15,8 @@ import UploadProductAPI from '../../Utils/UploadProductAPI';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
 import Button from '../../Components/common/Button';
 import MyPillowings from '../../Components/Home/MyPillowings';
+import { validateImageFileFormat } from '../../Utils/validate';
+import imageCompression from 'browser-image-compression';
 
 const AddProduct = (props) => {
   const navigate = useNavigate();
@@ -32,13 +34,54 @@ const AddProduct = (props) => {
     navigate('/profile');
   };
 
-  const handleChange = async (e) => {
+  const handleDataForm = async (dataURI) => {
+    const byteString = atob(dataURI.split(',')[1]);
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    const blob = new Blob([ia], {
+      type: 'image/jpeg',
+    });
+    const file = new File([blob], 'image.jpg');
+    const data = await ImageUploadAPI(file);
+    if (data) {
+        setImageLink(`${URL}/${data.filename}`);
+    }
+  };
+
+
+  const handleImgChange = async (e) => {
+    const file = e.target?.files[0]
     if (e.target.files[0].size > 10 * 1024 * 1024) {
       console.log('[ERROR 이미지 용량이 10MB를 넘습니다]');
       return null;
     }
-    const response = await ImageUploadAPI(e);
-    setImageLink(`${URL}/${response.filename}`);
+    if (!validateImageFileFormat(e.target.files[0].name)) return alert('파일 확장자를 확인해주세요');
+
+    // const response = await ImageUploadAPI(e);
+    // setImageLink(`${URL}/${response.filename}`);
+
+    const options = {
+      maxSizeMB: 0.9,
+      maxWidthOrHeight: 490,
+      useWebWorker: true,
+    };
+
+    try {
+      // 압축 결과
+      const compressedFile = await imageCompression(file, options);
+
+      const reader = new FileReader();
+      reader.readAsDataURL(compressedFile);
+      reader.onloadend = () => {
+        const base64data = reader.result;
+        handleDataForm(base64data);
+      };
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleMinMax = (e) => {
@@ -68,7 +111,7 @@ const AddProduct = (props) => {
         <Label htmlFor='file-upload'>
           <Image src={imageLink || defaultImage} />
         </Label>
-        <input id='file-upload' className='a11y-hidden' onChange={handleChange} type='file' />
+        <input id='file-upload' className='a11y-hidden' onChange={handleImgChange} type='file' />
         <CategoryTxt>카테고리</CategoryTxt>
         <Toggle margin='0 0 20px 0' leftButton='여행용품' rightButton='외화' setIsLeftToggle={setIsLeftToggle} />
 
