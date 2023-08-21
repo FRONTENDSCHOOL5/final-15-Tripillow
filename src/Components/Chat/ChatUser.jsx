@@ -6,9 +6,8 @@ import chatLists from '../../Mock/chatLists';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
 import { useRecoilValue } from 'recoil';
 
-const ChatUser = ({ username, userImg, account, onChatDetail, ...props }) => {
+const ChatUser = ({ username, userImg, account, ...props }) => {
   const navigate = useNavigate();
-  const isPCScreen = useRecoilValue(isDesktop);
   const [randomMessage, setRandomMessage] = useState('');
 
   useEffect(() => {
@@ -18,16 +17,9 @@ const ChatUser = ({ username, userImg, account, onChatDetail, ...props }) => {
   }, []);
 
   const handleMobileChat = () => {
-    if (!isPCScreen) {
-      navigate(`/chat/${username}`, {
-        state: { username, randomMessage, userImg, account },
-      });
-    } else if (isPCScreen) {
-      navigate('/chat', {
-        state: { username, randomMessage, userImg, account },
-      });
-      onChatDetail();
-    }
+    navigate(`/chat/${username}`, {
+      state: { username, randomMessage, userImg, account },
+    });
   };
 
   return (
