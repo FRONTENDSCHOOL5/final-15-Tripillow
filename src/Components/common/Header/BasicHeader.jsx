@@ -91,7 +91,7 @@ const BasicHeader = (props) => {
       <ContentLayout>
         <PrevButton
           onClick={() => {
-            navigate(-1);
+            props.isChat ? navigate('/chat') : navigate(-1);
           }}
         />
         {props.children && <HeaderContent>{props.children}</HeaderContent>}
