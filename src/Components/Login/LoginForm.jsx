@@ -8,9 +8,9 @@ import Input from '../common/Input';
 import LoginFunc from '../../Utils/Login/LoginFunc';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
 
-import Kakao from '../../Assets/pc_kakao.png';
-import Google from '../../Assets/pc_google.png';
-import FaceBook from '../../Assets/pc_facebook.png';
+import Kakao from '../../Assets/pc_kakaotalk.png';
+import Google from '../../Assets/icons/google.svg';
+import face from '../../Assets/icons/pc_facebook.svg';
 
 const LoginForm = () => {
   const { handleFormSubmit, userInput, handleInputChange, errorMsg, handleError, userErrorMessage } = LoginFunc();
@@ -58,9 +58,9 @@ const LoginForm = () => {
       <Link to='/signup'>이메일로 회원가입</Link>
       {isPCScreen && (
         <LoginMethodLayout>
-          <img src={Kakao} alt='kakao icon' />
-          <img src={Google} alt='google icon' />
-          <img src={FaceBook} alt='facebook icon' />
+          <img src={Kakao} style={{ width: '23px' }} alt='kakao icon' />
+          <img src={Google} style={{ width: '26px' }} alt='google icon' />
+          <img src={face} style={{ width: '22px' }} alt='facebook icon' />
         </LoginMethodLayout>
       )}
     </Layout>
@@ -116,6 +116,8 @@ const ErrorStyle = styled.p`
 
 const LoginMethodLayout = styled.div`
   margin: 20px auto;
+  display: flex;
+  align-items: center;
 
   img:not(:last-child) {
     margin-right: 13px;
