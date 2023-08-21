@@ -1,13 +1,17 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
+import styled from 'styled-components';
 import PCTripillow from '../Landing/PCTripillow';
 import LoginForm from './LoginForm';
-import styled from 'styled-components';
+import SignupForm from './SignupForm';
 
 const PCLogin = () => {
+  const { pathname } = useLocation();
+
   return (
     <PCLayout>
       <PCTripillow />
-      <LoginForm />
+      {pathname === '/login' ? <LoginForm /> : <SignupForm />}
     </PCLayout>
   );
 };

@@ -1,22 +1,22 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import LoginFunc from '../Utils/Login/LoginFunc';
 import isDesktop from '../Recoil/isDesktop/isDesktop';
-import PCLogin from '../Components/Login/PCLogin';
-import LoginForm from '../Components/Login/LoginForm';
+import isLogin from '../Recoil/isLogin/isLogin';
+import PCSign from '../Components/Sign/PCSign.jsx';
+import LoginForm from '../Components/Sign/LoginForm';
 
 const Login = () => {
   const navigate = useNavigate();
   const isPCScreen = useRecoilValue(isDesktop);
-  const { isLoginState } = LoginFunc();
+  const isLoginState = useRecoilValue(isLogin);
 
   useEffect(() => {
     if (isLoginState) navigate('/home');
     //eslint-disable-next-line
   }, []);
 
-  return isPCScreen ? <PCLogin /> : <LoginForm />;
+  return isPCScreen ? <PCSign /> : <LoginForm />;
 };
 
 export default Login;

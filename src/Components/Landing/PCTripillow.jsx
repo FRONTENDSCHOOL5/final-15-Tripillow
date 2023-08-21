@@ -9,7 +9,7 @@ const PCTripillow = () => {
   const location = useLocation();
   const path = location.pathname;
   const isRightPath = path === '/';
-  const isLoginPath = path === '/login';
+  const isLoginPath = path === '/login' || path == '/signup';
 
   return (
     <PCTripillowLayout $isRightPath={isRightPath} $isLoginPath={isLoginPath}>
