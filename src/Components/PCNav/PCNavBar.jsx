@@ -21,11 +21,13 @@ import postfill from '../../Assets/icons/icon-edit-fill.svg';
 import searchfill from '../../Assets/icons/icon-search-fill.svg';
 import PCNavbarModal from '../common/Modal/PCNavbarModal';
 import PCAlertModal from '../common/Modal/PCAlertModal';
+import Search from '../../Pages/Search';
 
 const PCNavBar = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isClicked, setIsClicked] = useState('');
+  const [isSearch, setIsSearch] = useState(false);
   const icons = [
     { name: 'Search', img: search, imgfill: searchfill },
     { name: 'Home', img: home, imgfill: homefill, path: '/home' },
@@ -45,12 +47,17 @@ const PCNavBar = (props) => {
   useEffect(() => {
     const icon = icons.find((el) => el.path === location.pathname);
     icon && setIsClicked(icon.name);
+    setIsSearch(false);
   }, [location]);
 
   return (
     <>
       <Layout>
-        <MainButton onClick={() => navigate('/home')}>
+        <MainButton
+          onClick={() => {
+            navigate('/home');
+          }}
+        >
           <img src={logo} alt='logo' style={{ width: '80%' }} />
         </MainButton>
         {icons.map((el, i) => {
@@ -59,7 +66,10 @@ const PCNavBar = (props) => {
               key={i}
               onClick={() => {
                 setIsClicked(el.name);
-                if (el.path) navigate(el.path);
+                if (el.name === 'Search') setIsSearch(true);
+                if (el.path) {
+                  navigate(el.path);
+                }
               }}
             >
               <Icon src={isClicked === el.name ? el.imgfill : el.img} />
@@ -87,6 +97,7 @@ const PCNavBar = (props) => {
           ></PCAlertModal>,
           $Root,
         )}
+      {isSearch && <Search setIsSearch={setIsSearch} setIsClicked={setIsClicked} />}
     </>
   );
 };
