@@ -7,6 +7,7 @@ import Button from '../common/Button';
 import Input from '../common/Input';
 import useLogin from '../../Hooks/Sign/useLogin';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
+import { formFadeIn } from '../../Styles/SignAnimation';
 
 import Kakao from '../../Assets/pc_kakao.png';
 import Google from '../../Assets/pc_google.png';
@@ -67,15 +68,6 @@ const LoginForm = () => {
   );
 };
 
-const LoginFormFadeIn = keyframes`
-  0%{
-    opacity: 0;
-  }
-  100%{
-    opacity: 1;
-  }
-`;
-
 const Layout = styled.form`
   ${LayoutStyle}
   padding: 30px 34px;
@@ -100,7 +92,7 @@ const Layout = styled.form`
     css`
       height: 740px;
       padding: 54px 34px;
-      animation: ${LoginFormFadeIn} 0.5s forwards;
+      animation: ${formFadeIn} 0.5s forwards;
     `}
 `;
 
