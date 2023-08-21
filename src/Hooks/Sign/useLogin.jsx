@@ -4,9 +4,9 @@ import { useRecoilState } from 'recoil';
 import userToken from '../../Recoil/userToken/userToken';
 import isLogin from '../../Recoil/isLogin/isLogin';
 import accountName from '../../Recoil/accountName/accountName';
-import LoginAPI from '../LoginAPI';
+import LoginAPI from '../../Utils/LoginAPI';
 
-const LoginFunc = () => {
+const useLogin = () => {
   const navigate = useNavigate();
   const [errorMsg, setErrorMsg] = useState('');
   const [userErrorMessage, setUserErrorMessage] = useState('');
@@ -73,4 +73,4 @@ const LoginFunc = () => {
   };
 };
 
-export default LoginFunc;
+export default useLogin;
