@@ -14,7 +14,7 @@ import chatLists from '../../Mock/chatLists';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
 import MyPillowings from '../../Components/Home/MyPillowings';
 
-const AddProduct = () => {
+const ProductDetail = () => {
   const [productId, setProductId] = useState('');
   const [isClick, setIsClick] = useState(false);
   const params = useParams();
@@ -217,4 +217,4 @@ const ProudctPrice = styled.p`
   line-height: 1.3;
 `;
 
-export default AddProduct;
+export default ProductDetail;

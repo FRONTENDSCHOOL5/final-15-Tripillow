@@ -19,8 +19,13 @@ import PostModification from '../Pages/Post/PostModification';
 import ProtectRoute from '../Utils/ProtectRoute/ProtectRoute';
 import Setting from '../Pages/Profile/Setting';
 import Landing from '../Pages/Landing';
+import PCNavBar from '../Components/PCNav/PCNavBar';
+import isDesktop from '../Recoil/isDesktop/isDesktop';
+import { useRecoilValue } from 'recoil';
 
 const AppRoutes = () => {
+  const isPCScreen = useRecoilValue(isDesktop);
+
   return (
     <Routes>
       <Route path='/' element={<Landing />} />
@@ -29,6 +34,7 @@ const AppRoutes = () => {
       <Route
         element={
           <ProtectRoute>
+            {isPCScreen && <PCNavBar />}
             <Outlet />
           </ProtectRoute>
         }

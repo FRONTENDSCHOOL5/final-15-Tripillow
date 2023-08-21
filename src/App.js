@@ -23,7 +23,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <GlobalStyle />
-      {isPCScreen && <PCNavBar />}
+      {/* {isPCScreen && <PCNavBar />} */}
       <AppRoutes />
     </QueryClientProvider>
   );
