@@ -5,7 +5,7 @@ import { useRecoilValue } from 'recoil';
 import { LayoutStyle } from '../../Styles/Layout';
 import Button from '../common/Button';
 import Input from '../common/Input';
-import LoginFunc from '../../Utils/Login/LoginFunc';
+import useLogin from '../../Hooks/Sign/useLogin';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
 
 import Kakao from '../../Assets/pc_kakao.png';
@@ -13,7 +13,7 @@ import Google from '../../Assets/pc_google.png';
 import FaceBook from '../../Assets/pc_facebook.png';
 
 const LoginForm = () => {
-  const { handleFormSubmit, userInput, handleInputChange, errorMsg, handleError, userErrorMessage } = LoginFunc();
+  const { handleFormSubmit, userInput, handleInputChange, errorMsg, handleError, userErrorMessage } = useLogin();
   const isPCScreen = useRecoilValue(isDesktop);
 
   return (
