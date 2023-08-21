@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import useLogin from '../Hooks/Sign/useLogin';
 import isDesktop from '../Recoil/isDesktop/isDesktop';
-import PCLogin from '../Components/Login/PCLogin';
-import LoginForm from '../Components/Login/LoginForm';
+import PCLogin from '../Components/Sign/PCLogin';
+import LoginForm from '../Components/Sign/LoginForm';
 
 const Login = () => {
   const navigate = useNavigate();
