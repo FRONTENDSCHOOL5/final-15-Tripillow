@@ -28,6 +28,10 @@ const ChatContent = () => {
     getUserData();
   }, []);
 
+  useEffect(() => {
+    setChatValue([]);
+  }, [location.pathname]);
+
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
