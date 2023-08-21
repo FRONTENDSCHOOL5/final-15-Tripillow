@@ -23,6 +23,7 @@ const Followers = () => {
   const [pageTitle, setPageTitle] = useState('Followers');
   const { fetchFollower } = FollowerListAPI(accountname);
   const { fetchFollowing } = FollowingListAPI(accountname);
+  const regex = /^\/profile\/.+\/followers$/;
 
   useEffect(() => {
     if (pathIdentifier) {
@@ -69,7 +70,7 @@ const Followers = () => {
             ))}
       </main>
       {isPCScreen || <Navbar />}
-      {isPCScreen && <MyPillowings $on={isPCScreen} />}
+      {isPCScreen && regex.test(location.pathname) && <MyPillowings $on={isPCScreen} />}
     </Layout>
   );
 };
