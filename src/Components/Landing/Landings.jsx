@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { LayoutStyle } from '../../Styles/Layout';
@@ -14,21 +14,8 @@ import PCTripillow from './PCTripillow';
 const Landings = () => {
   const isPCScreen = useRecoilValue(isDesktop);
   const navigate = useNavigate();
-  const location = useLocation();
-  const [errorMSG, setErrorMSG] = useState('');
-
-  const handleErrorMSG = () => {
-    if (!!location.state) {
-      setErrorMSG(location.state);
-      setTimeout(() => {
-        setErrorMSG('');
-      }, 2000);
-    }
-  };
 
   useEffect(() => {
-    handleErrorMSG();
-
     if (isPCScreen) {
       const timer = setTimeout(() => {
         navigate('login');
@@ -36,7 +23,7 @@ const Landings = () => {
 
       return () => clearTimeout(timer);
     }
-  }, [location.state, isPCScreen]);
+  }, [isPCScreen]);
 
   if (isPCScreen) {
     return (
@@ -47,12 +34,6 @@ const Landings = () => {
   } else {
     return (
       <MobileLandingLayout>
-        {errorMSG && (
-          <AlertTop top='0px' newAnimation isError={!!location.state}>
-            {errorMSG}
-          </AlertTop>
-        )}
-
         <TripillowLayout>
           <img src={tripillowCharacter} alt='Tripillow 베게를 껴안고 작은 지구 위에 앉은 나무늘보 캐릭터' />
           <img src={Logo} alt='Tripillow' />

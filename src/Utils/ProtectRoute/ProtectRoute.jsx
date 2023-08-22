@@ -11,7 +11,7 @@ const ProtectedRoute = ({ children }) => {
 
   useEffect(() => {
     if (!isUser) {
-      navigate('/', { state: errorMessage });
+      navigate('/login', { state: errorMessage });
     }
   }, []);
 
