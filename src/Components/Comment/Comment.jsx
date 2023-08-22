@@ -47,9 +47,10 @@ const Comment = ({ commentInfo, postId, setIsNewComment }) => {
   };
 
   const handleReport = async () => {
-    const response = await reportComment();
+    await reportComment();
     setIsTopModalOn(true);
     closeModal();
+    setTimeout(() => setIsTopModalOn(false), 2300);
   };
 
   const handleAlertModal = (e) => {
@@ -64,7 +65,11 @@ const Comment = ({ commentInfo, postId, setIsNewComment }) => {
 
   return (
     <CommentLayout>
-      {isTopModalOn && <AlertTop isError={true}>댓글이 신고되었습니다.</AlertTop>}
+      {isTopModalOn && (
+        <AlertTop isPCScreen={isPCScreen} isError={true}>
+          댓글이 신고되었습니다.
+        </AlertTop>
+      )}
       <Profile>
         <ProfileLink
           to={commentInfo.author.accountname === name ? `/profile` : `/profile/${commentInfo.author.accountname}`}

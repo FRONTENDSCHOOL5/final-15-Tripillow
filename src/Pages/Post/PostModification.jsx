@@ -21,6 +21,7 @@ const PostModification = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const postId = location.state;
+  console.log(location);
   const isPCScreen = useRecoilValue(isDesktop);
   const [postInput, setPostInput] = useState({
     post: {

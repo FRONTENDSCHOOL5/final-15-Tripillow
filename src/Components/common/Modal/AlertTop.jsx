@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const AlertTop = ({ children, ...props }) => {
   return <AlertLayout {...props}>{children}</AlertLayout>;
@@ -17,6 +17,14 @@ const AlertLayout = styled.div`
   color: white;
   box-shadow: 0 4px 5px rgba(0, 0, 0, 0.1);
   animation: ${(props) => (props.newAnimation ? 'landingFadeIn 2s' : 'alertFadeIn 2s forwards')};
+
+  ${(props) =>
+    props.isPCScreen &&
+    css`
+      top: 0;
+      left: calc((100% - 480px) / 2);
+      width: 480px;
+    `}
 
   @keyframes alertFadeIn {
     0% {
