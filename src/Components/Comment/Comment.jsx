@@ -10,9 +10,13 @@ import accountname from '../../Recoil/accountName/accountName';
 import DeleteCommentAPI from '../../Utils/DeleteCommentAPI';
 import ReportCommentAPI from '../../Utils/ReportCommentAPI';
 import AlertTop from '../common/Modal/AlertTop';
+import isDesktop from '../../Recoil/isDesktop/isDesktop';
+import PCModal from '../common/Modal/PCModal';
+import PCAlertModal from '../common/Modal/PCAlertModal';
 
 const Comment = ({ commentInfo, postId, setIsNewComment }) => {
   const name = useRecoilValue(accountname);
+  const isPCScreen = useRecoilValue(isDesktop);
   const [isTopModalOn, setIsTopModalOn] = useState(false);
   const [isModalOn, setIsModalOn] = useState(false);
   const [isAlertModalOn, setIsAlertModalOn] = useState(false);
@@ -48,6 +52,11 @@ const Comment = ({ commentInfo, postId, setIsNewComment }) => {
     closeModal();
   };
 
+  const handleAlertModal = (e) => {
+    e.stopPropagation();
+    setIsAlertModalOn(true);
+  };
+
   useEffect(() => {
     setIsModalOn(false);
     setIsAlertModalOn(false);
@@ -68,24 +77,41 @@ const Comment = ({ commentInfo, postId, setIsNewComment }) => {
       </Profile>
       <Text>{commentInfo.content}</Text>
       <ModalOn>
-        {isModalOn && (
-          <CommentModal
-            isMine={isMine}
-            commentInfo={commentInfo}
-            setIsAlertModalOn={setIsAlertModalOn}
-            closeModal={closeModal}
-          ></CommentModal>
-        )}
-        {isAlertModalOn && (
-          <PostAlertModal
-            isMine={isMine}
-            isComment={true}
-            setIsModalOn={setIsModalOn}
-            handleDelete={handleDelete}
-            handleReport={handleReport}
-            closeModal={closeModal}
-          ></PostAlertModal>
-        )}
+        {isModalOn &&
+          (isPCScreen ? (
+            <PCModal
+              handleAlertModal={handleAlertModal}
+              setIsModalOn={setIsModalOn}
+              handleReport={handleReport}
+              closeModal={closeModal}
+              isMine={isMine}
+              isComment={true}
+            ></PCModal>
+          ) : (
+            <CommentModal
+              isMine={isMine}
+              commentInfo={commentInfo}
+              setIsAlertModalOn={setIsAlertModalOn}
+              closeModal={closeModal}
+            ></CommentModal>
+          ))}
+        {isAlertModalOn &&
+          (isPCScreen ? (
+            <PCAlertModal
+              setIsAlertModalOn={setIsAlertModalOn}
+              rightClick={handleDelete}
+              txt='댓글을 삭제할까요?'
+            ></PCAlertModal>
+          ) : (
+            <PostAlertModal
+              isMine={isMine}
+              isComment={true}
+              setIsModalOn={setIsModalOn}
+              handleDelete={handleDelete}
+              handleReport={handleReport}
+              closeModal={closeModal}
+            ></PostAlertModal>
+          ))}
       </ModalOn>
     </CommentLayout>
   );

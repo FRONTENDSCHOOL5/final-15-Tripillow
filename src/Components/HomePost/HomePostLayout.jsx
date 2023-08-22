@@ -63,7 +63,6 @@ const HomePostLayout = (props) => {
   const handleAlertModal = (e) => {
     e.stopPropagation();
     setIsAlertModalOn(true);
-    console.log('abc');
   };
 
   const deletePost = DeletePostAPI(post.id);
