@@ -177,7 +177,7 @@ const PostModification = () => {
     <PostLayout $isPCScreen={isPCScreen}>
       {!isPCScreen && (
         <UploadHeader disabled={!postInput.post.content} onClick={handleSubmit}>
-          업로드
+          수정
         </UploadHeader>
       )}
       <ToggleLayout>
@@ -200,7 +200,7 @@ const PostModification = () => {
             fontSize='14px'
             padding='7.75px'
           >
-            업로드
+            수정
           </Button>
         )}
         {isPCScreen && (
