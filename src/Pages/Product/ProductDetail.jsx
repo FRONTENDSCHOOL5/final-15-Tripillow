@@ -100,8 +100,8 @@ const ProductDetail = () => {
                   navigate(`/chat/${username}`, { state: { username, userImg, randomMessage } });
                 }}
                 right='12px'
-                position='absolute'
-                margin='0 0 5px 0'
+                position={isPCScreen ? 'static' : 'absolute'}
+                margin={isPCScreen ? '0 0 5px 260px' : '0 0 5px 0'}
               >
                 채팅하기
               </Button>
