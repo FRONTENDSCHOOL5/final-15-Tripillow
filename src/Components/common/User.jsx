@@ -29,8 +29,8 @@ const User = (props) => {
   const { leftSide: leftSideAccount, rightSide: rightSideAccount } = highlightKeyword(props.accountname, props.keyword);
 
   return (
-    <Link to={`/profile/${props.accountname}`} onClick={() => props.setIsSearch(false)}>
-      <UserLayout margin={props.margin}>
+    <UserLayout margin={props.margin}>
+      <Link to={`/profile/${props.accountname}`} onClick={() => props.setIsSearch(false)}>
         <div>
           <UserImgLayout>
             <UserImg
@@ -46,7 +46,9 @@ const User = (props) => {
             />
           </UserImgLayout>
         </div>
-        <UserContentsLayout>
+      </Link>
+      <UserContentsLayout>
+        <Link to={`/profile/${props.accountname}`} onClick={() => props.setIsSearch(false)}>
           {props.search ? (
             props.username.includes(props.keyword) && props.accountname.includes(props.keyword) ? (
               <div>
@@ -86,16 +88,16 @@ const User = (props) => {
               <UserContent>{props.content}</UserContent>
             </div>
           )}
+        </Link>
 
-          {props.moreBtn && <MoreBtn type='button' onClick={handleOnClick} />}
-          {props.followers && (
-            <Button width='56px' fontSize='var(--xs)' border='none' padding='5.75px'>
-              팔로우
-            </Button>
-          )}
-        </UserContentsLayout>
-      </UserLayout>
-    </Link>
+        {props.moreBtn && <MoreBtn type='button' onClick={handleOnClick} />}
+        {props.followers && (
+          <Button width='56px' fontSize='var(--xs)' border='none' padding='5.75px'>
+            팔로우
+          </Button>
+        )}
+      </UserContentsLayout>
+    </UserLayout>
   );
 };
 
