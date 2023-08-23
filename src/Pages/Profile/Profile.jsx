@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import MyInfoAPI from '../../Utils/MyInfoAPI';
 import GetPostAPI from '../../Utils/GetPostAPI';
 import UserInfoAPI from '../../Utils/UserInfoAPI';
@@ -29,6 +29,8 @@ import MyPillowings from '../../Components/Home/MyPillowings';
 const Profile = () => {
   const params = useParams();
   const location = useLocation();
+  console.log(location);
+
   const userAccountname = params.accountname;
   const isPCScreen = useRecoilValue(isDesktop);
   const myAccount = useRecoilValue(accountName);
@@ -60,12 +62,22 @@ const Profile = () => {
   const { getUserInfo } = UserInfoAPI(userAccountname, updateUserInfo);
   const { getPostData } = GetPostAPI(userAccountname ? userAccountname : myAccount, updatePostData);
   const { getProductList } = ProductListAPI(userAccountname ? userAccountname : myAccount, updateProductList);
-  const isDeleted = location.state?.isDeleted;
-  const isModified = location.state?.isModified;
+  const [isDeleted, setIsDeleted] = useState(location.state?.isDeleted);
+  const [isModified, setIsModified] = useState(location.state?.isModified);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsLoading(true);
   }, []);
+
+  useEffect(() => {
+    if (isDeleted) {
+      setTimeout(() => setIsDeleted(false), 2300);
+    }
+    if (isModified) {
+      setTimeout(() => setIsModified(false), 2300);
+    }
+  }, [isDeleted, isModified]);
 
   useEffect(() => {
     const handleFetch = () => {
@@ -73,7 +85,6 @@ const Profile = () => {
       getUserData();
       getPostData();
       getProductList();
-
       setTimeout(() => setIsLoading(false), 500);
     };
 
@@ -98,6 +109,15 @@ const Profile = () => {
     }
   }, []);
 
+  const updatePost = (isDeleteUpdate) => {
+    if (isDeleteUpdate) {
+      setIsDeleted(true);
+    } else {
+      setIsModified(true);
+    }
+    getPostData();
+  };
+
   const handleListView = () => {
     setListView(true);
     setAlbumView(false);
@@ -113,7 +133,11 @@ const Profile = () => {
       {!isPCScreen && (
         <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='로그아웃' />
       )}
-      {(isModified || isDeleted) && <AlertTop>{isModified ? '수정되었습니다.' : '삭제되었습니다.'}</AlertTop>}
+      {(isModified || isDeleted) && (
+        <AlertTop isPCScreen={isPCScreen} isError={isDeleted}>
+          {isModified ? '수정되었습니다.' : '삭제되었습니다.'}
+        </AlertTop>
+      )}
 
       <main>
         {isLoading ? (
@@ -171,7 +195,7 @@ const Profile = () => {
               {postData?.length > 0 ? (
                 <>
                   {listView ? (
-                    postData.map((post, index) => <HomePostLayout key={index} post={post} />)
+                    postData.map((post, index) => <HomePostLayout key={index} post={post} updatePost={updatePost} />)
                   ) : (
                     <ImageLayoutBackground>
                       <ImageLayout>

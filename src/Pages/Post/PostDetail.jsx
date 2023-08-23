@@ -30,7 +30,7 @@ const PostDetail = () => {
     setComments(data);
   };
   const postDetail = PostDetailAPI(postId, updatePostInfo);
-  const { getUserData } = MyInfoAPI(null, updateMyInfo); // NOTE 사용부분 바꾸기
+  const { getUserData } = MyInfoAPI(null, updateMyInfo);
   const getNumerousComment = GetNumerousCommentAPI(postId, updateComments);
   const [visibleComments, setVisibleComments] = useState([]);
   const [startIndex, setStartIndex] = useState(0);

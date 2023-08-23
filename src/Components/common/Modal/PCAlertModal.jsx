@@ -10,7 +10,6 @@ import { isKorea, isOverseas } from '../../../Recoil/whichCountry/whichCountry';
 import { isList, isAlbum } from '../../../Recoil/whichView/whichView';
 
 export default function PCAlertModal(props) {
-  console.log('pcalertModal');
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [token, setToken] = useRecoilState(userToken);

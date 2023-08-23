@@ -18,7 +18,7 @@
     "recoil": "^0.7.7",
     "recoil-persist": "^4.2.0",
     "styled-components": "^5.3.10",
-    "styled-reset": "^4.4.7",
+    "styled-reset": "^4.5.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

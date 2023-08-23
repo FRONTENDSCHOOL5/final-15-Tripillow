@@ -140,10 +140,9 @@ const Image = styled.img`
 const ModalBg = styled.div`
   position: absolute;
   top: 0;
+  width: ${(props) => (props.$isPCScreen ? 'calc(100% - 335px)' : '390px')};
   left: ${(props) => (props.$isPCScreen ? '335px' : '0')};
   min-height: 60px;
-  margin-left: -16px;
-  margin-right: -12px;
   margin-bottom: 13px;
   height: 100%;
   display: flex;
@@ -151,12 +150,6 @@ const ModalBg = styled.div`
   background-color: rgba(0, 0, 0, 0.8);
   z-index: 999;
   cursor: pointer;
-
-  ${(props) =>
-    props.$isPCScreen ||
-    css`
-      width: calc(100% + 16px + 12px);
-    `}
 `;
 
 const ModalImg = styled.img`
