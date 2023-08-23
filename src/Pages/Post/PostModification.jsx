@@ -141,7 +141,7 @@ const PostModification = () => {
     await postModify();
     textarea.current.value = '';
     setImgURL([]);
-    navigate('/profile');
+    navigate('/profile', { state: { isModified: true } });
   };
 
   const handleResizeHeight = () => {

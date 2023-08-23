@@ -67,10 +67,10 @@ const HomePostLayout = (props) => {
   const unheartPost = UnheartPostAPI(post.id);
 
   const handleDelete = async () => {
-    const response = await deletePost();
+    await deletePost();
     closeModal();
     if (location.pathname === '/profile') {
-      window.location.reload();
+      props.updatePost(true);
     } else {
       navigate('/profile', { state: { isDeleted: true } });
     }
