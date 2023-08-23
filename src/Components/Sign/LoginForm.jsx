@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled, { keyframes, css } from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { LayoutStyle } from '../../Styles/Layout';
@@ -8,6 +8,8 @@ import Input from '../common/Input';
 import useLogin from '../../Hooks/Sign/useLogin';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
 import { formFadeIn } from '../../Styles/SignAnimation';
+import PCToast from '../common/Modal/PCToast';
+import AlertTop from '../common/Modal/AlertTop';
 
 import Kakao from '../../Assets/pc_kakao.png';
 import Google from '../../Assets/pc_google.png';
@@ -16,10 +18,35 @@ import FaceBook from '../../Assets/pc_facebook.png';
 const LoginForm = () => {
   const { handleFormSubmit, userInput, handleInputChange, errorMsg, handleError, userErrorMessage } = useLogin();
   const isPCScreen = useRecoilValue(isDesktop);
+  const navigate = useNavigate();
+  const { state } = useLocation();
+  const [warnMSG, setWarnMSG] = useState('');
+
+  const handleSnackbar = () => {
+    if (!!state) {
+      setWarnMSG(state);
+      setTimeout(() => {
+        setWarnMSG('');
+      }, 2500);
+    }
+  };
+
+  useEffect(() => {
+    handleSnackbar();
+
+    if (!!state) {
+      navigate('/login', { replace: true });
+    }
+  }, [state]);
 
   return (
     <Layout onSubmit={handleFormSubmit} $isPCScreen={isPCScreen}>
       <h1>로그인</h1>
+      {warnMSG && !isPCScreen && (
+        <AlertTop top='0px' newAnimation isError={warnMSG}>
+          {warnMSG}
+        </AlertTop>
+      )}
       <Input
         type='email'
         placeholder='아이디를 입력해주세요'
@@ -64,6 +91,7 @@ const LoginForm = () => {
           <img src={FaceBook} alt='facebook icon' />
         </LoginMethodLayout>
       )}
+      {warnMSG && isPCScreen && <PCToast warnMessage={warnMSG} />}
     </Layout>
   );
 };

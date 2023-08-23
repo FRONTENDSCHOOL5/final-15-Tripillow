@@ -16,7 +16,8 @@ const AlertLayout = styled.div`
   background-color: ${(props) => (props.isError ? 'var(--error)' : 'var(--primary)')};
   color: white;
   box-shadow: 0 4px 5px rgba(0, 0, 0, 0.1);
-  animation: ${(props) => (props.newAnimation ? 'landingFadeIn 2s' : 'alertFadeIn 2s forwards')};
+  text-align: center;
+  animation: ${(props) => (props.newAnimation ? 'landingFadeIn 2s forwards' : 'alertFadeIn 2s forwards')};
 
   @keyframes alertFadeIn {
     0% {
