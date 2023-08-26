@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import throttle from 'lodash.throttle';
 import URL from '../../Utils/URL';
 import PostDetailAPI from '../../Utils/PostDetailAPI';
 import { validateImageFileFormat } from '../../Utils/validate';
@@ -21,7 +22,6 @@ const PostModification = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const postId = location.state;
-  console.log(location);
   const isPCScreen = useRecoilValue(isDesktop);
   const [postInput, setPostInput] = useState({
     post: {
@@ -144,6 +144,11 @@ const PostModification = () => {
     navigate('/profile', { state: { isModified: true } });
   };
 
+  const throttledHandleSubmit = throttle(handleSubmit, 3000, {
+    leading: true,
+    trailing: false,
+  });
+
   const handleResizeHeight = () => {
     textarea.current.style.height = 'auto';
     textarea.current.style.height = textarea.current.scrollHeight + 'px';
@@ -177,7 +182,7 @@ const PostModification = () => {
   return (
     <PostLayout $isPCScreen={isPCScreen}>
       {!isPCScreen && (
-        <UploadHeader disabled={!postInput.post.content} onClick={handleSubmit}>
+        <UploadHeader disabled={!postInput.post.content} onClick={throttledHandleSubmit}>
           수정
         </UploadHeader>
       )}
@@ -196,7 +201,7 @@ const PostModification = () => {
         {isPCScreen && (
           <Button
             disabled={!postInput.post.content}
-            onClick={handleSubmit}
+            onClick={throttledHandleSubmit}
             width='90px'
             fontSize='14px'
             padding='7.75px'

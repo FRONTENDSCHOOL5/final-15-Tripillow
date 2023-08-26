@@ -29,7 +29,6 @@ import MyPillowings from '../../Components/Home/MyPillowings';
 const Profile = () => {
   const params = useParams();
   const location = useLocation();
-  console.log(location);
 
   const userAccountname = params.accountname;
   const isPCScreen = useRecoilValue(isDesktop);

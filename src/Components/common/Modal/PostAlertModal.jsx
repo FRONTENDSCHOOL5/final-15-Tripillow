@@ -2,10 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const PostAlertModal = ({ isMine, isComment, setIsModalOn, handleDelete, closeModal, handleReport }) => {
-  console.log('postAlertModal');
-
   const name = isComment ? '댓글' : '게시글';
-  // setIsModalOn(false);
   return (
     <ModalBackground onClick={closeModal}>
       <ModalLayout>
