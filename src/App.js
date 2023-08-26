@@ -5,11 +5,13 @@ import { useRecoilValue } from 'recoil';
 import AppRoutes from './Router/AppRoutes';
 import GlobalStyle from './GlobalStyle';
 import useIsDesktop from './Components/PCNav/useIsDesktop';
+import useIsTab from './Components/TabNav/useIsTablet';
 import PCNavBar from './Components/PCNav/PCNavBar';
 
 function App() {
   const isPCScreen = useIsDesktop();
-
+  const isTabScreen = useIsTab();
+  
   const setScreenSize = () => {
     let vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
