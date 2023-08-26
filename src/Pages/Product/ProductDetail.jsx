@@ -15,6 +15,8 @@ import chatLists from '../../Mock/chatLists';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
 import MyPillowings from '../../Components/Home/MyPillowings';
 import PCModal from '../../Components/common/Modal/PCModal';
+import ProductDeleteAPI from '../../Utils/ProductDeleteAPI';
+import PCAlertModal from '../../Components/common/Modal/PCAlertModal';
 
 const ProductDetail = () => {
   const [productId, setProductId] = useState('');
@@ -25,12 +27,16 @@ const ProductDetail = () => {
   const isPCScreen = useRecoilValue(isDesktop);
   const productDetail = ProductDetailAPI(params.id);
   const userImg = productDetail.author?.image;
+  const isMine = userName === productDetail.author?.accountname;
   const [userCheck, setUserCheck] = useState(false);
   const [showImg, setShowImg] = useState(false);
 
   const [randomMessage, setRandomMessage] = useState('');
 
   const [isModalOn, setIsModalOn] = useState(false);
+  const [isAlertModalOn, setIsAlertModalOn] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
+
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * chatLists.length);
     const selectedMessage = chatLists[randomIndex];
@@ -52,6 +58,31 @@ const ProductDetail = () => {
   const handleMoreBtn = () => {
     setIsModalOn(!isModalOn);
   };
+
+  const handleModify = () => {
+    navigate('/modifyproduct', { state: params.id });
+  };
+
+  const handleProductDelete = ProductDeleteAPI(params.id);
+
+  const handleDelete = async () => {
+    await handleProductDelete();
+    navigate('/profile', {
+      state: {
+        isDeleted: true,
+      },
+    });
+  };
+  const closeModal = () => {
+    setIsModalOn(false);
+    setIsAlertModalOn(false);
+  };
+
+  const handleAlertModal = (e) => {
+    e.stopPropagation();
+    setIsAlertModalOn(true);
+  };
+
   useEffect(() => {
     if (userName === productDetail.author?.accountname) setUserCheck(true);
   }, [accountName, productDetail.author?.accountname]);
@@ -74,8 +105,25 @@ const ProductDetail = () => {
           )}
           <main style={{ position: 'relative' }}>
             <Image src={productDetail.itemImage} onClick={() => setShowImg(true)} />
-            <MoreBtn onClick={handleMoreBtn} />
-            {isModalOn && <PCModal />}
+            {isPCScreen && <MoreBtn onClick={handleMoreBtn} />}
+            {isModalOn && isPCScreen && (
+              <PCModal
+                isMine={isMine}
+                setIsModalOn={setIsModalOn}
+                handleModify={handleModify}
+                closeModal={closeModal}
+                handleAlertModal={handleAlertModal}
+                handleDelete={handleDelete}
+              />
+            )}
+            {isAlertModalOn && (
+              <PCAlertModal
+                txt='정말 삭제하시겠습니까?'
+                rightClick={handleDelete}
+                setIsAlertModalOn={setIsAlertModalOn}
+              />
+            )}
+   
             {showImg && (
               <ModalBg onClick={() => setShowImg(false)} $isPCScreen={isPCScreen}>
                 <ModalImg src={productDetail.itemImage} $isPCScreen={isPCScreen} />
