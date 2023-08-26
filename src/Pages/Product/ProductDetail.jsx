@@ -8,11 +8,13 @@ import { LayoutStyle } from '../../Styles/Layout';
 import BasicHeader from '../../Components/common/Header/BasicHeader';
 import hearticon from '../../Assets/icons/icon-heart.svg';
 import heartfill from '../../Assets/icons/icon-heart-fill.svg';
+import more from '../../Assets/icons/icon-more-pc.svg';
 import Button from '../../Components/common/Button';
 import User from '../../Components/common/User';
 import chatLists from '../../Mock/chatLists';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
 import MyPillowings from '../../Components/Home/MyPillowings';
+import PCModal from '../../Components/common/Modal/PCModal';
 
 const ProductDetail = () => {
   const [productId, setProductId] = useState('');
@@ -27,6 +29,8 @@ const ProductDetail = () => {
   const [showImg, setShowImg] = useState(false);
 
   const [randomMessage, setRandomMessage] = useState('');
+
+  const [isModalOn, setIsModalOn] = useState(false);
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * chatLists.length);
     const selectedMessage = chatLists[randomIndex];
@@ -45,6 +49,9 @@ const ProductDetail = () => {
     } else return content;
   };
 
+  const handleMoreBtn = () => {
+    setIsModalOn(!isModalOn);
+  };
   useEffect(() => {
     if (userName === productDetail.author?.accountname) setUserCheck(true);
   }, [accountName, productDetail.author?.accountname]);
@@ -65,9 +72,10 @@ const ProductDetail = () => {
               판매 중인 상품
             </BasicHeader>
           )}
-          <main>
+          <main style={{ position: 'relative' }}>
             <Image src={productDetail.itemImage} onClick={() => setShowImg(true)} />
-
+            <MoreBtn onClick={handleMoreBtn} />
+            {isModalOn && <PCModal />}
             {showImg && (
               <ModalBg onClick={() => setShowImg(false)} $isPCScreen={isPCScreen}>
                 <ModalImg src={productDetail.itemImage} $isPCScreen={isPCScreen} />
@@ -135,6 +143,16 @@ const Image = styled.img`
   height: 232px;
   object-fit: cover;
   cursor: pointer;
+`;
+
+const MoreBtn = styled.button`
+  position: absolute;
+  right: 0;
+  width: 24px;
+  height: 24px;
+  padding: 20px;
+  margin-right: -12px;
+  background: url(${more}) no-repeat center;
 `;
 
 const ModalBg = styled.div`
