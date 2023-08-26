@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled, { keyframes, css } from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { LayoutStyle } from '../../Styles/Layout';
@@ -8,18 +8,45 @@ import Input from '../common/Input';
 import useLogin from '../../Hooks/Sign/useLogin';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
 import { formFadeIn } from '../../Styles/SignAnimation';
+import PCToast from '../common/Modal/PCToast';
+import AlertTop from '../common/Modal/AlertTop';
 
-import Kakao from '../../Assets/pc_kakao.png';
-import Google from '../../Assets/pc_google.png';
-import FaceBook from '../../Assets/pc_facebook.png';
+import Kakao from '../../Assets/pc_kakaotalk.png';
+import Google from '../../Assets/icons/google.svg';
+import face from '../../Assets/icons/pc_facebook.svg';
 
 const LoginForm = () => {
   const { handleFormSubmit, userInput, handleInputChange, errorMsg, handleError, userErrorMessage } = useLogin();
   const isPCScreen = useRecoilValue(isDesktop);
+  const navigate = useNavigate();
+  const { state } = useLocation();
+  const [warnMSG, setWarnMSG] = useState('');
+
+  const handleSnackbar = () => {
+    if (!!state) {
+      setWarnMSG(state);
+      setTimeout(() => {
+        setWarnMSG('');
+      }, 2500);
+    }
+  };
+
+  useEffect(() => {
+    handleSnackbar();
+
+    if (!!state) {
+      navigate('/login', { replace: true });
+    }
+  }, [state]);
 
   return (
     <Layout onSubmit={handleFormSubmit} $isPCScreen={isPCScreen}>
       <h1>로그인</h1>
+      {warnMSG && !isPCScreen && (
+        <AlertTop top='0px' newAnimation isError={warnMSG}>
+          {warnMSG}
+        </AlertTop>
+      )}
       <Input
         type='email'
         placeholder='아이디를 입력해주세요'
@@ -59,11 +86,12 @@ const LoginForm = () => {
       <Link to='/signup'>이메일로 회원가입</Link>
       {isPCScreen && (
         <LoginMethodLayout>
-          <img src={Kakao} alt='kakao icon' />
-          <img src={Google} alt='google icon' />
-          <img src={FaceBook} alt='facebook icon' />
+          <img src={Kakao} style={{ width: '23px' }} alt='kakao icon' />
+          <img src={Google} style={{ width: '26px' }} alt='google icon' />
+          <img src={face} style={{ width: '22px' }} alt='facebook icon' />
         </LoginMethodLayout>
       )}
+      {warnMSG && isPCScreen && <PCToast warnMessage={warnMSG} />}
     </Layout>
   );
 };
@@ -108,6 +136,8 @@ const ErrorStyle = styled.p`
 
 const LoginMethodLayout = styled.div`
   margin: 20px auto;
+  display: flex;
+  align-items: center;
 
   img:not(:last-child) {
     margin-right: 13px;
