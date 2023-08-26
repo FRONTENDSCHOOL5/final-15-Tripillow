@@ -1,23 +1,37 @@
 import React from 'react';
 import styled from 'styled-components';
 import SkeletonItem from '../../../Styles/SkeletonItem';
+import { UserProductLayout } from '../../Profile/ProfileMain';
+import ProductItemSkeleton from './ProductItemSkeleton';
+import HomePostSkeleton from './HomePostSkeleton';
+import ProfileView from '../../Profile/ProfileView';
 
 const ProfileSkeleton = ({ userAccountname }) => {
   return (
-    <ProfileSkeletonLayout>
-      <ProfileSkeletonItem mb='6px' />
-      <ProfileTextSkeleton mb='6px' />
-      <ProfileTextSkeleton mb='16px' />
-      <ProfileTextSkeleton mb='24px' />
-      {!userAccountname ? (
-        <>
+    <>
+      <ProfileSkeletonLayout>
+        <ProfileSkeletonItem mb='6px' />
+        <ProfileTextSkeleton mb='6px' />
+        <ProfileTextSkeleton mb='16px' />
+        <ProfileTextSkeleton mb='24px' />
+        {!userAccountname ? (
+          <>
+            <ProfileButtonSkeleton />
+            <ProfileButtonSkeleton />
+          </>
+        ) : (
           <ProfileButtonSkeleton />
-          <ProfileButtonSkeleton />
-        </>
-      ) : (
-        <ProfileButtonSkeleton />
-      )}
-    </ProfileSkeletonLayout>
+        )}
+      </ProfileSkeletonLayout>
+      <UserProductLayout>
+        <h2>판매 중인 상품</h2>
+        <ProductItemSkeleton />
+      </UserProductLayout>
+      <ProfileView />
+      <article>
+        <HomePostSkeleton />
+      </article>
+    </>
   );
 };
 
