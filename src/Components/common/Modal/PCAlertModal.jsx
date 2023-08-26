@@ -9,8 +9,7 @@ import accountName from '../../../Recoil/accountName/accountName';
 import { isKorea, isOverseas } from '../../../Recoil/whichCountry/whichCountry';
 import { isList, isAlbum } from '../../../Recoil/whichView/whichView';
 
-export default function PCAlertModal(props) {
-  console.log('pcalertModal');
+const PCAlertModal = (props) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const setToken = useSetRecoilState(userToken);
@@ -53,7 +52,7 @@ export default function PCAlertModal(props) {
       </ModalLayout>
     </ModalBackground>
   );
-}
+};
 
 const ModalBackground = styled.div`
   position: fixed;
@@ -122,3 +121,5 @@ const ModalButton = styled.button`
     background-color: rgba(0, 0, 0, 0.1);
   }
 `;
+
+export default PCAlertModal;
