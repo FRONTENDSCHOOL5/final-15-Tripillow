@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { LayoutStyle } from '../../Styles/Layout';
 import BasicHeader from '../../Components/common/Header/BasicHeader';
 import Navbar from '../../Components/common/Navbar';
@@ -11,7 +11,8 @@ import MyPillowings from '../../Components/Home/MyPillowings';
 import ProfileMain from '../../Components/Profile/ProfileMain';
 
 const Profile = () => {
-  const { state } = useLocation();
+  const navigate = useNavigate();
+  const { state, pathname } = useLocation();
   const isPCScreen = useRecoilValue(isDesktop);
   const [isDeleted, setIsDeleted] = useState(state?.isDeleted);
   const [isModified, setIsModified] = useState(state?.isModified);
@@ -25,6 +26,12 @@ const Profile = () => {
     }
   }, [isDeleted, isModified]);
 
+  useEffect(() => {
+    if (!!state) {
+      navigate(pathname, { replace: true });
+    }
+  }, [state]);
+
   return (
     <Layout $isPCScreen={isPCScreen}>
       {!isPCScreen && (
@@ -35,7 +42,7 @@ const Profile = () => {
           {isModified ? '수정되었습니다.' : '삭제되었습니다.'}
         </AlertTop>
       )}
-      <ProfileMain />
+      <ProfileMain setIsDeleted={setIsDeleted} setIsModified={setIsModified} />
       {isPCScreen || <Navbar />}
       {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </Layout>
