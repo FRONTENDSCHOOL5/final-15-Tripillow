@@ -30,7 +30,7 @@ const User = (props) => {
 
   return (
     <UserLayout margin={props.margin}>
-      <Link to={`/profile/${props.accountname}`} onClick={() => props.setIsSearch(false)}>
+      <Link to={`/profile/${props.accountname}`} onClick={() => props.setIsSearch && props.setIsSearch(false)}>
         <div>
           <UserImgLayout>
             <UserImg
@@ -48,7 +48,7 @@ const User = (props) => {
         </div>
       </Link>
       <UserContentsLayout>
-        <Link to={`/profile/${props.accountname}`} onClick={() => props.setIsSearch(false)}>
+        <Link to={`/profile/${props.accountname}`} onClick={() => props.setIsSearch && props.setIsSearch(false)}>
           {props.search ? (
             props.username.includes(props.keyword) && props.accountname.includes(props.keyword) ? (
               <div>
@@ -105,7 +105,6 @@ const UserLayout = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-  cursor: pointer;
   margin: ${(props) => props.margin};
   overflow: hidden;
 `;

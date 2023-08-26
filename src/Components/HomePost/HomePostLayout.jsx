@@ -56,14 +56,9 @@ const HomePostLayout = (props) => {
     setIsAlertModalOn(false);
   };
 
-  useEffect(() => {
-    console.log('ineffect');
-  }, [isAlertModalOn]);
-
   const handleAlertModal = (e) => {
     e.stopPropagation();
     setIsAlertModalOn(true);
-    console.log('abc');
   };
 
   const deletePost = DeletePostAPI(post.id);
@@ -72,12 +67,12 @@ const HomePostLayout = (props) => {
   const unheartPost = UnheartPostAPI(post.id);
 
   const handleDelete = async () => {
-    const response = await deletePost();
+    await deletePost();
     closeModal();
     if (location.pathname === '/profile') {
-      window.location.reload();
+      props.updatePost(true);
     } else {
-      navigate('/profile');
+      navigate('/profile', { state: { isDeleted: true } });
     }
   };
 
@@ -86,11 +81,10 @@ const HomePostLayout = (props) => {
   };
 
   const handleReport = async () => {
-    const response = await reportPost();
+    await reportPost();
     setIsTopModalOn(true);
-    // setIsTopModalOn(false);
     closeModal();
-    // TODO 리포트 되었다는 모달 띄우기
+    setTimeout(() => setIsTopModalOn(false), 2300);
   };
 
   const handleHeart = async () => {
@@ -109,7 +103,11 @@ const HomePostLayout = (props) => {
 
   return (
     <Layout>
-      {isTopModalOn && <AlertTop isError={true}>게시글이 신고되었습니다.</AlertTop>}
+      {isTopModalOn && (
+        <AlertTop isPCScreen={isPCScreen} isError={true}>
+          게시글이 신고되었습니다.
+        </AlertTop>
+      )}
       <User
         accountname={post.author.accountname}
         userImg={userImg || Profile}
