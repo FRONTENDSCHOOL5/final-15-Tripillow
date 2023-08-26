@@ -1,7 +1,7 @@
 ---
 name: "♻️ Refactor:"
 about: 리팩토링할 사항을 입력해주세요.
-title: ''
+title: "♻️ Refactor:"
 labels: "♻️ 리팩토링"
 assignees: ''
 
