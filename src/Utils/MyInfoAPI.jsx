@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
 import URL from './URL';
 import userToken from '../Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
 
-const MyInfoAPI = (updateData, updateMyInfo) => {
+const MyInfoAPI = (updateData) => {
   const token = useRecoilValue(userToken);
 
   const getUserData = async () => {
@@ -16,8 +15,8 @@ const MyInfoAPI = (updateData, updateMyInfo) => {
       });
 
       const data = await response.json();
-      if (updateData || updateMyInfo) {
-        updateData ? updateData(data.user) : updateMyInfo(data.user);
+      if (updateData) {
+        updateData(data.user);
       }
       return data.user;
     } catch (error) {

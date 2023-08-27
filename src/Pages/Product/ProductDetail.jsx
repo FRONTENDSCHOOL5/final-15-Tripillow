@@ -8,11 +8,15 @@ import { LayoutStyle } from '../../Styles/Layout';
 import BasicHeader from '../../Components/common/Header/BasicHeader';
 import hearticon from '../../Assets/icons/icon-heart.svg';
 import heartfill from '../../Assets/icons/icon-heart-fill.svg';
+import more from '../../Assets/icons/icon-more-pc.svg';
 import Button from '../../Components/common/Button';
 import User from '../../Components/common/User';
 import chatLists from '../../Mock/chatLists';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
 import MyPillowings from '../../Components/Home/MyPillowings';
+import PCModal from '../../Components/common/Modal/PCModal';
+import ProductDeleteAPI from '../../Utils/ProductDeleteAPI';
+import PCAlertModal from '../../Components/common/Modal/PCAlertModal';
 
 const ProductDetail = () => {
   const [productId, setProductId] = useState('');
@@ -23,10 +27,16 @@ const ProductDetail = () => {
   const isPCScreen = useRecoilValue(isDesktop);
   const productDetail = ProductDetailAPI(params.id);
   const userImg = productDetail.author?.image;
+  const isMine = userName === productDetail.author?.accountname;
   const [userCheck, setUserCheck] = useState(false);
   const [showImg, setShowImg] = useState(false);
 
   const [randomMessage, setRandomMessage] = useState('');
+
+  const [isModalOn, setIsModalOn] = useState(false);
+  const [isAlertModalOn, setIsAlertModalOn] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
+
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * chatLists.length);
     const selectedMessage = chatLists[randomIndex];
@@ -43,6 +53,34 @@ const ProductDetail = () => {
     if (match) {
       return content.slice(3);
     } else return content;
+  };
+
+  const handleMoreBtn = () => {
+    setIsModalOn(!isModalOn);
+  };
+
+  const handleModify = () => {
+    navigate('/modifyproduct', { state: params.id });
+  };
+
+  const handleProductDelete = ProductDeleteAPI(params.id);
+
+  const handleDelete = async () => {
+    await handleProductDelete();
+    navigate('/profile', {
+      state: {
+        isDeleted: true,
+      },
+    });
+  };
+  const closeModal = () => {
+    setIsModalOn(false);
+    setIsAlertModalOn(false);
+  };
+
+  const handleAlertModal = (e) => {
+    e.stopPropagation();
+    setIsAlertModalOn(true);
   };
 
   useEffect(() => {
@@ -65,9 +103,27 @@ const ProductDetail = () => {
               판매 중인 상품
             </BasicHeader>
           )}
-          <main>
+          <main style={{ position: 'relative' }}>
             <Image src={productDetail.itemImage} onClick={() => setShowImg(true)} />
-
+            {isPCScreen && <MoreBtn onClick={handleMoreBtn} />}
+            {isModalOn && isPCScreen && (
+              <PCModal
+                isMine={isMine}
+                setIsModalOn={setIsModalOn}
+                handleModify={handleModify}
+                closeModal={closeModal}
+                handleAlertModal={handleAlertModal}
+                handleDelete={handleDelete}
+              />
+            )}
+            {isAlertModalOn && (
+              <PCAlertModal
+                txt='정말 삭제하시겠습니까?'
+                rightClick={handleDelete}
+                setIsAlertModalOn={setIsAlertModalOn}
+              />
+            )}
+   
             {showImg && (
               <ModalBg onClick={() => setShowImg(false)} $isPCScreen={isPCScreen}>
                 <ModalImg src={productDetail.itemImage} $isPCScreen={isPCScreen} />
@@ -100,8 +156,8 @@ const ProductDetail = () => {
                   navigate(`/chat/${username}`, { state: { username, userImg, randomMessage } });
                 }}
                 right='12px'
-                position='absolute'
-                margin='0 0 5px 0'
+                position={isPCScreen ? 'static' : 'absolute'}
+                margin={isPCScreen ? '0 0 5px 260px' : '0 0 5px 0'}
               >
                 채팅하기
               </Button>
@@ -137,13 +193,22 @@ const Image = styled.img`
   cursor: pointer;
 `;
 
+const MoreBtn = styled.button`
+  position: absolute;
+  right: 0;
+  width: 24px;
+  height: 24px;
+  padding: 20px;
+  margin-right: -12px;
+  background: url(${more}) no-repeat center;
+`;
+
 const ModalBg = styled.div`
   position: absolute;
   top: 0;
+  width: ${(props) => (props.$isPCScreen ? 'calc(100% - 335px)' : '390px')};
   left: ${(props) => (props.$isPCScreen ? '335px' : '0')};
   min-height: 60px;
-  margin-left: -16px;
-  margin-right: -12px;
   margin-bottom: 13px;
   height: 100%;
   display: flex;
@@ -151,12 +216,6 @@ const ModalBg = styled.div`
   background-color: rgba(0, 0, 0, 0.8);
   z-index: 999;
   cursor: pointer;
-
-  ${(props) =>
-    props.$isPCScreen ||
-    css`
-      width: calc(100% + 16px + 12px);
-    `}
 `;
 
 const ModalImg = styled.img`

@@ -30,10 +30,10 @@ const PostDetail = () => {
     setComments(data);
   };
   const postDetail = PostDetailAPI(postId, updatePostInfo);
-  const { getUserData } = MyInfoAPI(null, updateMyInfo); // NOTE 사용부분 바꾸기
+  const { getUserData } = MyInfoAPI(null, updateMyInfo);
   const getNumerousComment = GetNumerousCommentAPI(postId, updateComments);
   const [visibleComments, setVisibleComments] = useState([]);
-  const [startIndex, setStartIndex] = useState(0);
+  const [endIndex, setEndIndex] = useState(0);
   const [showMore, setShowMore] = useState(false);
   const [isNewComment, setIsNewComment] = useState(false);
 
@@ -48,32 +48,31 @@ const PostDetail = () => {
   }, []);
 
   useEffect(() => {
-    const sync = async () => {
-      // await postDetail();
+    const updateNewComment = async () => {
       await getNumerousComment();
       setComments((prev) => prev.reverse());
     };
-    sync();
+    updateNewComment();
   }, [isNewComment]);
 
   useEffect(() => {
-    const initialStartIndex = Math.max(comments.length - 5, 0);
-    setStartIndex(initialStartIndex);
-    setVisibleComments(comments.slice(initialStartIndex));
+    const initialEndIndex = Math.min(5, comments.length);
+    setVisibleComments(comments.slice(0, initialEndIndex));
+    setEndIndex(initialEndIndex);
+
     if (comments.length > 5) {
       setShowMore(true);
     }
   }, [comments]);
 
   const handleShowMore = () => {
-    const nextStartIndex = Math.max(startIndex - 5, 0);
-    const nextVisibleComments = comments.slice(nextStartIndex, startIndex);
-    setVisibleComments([...nextVisibleComments, ...visibleComments]);
-    setStartIndex(nextStartIndex);
-
-    if (nextStartIndex === 0) {
+    const nextEndIndex = Math.min(endIndex + 5, comments.length);
+    setVisibleComments(comments.slice(0, nextEndIndex));
+    if (nextEndIndex >= comments.length) {
       setShowMore(false);
+      return;
     }
+    setEndIndex(nextEndIndex);
   };
 
   return (
@@ -94,10 +93,10 @@ const PostDetail = () => {
           )}
         </section>
         <CommentLayout>
-          {showMore && <MoreComment onClick={handleShowMore}>더보기</MoreComment>}
           {visibleComments.map((el, i) => (
             <Comment key={i} postId={postId} commentInfo={el} setIsNewComment={setIsNewComment}></Comment>
           ))}
+          {showMore && <MoreComment onClick={handleShowMore}>더보기</MoreComment>}
         </CommentLayout>
       </main>
       <PostComment setIsNewComment={setIsNewComment} postId={postId} userImg={myInfo.image}></PostComment>

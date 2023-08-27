@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import throttle from 'lodash.throttle';
 import URL from '../../Utils/URL';
 import PostDetailAPI from '../../Utils/PostDetailAPI';
 import { validateImageFileFormat } from '../../Utils/validate';
@@ -140,8 +141,13 @@ const PostModification = () => {
     await postModify();
     textarea.current.value = '';
     setImgURL([]);
-    navigate('/profile');
+    navigate('/profile', { state: { isModified: true } });
   };
+
+  const throttledHandleSubmit = throttle(handleSubmit, 3000, {
+    leading: true,
+    trailing: false,
+  });
 
   const handleResizeHeight = () => {
     textarea.current.style.height = 'auto';
@@ -176,8 +182,8 @@ const PostModification = () => {
   return (
     <PostLayout $isPCScreen={isPCScreen}>
       {!isPCScreen && (
-        <UploadHeader disabled={!postInput.post.content} onClick={handleSubmit}>
-          업로드
+        <UploadHeader disabled={!postInput.post.content} onClick={throttledHandleSubmit}>
+          수정
         </UploadHeader>
       )}
       <ToggleLayout>
@@ -195,12 +201,12 @@ const PostModification = () => {
         {isPCScreen && (
           <Button
             disabled={!postInput.post.content}
-            onClick={handleSubmit}
+            onClick={throttledHandleSubmit}
             width='90px'
             fontSize='14px'
             padding='7.75px'
           >
-            업로드
+            수정
           </Button>
         )}
         {isPCScreen && (
