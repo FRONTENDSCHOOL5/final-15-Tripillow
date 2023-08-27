@@ -62,6 +62,8 @@ const PostDetail = () => {
 
     if (comments.length > 5) {
       setShowMore(true);
+    } else {
+      setShowMore(false);
     }
   }, [comments]);
 
