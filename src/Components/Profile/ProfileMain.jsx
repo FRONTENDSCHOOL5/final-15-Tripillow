@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useQueries } from 'react-query';
 import styled from 'styled-components';
 import accountName from '../../Recoil/accountName/accountName';
@@ -14,18 +14,18 @@ import ProductItem from '../common/ProductItem';
 import ProfileView from './ProfileView';
 import HomePostLayout from '../HomePost/HomePostLayout';
 import { isList } from '../../Recoil/whichView/whichView';
+import { followerURL, followingURL } from '../../Recoil/followPath/followPath';
 import ViewImage from '../HomePost/ViewImage';
 
-const ProfileMain = () => {
+const ProfileMain = ({ setIsDeleted, setIsModified }) => {
   const params = useParams();
   const userAccountname = params.accountname;
   const myAccount = useRecoilValue(accountName);
   const listView = useRecoilValue(isList);
   const account = userAccountname ? userAccountname : myAccount;
+  const setFollowerPath = useSetRecoilState(followerURL);
+  const setFollowingPath = useSetRecoilState(followingURL);
 
-  const [followCount, setFollowCount] = useState(0);
-  const [followerURL, setFollowerURL] = useState('');
-  const [followingURL, setFollowingURL] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
   const queries = useQueries([
@@ -52,6 +52,7 @@ const ProfileMain = () => {
   ]);
 
   const [myDataQuery, userDataQuery, postDataQuery, productDataQuery] = queries;
+  const { refetch: refetchPostData } = postDataQuery;
 
   useEffect(() => {
     if (!myDataQuery.isLoading && !postDataQuery.isLoading && !productDataQuery.isLoading) {
@@ -59,13 +60,22 @@ const ProfileMain = () => {
     }
   }, [myDataQuery.isLoading, postDataQuery.isLoading, productDataQuery.isLoading]);
 
+  const updatePost = (isDeleteUpdate) => {
+    if (isDeleteUpdate) {
+      setIsDeleted(true);
+    } else {
+      setIsModified(true);
+    }
+    refetchPostData();
+  };
+
   useEffect(() => {
     if (userAccountname === myAccount || !userAccountname) {
-      setFollowerURL('/profile/followers');
-      setFollowingURL('/profile/followings');
+      setFollowerPath('/profile/followers');
+      setFollowingPath('/profile/followings');
     } else if (userAccountname !== myAccount) {
-      setFollowerURL(`/profile/${userAccountname}/followers`);
-      setFollowingURL(`/profile/${userAccountname}/followings`);
+      setFollowerPath(`/profile/${userAccountname}/followers`);
+      setFollowingPath(`/profile/${userAccountname}/followings`);
     }
   }, []);
 
@@ -75,13 +85,7 @@ const ProfileMain = () => {
         <ProfileSkeleton userAccountname={userAccountname} />
       ) : (
         <>
-          <UserProfile
-            user={userAccountname ? userDataQuery.data : myDataQuery.data}
-            followCount={followCount}
-            setFollowCount={setFollowCount}
-            followerURL={followerURL}
-            followingURL={followingURL}
-          />
+          <UserProfile user={userAccountname ? userDataQuery.data : myDataQuery.data} />
           <UserProductLayout>
             <h2>판매 중인 상품</h2>
             <ProductListLayout>
@@ -97,7 +101,9 @@ const ProfileMain = () => {
             {postDataQuery.data?.length > 0 ? (
               <>
                 {listView ? (
-                  postDataQuery.data?.map((post, index) => <HomePostLayout key={index} post={post} />)
+                  postDataQuery.data?.map((post, index) => (
+                    <HomePostLayout key={index} post={post} updatePost={updatePost} />
+                  ))
                 ) : (
                   <ImageLayoutBackground>
                     <ImageLayout>

@@ -1,36 +1,28 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import CommonButton from '../common/Button';
 import { UserProfileLayout, ImgLayout, IconBox, ShareIconStyle } from './UserStyle';
-
+import UseUserProfile from '../../Hooks/useUserProfile';
 import Chat from '../../Assets/icons/icon-message-circle-1.svg';
 import ProfileImg from '../../Assets/profile-lg.png';
 
-const MobileUser = ({
-  followerURL,
-  user,
-  userCount,
-  followingURL,
-  name,
-  handleChatClick,
-  followText,
-  handleFollowButtonClick,
-  handleCopy,
-}) => {
+const MobileUser = ({ user, handleCopy }) => {
   const navigate = useNavigate();
+  const { followerPath, followingPath, name, followText, handleFollowButtonClick, handleChatClick, followCount } =
+    UseUserProfile(user);
 
   return (
     <UserProfileLayout>
       <ImgFollowLayout>
-        <FollowLayout to={followerURL} state={user}>
-          <strong>{userCount}</strong>
+        <FollowLayout to={followerPath} state={user}>
+          <strong>{followCount}</strong>
           <p>pillowers</p>
         </FollowLayout>
         <ImgLayout>
           <img src={user.image ? user.image : ProfileImg} alt='사용자 프로필 사진' />
         </ImgLayout>
-        <FollowLayout to={followingURL} state={user} color='#767676'>
+        <FollowLayout to={followingPath} state={user} color='#767676'>
           <strong>{user.followingCount}</strong>
           <p>pillowings</p>
         </FollowLayout>
@@ -123,8 +115,6 @@ const IconLayout = styled.div`
     flex-shrink: 0;
   }
 `;
-
-// Icon Container
 
 const ChatIconStyle = styled.button`
   ${IconBox}
