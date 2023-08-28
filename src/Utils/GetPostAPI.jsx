@@ -1,10 +1,8 @@
-import { useEffect, useState } from 'react';
 import URL from './URL';
 import userToken from '../Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
 
 const GetPostAPI = (accountName) => {
-  console.log('🚀  accountName:', accountName);
   const token = useRecoilValue(userToken);
 
   const getPostData = async () => {

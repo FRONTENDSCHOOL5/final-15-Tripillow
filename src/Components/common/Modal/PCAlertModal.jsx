@@ -2,23 +2,23 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useQueryClient } from 'react-query';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import userToken from '../../../Recoil/userToken/userToken';
 import isLogin from '../../../Recoil/isLogin/isLogin';
 import accountName from '../../../Recoil/accountName/accountName';
 import { isKorea, isOverseas } from '../../../Recoil/whichCountry/whichCountry';
 import { isList, isAlbum } from '../../../Recoil/whichView/whichView';
 
-export default function PCAlertModal(props) {
+const PCAlertModal = (props) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const [token, setToken] = useRecoilState(userToken);
-  const [login, setLogin] = useRecoilState(isLogin);
-  const [name, setName] = useRecoilState(accountName);
-  const [korea, setKorea] = useRecoilState(isKorea);
-  const [overseas, setOverseas] = useRecoilState(isOverseas);
-  const [listView, setListView] = useRecoilState(isList);
-  const [albumView, setAlbumView] = useRecoilState(isAlbum);
+  const setToken = useSetRecoilState(userToken);
+  const setLogin = useSetRecoilState(isLogin);
+  const setName = useSetRecoilState(accountName);
+  const setKorea = useSetRecoilState(isKorea);
+  const setOverseas = useSetRecoilState(isOverseas);
+  const setListView = useSetRecoilState(isList);
+  const setAlbumView = useSetRecoilState(isAlbum);
 
   const closeModal = (e) => {
     props.setIsAlertModalOn(false);
@@ -52,7 +52,7 @@ export default function PCAlertModal(props) {
       </ModalLayout>
     </ModalBackground>
   );
-}
+};
 
 const ModalBackground = styled.div`
   position: fixed;
@@ -121,3 +121,5 @@ const ModalButton = styled.button`
     background-color: rgba(0, 0, 0, 0.1);
   }
 `;
+
+export default PCAlertModal;
