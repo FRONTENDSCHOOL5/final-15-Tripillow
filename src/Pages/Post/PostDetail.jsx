@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { LayoutStyle } from '../../Styles/Layout';
 import Comment from '../../Components/Comment/Comment';
@@ -15,6 +15,7 @@ import MyPillowings from '../../Components/Home/MyPillowings';
 
 const PostDetail = () => {
   const { id } = useParams();
+  const location = useLocation();
   const postId = id;
   const isPCScreen = useRecoilValue(isDesktop);
   const [myInfo, setMyInfo] = useState({});
@@ -47,12 +48,16 @@ const PostDetail = () => {
     sync();
   }, []);
 
+  const updateNewComment = async () => {
+    await getNumerousComment();
+    setComments((prev) => prev.reverse());
+  };
+
   useEffect(() => {
-    const updateNewComment = async () => {
-      await getNumerousComment();
-      setComments((prev) => prev.reverse());
-    };
-    updateNewComment();
+    if (isNewComment) {
+      updateNewComment();
+      setIsNewComment(false);
+    }
   }, [isNewComment]);
 
   useEffect(() => {
