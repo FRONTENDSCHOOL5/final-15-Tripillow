@@ -35,7 +35,6 @@ const ProductDetail = () => {
 
   const [isModalOn, setIsModalOn] = useState(false);
   const [isAlertModalOn, setIsAlertModalOn] = useState(false);
-  const [isDeleted, setIsDeleted] = useState(false);
 
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * chatLists.length);
@@ -44,9 +43,10 @@ const ProductDetail = () => {
   }, []);
 
   const username = productDetail.author?.username;
+
   useEffect(() => {
     setProductId(params.id);
-  }, []);
+  }, [params.id]);
 
   const trimContent = (content) => {
     const match = content?.match(/^\[(P|M)\]/);
@@ -85,7 +85,7 @@ const ProductDetail = () => {
 
   useEffect(() => {
     if (userName === productDetail.author?.accountname) setUserCheck(true);
-  }, [accountName, productDetail.author?.accountname]);
+  }, [userName, productDetail.author?.accountname]);
 
   return (
     <>
@@ -123,7 +123,7 @@ const ProductDetail = () => {
                 setIsAlertModalOn={setIsAlertModalOn}
               />
             )}
-   
+
             {showImg && (
               <ModalBg onClick={() => setShowImg(false)} $isPCScreen={isPCScreen}>
                 <ModalImg src={productDetail.itemImage} $isPCScreen={isPCScreen} />
@@ -204,12 +204,14 @@ const MoreBtn = styled.button`
 `;
 
 const ModalBg = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
-  width: ${(props) => (props.$isPCScreen ? 'calc(100% - 335px)' : '390px')};
-  left: ${(props) => (props.$isPCScreen ? '335px' : '0')};
+  width: ${(props) => (props.$isPCScreen ? 'calc(100% - 335px)' : '390px ')};
+
+  left: ${(props) => (props.$isPCScreen ? '335px' : '50%')};
+  transform: ${(props) => (props.$isPCScreen ? '' : 'translate(-50%)')};
   min-height: 60px;
-  margin-bottom: 13px;
+  /* margin-bottom: 13px; */
   height: 100%;
   display: flex;
   align-items: center;
