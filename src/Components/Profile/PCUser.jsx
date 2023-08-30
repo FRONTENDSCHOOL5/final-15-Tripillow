@@ -1,23 +1,15 @@
 import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import CommonButton from '../common/Button';
 import { UserProfileLayout, ImgLayout, ShareIconStyle } from './UserStyle';
-
+import UseUserProfile from '../../Hooks/useUserProfile';
 import ProfileImg from '../../Assets/profile-lg.png';
-import { Link, useNavigate } from 'react-router-dom';
 
-const PCUserProfile = ({
-  followerURL,
-  user,
-  userCount,
-  followingURL,
-  name,
-  handleChatClick,
-  followText,
-  handleFollowButtonClick,
-  handleCopy,
-}) => {
+const PCUserProfile = ({ user, handleCopy }) => {
   const navigate = useNavigate();
+  const { followerPath, followingPath, name, followText, handleFollowButtonClick, handleChatClick, followCount } =
+    UseUserProfile(user);
 
   return (
     <UserProfileLayout $pc>
@@ -27,7 +19,6 @@ const PCUserProfile = ({
       <UserInfo>
         <UserNameIcons>
           <h2>{user.username}</h2>
-          {/* buttons */}
           {user.accountname === name ? (
             <IconLayout>
               <CommonButton onClick={() => navigate('/profile/edit')} clicked width='91px' fontSize='var(--xs)'>
@@ -56,11 +47,11 @@ const PCUserProfile = ({
         </UserNameIcons>
         <CommonParagraph>{'@' + user.accountname}</CommonParagraph>
         <FollowsLayout>
-          <FollowLayout to={followerURL} state={user}>
-            <strong>{userCount}</strong>
+          <FollowLayout to={followerPath} state={user}>
+            <strong>{followCount}</strong>
             <p>pillowers</p>
           </FollowLayout>
-          <FollowLayout to={followingURL} state={user} color='var(--dark-gray)'>
+          <FollowLayout to={followingPath} state={user} color='var(--dark-gray)'>
             <strong>{user.followingCount}</strong>
             <p>pillowings</p>
           </FollowLayout>

@@ -1,9 +1,8 @@
-import React from 'react';
 import URL from './URL';
 import { useRecoilValue } from 'recoil';
 import userToken from '../Recoil/userToken/userToken';
 
-const UserInfoAPI = (accountName, updateUserInfo) => {
+const UserInfoAPI = (accountName) => {
   const token = useRecoilValue(userToken);
 
   const getUserInfo = async () => {
@@ -16,7 +15,7 @@ const UserInfoAPI = (accountName, updateUserInfo) => {
         },
       });
       const data = await response.json();
-      updateUserInfo(data.profile);
+      return data.profile;
     } catch (error) {
       console.error('API 응답에 실패하였습니다.', error);
     }

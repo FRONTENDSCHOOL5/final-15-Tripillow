@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import throttle from 'lodash.throttle';
 import URL from '../../Utils/URL';
 import { validateImageFileFormat } from '../../Utils/validate';
 import UploadHeader from '../../Components/common/Header/UploadHeader';
@@ -11,7 +12,6 @@ import iconImg from '../../Assets/icons/upload-file.svg';
 import imageCompression from 'browser-image-compression';
 import UploadPostAPI from '../../Utils/UploadPostAPI';
 import CompressedImageUploadAPI from '../../Utils/CompressedImageUploadAPI';
-import useIsDesktop from '../../Components/PCNav/useIsDesktop';
 import { useRecoilValue } from 'recoil';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
 import Button from '../../Components/common/Button';
@@ -82,10 +82,15 @@ export default function Post() {
 
   const handleSubmit = async () => {
     await uploadPost();
-    textarea.current.value = '';
+    if (textarea.current) textarea.current.value = '';
     setImgURL([]);
     navigate('/profile');
   };
+
+  const throttledHandleSubmit = throttle(handleSubmit, 3000, {
+    leading: true,
+    trailing: false,
+  });
 
   const handleResizeHeight = () => {
     textarea.current.style.height = 'auto';
@@ -104,7 +109,7 @@ export default function Post() {
   return (
     <PostLayout $isPCScreen={isPCScreen}>
       {!isPCScreen && (
-        <UploadHeader disabled={!inputValue} onClick={handleSubmit}>
+        <UploadHeader disabled={!inputValue} onClick={throttledHandleSubmit}>
           업로드
         </UploadHeader>
       )}
@@ -141,7 +146,7 @@ export default function Post() {
         {isPCScreen && (
           <Button
             disabled={!inputValue}
-            onClick={handleSubmit}
+            onClick={throttledHandleSubmit}
             width='90px'
             fontSize='14px'
             padding='7.75px'
