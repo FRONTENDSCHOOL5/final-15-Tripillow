@@ -17,14 +17,19 @@ import MyPillowings from '../../Components/Home/MyPillowings';
 import PCModal from '../../Components/common/Modal/PCModal';
 import ProductDeleteAPI from '../../Utils/ProductDeleteAPI';
 import PCAlertModal from '../../Components/common/Modal/PCAlertModal';
+import TabNavBar from '../../Components/TabNav/TabNavBar';
+import isTab from '../../Recoil/isTab/isTab';
+import { createPortal } from 'react-dom';
 
 const ProductDetail = () => {
   const [productId, setProductId] = useState('');
   const [isClick, setIsClick] = useState(false);
   const params = useParams();
   const navigate = useNavigate();
+  const $Root = document.getElementById('root')
   const userName = useRecoilValue(accountName);
   const isPCScreen = useRecoilValue(isDesktop);
+  const isTabScreen = useRecoilValue(isTab);
   const productDetail = ProductDetailAPI(params.id);
   const userImg = productDetail.author?.image;
   const isMine = userName === productDetail.author?.accountname;
@@ -35,6 +40,8 @@ const ProductDetail = () => {
 
   const [isModalOn, setIsModalOn] = useState(false);
   const [isAlertModalOn, setIsAlertModalOn] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [alertModal, setAlertModal] = useState(false);
 
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * chatLists.length);
@@ -73,7 +80,15 @@ const ProductDetail = () => {
       },
     });
   };
-  const closeModal = () => {
+
+  const handleCancel = () => {
+    setAlertModal(false);
+    setModal(false);
+    // setIsModalOn(false);
+    // setIsAlertModalOn(false);
+  };
+
+  const handleCloseModal = () => {
     setIsModalOn(false);
     setIsAlertModalOn(false);
   };
@@ -91,7 +106,9 @@ const ProductDetail = () => {
     <>
       {productDetail && (
         <Layout $isPCScreen={isPCScreen}>
-          {!isPCScreen && (
+          {isTabScreen && <TabNavBar />}
+
+          {!isPCScreen && !isTabScreen && (
             <BasicHeader
               empty={!userCheck}
               userId={productId}
@@ -105,17 +122,33 @@ const ProductDetail = () => {
           )}
           <main style={{ position: 'relative' }}>
             <Image src={productDetail.itemImage} onClick={() => setShowImg(true)} />
-            {isPCScreen && <MoreBtn onClick={handleMoreBtn} />}
-            {isModalOn && isPCScreen && (
+
+            {(isPCScreen || isTabScreen) && <MoreBtn onClick={handleMoreBtn} />}
+
+            {isModalOn && (isPCScreen || isTabScreen )&& (
+              createPortal(
               <PCModal
                 isMine={isMine}
                 setIsModalOn={setIsModalOn}
                 handleModify={handleModify}
-                closeModal={closeModal}
+                closeModal={handleCloseModal}
+                handleAlertModal={handleAlertModal}
+                handleDelete={handleDelete}
+              />, $Root)
+            )}
+            {/* {isModalOn && isTabScreen && (
+              <Modal
+                btn1='수정'
+                btn2='삭제'
+                handleProductModify={handleModify}
+                handleCancel={handleCloseModal}
+                isMine={isMine}
+                setIsModalOn={setIsModalOn}
+                // handleModify={handleModify}
                 handleAlertModal={handleAlertModal}
                 handleDelete={handleDelete}
               />
-            )}
+            )} */}
             {isAlertModalOn && (
               <PCAlertModal
                 txt='정말 삭제하시겠습니까?'
@@ -195,7 +228,7 @@ const Image = styled.img`
 
 const MoreBtn = styled.button`
   position: absolute;
-  right: 0;
+  right: 5px;
   width: 24px;
   height: 24px;
   padding: 20px;
