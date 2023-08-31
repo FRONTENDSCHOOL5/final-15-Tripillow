@@ -22,11 +22,16 @@ const ChatContent = () => {
   const updateMyInfo = (data) => {
     setMyInfo(data);
   };
-  const { getUserData } = MyInfoAPI(null, updateMyInfo);
+  const { getUserData } = MyInfoAPI(updateMyInfo);
 
   useEffect(() => {
-    getUserData();
-  }, []);
+    const fetchData = async () => {
+      const myData = await getUserData();
+      myData && setMyInfo(myData);
+    };
+
+    fetchData();
+  }, [getUserData]);
 
   useEffect(() => {
     setChatValue([]);
