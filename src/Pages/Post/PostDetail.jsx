@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { LayoutStyle } from '../../Styles/Layout';
 import Comment from '../../Components/Comment/Comment';
@@ -15,6 +15,7 @@ import MyPillowings from '../../Components/Home/MyPillowings';
 
 const PostDetail = () => {
   const { id } = useParams();
+  const location = useLocation();
   const postId = id;
   const isPCScreen = useRecoilValue(isDesktop);
   const [myInfo, setMyInfo] = useState({});
@@ -46,13 +47,17 @@ const PostDetail = () => {
     //eslint-disable-next-line
   }, []);
 
+  const updateNewComment = async () => {
+    await getNumerousComment();
+    setComments((prev) => prev.reverse());
+  };
+
   useEffect(() => {
-    const updateNewComment = async () => {
-      await getNumerousComment();
-      setComments((prev) => prev.reverse());
-    };
-    updateNewComment();
-  }, [isNewComment, getNumerousComment]);
+    if (isNewComment) {
+      updateNewComment();
+      setIsNewComment(false);
+    }
+  }, [isNewComment]);
 
   useEffect(() => {
     const initialEndIndex = Math.min(5, comments.length);
@@ -61,6 +66,8 @@ const PostDetail = () => {
 
     if (comments.length > 5) {
       setShowMore(true);
+    } else {
+      setShowMore(false);
     }
   }, [comments]);
 
@@ -113,7 +120,8 @@ const MoreComment = styled.button`
   color: var(--gray);
   font-size: var(--xs);
   display: block;
-  margin: 0 auto 10px;
+  margin: 15px auto;
+  padding: 5px 5px 10px;
 `;
 
 const CommentLayout = styled.section`
