@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import URL from '../../Utils/URL';
 import SignupAPI from '../../Utils/SignupAPI';
 import EmailValidAPI from '../../Utils/EmailValidAPI';
-import ImageUploadAPI from '../../Utils/ImageUploadAPI';
 
 const UseSignup = () => {
   const navigate = useNavigate();
@@ -64,13 +62,6 @@ const UseSignup = () => {
     }
   };
 
-  const handleImageInput = async (e) => {
-    const file = e.target.files[0];
-    const res = await ImageUploadAPI(file);
-    setImgURL(URL + '/' + res.filename);
-    setUserInfo({ ...userInfo, user: { ...userInfo.user, image: URL + '/' + res.filename } });
-  };
-
   const handleSign = async () => {
     const res = await SignupAPI(userInfo);
 
@@ -90,7 +81,9 @@ const UseSignup = () => {
 
   return {
     imgURL,
+    setImgURL,
     userInfo,
+    setUserInfo,
     goNext,
     emailPwCheck,
     errorMessage,
@@ -98,7 +91,6 @@ const UseSignup = () => {
     passwordError,
     handleSubmit,
     handleInputChange,
-    handleImageInput,
     handlePasswordValid,
     handleOnBlur,
   };
