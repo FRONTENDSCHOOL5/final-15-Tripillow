@@ -13,7 +13,7 @@ const ProtectedRoute = ({ children }) => {
     if (!isUser) {
       navigate('/login', { state: errorMessage });
     }
-  }, []);
+  }, [navigate, isUser]);
 
   if (!isUser) {
     return null;

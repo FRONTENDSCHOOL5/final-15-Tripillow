@@ -24,6 +24,7 @@ const ProductDetailAPI = (productId) => {
   };
   useEffect(() => {
     getProductDetail();
+    //eslint-disable-next-line
   }, []);
 
   return productDetail;

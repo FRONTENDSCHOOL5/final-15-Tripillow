@@ -43,7 +43,7 @@ const PostModification = () => {
       await getPostDetail();
     };
     getDetail();
-  }, []);
+  }, [getPostDetail]);
 
   useEffect(() => {
     const trimContent = (content) => {
@@ -75,6 +75,7 @@ const PostModification = () => {
   useEffect(() => {
     if (postInput.post.image === '') setImgURL([]);
     else setImgURL(postInput.post.image.split(', '));
+    //eslint-disable-next-line
   }, [imgChange]);
 
   const handleDataForm = async (dataURI) => {

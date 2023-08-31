@@ -31,6 +31,7 @@ const Navbar = (props) => {
     const path = location.pathname;
     const buttonIndex = icons.findIndex((icon) => icon.path.includes(path));
     setButtonId(buttonIndex !== -1 ? buttonIndex : '');
+    //eslint-disable-next-line
   }, [location]);
 
   return (

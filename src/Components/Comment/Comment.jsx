@@ -41,7 +41,7 @@ const Comment = ({ commentInfo, postId, setIsNewComment }) => {
   };
 
   const handleDelete = async () => {
-    const response = await deleteComment();
+    await deleteComment();
     closeModal();
     setIsNewComment((prev) => !prev);
   };

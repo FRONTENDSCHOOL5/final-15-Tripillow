@@ -17,19 +17,12 @@ const Followers = () => {
   const pathIdentifier = location.pathname.split('/');
   const last = pathIdentifier.length - 1;
   const accountname = location.state?.accountname;
-  const [current, setCurrent] = useState('followers');
   const [followerData, setFollowerData] = useState([]);
   const [followingData, setFollowingData] = useState([]);
   const [pageTitle, setPageTitle] = useState('Followers');
   const { fetchFollower } = FollowerListAPI(accountname);
   const { fetchFollowing } = FollowingListAPI(accountname);
   const regex = /^\/profile\/.+\/followers$/;
-
-  useEffect(() => {
-    if (pathIdentifier) {
-      setCurrent(pathIdentifier[last]);
-    }
-  }, [accountname]);
 
   useEffect(() => {
     const handleFetch = async () => {
@@ -49,6 +42,7 @@ const Followers = () => {
     };
 
     handleFetch();
+    //eslint-disable-next-line
   }, [accountname]);
 
   return (

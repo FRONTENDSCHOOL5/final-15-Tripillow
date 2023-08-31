@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import styled, { keyframes, css } from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { LayoutStyle } from '../../Styles/Layout';
 import Button from '../common/Button';
@@ -37,6 +37,7 @@ const LoginForm = () => {
     if (!!state) {
       navigate('/login', { replace: true });
     }
+    //eslint-disable-next-line
   }, [state]);
 
   return (

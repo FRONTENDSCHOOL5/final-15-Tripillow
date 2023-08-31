@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import defaultImg from '../../Assets/defaultImg.png';
@@ -6,7 +6,6 @@ import defaultImg from '../../Assets/defaultImg.png';
 const ProductItem = (props) => {
   const product = props.product;
   const productImg = product?.itemImage;
- 
 
   const productImgValidation =
     productImg.startsWith('https:') || productImg.startsWith('data:image') ? product?.itemImage : defaultImg;
@@ -14,7 +13,7 @@ const ProductItem = (props) => {
   const trimContent = (content) => {
     const match = content.match(/^\[(P|M)\]/);
     if (match) {
-      if (match[1] === 'P'||'M') return content.slice(3);
+      if (match[1] === 'P' || 'M') return content.slice(3);
     }
     return content;
   };

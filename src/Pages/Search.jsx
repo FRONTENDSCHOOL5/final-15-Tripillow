@@ -71,6 +71,7 @@ const Search = ({ setIsSearch, setIsClicked }) => {
     }
 
     searchUser();
+    //eslint-disable-next-line
   }, [debounceValue]);
 
   const handleAllResults = () => {

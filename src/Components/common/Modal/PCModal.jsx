@@ -63,32 +63,4 @@ const Button = styled.button`
   }
 `;
 
-const ModalTxt = styled.p`
-  font-size: var(--md);
-  text-align: center;
-  padding: 22px 0;
-`;
-
-const ModalButtonLayout = styled.div`
-  display: flex;
-  height: 50px;
-
-  button + button {
-    border-left: 1px solid var(--light-gray);
-    border-bottom-left-radius: 0;
-  }
-`;
-const ModalButton = styled.button`
-  width: 126px;
-  padding: 14px 0;
-  height: 100%;
-  font-size: var(--sm);
-  /* color: ${(props) => (props.color ? 'var(--primary)' : 'black')}; */
-  color: ${(props) => props.color || 'black'};
-  border-radius: 0 0 10px 10px;
-  border-top: 1px solid var(--light-gray);
-  border-color: ${(props) => (props.border ? 'transparent' : 'var(--light-gray)')};
-  box-sizing: border-box;
-`;
-
 export default PCModal;

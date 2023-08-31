@@ -11,7 +11,6 @@ import chat from '../../Assets/icons/icon-message-circle.svg';
 import product from '../../Assets/icons/icon-shop.svg';
 import search from '../../Assets/icons/icon-search.svg';
 import menu from '../../Assets/icons/menu.svg';
-import character from '../../Assets/character.svg';
 // 클릭 시 아이콘
 import profilefill from '../../Assets/icons/icon-user-fill.svg';
 import homefill from '../../Assets/icons/icon-home-fill.svg';
@@ -48,6 +47,7 @@ const PCNavBar = (props) => {
     const icon = icons.find((el) => el.path === location.pathname);
     icon && setIsClicked(icon.name);
     setIsSearch(false);
+    //eslint-disable-next-line
   }, [location]);
 
   return (

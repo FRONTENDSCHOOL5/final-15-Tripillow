@@ -18,7 +18,7 @@ export default function PostComment({ postId, setIsNewComment, userImg }) {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    const response = await handlePostComment();
+    await handlePostComment();
     setIsNewComment((prev) => !prev);
     input.current.value = '';
   };

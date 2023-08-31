@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import userToken from '../../Recoil/userToken/userToken';
 import isLogin from '../../Recoil/isLogin/isLogin';
 import accountName from '../../Recoil/accountName/accountName';
@@ -17,9 +17,9 @@ const useLogin = () => {
     },
   });
 
-  const [token, setToken] = useRecoilState(userToken);
+  const setToken = useSetRecoilState(userToken);
   const [isLoginState, setIsLoginState] = useRecoilState(isLogin);
-  const [name, setName] = useRecoilState(accountName);
+  const setName = useSetRecoilState(accountName);
 
   const handleError = (e) => {
     const user = userInput.user;

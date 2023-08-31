@@ -24,7 +24,7 @@ import throttle from 'lodash.throttle';
 const AddProduct = (props) => {
   const navigate = useNavigate();
   const isPCScreen = useRecoilValue(isDesktop);
-  const isTabScreen = useRecoilValue(isTab)
+  const isTabScreen = useRecoilValue(isTab);
   const [productName, setProductName] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
@@ -109,7 +109,7 @@ const AddProduct = (props) => {
 
   return (
     <Layout $isPCScreen={isPCScreen}>
-      {isTabScreen && <TabNavBar/>}
+      {isTabScreen && <TabNavBar />}
       <h1 className='a11y-hidden'>상품 등록 페이지</h1>
       {!isPCScreen && !isTabScreen && (
         <UploadHeader onClick={throttledHandleSubmit} disabled={!imageLink || !productName || !price || !description}>
@@ -164,7 +164,7 @@ const AddProduct = (props) => {
           </Button>
         )}
       </AddProductContent>
-      {isPCScreen ||isTabScreen || <Navbar />}
+      {isPCScreen || isTabScreen || <Navbar />}
       {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </Layout>
   );

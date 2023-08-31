@@ -56,7 +56,7 @@ const UseSignup = () => {
   const goNext = (e) => {
     e.preventDefault();
     if (userInfo.user.email && userInfo.user.password && !passwordError) {
-      if (emailError == '사용 가능한 이메일 입니다.') {
+      if (emailError === '사용 가능한 이메일 입니다.') {
         setEmailPwCheck(true);
       }
     }

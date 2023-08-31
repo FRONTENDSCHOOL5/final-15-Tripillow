@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { LayoutStyle } from '../../Styles/Layout';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import userToken from '../../Recoil/userToken/userToken';
 import isLogin from '../../Recoil/isLogin/isLogin';
@@ -12,9 +12,9 @@ import isDesktop from '../../Recoil/isDesktop/isDesktop';
 
 const Setting = () => {
   const navigate = useNavigate();
-  const [token, setToken] = useRecoilState(userToken);
-  const [name, setName] = useRecoilState(accountName);
-  const [login, setLogin] = useRecoilState(isLogin);
+  const setToken = useSetRecoilState(userToken);
+  const setName = useSetRecoilState(accountName);
+  const setLogin = useSetRecoilState(isLogin);
   const isPCScreen = useRecoilValue(isDesktop);
   const [logoutModal, setLogoutModal] = useState(false);
   const [deleteAccountModal, setDeleteAccountModal] = useState(false);

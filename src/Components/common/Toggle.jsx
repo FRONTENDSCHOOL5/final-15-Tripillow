@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import { isKorea, isOverseas } from '../../Recoil/whichCountry/whichCountry';
-import { useRecoilState } from 'recoil';
 
 const Toggle = (props) => {
   const [toggleLeft, setToggleLeft] = useState(true);

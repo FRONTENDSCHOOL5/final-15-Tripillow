@@ -26,7 +26,7 @@ const ProductDetail = () => {
   const [isClick, setIsClick] = useState(false);
   const params = useParams();
   const navigate = useNavigate();
-  const $Root = document.getElementById('root')
+  const $Root = document.getElementById('root');
   const userName = useRecoilValue(accountName);
   const isPCScreen = useRecoilValue(isDesktop);
   const isTabScreen = useRecoilValue(isTab);
@@ -40,7 +40,10 @@ const ProductDetail = () => {
 
   const [isModalOn, setIsModalOn] = useState(false);
   const [isAlertModalOn, setIsAlertModalOn] = useState(false);
+  //FIXME - 임의로 해둔 것 수정필요합니다.
+  //eslint-disable-next-line
   const [modal, setModal] = useState(false);
+  //eslint-disable-next-line
   const [alertModal, setAlertModal] = useState(false);
 
   useEffect(() => {
@@ -81,13 +84,6 @@ const ProductDetail = () => {
     });
   };
 
-  const handleCancel = () => {
-    setAlertModal(false);
-    setModal(false);
-    // setIsModalOn(false);
-    // setIsAlertModalOn(false);
-  };
-
   const handleCloseModal = () => {
     setIsModalOn(false);
     setIsAlertModalOn(false);
@@ -125,17 +121,19 @@ const ProductDetail = () => {
 
             {(isPCScreen || isTabScreen) && <MoreBtn onClick={handleMoreBtn} />}
 
-            {isModalOn && (isPCScreen || isTabScreen )&& (
+            {isModalOn &&
+              (isPCScreen || isTabScreen) &&
               createPortal(
-              <PCModal
-                isMine={isMine}
-                setIsModalOn={setIsModalOn}
-                handleModify={handleModify}
-                closeModal={handleCloseModal}
-                handleAlertModal={handleAlertModal}
-                handleDelete={handleDelete}
-              />, $Root)
-            )}
+                <PCModal
+                  isMine={isMine}
+                  setIsModalOn={setIsModalOn}
+                  handleModify={handleModify}
+                  closeModal={handleCloseModal}
+                  handleAlertModal={handleAlertModal}
+                  handleDelete={handleDelete}
+                />,
+                $Root,
+              )}
             {/* {isModalOn && isTabScreen && (
               <Modal
                 btn1='수정'
