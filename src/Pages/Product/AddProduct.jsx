@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Toggle from '../../Components/common/Toggle';
 import styled from 'styled-components';
 import Navbar from '../../Components/common/Navbar';
+import TabNavBar from '../../Components/TabNav/TabNavBar';
 import Input from '../../Components/common/Input';
 import { LayoutStyle } from '../../Styles/Layout';
 import UploadHeader from '../../Components/common/Header/UploadHeader';
@@ -13,14 +14,17 @@ import defaultImage from '../../Assets/addproduct.png';
 import ErrorMSG from '../../Styles/ErrorMSG';
 import UploadProductAPI from '../../Utils/UploadProductAPI';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
+import isTab from '../../Recoil/isTab/isTab';
 import Button from '../../Components/common/Button';
 import MyPillowings from '../../Components/Home/MyPillowings';
 import { validateImageFileFormat } from '../../Utils/validate';
 import imageCompression from 'browser-image-compression';
+import throttle from 'lodash.throttle';
 
 const AddProduct = (props) => {
   const navigate = useNavigate();
   const isPCScreen = useRecoilValue(isDesktop);
+  const isTabScreen = useRecoilValue(isTab)
   const [productName, setProductName] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
@@ -33,6 +37,11 @@ const AddProduct = (props) => {
     await uploadProduct();
     navigate('/profile');
   };
+
+  const throttledHandleSubmit = throttle(handleSubmit, 3000, {
+    leading: true,
+    trailing: false,
+  });
 
   const handleDataForm = async (dataURI) => {
     const byteString = atob(dataURI.split(',')[1]);
@@ -47,13 +56,12 @@ const AddProduct = (props) => {
     const file = new File([blob], 'image.jpg');
     const data = await ImageUploadAPI(file);
     if (data) {
-        setImageLink(`${URL}/${data.filename}`);
+      setImageLink(`${URL}/${data.filename}`);
     }
   };
 
-
   const handleImgChange = async (e) => {
-    const file = e.target?.files[0]
+    const file = e.target?.files[0];
     if (e.target.files[0].size > 10 * 1024 * 1024) {
       console.log('[ERROR 이미지 용량이 10MB를 넘습니다]');
       return null;
@@ -101,9 +109,10 @@ const AddProduct = (props) => {
 
   return (
     <Layout $isPCScreen={isPCScreen}>
+      {isTabScreen && <TabNavBar/>}
       <h1 className='a11y-hidden'>상품 등록 페이지</h1>
-      {!isPCScreen && (
-        <UploadHeader onClick={handleSubmit} disabled={!imageLink || !productName || !price || !description}>
+      {!isPCScreen && !isTabScreen && (
+        <UploadHeader onClick={throttledHandleSubmit} disabled={!imageLink || !productName || !price || !description}>
           저장
         </UploadHeader>
       )}
@@ -115,13 +124,12 @@ const AddProduct = (props) => {
         <CategoryTxt>카테고리</CategoryTxt>
         <Toggle margin='0 0 20px 0' leftButton='여행용품' rightButton='외화' setIsLeftToggle={setIsLeftToggle} />
 
-        {/* //fixme: label 클릭하면 input에 위치 */}
         <Input
           width='100%'
           value={productName}
           onChange={handleInputChange}
           maxLength='16'
-          // htmlFor={forId}
+          forId='product name'
           label='상품명'
           placeholder='1~15자 이내여야 합니다.'
           mb='16px'
@@ -130,6 +138,7 @@ const AddProduct = (props) => {
         <SecondInput
           value={price}
           onChange={handleMinMax}
+          forId='price'
           label='가격'
           min='1'
           max='10000000'
@@ -148,14 +157,14 @@ const AddProduct = (props) => {
             width='90px'
             fontSize='14px'
             padding='7.75px'
-            onClick={handleSubmit}
+            onClick={throttledHandleSubmit}
             disabled={!imageLink || !productName || !price || !description}
           >
             저장
           </Button>
         )}
       </AddProductContent>
-      {isPCScreen || <Navbar />}
+      {isPCScreen ||isTabScreen || <Navbar />}
       {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </Layout>
   );

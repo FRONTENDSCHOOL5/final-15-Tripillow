@@ -3,6 +3,7 @@ import { useRecoilValue } from 'recoil';
 import Toggle from '../../Components/common/Toggle';
 import styled from 'styled-components';
 import Navbar from '../../Components/common/Navbar';
+import TabNavBar from '../../Components/TabNav/TabNavBar';
 import Input from '../../Components/common/Input';
 import URL from '../../Utils/URL';
 import ImageUploadAPI from '../../Utils/ImageUploadAPI';
@@ -13,12 +14,15 @@ import ProductModifyAPI from '../../Utils/ProductModifyAPI';
 import ProductDetailAPI from '../../Utils/ProductDetailAPI';
 import { LayoutStyle } from '../../Styles/Layout';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
+import isTab from '../../Recoil/isTab/isTab';
 import Button from '../../Components/common/Button';
 import MyPillowings from '../../Components/Home/MyPillowings';
+import throttle from 'lodash.throttle';
 
 const ProductModification = () => {
   const navigate = useNavigate();
   const isPCScreen = useRecoilValue(isDesktop);
+  const isTabScreen = useRecoilValue(isTab);
   const [productInputs, setProductInputs] = useState({
     product: {
       itemName: '',
@@ -90,15 +94,20 @@ const ProductModification = () => {
     await handleProductModify();
     setIsModified(true);
   };
+  const throttledHandleSubmit = throttle(handleSubmit, 3000, {
+    leading: true,
+    trailing: false,
+  });
 
   useEffect(() => {
     if (isModified) navigate('/profile', { state: { isModified } });
-  }, [isModified]);
+  }, [isModified, navigate]);
 
   return (
     <Layout $isPCScreen={isPCScreen}>
+      {isTabScreen && <TabNavBar />}
       {!isPCScreen && (
-        <UploadHeader type='submit' onClick={handleSubmit}>
+        <UploadHeader type='submit' onClick={throttledHandleSubmit}>
           저장
         </UploadHeader>
       )}
@@ -116,13 +125,12 @@ const ProductModification = () => {
           rightOn={rightOn}
           setRightOn={setRightOn}
         />
-        {/* //fixme: label 클릭하면 input에 위치 */}
         <Input
           width='100%'
           value={productInputs.product.itemName}
           name='itemName'
           onChange={handleInputChange}
-          // htmlFor={forId}
+          forId='product name'
           label='상품명'
           placeholder='2~15자 이내여야 합니다.'
           mb='16px'
@@ -131,6 +139,7 @@ const ProductModification = () => {
           value={productInputs.product.price}
           name='price'
           onChange={handleInputChange}
+          forId='price'
           label='가격'
           placeholder='숫자만 입력 가능합니다.'
           type='number'
@@ -141,12 +150,12 @@ const ProductModification = () => {
         </label>
         <ProductText id='product' name='link' value={productInputs.product.link} onChange={handleInputChange} />
         {isPCScreen && (
-          <Button type='submit' onClick={handleSubmit} width='90px' fontSize='14px' padding='7.75px'>
+          <Button type='submit' onClick={throttledHandleSubmit} width='90px' fontSize='14px' padding='7.75px'>
             저장
           </Button>
         )}
       </form>
-      {isPCScreen || <Navbar />}
+      {isPCScreen || isTabScreen || <Navbar />}
       {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </Layout>
   );
@@ -187,7 +196,6 @@ const SecondInput = styled(Input)`
     margin: 0;
   }
 `;
-//fixme: 상세설명이 layout 밖으로 나옴
 const ProductText = styled.textarea.attrs({
   placeholder: '제품에 대한 설명을 입력해주세요!',
 })`

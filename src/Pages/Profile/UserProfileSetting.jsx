@@ -16,6 +16,7 @@ import uploadfile from '../../Assets/icons/upload-file.svg';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
 import Button from '../../Components/common/Button';
 import MyPillowings from '../../Components/Home/MyPillowings';
+import { uploadFile } from '../../Utils/uploadFile';
 
 const UserProfileSetting = () => {
   const navigate = useNavigate();
@@ -67,19 +68,7 @@ const UserProfileSetting = () => {
   }, [text]);
 
   const handleAccountValid = async () => {
-    const res = await getAccountValidAPI();
-  };
-
-  const handleImageInput = async (e) => {
-    const res = await ImageUploadAPI(e);
-    setImgURL(URL + '/' + res.filename);
-    setText({
-      ...text,
-      user: {
-        ...text.user,
-        image: URL + '/' + res.filename,
-      },
-    });
+    await getAccountValidAPI();
   };
 
   const handleInputChange = (e) => {
@@ -119,7 +108,12 @@ const UserProfileSetting = () => {
           <ImgLabel htmlFor='file-input'>
             <ProfileImg src={imgURL ? imgURL : data.image ? data.image : profileImg} />
           </ImgLabel>
-          <input id='file-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
+          <input
+            id='file-input'
+            className='a11y-hidden'
+            type='file'
+            onChange={(e) => uploadFile(e, setImgURL, text, setText)}
+          />
         </ImageLayout>
         <Input
           label='사용자 이름'
