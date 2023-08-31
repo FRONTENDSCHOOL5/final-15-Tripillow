@@ -3,6 +3,7 @@ import { useRecoilValue } from 'recoil';
 import Toggle from '../../Components/common/Toggle';
 import styled from 'styled-components';
 import Navbar from '../../Components/common/Navbar';
+import TabNavBar from '../../Components/TabNav/TabNavBar';
 import Input from '../../Components/common/Input';
 import URL from '../../Utils/URL';
 import ImageUploadAPI from '../../Utils/ImageUploadAPI';
@@ -13,6 +14,7 @@ import ProductModifyAPI from '../../Utils/ProductModifyAPI';
 import ProductDetailAPI from '../../Utils/ProductDetailAPI';
 import { LayoutStyle } from '../../Styles/Layout';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
+import isTab from '../../Recoil/isTab/isTab';
 import Button from '../../Components/common/Button';
 import MyPillowings from '../../Components/Home/MyPillowings';
 import throttle from 'lodash.throttle';
@@ -20,6 +22,7 @@ import throttle from 'lodash.throttle';
 const ProductModification = () => {
   const navigate = useNavigate();
   const isPCScreen = useRecoilValue(isDesktop);
+  const isTabScreen = useRecoilValue(isTab);
   const [productInputs, setProductInputs] = useState({
     product: {
       itemName: '',
@@ -102,6 +105,7 @@ const ProductModification = () => {
 
   return (
     <Layout $isPCScreen={isPCScreen}>
+      {isTabScreen && <TabNavBar />}
       {!isPCScreen && (
         <UploadHeader type='submit' onClick={throttledHandleSubmit}>
           저장
@@ -126,7 +130,7 @@ const ProductModification = () => {
           value={productInputs.product.itemName}
           name='itemName'
           onChange={handleInputChange}
-          forId='상품명'
+          forId='product name'
           label='상품명'
           placeholder='2~15자 이내여야 합니다.'
           mb='16px'
@@ -135,7 +139,7 @@ const ProductModification = () => {
           value={productInputs.product.price}
           name='price'
           onChange={handleInputChange}
-          forId='가격'
+          forId='price'
           label='가격'
           placeholder='숫자만 입력 가능합니다.'
           type='number'
@@ -151,7 +155,7 @@ const ProductModification = () => {
           </Button>
         )}
       </form>
-      {isPCScreen || <Navbar />}
+      {isPCScreen || isTabScreen || <Navbar />}
       {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </Layout>
   );
@@ -192,7 +196,6 @@ const SecondInput = styled(Input)`
     margin: 0;
   }
 `;
-//fixme: 상세설명이 layout 밖으로 나옴
 const ProductText = styled.textarea.attrs({
   placeholder: '제품에 대한 설명을 입력해주세요!',
 })`
