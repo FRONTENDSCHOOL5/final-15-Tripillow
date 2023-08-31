@@ -121,7 +121,8 @@ const MoreComment = styled.button`
   color: var(--gray);
   font-size: var(--xs);
   display: block;
-  margin: 0 auto 10px;
+  margin: 15px auto;
+  padding: 5px 5px 10px;
 `;
 
 const CommentLayout = styled.section`
