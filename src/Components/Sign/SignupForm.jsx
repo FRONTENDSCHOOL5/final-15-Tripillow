@@ -8,6 +8,7 @@ import ErrorMSG from '../../Styles/ErrorMSG';
 import useSignup from '../../Hooks/Sign/useSignup';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
 import { formFadeIn } from '../../Styles/SignAnimation';
+import { uploadFile } from '../../Utils/uploadFile';
 
 import profileImg from '../../Assets/profile-lg.png';
 import uploadfile from '../../Assets/icons/upload-file.svg';
@@ -18,9 +19,10 @@ const Signup = () => {
     emailPwCheck,
     handleSubmit,
     imgURL,
-    handleImageInput,
+    setImgURL,
     errorMessage,
     userInfo,
+    setUserInfo,
     handleInputChange,
     handleOnBlur,
     goNext,
@@ -40,7 +42,12 @@ const Signup = () => {
               <ImgLabel htmlFor='file-input'>
                 <ProfileImg src={imgURL ? imgURL : profileImg} />
               </ImgLabel>
-              <input id='file-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
+              <input
+                id='file-input'
+                className='a11y-hidden'
+                type='file'
+                onChange={(e) => uploadFile(e, setImgURL, userInfo, setUserInfo)}
+              />
             </ImageLayout>
             <Input
               label='사용자 이름'
@@ -229,6 +236,8 @@ const ProfileImg = styled.img`
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
+
+  width: ${(props) => props.width || '700px'};
 `;
 
 export default Signup;
