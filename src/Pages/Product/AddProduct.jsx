@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Toggle from '../../Components/common/Toggle';
 import styled from 'styled-components';
 import Navbar from '../../Components/common/Navbar';
+import TabNavBar from '../../Components/TabNav/TabNavBar';
 import Input from '../../Components/common/Input';
 import { LayoutStyle } from '../../Styles/Layout';
 import UploadHeader from '../../Components/common/Header/UploadHeader';
@@ -13,6 +14,7 @@ import defaultImage from '../../Assets/addproduct.png';
 import ErrorMSG from '../../Styles/ErrorMSG';
 import UploadProductAPI from '../../Utils/UploadProductAPI';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
+import isTab from '../../Recoil/isTab/isTab';
 import Button from '../../Components/common/Button';
 import MyPillowings from '../../Components/Home/MyPillowings';
 import { validateImageFileFormat } from '../../Utils/validate';
@@ -22,6 +24,7 @@ import throttle from 'lodash.throttle';
 const AddProduct = (props) => {
   const navigate = useNavigate();
   const isPCScreen = useRecoilValue(isDesktop);
+  const isTabScreen = useRecoilValue(isTab)
   const [productName, setProductName] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
@@ -106,8 +109,9 @@ const AddProduct = (props) => {
 
   return (
     <Layout $isPCScreen={isPCScreen}>
+      {isTabScreen && <TabNavBar/>}
       <h1 className='a11y-hidden'>상품 등록 페이지</h1>
-      {!isPCScreen && (
+      {!isPCScreen && !isTabScreen && (
         <UploadHeader onClick={throttledHandleSubmit} disabled={!imageLink || !productName || !price || !description}>
           저장
         </UploadHeader>
@@ -125,7 +129,7 @@ const AddProduct = (props) => {
           value={productName}
           onChange={handleInputChange}
           maxLength='16'
-          forId='상품명'
+          forId='product name'
           label='상품명'
           placeholder='1~15자 이내여야 합니다.'
           mb='16px'
@@ -134,7 +138,7 @@ const AddProduct = (props) => {
         <SecondInput
           value={price}
           onChange={handleMinMax}
-          forId='가격'
+          forId='price'
           label='가격'
           min='1'
           max='10000000'
@@ -160,7 +164,7 @@ const AddProduct = (props) => {
           </Button>
         )}
       </AddProductContent>
-      {isPCScreen || <Navbar />}
+      {isPCScreen ||isTabScreen || <Navbar />}
       {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </Layout>
   );

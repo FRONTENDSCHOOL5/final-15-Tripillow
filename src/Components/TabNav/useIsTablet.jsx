@@ -7,12 +7,12 @@ const useIsTab = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      if (400 > window.innerWidth || window.innerWidth < 1279) setIsTabScreen(true);
+      if (640 < window.innerWidth && window.innerWidth < 1279) setIsTabScreen(true);
       else setIsTabScreen(false);
     };
     handleResize();
     window.addEventListener('resize', handleResize);
-  }, []);
+  }, [setIsTabScreen]);
 
   return isTabScreen;
 };

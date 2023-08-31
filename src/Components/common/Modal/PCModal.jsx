@@ -12,19 +12,19 @@ const PCModal = ({ handleAlertModal, setIsModalOn, handleReport, handleModify, c
       <ModalLayout>
         {isMine ? (
           isComment ? (
-            <Button color='#ED4956' onClick={handleDelete}>
+            <Button color='var(--error)' onClick={handleDelete}>
               삭제
             </Button>
           ) : (
             <>
               <Button onClick={handleModify}>수정</Button>
-              <Button color='#ED4956' onClick={handleDelete}>
+              <Button color='var(--error)' onClick={handleDelete}>
                 삭제
               </Button>
             </>
           )
         ) : (
-          <Button color='#ED4956' onClick={handleReport}>
+          <Button color='var(--error)' onClick={handleReport}>
             신고
           </Button>
         )}
@@ -59,7 +59,7 @@ const Button = styled.button`
   text-align: center;
   color: ${(props) => (props.color ? props.color : 'black')};
   &:not(:last-of-type) {
-    border-bottom: 1px solid #dbdbdb;
+    border-bottom: 1px solid var(--light-gray);
   }
 `;
 
@@ -74,7 +74,7 @@ const ModalButtonLayout = styled.div`
   height: 50px;
 
   button + button {
-    border-left: 1px solid #dbdbdb;
+    border-left: 1px solid var(--light-gray);
     border-bottom-left-radius: 0;
   }
 `;
@@ -86,8 +86,8 @@ const ModalButton = styled.button`
   /* color: ${(props) => (props.color ? 'var(--primary)' : 'black')}; */
   color: ${(props) => props.color || 'black'};
   border-radius: 0 0 10px 10px;
-  border-top: 1px solid #dbdbdb;
-  border-color: ${(props) => (props.border ? 'transparent' : '#dbdbdb')};
+  border-top: 1px solid var(--light-gray);
+  border-color: ${(props) => (props.border ? 'transparent' : 'var(--light-gray)')};
   box-sizing: border-box;
 `;
 

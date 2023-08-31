@@ -17,14 +17,19 @@ import MyPillowings from '../../Components/Home/MyPillowings';
 import PCModal from '../../Components/common/Modal/PCModal';
 import ProductDeleteAPI from '../../Utils/ProductDeleteAPI';
 import PCAlertModal from '../../Components/common/Modal/PCAlertModal';
+import TabNavBar from '../../Components/TabNav/TabNavBar';
+import isTab from '../../Recoil/isTab/isTab';
+import { createPortal } from 'react-dom';
 
 const ProductDetail = () => {
   const [productId, setProductId] = useState('');
   const [isClick, setIsClick] = useState(false);
   const params = useParams();
   const navigate = useNavigate();
+  const $Root = document.getElementById('root')
   const userName = useRecoilValue(accountName);
   const isPCScreen = useRecoilValue(isDesktop);
+  const isTabScreen = useRecoilValue(isTab);
   const productDetail = ProductDetailAPI(params.id);
   const userImg = productDetail.author?.image;
   const isMine = userName === productDetail.author?.accountname;
@@ -35,7 +40,8 @@ const ProductDetail = () => {
 
   const [isModalOn, setIsModalOn] = useState(false);
   const [isAlertModalOn, setIsAlertModalOn] = useState(false);
-  const [isDeleted, setIsDeleted] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [alertModal, setAlertModal] = useState(false);
 
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * chatLists.length);
@@ -44,9 +50,10 @@ const ProductDetail = () => {
   }, []);
 
   const username = productDetail.author?.username;
+
   useEffect(() => {
     setProductId(params.id);
-  }, []);
+  }, [params.id]);
 
   const trimContent = (content) => {
     const match = content?.match(/^\[(P|M)\]/);
@@ -73,7 +80,15 @@ const ProductDetail = () => {
       },
     });
   };
-  const closeModal = () => {
+
+  const handleCancel = () => {
+    setAlertModal(false);
+    setModal(false);
+    // setIsModalOn(false);
+    // setIsAlertModalOn(false);
+  };
+
+  const handleCloseModal = () => {
     setIsModalOn(false);
     setIsAlertModalOn(false);
   };
@@ -85,13 +100,15 @@ const ProductDetail = () => {
 
   useEffect(() => {
     if (userName === productDetail.author?.accountname) setUserCheck(true);
-  }, [accountName, productDetail.author?.accountname]);
+  }, [userName, productDetail.author?.accountname]);
 
   return (
     <>
       {productDetail && (
         <Layout $isPCScreen={isPCScreen}>
-          {!isPCScreen && (
+          {isTabScreen && <TabNavBar />}
+
+          {!isPCScreen && !isTabScreen && (
             <BasicHeader
               empty={!userCheck}
               userId={productId}
@@ -105,17 +122,33 @@ const ProductDetail = () => {
           )}
           <main style={{ position: 'relative' }}>
             <Image src={productDetail.itemImage} onClick={() => setShowImg(true)} />
-            {isPCScreen && <MoreBtn onClick={handleMoreBtn} />}
-            {isModalOn && isPCScreen && (
+
+            {(isPCScreen || isTabScreen) && <MoreBtn onClick={handleMoreBtn} />}
+
+            {isModalOn && (isPCScreen || isTabScreen )&& (
+              createPortal(
               <PCModal
                 isMine={isMine}
                 setIsModalOn={setIsModalOn}
                 handleModify={handleModify}
-                closeModal={closeModal}
+                closeModal={handleCloseModal}
+                handleAlertModal={handleAlertModal}
+                handleDelete={handleDelete}
+              />, $Root)
+            )}
+            {/* {isModalOn && isTabScreen && (
+              <Modal
+                btn1='수정'
+                btn2='삭제'
+                handleProductModify={handleModify}
+                handleCancel={handleCloseModal}
+                isMine={isMine}
+                setIsModalOn={setIsModalOn}
+                // handleModify={handleModify}
                 handleAlertModal={handleAlertModal}
                 handleDelete={handleDelete}
               />
-            )}
+            )} */}
             {isAlertModalOn && (
               <PCAlertModal
                 txt='정말 삭제하시겠습니까?'
@@ -123,7 +156,7 @@ const ProductDetail = () => {
                 setIsAlertModalOn={setIsAlertModalOn}
               />
             )}
-   
+
             {showImg && (
               <ModalBg onClick={() => setShowImg(false)} $isPCScreen={isPCScreen}>
                 <ModalImg src={productDetail.itemImage} $isPCScreen={isPCScreen} />
@@ -195,7 +228,7 @@ const Image = styled.img`
 
 const MoreBtn = styled.button`
   position: absolute;
-  right: 0;
+  right: 5px;
   width: 24px;
   height: 24px;
   padding: 20px;
@@ -204,12 +237,14 @@ const MoreBtn = styled.button`
 `;
 
 const ModalBg = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
-  width: ${(props) => (props.$isPCScreen ? 'calc(100% - 335px)' : '390px')};
-  left: ${(props) => (props.$isPCScreen ? '335px' : '0')};
+  width: ${(props) => (props.$isPCScreen ? 'calc(100% - 335px)' : '390px ')};
+
+  left: ${(props) => (props.$isPCScreen ? '335px' : '50%')};
+  transform: ${(props) => (props.$isPCScreen ? '' : 'translate(-50%)')};
   min-height: 60px;
-  margin-bottom: 13px;
+  /* margin-bottom: 13px; */
   height: 100%;
   display: flex;
   align-items: center;
