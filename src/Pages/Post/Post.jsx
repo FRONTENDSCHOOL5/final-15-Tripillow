@@ -24,7 +24,6 @@ export default function Post() {
   const [inputValue, setInputValue] = useState('');
   const [imgURL, setImgURL] = useState([]);
   const [isLeftToggle, setIsLeftToggle] = useState(true);
-  const [isPosting, setIsPosting] = useState(false);
   const uploadPost = UploadPostAPI(imgURL, inputValue, isLeftToggle);
 
   const handleDataForm = async (dataURI) => {
@@ -82,19 +81,16 @@ export default function Post() {
   };
 
   const handleSubmit = async () => {
-    if (isPosting) {
-      return;
-    }
-    setIsPosting(true);
-    try {
-      await uploadPost();
-      navigate('/profile');
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsPosting(false);
-    }
+    await uploadPost();
+    if (textarea.current) textarea.current.value = '';
+    setImgURL([]);
+    navigate('/profile');
   };
+
+  const throttledHandleSubmit = throttle(handleSubmit, 3000, {
+    leading: true,
+    trailing: false,
+  });
 
   const handleResizeHeight = () => {
     textarea.current.style.height = 'auto';
@@ -113,7 +109,7 @@ export default function Post() {
   return (
     <PostLayout $isPCScreen={isPCScreen}>
       {!isPCScreen && (
-        <UploadHeader disabled={!inputValue || isPosting} onClick={handleSubmit}>
+        <UploadHeader disabled={!inputValue} onClick={throttledHandleSubmit}>
           업로드
         </UploadHeader>
       )}
@@ -149,8 +145,8 @@ export default function Post() {
         )}
         {isPCScreen && (
           <Button
-            disabled={!inputValue || isPosting}
-            onClick={handleSubmit}
+            disabled={!inputValue}
+            onClick={throttledHandleSubmit}
             width='90px'
             fontSize='14px'
             padding='7.75px'
