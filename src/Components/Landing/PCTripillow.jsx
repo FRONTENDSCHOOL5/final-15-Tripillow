@@ -1,15 +1,15 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
-import tripillowCharacter from '../../Assets/tripillowCharacter.gif';
-import Logo from '../../Assets/logo.png';
-import { shrinkWidth, CharWidth, LogoWidth } from '../../Styles/LandingAnimation';
 import { useLocation } from 'react-router-dom';
+import styled, { css } from 'styled-components';
+import { shrinkWidth, CharWidth, LogoWidth } from 'Styles/LandingAnimation';
+import tripillowCharacter from 'Assets/tripillowCharacter.gif';
+import Logo from 'Assets/logo.png';
 
 const PCTripillow = () => {
   const location = useLocation();
   const path = location.pathname;
   const isRightPath = path === '/';
-  const isLoginPath = path === '/login' || path == '/signup';
+  const isLoginPath = path === '/login' || path === '/signup';
 
   return (
     <PCTripillowLayout $isRightPath={isRightPath} $isLoginPath={isLoginPath}>

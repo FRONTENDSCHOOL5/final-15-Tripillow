@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import SkeletonItem from '../../../Styles/SkeletonItem';
-import { UserProductLayout } from '../../Profile/ProfileMain';
-import ProductItemSkeleton from './ProductItemSkeleton';
-import HomePostSkeleton from './HomePostSkeleton';
-import ProfileView from '../../Profile/ProfileView';
+import SkeletonItem from 'Styles/SkeletonItem';
+import { UserProductLayout } from 'Components/Profile/ProfileMain';
+import ProductItemSkeleton from 'Components/common/Skeleton/ProductItemSkeleton';
+import HomePostSkeleton from 'Components/common/Skeleton/HomePostSkeleton';
+import ProfileView from 'Components/Profile/ProfileView';
 
 const ProfileSkeleton = ({ userAccountname }) => {
   return (

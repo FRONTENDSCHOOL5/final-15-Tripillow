@@ -1,22 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import throttle from 'lodash.throttle';
-import URL from '../../Utils/URL';
-import PostDetailAPI from '../../Utils/PostDetailAPI';
-import { validateImageFileFormat } from '../../Utils/validate';
-import { LayoutStyle } from '../../Styles/Layout';
-import UploadHeader from '../../Components/common/Header/UploadHeader';
-import Toggle from '../../Components/common/Toggle';
-import x from '../../Assets/icons/x.svg';
-import iconImg from '../../Assets/icons/upload-file.svg';
-import PostModifyAPI from '../../Utils/PostModifyAPI';
-import imageCompression from 'browser-image-compression';
-import CompressedImageUploadAPI from '../../Utils/CompressedImageUploadAPI';
 import { useRecoilValue } from 'recoil';
-import isDesktop from '../../Recoil/isDesktop/isDesktop';
-import Button from '../../Components/common/Button';
-import MyPillowings from '../../Components/Home/MyPillowings';
+import throttle from 'lodash.throttle';
+import URL from 'Api/URL';
+import PostDetailAPI from 'Api/Post/PostDetailAPI';
+import { validateImageFileFormat } from 'Utils/validate';
+import { LayoutStyle } from 'Styles/Layout';
+import UploadHeader from 'Components/common/Header/UploadHeader';
+import Toggle from 'Components/common/Toggle';
+import x from 'Assets/icons/x.svg';
+import iconImg from 'Assets/icons/upload-file.svg';
+import PostModifyAPI from 'Api/Post/PostModifyAPI';
+import imageCompression from 'browser-image-compression';
+import CompressedImageUploadAPI from 'Api/Upload/CompressedImageUploadAPI';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
+import Button from 'Components/common/Button';
+import MyPillowings from 'Components/Home/MyPillowings';
 
 const PostModification = () => {
   const navigate = useNavigate();
@@ -43,7 +43,7 @@ const PostModification = () => {
       await getPostDetail();
     };
     getDetail();
-  }, []);
+  }, [getPostDetail]);
 
   useEffect(() => {
     const trimContent = (content) => {
@@ -75,6 +75,7 @@ const PostModification = () => {
   useEffect(() => {
     if (postInput.post.image === '') setImgURL([]);
     else setImgURL(postInput.post.image.split(', '));
+    //eslint-disable-next-line
   }, [imgChange]);
 
   const handleDataForm = async (dataURI) => {

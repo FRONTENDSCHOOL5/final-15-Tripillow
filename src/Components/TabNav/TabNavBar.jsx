@@ -3,25 +3,24 @@ import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 
-import logo from '../../Assets/logo.png';
-import home from '../../Assets/icons/icon-home.svg';
-import post from '../../Assets/icons/icon-edit.svg';
-import profile from '../../Assets/icons/icon-user.svg';
-import chat from '../../Assets/icons/icon-message-circle.svg';
-import product from '../../Assets/icons/icon-shop.svg';
-import search from '../../Assets/icons/icon-search.svg';
-import menu from '../../Assets/icons/menu.svg';
-import character from '../../Assets/character.svg';
+import home from 'Assets/icons/icon-home.svg';
+import post from 'Assets/icons/icon-edit.svg';
+import profile from 'Assets/icons/icon-user.svg';
+import chat from 'Assets/icons/icon-message-circle.svg';
+import product from 'Assets/icons/icon-shop.svg';
+import search from 'Assets/icons/icon-search.svg';
+import menu from 'Assets/icons/menu.svg';
+import character from 'Assets/character.svg';
 // 클릭 시 아이콘
-import profilefill from '../../Assets/icons/icon-user-fill.svg';
-import homefill from '../../Assets/icons/icon-home-fill.svg';
-import productfill from '../../Assets/icons/icon-shop-fill.svg';
-import chatfill from '../../Assets/icons/icon-message-circle-fill.svg';
-import postfill from '../../Assets/icons/icon-edit-fill.svg';
-import searchfill from '../../Assets/icons/icon-search-fill.svg';
-import PCNavbarModal from '../common/Modal/PCNavbarModal';
-import PCAlertModal from '../common/Modal/PCAlertModal';
-import Search from '../../Pages/Search';
+import profilefill from 'Assets/icons/icon-user-fill.svg';
+import homefill from 'Assets/icons/icon-home-fill.svg';
+import productfill from 'Assets/icons/icon-shop-fill.svg';
+import chatfill from 'Assets/icons/icon-message-circle-fill.svg';
+import postfill from 'Assets/icons/icon-edit-fill.svg';
+import searchfill from 'Assets/icons/icon-search-fill.svg';
+import PCNavbarModal from 'Components/common/Modal/PCNavbarModal';
+import PCAlertModal from 'Components/common/Modal/PCAlertModal';
+import Search from 'Pages/Search';
 
 const TabNavBar = (props) => {
   const navigate = useNavigate();
@@ -48,6 +47,7 @@ const TabNavBar = (props) => {
     const icon = icons.find((el) => el.path === location.pathname);
     icon && setIsClicked(icon.name);
     setIsSearch(false);
+    //eslint-disable-next-line
   }, [location]);
 
   return (
@@ -79,7 +79,7 @@ const TabNavBar = (props) => {
         })}
         <MoreLayout>
           <More onClick={handleMoreClick} id='PCNavModal'>
-            <img src={menu} alt='menu' /> 
+            <img src={menu} alt='menu' />
           </More>
         </MoreLayout>
       </Layout>
@@ -151,12 +151,6 @@ const Icon = styled.img`
   width: 24px;
   height: 24px;
   margin-right: 39px;
-`;
-
-const IconInfo = styled.span`
-  color: ${(props) => (props.setColor ? 'var(--primary)' : 'var(--dark-gray)')};
-  text-align: center;
-  font-size: var(--md);
 `;
 
 const MoreLayout = styled.div`

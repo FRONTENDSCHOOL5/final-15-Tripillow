@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import profileSm from '../../Assets/profile-sm.png';
-import chatLists from '../../Mock/chatLists';
-import isDesktop from '../../Recoil/isDesktop/isDesktop';
-import { useRecoilValue } from 'recoil';
+import profileSm from 'Assets/profile-sm.png';
+import chatLists from 'Mock/chatLists';
 
 const ChatUser = ({ username, userImg, account, ...props }) => {
   const navigate = useNavigate();

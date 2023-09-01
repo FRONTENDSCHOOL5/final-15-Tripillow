@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
-import isLogin from '../../Recoil/isLogin/isLogin';
+import isLogin from 'Recoil/isLogin/isLogin';
 
 const ProtectedRoute = ({ children }) => {
   const isUser = useRecoilValue(isLogin);
@@ -13,7 +13,7 @@ const ProtectedRoute = ({ children }) => {
     if (!isUser) {
       navigate('/login', { state: errorMessage });
     }
-  }, []);
+  }, [navigate, isUser]);
 
   if (!isUser) {
     return null;

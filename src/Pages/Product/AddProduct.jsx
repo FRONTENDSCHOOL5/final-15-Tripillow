@@ -1,30 +1,30 @@
 import React, { useState } from 'react';
-import Toggle from '../../Components/common/Toggle';
+import throttle from 'lodash.throttle';
 import styled from 'styled-components';
-import Navbar from '../../Components/common/Navbar';
-import TabNavBar from '../../Components/TabNav/TabNavBar';
-import Input from '../../Components/common/Input';
-import { LayoutStyle } from '../../Styles/Layout';
-import UploadHeader from '../../Components/common/Header/UploadHeader';
-import URL from '../../Utils/URL';
+import imageCompression from 'browser-image-compression';
+import Toggle from 'Components/common/Toggle';
+import Navbar from 'Components/common/Navbar';
+import TabNavBar from 'Components/TabNav/TabNavBar';
+import Input from 'Components/common/Input';
+import { LayoutStyle } from 'Styles/Layout';
+import UploadHeader from 'Components/common/Header/UploadHeader';
+import URL from 'Api/URL';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import ImageUploadAPI from '../../Utils/ImageUploadAPI';
-import defaultImage from '../../Assets/addproduct.png';
-import ErrorMSG from '../../Styles/ErrorMSG';
-import UploadProductAPI from '../../Utils/UploadProductAPI';
-import isDesktop from '../../Recoil/isDesktop/isDesktop';
-import isTab from '../../Recoil/isTab/isTab';
-import Button from '../../Components/common/Button';
-import MyPillowings from '../../Components/Home/MyPillowings';
-import { validateImageFileFormat } from '../../Utils/validate';
-import imageCompression from 'browser-image-compression';
-import throttle from 'lodash.throttle';
+import ImageUploadAPI from 'Api/Upload/ImageUploadAPI';
+import defaultImage from 'Assets/addproduct.png';
+import ErrorMSG from 'Styles/ErrorMSG';
+import UploadProductAPI from 'Api/Product/UploadProductAPI';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
+import isTab from 'Recoil/isTab/isTab';
+import Button from 'Components/common/Button';
+import MyPillowings from 'Components/Home/MyPillowings';
+import { validateImageFileFormat } from 'Utils/validate';
 
 const AddProduct = (props) => {
   const navigate = useNavigate();
   const isPCScreen = useRecoilValue(isDesktop);
-  const isTabScreen = useRecoilValue(isTab)
+  const isTabScreen = useRecoilValue(isTab);
   const [productName, setProductName] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
@@ -109,7 +109,7 @@ const AddProduct = (props) => {
 
   return (
     <Layout $isPCScreen={isPCScreen}>
-      {isTabScreen && <TabNavBar/>}
+      {isTabScreen && <TabNavBar />}
       <h1 className='a11y-hidden'>상품 등록 페이지</h1>
       {!isPCScreen && !isTabScreen && (
         <UploadHeader onClick={throttledHandleSubmit} disabled={!imageLink || !productName || !price || !description}>
@@ -164,7 +164,7 @@ const AddProduct = (props) => {
           </Button>
         )}
       </AddProductContent>
-      {isPCScreen ||isTabScreen || <Navbar />}
+      {isPCScreen || isTabScreen || <Navbar />}
       {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </Layout>
   );

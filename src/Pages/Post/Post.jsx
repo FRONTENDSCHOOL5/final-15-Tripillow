@@ -1,21 +1,21 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import throttle from 'lodash.throttle';
-import URL from '../../Utils/URL';
-import { validateImageFileFormat } from '../../Utils/validate';
-import UploadHeader from '../../Components/common/Header/UploadHeader';
-import Toggle from '../../Components/common/Toggle';
-import x from '../../Assets/icons/x.svg';
-import { LayoutStyle } from '../../Styles/Layout';
-import iconImg from '../../Assets/icons/upload-file.svg';
-import imageCompression from 'browser-image-compression';
-import UploadPostAPI from '../../Utils/UploadPostAPI';
-import CompressedImageUploadAPI from '../../Utils/CompressedImageUploadAPI';
 import { useRecoilValue } from 'recoil';
-import isDesktop from '../../Recoil/isDesktop/isDesktop';
-import Button from '../../Components/common/Button';
-import MyPillowings from '../../Components/Home/MyPillowings';
+import throttle from 'lodash.throttle';
+import imageCompression from 'browser-image-compression';
+import URL from 'Api/URL';
+import { validateImageFileFormat } from 'Utils/validate';
+import UploadHeader from 'Components/common/Header/UploadHeader';
+import Toggle from 'Components/common/Toggle';
+import x from 'Assets/icons/x.svg';
+import { LayoutStyle } from 'Styles/Layout';
+import iconImg from 'Assets/icons/upload-file.svg';
+import UploadPostAPI from 'Api/Post/UploadPostAPI';
+import CompressedImageUploadAPI from 'Api/Upload/CompressedImageUploadAPI';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
+import Button from 'Components/common/Button';
+import MyPillowings from 'Components/Home/MyPillowings';
 
 export default function Post() {
   const navigate = useNavigate();

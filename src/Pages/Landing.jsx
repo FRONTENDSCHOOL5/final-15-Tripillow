@@ -1,5 +1,5 @@
 import React from 'react';
-import Landings from '../Components/Landing/Landings';
+import Landings from 'Components/Landing/Landings';
 
 const Landing = () => {
   return <Landings />;

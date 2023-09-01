@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import spinner from '../../Assets/icons/loading-spinner.png';
+import spinner from 'Assets/icons/loading-spinner.png';
 
 const Spinner = () => {
   return <LoadingSpinner src={spinner} />;

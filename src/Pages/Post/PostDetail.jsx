@@ -1,26 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
-import { LayoutStyle } from '../../Styles/Layout';
-import Comment from '../../Components/Comment/Comment';
-import PostComment from '../../Components/common/PostComment';
-import BasicHeader from '../../Components/common/Header/BasicHeader';
-import PostDetailAPI from '../../Utils/PostDetailAPI';
-import GetNumerousCommentAPI from '../../Utils/GetNumerousCommentAPI';
-import HomePostLayout from '../../Components/HomePost/HomePostLayout';
-import MyInfoAPI from '../../Utils/MyInfoAPI';
 import { useRecoilValue } from 'recoil';
-import isDesktop from '../../Recoil/isDesktop/isDesktop';
-import MyPillowings from '../../Components/Home/MyPillowings';
+import styled from 'styled-components';
+import { LayoutStyle } from 'Styles/Layout';
+import Comment from 'Components/Comment/Comment';
+import PostComment from 'Components/common/PostComment';
+import BasicHeader from 'Components/common/Header/BasicHeader';
+import PostDetailAPI from 'Api/Post/PostDetailAPI';
+import GetNumerousCommentAPI from 'Api/Post/GetNumerousCommentAPI';
+import HomePostLayout from 'Components/HomePost/HomePostLayout';
+import MyInfoAPI from 'Api/Profile/MyInfoAPI';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
+import MyPillowings from 'Components/Home/MyPillowings';
 
 const PostDetail = () => {
   const { id } = useParams();
   const postId = id;
   const isPCScreen = useRecoilValue(isDesktop);
   const [myInfo, setMyInfo] = useState({});
-  const updateMyInfo = (data) => {
-    setMyInfo(data);
-  };
   const [postInfo, setPostInfo] = useState({});
   const updatePostInfo = (data) => {
     setPostInfo(data);
@@ -30,7 +27,7 @@ const PostDetail = () => {
     setComments(data);
   };
   const postDetail = PostDetailAPI(postId, updatePostInfo);
-  const { getUserData } = MyInfoAPI(null, updateMyInfo);
+  const { getUserData } = MyInfoAPI();
   const getNumerousComment = GetNumerousCommentAPI(postId, updateComments);
   const [visibleComments, setVisibleComments] = useState([]);
   const [endIndex, setEndIndex] = useState(0);
@@ -39,12 +36,14 @@ const PostDetail = () => {
 
   useEffect(() => {
     const sync = async () => {
-      await getUserData();
+      const myData = await getUserData();
+      myData && setMyInfo(myData);
       await postDetail();
       await getNumerousComment();
       setComments((prev) => prev.reverse());
     };
     sync();
+    //eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -52,8 +51,11 @@ const PostDetail = () => {
       await getNumerousComment();
       setComments((prev) => prev.reverse());
     };
-    updateNewComment();
-  }, [isNewComment]);
+    if (isNewComment) {
+      updateNewComment();
+      setIsNewComment(false);
+    }
+  }, [isNewComment, getNumerousComment]);
 
   useEffect(() => {
     const initialEndIndex = Math.min(5, comments.length);
@@ -62,6 +64,8 @@ const PostDetail = () => {
 
     if (comments.length > 5) {
       setShowMore(true);
+    } else {
+      setShowMore(false);
     }
   }, [comments]);
 
@@ -114,7 +118,8 @@ const MoreComment = styled.button`
   color: var(--gray);
   font-size: var(--xs);
   display: block;
-  margin: 0 auto 10px;
+  margin: 15px auto;
+  padding: 5px 5px 10px;
 `;
 
 const CommentLayout = styled.section`

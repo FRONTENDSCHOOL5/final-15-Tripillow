@@ -1,9 +1,9 @@
 import styled, { css } from 'styled-components';
-import email from '../Assets/icons/email.svg';
-import kakao from '../Assets/icons/kakao.svg';
-import google from '../Assets/icons/google.svg';
-import facebook from '../Assets/icons/facebook.svg';
 import { Link } from 'react-router-dom';
+import email from 'Assets/icons/email.svg';
+import kakao from 'Assets/icons/kakao.svg';
+import google from 'Assets/icons/google.svg';
+import facebook from 'Assets/icons/facebook.svg';
 
 const LoginMethod = () => {
   return (

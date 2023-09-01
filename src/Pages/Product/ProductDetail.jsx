@@ -1,32 +1,32 @@
 import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { useRecoilValue } from 'recoil';
-import accountName from '../../Recoil/accountName/accountName';
-import ProductDetailAPI from '../../Utils/ProductDetailAPI';
-import { LayoutStyle } from '../../Styles/Layout';
-import BasicHeader from '../../Components/common/Header/BasicHeader';
-import hearticon from '../../Assets/icons/icon-heart.svg';
-import heartfill from '../../Assets/icons/icon-heart-fill.svg';
-import more from '../../Assets/icons/icon-more-pc.svg';
-import Button from '../../Components/common/Button';
-import User from '../../Components/common/User';
-import chatLists from '../../Mock/chatLists';
-import isDesktop from '../../Recoil/isDesktop/isDesktop';
-import MyPillowings from '../../Components/Home/MyPillowings';
-import PCModal from '../../Components/common/Modal/PCModal';
-import ProductDeleteAPI from '../../Utils/ProductDeleteAPI';
-import PCAlertModal from '../../Components/common/Modal/PCAlertModal';
-import TabNavBar from '../../Components/TabNav/TabNavBar';
-import isTab from '../../Recoil/isTab/isTab';
-import { createPortal } from 'react-dom';
+import isTab from 'Recoil/isTab/isTab';
+import accountName from 'Recoil/accountName/accountName';
+import ProductDetailAPI from 'Api/Product/ProductDetailAPI';
+import { LayoutStyle } from 'Styles/Layout';
+import BasicHeader from 'Components/common/Header/BasicHeader';
+import hearticon from 'Assets/icons/icon-heart.svg';
+import heartfill from 'Assets/icons/icon-heart-fill.svg';
+import more from 'Assets/icons/icon-more-pc.svg';
+import Button from 'Components/common/Button';
+import User from 'Components/common/User';
+import chatLists from 'Mock/chatLists';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
+import MyPillowings from 'Components/Home/MyPillowings';
+import PCModal from 'Components/common/Modal/PCModal';
+import ProductDeleteAPI from 'Api/Product/ProductDeleteAPI';
+import PCAlertModal from 'Components/common/Modal/PCAlertModal';
+import TabNavBar from 'Components/TabNav/TabNavBar';
 
 const ProductDetail = () => {
   const [productId, setProductId] = useState('');
   const [isClick, setIsClick] = useState(false);
   const params = useParams();
   const navigate = useNavigate();
-  const $Root = document.getElementById('root')
+  const $Root = document.getElementById('root');
   const userName = useRecoilValue(accountName);
   const isPCScreen = useRecoilValue(isDesktop);
   const isTabScreen = useRecoilValue(isTab);
@@ -40,7 +40,10 @@ const ProductDetail = () => {
 
   const [isModalOn, setIsModalOn] = useState(false);
   const [isAlertModalOn, setIsAlertModalOn] = useState(false);
+  //FIXME - 임의로 해둔 것 수정필요합니다.
+  //eslint-disable-next-line
   const [modal, setModal] = useState(false);
+  //eslint-disable-next-line
   const [alertModal, setAlertModal] = useState(false);
 
   useEffect(() => {
@@ -81,13 +84,6 @@ const ProductDetail = () => {
     });
   };
 
-  const handleCancel = () => {
-    setAlertModal(false);
-    setModal(false);
-    // setIsModalOn(false);
-    // setIsAlertModalOn(false);
-  };
-
   const handleCloseModal = () => {
     setIsModalOn(false);
     setIsAlertModalOn(false);
@@ -125,17 +121,19 @@ const ProductDetail = () => {
 
             {(isPCScreen || isTabScreen) && <MoreBtn onClick={handleMoreBtn} />}
 
-            {isModalOn && (isPCScreen || isTabScreen )&& (
+            {isModalOn &&
+              (isPCScreen || isTabScreen) &&
               createPortal(
-              <PCModal
-                isMine={isMine}
-                setIsModalOn={setIsModalOn}
-                handleModify={handleModify}
-                closeModal={handleCloseModal}
-                handleAlertModal={handleAlertModal}
-                handleDelete={handleDelete}
-              />, $Root)
-            )}
+                <PCModal
+                  isMine={isMine}
+                  setIsModalOn={setIsModalOn}
+                  handleModify={handleModify}
+                  closeModal={handleCloseModal}
+                  handleAlertModal={handleAlertModal}
+                  handleDelete={handleDelete}
+                />,
+                $Root,
+              )}
             {/* {isModalOn && isTabScreen && (
               <Modal
                 btn1='수정'

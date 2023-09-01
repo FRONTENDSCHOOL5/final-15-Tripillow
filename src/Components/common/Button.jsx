@@ -19,8 +19,8 @@ const BtnStyle = styled.button`
   font-weight: ${(props) => props.fontWeight || '400'};
   border-radius: ${(props) => props.borderRadius || '44px'};
   margin: ${(props) => props.margin || '0px'};
-  position: ${props=> props.position || ''};
-  right: ${props=> props.right || '0px'};
+  position: ${(props) => props.position || ''};
+  right: ${(props) => props.right || '0px'};
 
   ${(props) =>
     props.disabled &&

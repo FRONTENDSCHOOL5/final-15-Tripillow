@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import FollowUser from '../../Components/common/FollowUser';
-import BasicHeader from '../../Components/common/Header/BasicHeader';
-import Navbar from '../../Components/common/Navbar';
-import { LayoutStyle } from '../../Styles/Layout';
-import FollowingListAPI from '../../Utils/FollowingListAPI';
-import FollowerListAPI from '../../Utils/FollowerListAPI';
-import { useRecoilValue } from 'recoil';
-import isDesktop from '../../Recoil/isDesktop/isDesktop';
-import MyPillowings from '../../Components/Home/MyPillowings';
+import FollowUser from 'Components/common/FollowUser';
+import BasicHeader from 'Components/common/Header/BasicHeader';
+import Navbar from 'Components/common/Navbar';
+import { LayoutStyle } from 'Styles/Layout';
+import FollowerListAPI from 'Api/Profile/FollowerListAPI';
+import FollowingListAPI from 'Api/Profile/FollowingListAPI';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
+import MyPillowings from 'Components/Home/MyPillowings';
 
 const Followers = () => {
   const location = useLocation();
@@ -17,19 +17,12 @@ const Followers = () => {
   const pathIdentifier = location.pathname.split('/');
   const last = pathIdentifier.length - 1;
   const accountname = location.state?.accountname;
-  const [current, setCurrent] = useState('followers');
   const [followerData, setFollowerData] = useState([]);
   const [followingData, setFollowingData] = useState([]);
   const [pageTitle, setPageTitle] = useState('Followers');
   const { fetchFollower } = FollowerListAPI(accountname);
   const { fetchFollowing } = FollowingListAPI(accountname);
   const regex = /^\/profile\/.+\/followers$/;
-
-  useEffect(() => {
-    if (pathIdentifier) {
-      setCurrent(pathIdentifier[last]);
-    }
-  }, [accountname]);
 
   useEffect(() => {
     const handleFetch = async () => {
@@ -49,6 +42,7 @@ const Followers = () => {
     };
 
     handleFetch();
+    //eslint-disable-next-line
   }, [accountname]);
 
   return (

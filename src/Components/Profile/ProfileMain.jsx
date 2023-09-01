@@ -3,19 +3,19 @@ import { useParams } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useQueries } from 'react-query';
 import styled from 'styled-components';
-import accountName from '../../Recoil/accountName/accountName';
-import MyInfoAPI from '../../Utils/MyInfoAPI';
-import UserInfoAPI from '../../Utils/UserInfoAPI';
-import GetPostAPI from '../../Utils/GetPostAPI';
-import ProductListAPI from '../../Utils/ProductListAPI';
-import ProfileSkeleton from '../common/Skeleton/ProfileSkeleton';
-import UserProfile from './UserProfile';
-import ProductItem from '../common/ProductItem';
-import ProfileView from './ProfileView';
-import HomePostLayout from '../HomePost/HomePostLayout';
-import { isList } from '../../Recoil/whichView/whichView';
-import { followerURL, followingURL } from '../../Recoil/followPath/followPath';
-import ViewImage from '../HomePost/ViewImage';
+import accountName from 'Recoil/accountName/accountName';
+import MyInfoAPI from 'Api/Profile/MyInfoAPI';
+import UserInfoAPI from 'Api/Profile/UserInfoAPI';
+import GetPostAPI from 'Api/Post/GetPostAPI';
+import ProductListAPI from 'Api/Product/ProductListAPI';
+import ProfileSkeleton from 'Components/common/Skeleton/ProfileSkeleton';
+import UserProfile from 'Components/Profile/UserProfile';
+import ProductItem from 'Components/common/ProductItem';
+import ProfileView from 'Components/Profile/ProfileView';
+import HomePostLayout from 'Components/HomePost/HomePostLayout';
+import { isList } from 'Recoil/whichView/whichView';
+import { followerURL, followingURL } from 'Recoil/followPath/followPath';
+import ViewImage from 'Components/HomePost/ViewImage';
 
 const ProfileMain = ({ setIsDeleted, setIsModified }) => {
   const params = useParams();
@@ -77,6 +77,7 @@ const ProfileMain = ({ setIsDeleted, setIsModified }) => {
       setFollowerPath(`/profile/${userAccountname}/followers`);
       setFollowingPath(`/profile/${userAccountname}/followings`);
     }
+    //eslint-disable-next-line
   }, []);
 
   return (

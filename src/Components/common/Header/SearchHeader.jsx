@@ -1,8 +1,8 @@
 import React from 'react';
-import styled from 'styled-components';
-import HeaderLayout from '../../../Styles/HeaderLayout';
-import prev from '../../../Assets/icons/icon-arrow-back.svg';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import HeaderLayout from 'Styles/HeaderLayout';
+import prev from 'Assets/icons/icon-arrow-back.svg';
 
 const SearchHeader = ({ value, onChange }) => {
   const navigate = useNavigate();

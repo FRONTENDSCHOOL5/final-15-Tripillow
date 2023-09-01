@@ -1,32 +1,32 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
-import styled from 'styled-components';
-import userToken from '../../../Recoil/userToken/userToken';
-import isLogin from '../../../Recoil/isLogin/isLogin';
-import accountName from '../../../Recoil/accountName/accountName';
-import { isKorea, isOverseas } from '../../../Recoil/whichCountry/whichCountry';
-import { isList, isAlbum } from '../../../Recoil/whichView/whichView';
-import ProductDeleteAPI from '../../../Utils/ProductDeleteAPI';
-import Modal from '../Modal/Modal';
-import HeaderLayout from '../../../Styles/HeaderLayout';
-import AlertModal from '../Modal/AlertModal';
-import prev from '../../../Assets/icons/icon-arrow-back.svg';
-import more from '../../../Assets/icons/icon-more-vertical.svg';
+import { useSetRecoilState } from 'recoil';
 import { useQueryClient } from 'react-query';
+import styled from 'styled-components';
+import userToken from 'Recoil/userToken/userToken';
+import isLogin from 'Recoil/isLogin/isLogin';
+import accountName from 'Recoil/accountName/accountName';
+import { isKorea, isOverseas } from 'Recoil/whichCountry/whichCountry';
+import { isList, isAlbum } from 'Recoil/whichView/whichView';
+import ProductDeleteAPI from 'Api/Product/ProductDeleteAPI';
+import Modal from 'Components/common/Modal/Modal';
+import HeaderLayout from 'Styles/HeaderLayout';
+import AlertModal from 'Components/common/Modal/AlertModal';
+import prev from 'Assets/icons/icon-arrow-back.svg';
+import more from 'Assets/icons/icon-more-vertical.svg';
 
 const BasicHeader = (props) => {
   const navigate = useNavigate();
   const [modal, setModal] = useState(false);
   const [alertModal, setAlertModal] = useState(false);
-  const [token, setToken] = useRecoilState(userToken);
-  const [login, setLogin] = useRecoilState(isLogin);
-  const [name, setName] = useRecoilState(accountName);
-  const [korea, setKorea] = useRecoilState(isKorea);
-  const [overseas, setOverseas] = useRecoilState(isOverseas);
-  const [listView, setListView] = useRecoilState(isList);
-  const [albumView, setAlbumView] = useRecoilState(isAlbum);
+  const setToken = useSetRecoilState(userToken);
+  const setLogin = useSetRecoilState(isLogin);
+  const setName = useSetRecoilState(accountName);
+  const setKorea = useSetRecoilState(isKorea);
+  const setOverseas = useSetRecoilState(isOverseas);
+  const setListView = useSetRecoilState(isList);
+  const setAlbumView = useSetRecoilState(isAlbum);
   const location = useLocation();
   const currentPath = location.pathname.split('/');
 
@@ -76,7 +76,7 @@ const BasicHeader = (props) => {
 
   useEffect(() => {
     if (isDeleted) navigate('/profile', { state: { isDeleted } });
-  }, [isDeleted]);
+  }, [isDeleted, navigate]);
 
   const handleModify = () => {
     navigate('/modifyproduct', { state: userId });
@@ -96,7 +96,7 @@ const BasicHeader = (props) => {
         />
         {props.children && <HeaderContent>{props.children}</HeaderContent>}
       </ContentLayout>
-      {props.empty || currentPath[currentPath.length - 1] == 'setting' ? null : (
+      {props.empty || currentPath[currentPath.length - 1] === 'setting' ? null : (
         <MoreButton onClick={handleMorebutton} />
       )}
       {modal && (

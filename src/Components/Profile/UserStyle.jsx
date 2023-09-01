@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import Share from '../../Assets/icons/icon-share.svg';
+import Share from 'Assets/icons/icon-share.svg';
 
 export const UserProfileLayout = styled.article`
   display: ${(props) => (props.$pc ? 'flex' : 'block')};

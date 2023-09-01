@@ -1,26 +1,39 @@
 import React, { useState, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import profileImg from '../../Assets/profile-sm.png';
-import isDesktop from '../../Recoil/isDesktop/isDesktop';
-import PostCommentAPI from '../../Utils/PostCommentAPI';
+import profileImg from 'Assets/profile-sm.png';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
+import PostCommentAPI from 'Api/Post/PostCommentAPI';
 
 export default function PostComment({ postId, setIsNewComment, userImg }) {
   const [userInput, setUserInput] = useState('');
+  const [isPostingComment, setIsPostingComment] = useState(false);
   const input = useRef();
   const isPCScreen = useRecoilValue(isDesktop);
   const handleInputChange = (e) => {
     const input = e.target.value;
     setUserInput(input);
   };
-
   const handlePostComment = PostCommentAPI(postId, userInput);
 
   const handleClick = async (e) => {
     e.preventDefault();
-    const response = await handlePostComment();
-    setIsNewComment((prev) => !prev);
-    input.current.value = '';
+
+    if (userInput === '' || isPostingComment) {
+      return;
+    }
+    setIsPostingComment(true);
+    try {
+      console.log(e);
+      await handlePostComment();
+      setIsNewComment(true);
+      input.current.value = '';
+      setUserInput('');
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsPostingComment(false);
+    }
   };
 
   return (
@@ -29,7 +42,7 @@ export default function PostComment({ postId, setIsNewComment, userImg }) {
         <ProfileImg src={userImg || profileImg}></ProfileImg>
         <InputStyle type='text' placeholder='댓글 입력하기' ref={input} onChange={handleInputChange} />
       </InputLayout>
-      <PostButton type='submit' onClick={handleClick}>
+      <PostButton type='submit' disabled={isPostingComment} onClick={handleClick}>
         게시
       </PostButton>
     </FooterFormLayout>

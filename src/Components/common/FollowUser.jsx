@@ -1,24 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil';
-import accountName from '../../Recoil/accountName/accountName';
-import profileSm from '../../Assets/profile-sm.png';
-import Button from './Button';
-import FollowAPI from '../../Utils/FollowAPI';
-import UnFollowAPI from '../../Utils/UnFollowAPI';
-import MyInfoAPI from '../../Utils/MyInfoAPI';
+import profileSm from 'Assets/profile-sm.png';
+import Button from 'Components/common/Button';
+import FollowAPI from 'Api/Profile/FollowAPI';
+import UnFollowAPI from 'Api/Profile/UnFollowAPI';
+import MyInfoAPI from 'Api/Profile/MyInfoAPI';
 
 const FollowUser = (props) => {
   const url = props.user?.image.split('/') || null;
   const isFollowed = props.user?.isfollow;
-  const name = useRecoilValue(accountName);
   const pathIdentifier = props.pathIdentifier;
   const { getUserData } = MyInfoAPI();
   const { followUser } = FollowAPI(props.user?.accountname);
   const { unFollowUser } = UnFollowAPI(props.user?.accountname);
 
+  //eslint-disable-next-line
   const [followCount, setFollowCount] = useState(props.user?.followingCount);
+  //eslint-disable-next-line
   const [isFollow, setIsFollow] = useState(props.user?.isfollow);
   const [followText, setFollowText] = useState(!isFollowed ? '팔로우' : '취소');
 
@@ -36,17 +35,18 @@ const FollowUser = (props) => {
       setFollowCount(data?.followingCount);
     };
     fetchUserData();
+    //eslint-disable-next-line
   }, []);
 
   const handleFollowButtonClick = async (e) => {
     if (isFollow) {
       setFollowText('팔로우');
       setFollowCount((prevCount) => prevCount - 1);
-      const data = await unFollowUser();
+      await unFollowUser();
     } else {
       setFollowText('취소');
       setFollowCount((prevCount) => prevCount + 1);
-      const data = await followUser();
+      await followUser();
     }
   };
   return (

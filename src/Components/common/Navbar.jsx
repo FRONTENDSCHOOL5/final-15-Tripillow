@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import home from '../../Assets/icons/icon-home.svg';
-import post from '../../Assets/icons/icon-edit.svg';
-import user from '../../Assets/icons/icon-user.svg';
-import chat from '../../Assets/icons/icon-message-circle.svg';
-import shop from '../../Assets/icons/icon-shop.svg';
+import home from 'Assets/icons/icon-home.svg';
+import post from 'Assets/icons/icon-edit.svg';
+import user from 'Assets/icons/icon-user.svg';
+import chat from 'Assets/icons/icon-message-circle.svg';
+import shop from 'Assets/icons/icon-shop.svg';
 // 클릭 시 아이콘
-import userfill from '../../Assets/icons/icon-user-fill.svg';
-import homefill from '../../Assets/icons/icon-home-fill.svg';
-import shopfill from '../../Assets/icons/icon-shop-fill.svg';
-import chatfill from '../../Assets/icons/icon-message-circle-fill.svg';
-import postfill from '../../Assets/icons/icon-edit-fill.svg';
+import userfill from 'Assets/icons/icon-user-fill.svg';
+import homefill from 'Assets/icons/icon-home-fill.svg';
+import shopfill from 'Assets/icons/icon-shop-fill.svg';
+import chatfill from 'Assets/icons/icon-message-circle-fill.svg';
+import postfill from 'Assets/icons/icon-edit-fill.svg';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const Navbar = (props) => {
@@ -31,6 +31,7 @@ const Navbar = (props) => {
     const path = location.pathname;
     const buttonIndex = icons.findIndex((icon) => icon.path.includes(path));
     setButtonId(buttonIndex !== -1 ? buttonIndex : '');
+    //eslint-disable-next-line
   }, [location]);
 
   return (

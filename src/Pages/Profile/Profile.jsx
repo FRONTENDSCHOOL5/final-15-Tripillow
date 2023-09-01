@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { LayoutStyle } from '../../Styles/Layout';
-import BasicHeader from '../../Components/common/Header/BasicHeader';
-import Navbar from '../../Components/common/Navbar';
-import AlertTop from '../../Components/common/Modal/AlertTop';
-import isDesktop from '../../Recoil/isDesktop/isDesktop';
-import MyPillowings from '../../Components/Home/MyPillowings';
-import ProfileMain from '../../Components/Profile/ProfileMain';
+import { LayoutStyle } from 'Styles/Layout';
+import BasicHeader from 'Components/common/Header/BasicHeader';
+import Navbar from 'Components/common/Navbar';
+import AlertTop from 'Components/common/Modal/AlertTop';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
+import MyPillowings from 'Components/Home/MyPillowings';
+import ProfileMain from 'Components/Profile/ProfileMain';
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -30,6 +30,7 @@ const Profile = () => {
     if (!!state) {
       navigate(pathname, { replace: true });
     }
+    //eslint-disable-next-line
   }, [state]);
 
   return (
