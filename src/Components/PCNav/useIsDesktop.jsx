@@ -12,7 +12,7 @@ const useIsDesktop = () => {
     };
     handleResize();
     window.addEventListener('resize', handleResize);
-  }, []);
+  }, [setIsPCScreen]);
 
   return isPCScreen;
 };

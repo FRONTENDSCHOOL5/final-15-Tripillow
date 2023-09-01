@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import userToken from '../../../Recoil/userToken/userToken';
 import isLogin from '../../../Recoil/isLogin/isLogin';
@@ -20,13 +20,13 @@ const BasicHeader = (props) => {
   const navigate = useNavigate();
   const [modal, setModal] = useState(false);
   const [alertModal, setAlertModal] = useState(false);
-  const [token, setToken] = useRecoilState(userToken);
-  const [login, setLogin] = useRecoilState(isLogin);
-  const [name, setName] = useRecoilState(accountName);
-  const [korea, setKorea] = useRecoilState(isKorea);
-  const [overseas, setOverseas] = useRecoilState(isOverseas);
-  const [listView, setListView] = useRecoilState(isList);
-  const [albumView, setAlbumView] = useRecoilState(isAlbum);
+  const setToken = useSetRecoilState(userToken);
+  const setLogin = useSetRecoilState(isLogin);
+  const setName = useSetRecoilState(accountName);
+  const setKorea = useSetRecoilState(isKorea);
+  const setOverseas = useSetRecoilState(isOverseas);
+  const setListView = useSetRecoilState(isList);
+  const setAlbumView = useSetRecoilState(isAlbum);
   const location = useLocation();
   const currentPath = location.pathname.split('/');
 
@@ -76,7 +76,7 @@ const BasicHeader = (props) => {
 
   useEffect(() => {
     if (isDeleted) navigate('/profile', { state: { isDeleted } });
-  }, [isDeleted]);
+  }, [isDeleted, navigate]);
 
   const handleModify = () => {
     navigate('/modifyproduct', { state: userId });
@@ -96,7 +96,7 @@ const BasicHeader = (props) => {
         />
         {props.children && <HeaderContent>{props.children}</HeaderContent>}
       </ContentLayout>
-      {props.empty || currentPath[currentPath.length - 1] == 'setting' ? null : (
+      {props.empty || currentPath[currentPath.length - 1] === 'setting' ? null : (
         <MoreButton onClick={handleMorebutton} />
       )}
       {modal && (

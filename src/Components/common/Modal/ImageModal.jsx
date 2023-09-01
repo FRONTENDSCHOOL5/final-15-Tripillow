@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useRecoilValue } from 'recoil';
 import styled, { css } from 'styled-components';
 import isDesktop from '../../../Recoil/isDesktop/isDesktop';

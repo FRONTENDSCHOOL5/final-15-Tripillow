@@ -13,7 +13,7 @@ const Signup = () => {
 
   useEffect(() => {
     isLoginState && navigate('/home');
-  }, []);
+  }, [isLoginState, navigate]);
 
   return isPCScreen ? <PCSign /> : <SignupForm />;
 };

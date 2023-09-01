@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 
-import logo from '../../Assets/logo.png';
 import home from '../../Assets/icons/icon-home.svg';
 import post from '../../Assets/icons/icon-edit.svg';
 import profile from '../../Assets/icons/icon-user.svg';
@@ -48,6 +47,7 @@ const TabNavBar = (props) => {
     const icon = icons.find((el) => el.path === location.pathname);
     icon && setIsClicked(icon.name);
     setIsSearch(false);
+    //eslint-disable-next-line
   }, [location]);
 
   return (
@@ -79,7 +79,7 @@ const TabNavBar = (props) => {
         })}
         <MoreLayout>
           <More onClick={handleMoreClick} id='PCNavModal'>
-            <img src={menu} alt='menu' /> 
+            <img src={menu} alt='menu' />
           </More>
         </MoreLayout>
       </Layout>
@@ -151,12 +151,6 @@ const Icon = styled.img`
   width: 24px;
   height: 24px;
   margin-right: 39px;
-`;
-
-const IconInfo = styled.span`
-  color: ${(props) => (props.setColor ? 'var(--primary)' : 'var(--dark-gray)')};
-  text-align: center;
-  font-size: var(--md);
 `;
 
 const MoreLayout = styled.div`

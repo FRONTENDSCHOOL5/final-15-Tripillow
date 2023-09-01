@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { LayoutStyle } from '../../Styles/Layout';
 import LoginMethod from '../LoginMethod';
 import tripillowCharacter from '../../Assets/tripillowCharacter.gif';
-import AlertTop from '../common/Modal/AlertTop';
 import Logo from '../../Assets/logo.png';
 import isDesktop from '../../Recoil/isDesktop/isDesktop';
 import { FadeIn, logoFadeIn, PCBackFadeout } from '../../Styles/LandingAnimation';
@@ -23,7 +22,7 @@ const Landings = () => {
 
       return () => clearTimeout(timer);
     }
-  }, [isPCScreen]);
+  }, [isPCScreen, navigate]);
 
   if (isPCScreen) {
     return (

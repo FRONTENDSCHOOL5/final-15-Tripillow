@@ -77,6 +77,7 @@ const ProfileMain = ({ setIsDeleted, setIsModified }) => {
       setFollowerPath(`/profile/${userAccountname}/followers`);
       setFollowingPath(`/profile/${userAccountname}/followings`);
     }
+    //eslint-disable-next-line
   }, []);
 
   return (

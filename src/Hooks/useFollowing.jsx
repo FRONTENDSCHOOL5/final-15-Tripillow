@@ -15,6 +15,7 @@ const UseFollowing = () => {
 
   useEffect(() => {
     handleFetch();
+    //eslint-disable-next-line
   }, []);
 
   return { followingData };

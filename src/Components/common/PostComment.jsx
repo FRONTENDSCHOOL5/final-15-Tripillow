@@ -19,6 +19,7 @@ export default function PostComment({ postId, setIsNewComment, userImg }) {
 
   const handleClick = async (e) => {
     e.preventDefault();
+
     if (userInput === '' || isPostingComment) {
       return;
     }

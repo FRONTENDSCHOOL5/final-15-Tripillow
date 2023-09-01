@@ -1,11 +1,11 @@
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import userToken from '../Recoil/userToken/userToken';
 import accountName from '../Recoil/accountName/accountName';
 import URL from '../Utils/URL';
 
 const EditProfileAPI = (userInfo) => {
   const token = useRecoilValue(userToken);
-  const [name, setName] = useRecoilState(accountName);
+  const setName = useSetRecoilState(accountName);
 
   const handleEditProfileAPI = async () => {
     try {

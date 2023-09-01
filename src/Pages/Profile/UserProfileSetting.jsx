@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
-import URL from '../../Utils/URL';
-import ImageUploadAPI from '../../Utils/ImageUploadAPI';
-import UserInfoAPI from '../../Utils/MyInfoAPI';
+import MyInfoAPI from '../../Utils/MyInfoAPI';
 import EditProfileAPI from '../../Utils/EditProfileAPI';
 import AccountValidAPI from '../../Utils/AccountValidAPI';
 import Input from '../../Components/common/Input';
@@ -27,9 +25,6 @@ const UserProfileSetting = () => {
     setErrorMessage(data);
   };
   const [data, setData] = useState({});
-  const updateData = (data) => {
-    setData(data);
-  };
   const [text, setText] = useState({
     user: {
       username: '',
@@ -39,15 +34,17 @@ const UserProfileSetting = () => {
     },
   });
   const [account, setAccount] = useState({ user: { accountname: text.user.accountname } });
-  const { getUserData } = UserInfoAPI(updateData, null);
+  const { getUserData } = MyInfoAPI();
   const getAccountValidAPI = AccountValidAPI(account, updateErrorMessage);
 
   useEffect(() => {
     const handleFetch = async () => {
-      await getUserData();
+      const res = await getUserData();
+      res && setData(res);
     };
 
     handleFetch();
+    //eslint-disable-next-line
   }, []);
 
   useEffect(() => {
