@@ -30,7 +30,7 @@ const PCAlertModal = (props) => {
     setToken('');
     setLogin(false);
     setName('');
-    navigate('/');
+    navigate('/login');
     setKorea(true);
     setOverseas(false);
     setListView(true);
