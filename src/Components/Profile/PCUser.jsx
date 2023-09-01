@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import CommonButton from '../common/Button';
-import { UserProfileLayout, ImgLayout, ShareIconStyle } from './UserStyle';
-import UseUserProfile from '../../Hooks/useUserProfile';
-import ProfileImg from '../../Assets/profile-lg.png';
+import CommonButton from 'Components/common/Button';
+import { UserProfileLayout, ImgLayout, ShareIconStyle } from 'Components/Profile/UserStyle';
+import UseUserProfile from 'Hooks/useUserProfile';
+import ProfileImg from 'Assets/profile-lg.png';
 
 const PCUserProfile = ({ user, handleCopy }) => {
   const navigate = useNavigate();

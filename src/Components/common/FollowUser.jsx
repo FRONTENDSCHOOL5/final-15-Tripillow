@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import profileSm from '../../Assets/profile-sm.png';
-import Button from './Button';
-import FollowAPI from '../../Utils/FollowAPI';
-import UnFollowAPI from '../../Utils/UnFollowAPI';
-import MyInfoAPI from '../../Utils/MyInfoAPI';
+import profileSm from 'Assets/profile-sm.png';
+import Button from 'Components/common/Button';
+import FollowAPI from 'Api/Profile/FollowAPI';
+import UnFollowAPI from 'Api/Profile/UnFollowAPI';
+import MyInfoAPI from 'Api/Profile/MyInfoAPI';
 
 const FollowUser = (props) => {
   const url = props.user?.image.split('/') || null;

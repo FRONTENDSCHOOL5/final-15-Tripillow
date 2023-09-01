@@ -1,17 +1,17 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { useRecoilValue } from 'recoil';
-import { LayoutStyle } from '../../Styles/Layout';
-import Button from '../common/Button';
-import Input from '../common/Input';
-import ErrorMSG from '../../Styles/ErrorMSG';
-import useSignup from '../../Hooks/Sign/useSignup';
-import isDesktop from '../../Recoil/isDesktop/isDesktop';
-import { formFadeIn } from '../../Styles/SignAnimation';
-import { uploadFile } from '../../Utils/uploadFile';
+import { LayoutStyle } from 'Styles/Layout';
+import Button from 'Components/common/Button';
+import Input from 'Components/common/Input';
+import ErrorMSG from 'Styles/ErrorMSG';
+import useSignup from 'Hooks/Sign/useSignup';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
+import { formFadeIn } from 'Styles/SignAnimation';
+import { uploadFile } from 'Utils/uploadFile';
 
-import profileImg from '../../Assets/profile-lg.png';
-import uploadfile from '../../Assets/icons/upload-file.svg';
+import profileImg from 'Assets/profile-lg.png';
+import uploadfile from 'Assets/icons/upload-file.svg';
 
 const Signup = () => {
   const isPCScreen = useRecoilValue(isDesktop);

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import upload from '../../Assets/icons/upload.svg';
+import upload from 'Assets/icons/upload.svg';
 
 const CircleButton = (props) => {
   const { type } = props;

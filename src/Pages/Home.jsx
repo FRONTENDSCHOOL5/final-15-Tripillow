@@ -1,22 +1,22 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Layout } from '../Styles/Layout';
+import { Layout } from 'Styles/Layout';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import { useInfiniteQuery, useQueryClient } from 'react-query';
 import { useInView } from 'react-intersection-observer';
-import userToken from '../Recoil/userToken/userToken';
-import { isKorea } from '../Recoil/whichCountry/whichCountry';
-import MainHeader from '../Components/common/Header/MainHeader';
-import Toggle from '../Components/common/Toggle';
-import HomePost from '../Components/HomePost/HomePostLayout';
-import TopButton from '../Components/common/Topbutton';
-import Navbar from '../Components/common/Navbar';
-import URL from '../Utils/URL';
-import HomePostSkeleton from '../Components/common/Skeleton/HomePostSkeleton';
-import Spinner from '../Components/common/Spinner';
-import Empty from '../Components/common/Empty';
-import logo from '../Assets/logo-gray.png';
-import isDesktop from '../Recoil/isDesktop/isDesktop';
-import MyPillowings from '../Components/Home/MyPillowings';
+import userToken from 'Recoil/userToken/userToken';
+import { isKorea } from 'Recoil/whichCountry/whichCountry';
+import MainHeader from 'Components/common/Header/MainHeader';
+import Toggle from 'Components/common/Toggle';
+import HomePost from 'Components/HomePost/HomePostLayout';
+import TopButton from 'Components/common/Topbutton';
+import Navbar from 'Components/common/Navbar';
+import URL from 'Api/URL';
+import HomePostSkeleton from 'Components/common/Skeleton/HomePostSkeleton';
+import Spinner from 'Components/common/Spinner';
+import Empty from 'Components/common/Empty';
+import logo from 'Assets/logo-gray.png';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
+import MyPillowings from 'Components/Home/MyPillowings';
 
 const Home = () => {
   const isPCScreen = useRecoilValue(isDesktop);

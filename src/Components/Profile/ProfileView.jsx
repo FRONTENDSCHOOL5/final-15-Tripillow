@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
-import { isList, isAlbum } from '../../Recoil/whichView/whichView';
-import listOn from '../../Assets/icons/icon-post-list-on.svg';
-import listOff from '../../Assets/icons/icon-post-list-off.svg';
-import AlbumOn from '../../Assets/icons/icon-post-album-on.svg';
-import AlbumOff from '../../Assets/icons/icon-post-album-off.svg';
+import { isList, isAlbum } from 'Recoil/whichView/whichView';
+import listOn from 'Assets/icons/icon-post-list-on.svg';
+import listOff from 'Assets/icons/icon-post-list-off.svg';
+import AlbumOn from 'Assets/icons/icon-post-album-on.svg';
+import AlbumOff from 'Assets/icons/icon-post-album-off.svg';
 
 const ProfileView = () => {
   const [listView, setListView] = useRecoilState(isList);

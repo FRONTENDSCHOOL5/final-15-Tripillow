@@ -1,9 +1,9 @@
 import React from 'react';
-import HeaderLayout from '../../../Styles/HeaderLayout';
-import prev from '../../../Assets/icons/icon-arrow-back.svg';
-import Button from '../Button';
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import HeaderLayout from 'Styles/HeaderLayout';
+import prev from 'Assets/icons/icon-arrow-back.svg';
+import Button from 'Components/common/Button';
 
 const UploadHeader = (props) => {
   const navigate = useNavigate();

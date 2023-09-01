@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import AlertTop from '../common/Modal/AlertTop';
-import MobileUser from './MobileUser';
-import PCUser from './PCUser';
-import isDeskTop from '../../Recoil/isDesktop/isDesktop';
+import AlertTop from 'Components/common/Modal/AlertTop';
+import MobileUser from 'Components/Profile/MobileUser';
+import PCUser from 'Components/Profile/PCUser';
+import isDeskTop from 'Recoil/isDesktop/isDesktop';
 
 const UserProfile = (props) => {
   const isPCScreen = useRecoilValue(isDeskTop);

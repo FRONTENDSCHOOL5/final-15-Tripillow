@@ -2,18 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { useRecoilValue } from 'recoil';
-import { LayoutStyle } from '../../Styles/Layout';
-import Button from '../common/Button';
-import Input from '../common/Input';
-import useLogin from '../../Hooks/Sign/useLogin';
-import isDesktop from '../../Recoil/isDesktop/isDesktop';
-import { formFadeIn } from '../../Styles/SignAnimation';
-import PCToast from '../common/Modal/PCToast';
-import AlertTop from '../common/Modal/AlertTop';
+import { LayoutStyle } from 'Styles/Layout';
+import Button from 'Components/common/Button';
+import Input from 'Components/common/Input';
+import useLogin from 'Hooks/Sign/useLogin';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
+import { formFadeIn } from 'Styles/SignAnimation';
+import PCToast from 'Components/common/Modal/PCToast';
+import AlertTop from 'Components/common/Modal/AlertTop';
 
-import Kakao from '../../Assets/pc_kakaotalk.png';
-import Google from '../../Assets/icons/google.svg';
-import face from '../../Assets/icons/pc_facebook.svg';
+import Kakao from 'Assets/pc_kakaotalk.png';
+import Google from 'Assets/icons/google.svg';
+import face from 'Assets/icons/pc_facebook.svg';
 
 const LoginForm = () => {
   const { handleFormSubmit, userInput, handleInputChange, errorMsg, handleError, userErrorMessage } = useLogin();

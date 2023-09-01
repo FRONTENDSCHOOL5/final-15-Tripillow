@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import URL from '../../Utils/URL';
-import styled from 'styled-components';
-import arrowRight from '../../Assets/icons/icon-arrow-right.svg';
-import arrowLeft from '../../Assets/icons/icon-arrow-left.svg';
-import defaultImg from '../../Assets/defaultImg.png';
 import { createPortal } from 'react-dom';
-import ImageModal from './Modal/ImageModal';
+import styled from 'styled-components';
+import URL from 'Api/URL';
+import arrowRight from 'Assets/icons/icon-arrow-right.svg';
+import arrowLeft from 'Assets/icons/icon-arrow-left.svg';
+import defaultImg from 'Assets/defaultImg.png';
+import ImageModal from 'Components/common/Modal/ImageModal';
 
 export default function PostImage({ post }) {
   const [currentIndex, setCurrentIndex] = useState(0);

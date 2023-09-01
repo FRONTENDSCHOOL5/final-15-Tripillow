@@ -1,9 +1,9 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import PCTripillow from '../Landing/PCTripillow';
-import LoginForm from './LoginForm';
-import SignupForm from './SignupForm';
+import PCTripillow from 'Components/Landing/PCTripillow';
+import LoginForm from 'Components/Sign/LoginForm';
+import SignupForm from 'Components/Sign/SignupForm';
 
 const PCLogin = () => {
   const { pathname } = useLocation();

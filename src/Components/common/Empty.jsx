@@ -1,7 +1,7 @@
 import React from 'react';
-import Button from './Button';
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import Button from 'Components/common/Button';
 
 const Empty = (props) => {
   const navigate = useNavigate();

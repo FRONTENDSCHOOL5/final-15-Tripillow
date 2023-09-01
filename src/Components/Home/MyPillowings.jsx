@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
-import accountName from '../../Recoil/accountName/accountName';
-import FollowingListAPI from '../../Utils/FollowingListAPI';
-import MyInfoAPI from '../../Utils/MyInfoAPI';
-import FollowUser from '../common/FollowUser';
+import accountName from 'Recoil/accountName/accountName';
+import FollowingListAPI from 'Api/Profile/FollowingListAPI';
+import MyInfoAPI from 'Api/Profile/MyInfoAPI';
+import FollowUser from 'Components/common/FollowUser';
 
 const MyPillowings = (props) => {
   const accountname = useRecoilValue(accountName);

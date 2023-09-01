@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useQueryClient } from 'react-query';
 import { useSetRecoilState } from 'recoil';
-import userToken from '../../../Recoil/userToken/userToken';
-import isLogin from '../../../Recoil/isLogin/isLogin';
-import accountName from '../../../Recoil/accountName/accountName';
-import { isKorea, isOverseas } from '../../../Recoil/whichCountry/whichCountry';
-import { isList, isAlbum } from '../../../Recoil/whichView/whichView';
+import userToken from 'Recoil/userToken/userToken';
+import isLogin from 'Recoil/isLogin/isLogin';
+import accountName from 'Recoil/accountName/accountName';
+import { isKorea, isOverseas } from 'Recoil/whichCountry/whichCountry';
+import { isList, isAlbum } from 'Recoil/whichView/whichView';
 
 const PCAlertModal = (props) => {
   const navigate = useNavigate();

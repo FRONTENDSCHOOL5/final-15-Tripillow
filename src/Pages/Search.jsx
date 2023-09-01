@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import userToken from '../Recoil/userToken/userToken';
-import { Layout } from '../Styles/Layout';
-import URL from '../Utils/URL';
-import { SearchHeader, SearchInput } from '../Components/common/Header/SearchHeader';
-import Navbar from '../Components/common/Navbar';
-import User from '../Components/common/User';
-import UserSkeleton from '../Components/common/Skeleton/UserSkeleton';
-import isDesktop from '../Recoil/isDesktop/isDesktop';
-import { useLocation } from 'react-router-dom';
+import userToken from 'Recoil/userToken/userToken';
+import { Layout } from 'Styles/Layout';
+import URL from 'Api/URL';
+import { SearchHeader, SearchInput } from 'Components/common/Header/SearchHeader';
+import Navbar from 'Components/common/Navbar';
+import User from 'Components/common/User';
+import UserSkeleton from 'Components/common/Skeleton/UserSkeleton';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
 
 const Search = ({ setIsSearch, setIsClicked }) => {
   const token = useRecoilValue(userToken);

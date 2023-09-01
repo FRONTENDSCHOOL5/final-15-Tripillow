@@ -1,5 +1,5 @@
-import URL from './URL';
-import ImageUploadAPI from './ImageUploadAPI';
+import URL from 'Api/URL';
+import ImageUploadAPI from 'Api/Upload/ImageUploadAPI';
 
 export const uploadFile = async (e, imageSetter, targetObject, targetSetter) => {
   const file = e.target.files[0];

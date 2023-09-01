@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import URL from '../../Utils/URL';
-import defaultImg from '../../Assets/defaultImg.png';
-import imgLayer from '../../Assets/icons/icon-img-layers.svg';
+import URL from 'Api/URL';
+import defaultImg from 'Assets/defaultImg.png';
+import imgLayer from 'Assets/icons/icon-img-layers.svg';
 
 const ViewImage = (props) => {
   const navigate = useNavigate();

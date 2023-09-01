@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
-import styled from 'styled-components';
-import { LayoutStyle } from '../../Styles/Layout';
-import Comment from '../../Components/Comment/Comment';
-import PostComment from '../../Components/common/PostComment';
-import BasicHeader from '../../Components/common/Header/BasicHeader';
-import PostDetailAPI from '../../Utils/PostDetailAPI';
-import GetNumerousCommentAPI from '../../Utils/GetNumerousCommentAPI';
-import HomePostLayout from '../../Components/HomePost/HomePostLayout';
-import MyInfoAPI from '../../Utils/MyInfoAPI';
+import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import isDesktop from '../../Recoil/isDesktop/isDesktop';
-import MyPillowings from '../../Components/Home/MyPillowings';
+import styled from 'styled-components';
+import { LayoutStyle } from 'Styles/Layout';
+import Comment from 'Components/Comment/Comment';
+import PostComment from 'Components/common/PostComment';
+import BasicHeader from 'Components/common/Header/BasicHeader';
+import PostDetailAPI from 'Api/Post/PostDetailAPI';
+import GetNumerousCommentAPI from 'Api/Post/GetNumerousCommentAPI';
+import HomePostLayout from 'Components/HomePost/HomePostLayout';
+import MyInfoAPI from 'Api/Profile/MyInfoAPI';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
+import MyPillowings from 'Components/Home/MyPillowings';
 
 const PostDetail = () => {
   const { id } = useParams();
-  const location = useLocation();
   const postId = id;
   const isPCScreen = useRecoilValue(isDesktop);
   const [myInfo, setMyInfo] = useState({});
@@ -47,17 +46,16 @@ const PostDetail = () => {
     //eslint-disable-next-line
   }, []);
 
-  const updateNewComment = async () => {
-    await getNumerousComment();
-    setComments((prev) => prev.reverse());
-  };
-
   useEffect(() => {
+    const updateNewComment = async () => {
+      await getNumerousComment();
+      setComments((prev) => prev.reverse());
+    };
     if (isNewComment) {
       updateNewComment();
       setIsNewComment(false);
     }
-  }, [isNewComment]);
+  }, [isNewComment, getNumerousComment]);
 
   useEffect(() => {
     const initialEndIndex = Math.min(5, comments.length);

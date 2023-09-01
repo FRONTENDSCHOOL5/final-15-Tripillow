@@ -3,22 +3,22 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import { useQuery } from 'react-query';
 
-import BasicHeader from '../../Components/common/Header/BasicHeader';
-import Navbar from '../../Components/common/Navbar';
-import ProductItem from '../../Components/common/ProductItem';
-import { Layout } from '../../Styles/Layout';
-import CircleButton from '../../Components/common/CircleButton';
-import accountName from '../../Recoil/accountName/accountName';
-import Toggle from '../../Components/common/Toggle';
-import ProductItemSkeleton from '../../Components/common/Skeleton/ProductItemSkeleton';
+import BasicHeader from 'Components/common/Header/BasicHeader';
+import Navbar from 'Components/common/Navbar';
+import ProductItem from 'Components/common/ProductItem';
+import { Layout } from 'Styles/Layout';
+import CircleButton from 'Components/common/CircleButton';
+import accountName from 'Recoil/accountName/accountName';
+import Toggle from 'Components/common/Toggle';
+import ProductItemSkeleton from 'Components/common/Skeleton/ProductItemSkeleton';
 
-import URL from '../../Utils/URL';
-import userToken from '../../Recoil/userToken/userToken';
-import isDesktop from '../../Recoil/isDesktop/isDesktop';
-import isTab from '../../Recoil/isTab/isTab';
-import { isProduct } from '../../Recoil/productCategory/productCategory';
-import MyPillowings from '../../Components/Home/MyPillowings';
-import TabNavBar from '../../Components/TabNav/TabNavBar';
+import URL from 'Api/URL';
+import userToken from 'Recoil/userToken/userToken';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
+import isTab from 'Recoil/isTab/isTab';
+import { isProduct } from 'Recoil/productCategory/productCategory';
+import MyPillowings from 'Components/Home/MyPillowings';
+import TabNavBar from 'Components/TabNav/TabNavBar';
 
 const Product = () => {
   const navigate = useNavigate();

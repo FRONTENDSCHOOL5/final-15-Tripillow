@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import profileSm from '../../Assets/profile-sm.png';
-import more from '../../Assets/icons/s-icon-more-vertical.svg';
-import Button from './Button';
+import profileSm from 'Assets/profile-sm.png';
+import more from 'Assets/icons/s-icon-more-vertical.svg';
+import Button from 'Components/common/Button';
 
 const User = (props) => {
   const setIsModalOn = props.setIsModalOn;

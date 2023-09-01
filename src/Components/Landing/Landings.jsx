@@ -2,13 +2,13 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { useRecoilValue } from 'recoil';
-import { LayoutStyle } from '../../Styles/Layout';
-import LoginMethod from '../LoginMethod';
-import tripillowCharacter from '../../Assets/tripillowCharacter.gif';
-import Logo from '../../Assets/logo.png';
-import isDesktop from '../../Recoil/isDesktop/isDesktop';
-import { FadeIn, logoFadeIn, PCBackFadeout } from '../../Styles/LandingAnimation';
-import PCTripillow from './PCTripillow';
+import { LayoutStyle } from 'Styles/Layout';
+import LoginMethod from 'Components/LoginMethod';
+import tripillowCharacter from 'Assets/tripillowCharacter.gif';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
+import { FadeIn, logoFadeIn, PCBackFadeout } from 'Styles/LandingAnimation';
+import PCTripillow from 'Components/Landing/PCTripillow';
+import Logo from 'Assets/logo.png';
 
 const Landings = () => {
   const isPCScreen = useRecoilValue(isDesktop);

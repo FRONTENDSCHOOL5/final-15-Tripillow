@@ -1,10 +1,9 @@
-import throttle from 'lodash.throttle';
 import React, { useState, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import profileImg from '../../Assets/profile-sm.png';
-import isDesktop from '../../Recoil/isDesktop/isDesktop';
-import PostCommentAPI from '../../Utils/PostCommentAPI';
+import profileImg from 'Assets/profile-sm.png';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
+import PostCommentAPI from 'Api/Post/PostCommentAPI';
 
 export default function PostComment({ postId, setIsNewComment, userImg }) {
   const [userInput, setUserInput] = useState('');
