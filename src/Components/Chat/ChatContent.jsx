@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { useRecoilValue } from 'recoil';
-import MyInfoAPI from '../../Utils/MyInfoAPI';
-import { LayoutStyle } from '../../Styles/Layout';
-import BasicHeader from '../common/Header/BasicHeader';
-import profileSm from '../../Assets/profile-sm.png';
-import isDesktop from '../../Recoil/isDesktop/isDesktop';
-import tripillow from '../../Assets/logo-primary.png';
+import MyInfoAPI from 'Api/Profile/MyInfoAPI';
+import { LayoutStyle } from 'Styles/Layout';
+import BasicHeader from 'Components/common/Header/BasicHeader';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
+import profileSm from 'Assets/profile-sm.png';
+import tripillow from 'Assets/logo-primary.png';
 
 const ChatContent = () => {
   const location = useLocation();

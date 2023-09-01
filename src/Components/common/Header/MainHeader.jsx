@@ -1,9 +1,9 @@
 import React from 'react';
-import HeaderLayout from '../../../Styles/HeaderLayout';
-import logo from '../../../Assets/logo.png';
-import search from '../../../Assets/icons/icon-search.svg';
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import HeaderLayout from 'Styles/HeaderLayout';
+import logo from 'Assets/logo.png';
+import search from 'Assets/icons/icon-search.svg';
 
 const MainHeader = () => {
   const navigate = useNavigate();

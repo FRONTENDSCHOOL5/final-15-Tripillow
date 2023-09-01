@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import isTab from '../../Recoil/isTab/isTab';
+import isTab from 'Recoil/isTab/isTab';
 
 const useIsTab = () => {
   const [isTabScreen, setIsTabScreen] = useRecoilState(isTab);

@@ -1,12 +1,12 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 import styled, { css } from 'styled-components';
-import BasicHeader from '../../Components/common/Header/BasicHeader';
-import Navbar from '../../Components/common/Navbar';
-import ChatUser from '../../Components/Chat/ChatUser';
-import isDesktop from '../../Recoil/isDesktop/isDesktop';
-import useFollowing from '../../Hooks/useFollowing';
-import { LayoutStyle } from '../../Styles/Layout';
+import BasicHeader from 'Components/common/Header/BasicHeader';
+import Navbar from 'Components/common/Navbar';
+import ChatUser from 'Components/Chat/ChatUser';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
+import useFollowing from 'Hooks/useFollowing';
+import { LayoutStyle } from 'Styles/Layout';
 
 const ChatList = () => {
   const isPCScreen = useRecoilValue(isDesktop);

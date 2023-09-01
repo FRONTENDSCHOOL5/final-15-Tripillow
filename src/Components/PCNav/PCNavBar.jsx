@@ -3,24 +3,24 @@ import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 
-import logo from '../../Assets/logo.png';
-import home from '../../Assets/icons/icon-home.svg';
-import post from '../../Assets/icons/icon-edit.svg';
-import profile from '../../Assets/icons/icon-user.svg';
-import chat from '../../Assets/icons/icon-message-circle.svg';
-import product from '../../Assets/icons/icon-shop.svg';
-import search from '../../Assets/icons/icon-search.svg';
-import menu from '../../Assets/icons/menu.svg';
+import logo from 'Assets/logo.png';
+import home from 'Assets/icons/icon-home.svg';
+import post from 'Assets/icons/icon-edit.svg';
+import profile from 'Assets/icons/icon-user.svg';
+import chat from 'Assets/icons/icon-message-circle.svg';
+import product from 'Assets/icons/icon-shop.svg';
+import search from 'Assets/icons/icon-search.svg';
+import menu from 'Assets/icons/menu.svg';
 // 클릭 시 아이콘
-import profilefill from '../../Assets/icons/icon-user-fill.svg';
-import homefill from '../../Assets/icons/icon-home-fill.svg';
-import productfill from '../../Assets/icons/icon-shop-fill.svg';
-import chatfill from '../../Assets/icons/icon-message-circle-fill.svg';
-import postfill from '../../Assets/icons/icon-edit-fill.svg';
-import searchfill from '../../Assets/icons/icon-search-fill.svg';
-import PCNavbarModal from '../common/Modal/PCNavbarModal';
-import PCAlertModal from '../common/Modal/PCAlertModal';
-import Search from '../../Pages/Search';
+import profilefill from 'Assets/icons/icon-user-fill.svg';
+import homefill from 'Assets/icons/icon-home-fill.svg';
+import productfill from 'Assets/icons/icon-shop-fill.svg';
+import chatfill from 'Assets/icons/icon-message-circle-fill.svg';
+import postfill from 'Assets/icons/icon-edit-fill.svg';
+import searchfill from 'Assets/icons/icon-search-fill.svg';
+import PCNavbarModal from 'Components/common/Modal/PCNavbarModal';
+import PCAlertModal from 'Components/common/Modal/PCAlertModal';
+import Search from 'Pages/Search';
 
 const PCNavBar = (props) => {
   const navigate = useNavigate();

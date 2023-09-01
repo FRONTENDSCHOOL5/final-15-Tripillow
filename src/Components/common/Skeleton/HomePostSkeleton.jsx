@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import SkeletonItem from '../../../Styles/SkeletonItem';
-import UserSkeleton from './UserSkeleton';
+import SkeletonItem from 'Styles/SkeletonItem';
+import UserSkeleton from 'Components/common/Skeleton/UserSkeleton';
 
 const HomePostSkeleton = () => {
   return (

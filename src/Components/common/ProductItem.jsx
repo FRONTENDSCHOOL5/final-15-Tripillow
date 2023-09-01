@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import defaultImg from '../../Assets/defaultImg.png';
+import defaultImg from 'Assets/defaultImg.png';
 
 const ProductItem = (props) => {
   const product = props.product;

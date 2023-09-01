@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import userToken from '../../Recoil/userToken/userToken';
-import isLogin from '../../Recoil/isLogin/isLogin';
-import accountName from '../../Recoil/accountName/accountName';
-import LoginAPI from '../../Utils/LoginAPI';
+import userToken from 'Recoil/userToken/userToken';
+import isLogin from 'Recoil/isLogin/isLogin';
+import accountName from 'Recoil/accountName/accountName';
+import LoginAPI from 'Api/Auth/LoginAPI';
 
 const useLogin = () => {
   const navigate = useNavigate();

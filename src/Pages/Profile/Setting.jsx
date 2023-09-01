@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { LayoutStyle } from '../../Styles/Layout';
+import { LayoutStyle } from 'Styles/Layout';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import userToken from '../../Recoil/userToken/userToken';
-import isLogin from '../../Recoil/isLogin/isLogin';
-import accountName from '../../Recoil/accountName/accountName';
-import BasicHeader from '../../Components/common/Header/BasicHeader';
-import AlertModal from '../../Components/common/Modal/AlertModal';
-import isDesktop from '../../Recoil/isDesktop/isDesktop';
+import userToken from 'Recoil/userToken/userToken';
+import isLogin from 'Recoil/isLogin/isLogin';
+import accountName from 'Recoil/accountName/accountName';
+import BasicHeader from 'Components/common/Header/BasicHeader';
+import AlertModal from 'Components/common/Modal/AlertModal';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
 
 const Setting = () => {
   const navigate = useNavigate();

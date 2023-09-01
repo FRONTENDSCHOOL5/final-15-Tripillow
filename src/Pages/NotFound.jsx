@@ -1,7 +1,7 @@
 import React from 'react';
-import { Layout } from '../Styles/Layout';
-import Empty from '../Components/common/Empty';
-import NotFoundImg from '../Assets/404.png';
+import { Layout } from 'Styles/Layout';
+import Empty from 'Components/common/Empty';
+import NotFoundImg from 'Assets/404.png';
 
 const NotFound = () => {
   return (

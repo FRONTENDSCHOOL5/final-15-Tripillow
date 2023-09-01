@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import FollowAPI from '../Utils/FollowAPI';
-import UnFollowAPI from '../Utils/UnFollowAPI';
-import chatLists from '../Mock/chatLists';
-import accountName from '../Recoil/accountName/accountName';
-import { followerURL, followingURL } from '../Recoil/followPath/followPath';
+import FollowAPI from 'Api/Profile/FollowAPI';
+import UnFollowAPI from 'Api/Profile/UnFollowAPI';
+import chatLists from 'Mock/chatLists';
+import accountName from 'Recoil/accountName/accountName';
+import { followerURL, followingURL } from 'Recoil/followPath/followPath';
 
 const UseUserProfile = (props) => {
   const user = props;

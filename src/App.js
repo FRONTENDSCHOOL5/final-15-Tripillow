@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import AppRoutes from './Router/AppRoutes';
+import AppRoutes from 'Router/AppRoutes';
 import GlobalStyle from './GlobalStyle';
 
 function App() {

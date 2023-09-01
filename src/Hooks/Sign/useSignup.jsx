@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import SignupAPI from '../../Utils/SignupAPI';
-import EmailValidAPI from '../../Utils/EmailValidAPI';
+import SignupAPI from 'Api/Auth/SignupAPI';
+import EmailValidAPI from 'Api/Valid/EmailValidAPI';
 
 const UseSignup = () => {
   const navigate = useNavigate();

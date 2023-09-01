@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import profileImg from '../../Assets/profile-sm.png';
+import profileImg from 'Assets/profile-sm.png';
 import styled from 'styled-components';
-import more from '../../Assets/icons/icon-more-vertical.svg';
-import CommentModal from './CommentModal';
-import PostAlertModal from '../common/Modal/PostAlertModal';
-import accountname from '../../Recoil/accountName/accountName';
-import DeleteCommentAPI from '../../Utils/DeleteCommentAPI';
-import ReportCommentAPI from '../../Utils/ReportCommentAPI';
-import AlertTop from '../common/Modal/AlertTop';
-import isDesktop from '../../Recoil/isDesktop/isDesktop';
-import PCModal from '../common/Modal/PCModal';
-import PCAlertModal from '../common/Modal/PCAlertModal';
+import more from 'Assets/icons/icon-more-vertical.svg';
+import CommentModal from 'Components/Comment/CommentModal';
+import PostAlertModal from 'Components/common/Modal/PostAlertModal';
+import accountname from 'Recoil/accountName/accountName';
+import DeleteCommentAPI from 'Api/Post/DeleteCommentAPI';
+import ReportCommentAPI from 'Api/Post/ReportCommentAPI';
+import AlertTop from 'Components/common/Modal/AlertTop';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
+import PCModal from 'Components/common/Modal/PCModal';
+import PCAlertModal from 'Components/common/Modal/PCAlertModal';
 
 const Comment = ({ commentInfo, postId, setIsNewComment }) => {
   const name = useRecoilValue(accountname);

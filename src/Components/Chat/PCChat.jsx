@@ -1,8 +1,8 @@
 import React from 'react';
-import ChatList from './ChatList';
 import styled from 'styled-components';
-import { LayoutStyle } from '../../Styles/Layout';
-import ChatContent from './ChatContent';
+import ChatList from 'Components/Chat/ChatList';
+import { LayoutStyle } from 'Styles/Layout';
+import ChatContent from 'Components/Chat/ChatContent';
 
 const PCChat = () => {
   return (

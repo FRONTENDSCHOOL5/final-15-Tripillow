@@ -1,8 +1,8 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import topbutton from '../../Assets/icons/topbutton.svg';
-import isDesktop from '../../Recoil/isDesktop/isDesktop';
+import topbutton from 'Assets/icons/topbutton.svg';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
 
 const TopButton = () => {
   const isPCScreen = useRecoilValue(isDesktop);
