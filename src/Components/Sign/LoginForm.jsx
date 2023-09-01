@@ -22,23 +22,22 @@ const LoginForm = () => {
   const { state } = useLocation();
   const [warnMSG, setWarnMSG] = useState('');
 
-  const handleSnackbar = () => {
-    if (!!state) {
-      setWarnMSG(state);
-      setTimeout(() => {
-        setWarnMSG('');
-      }, 2500);
-    }
-  };
-
   useEffect(() => {
+    const handleSnackbar = () => {
+      if (!!state) {
+        setWarnMSG(state);
+        setTimeout(() => {
+          setWarnMSG('');
+        }, 2500);
+      }
+    };
+
     handleSnackbar();
 
     if (!!state) {
       navigate('/login', { replace: true });
     }
-    //eslint-disable-next-line
-  }, [state]);
+  }, [state, navigate]);
 
   return (
     <Layout onSubmit={handleFormSubmit} $isPCScreen={isPCScreen}>

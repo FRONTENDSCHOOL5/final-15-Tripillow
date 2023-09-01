@@ -26,13 +26,13 @@ const Followers = () => {
 
   useEffect(() => {
     const handleFetch = async () => {
-      if (pathIdentifier[last] === 'followers') {
+      if (location.pathname.endsWith('followers')) {
         const follower = await fetchFollower();
         if (follower) {
           setFollowerData(follower);
           setPageTitle('Pillowers');
         }
-      } else if (pathIdentifier[last] === 'followings') {
+      } else if (location.pathname.endsWith('followings')) {
         const following = await fetchFollowing();
         if (following) {
           setFollowingData(following);
@@ -42,8 +42,7 @@ const Followers = () => {
     };
 
     handleFetch();
-    //eslint-disable-next-line
-  }, [accountname]);
+  }, [accountname, location.pathname, fetchFollower, fetchFollowing]);
 
   return (
     <Layout>

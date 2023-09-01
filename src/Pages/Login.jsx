@@ -13,8 +13,7 @@ const Login = () => {
 
   useEffect(() => {
     if (isLoginState) navigate('/home');
-    //eslint-disable-next-line
-  }, []);
+  }, [isLoginState, navigate]);
 
   return isPCScreen ? <PCSign /> : <LoginForm />;
 };
