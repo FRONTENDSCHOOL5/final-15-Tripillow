@@ -72,7 +72,7 @@ const PCNavBar = (props) => {
                 }
               }}
             >
-              <Icon src={isClicked === el.name ? el.imgfill : el.img} />
+              <Icon src={isClicked === el.name ? el.imgfill : el.img} alt={el.name} />
               <IconInfo setColor={isClicked === el.name}>{el.name}</IconInfo>
             </Button>
           );
@@ -102,7 +102,7 @@ const PCNavBar = (props) => {
   );
 };
 
-const Layout = styled.div`
+const Layout = styled.nav`
   width: 335px;
   height: 100%;
   padding-top: 46px;
