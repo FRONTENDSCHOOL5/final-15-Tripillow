@@ -1,38 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil';
-import accountName from 'Recoil/accountName/accountName';
-import FollowingListAPI from 'Api/Profile/FollowingListAPI';
 import MyInfoAPI from 'Api/Profile/MyInfoAPI';
 import FollowUser from 'Components/common/FollowUser';
+import UseFollowing from 'Hooks/useFollowing';
 
 const MyPillowings = (props) => {
-  const accountname = useRecoilValue(accountName);
-  const { fetchFollowing } = FollowingListAPI(accountname);
+  const { followingData } = UseFollowing();
   const { getUserData } = MyInfoAPI();
-  const [myFollowing, setMyFollowing] = useState([]);
   const [user, setUser] = useState();
 
   useEffect(() => {
     const getData = async () => {
-      const followingData = await fetchFollowing();
       const userData = await getUserData();
-      followingData && setMyFollowing(followingData.slice(0, 5));
       userData && setUser(userData);
     };
 
     getData();
-    //eslint-disable-next-line
-  }, []);
+  }, [getUserData]);
 
   return (
     <>
       <Layout {...props}>
         <h2>My Pillowings</h2>
         <div>
-          {myFollowing &&
-            myFollowing.map((user, idx) => <FollowUser followers key={idx} user={user} margin='24px 0 0 0' />)}
+          {followingData &&
+            followingData
+              .slice(0, 5)
+              .map((user, idx) => <FollowUser followers key={idx} user={user} margin='24px 0 0 0' />)}
         </div>
         <PillowingsMore to='/profile/followings' state={user}>
           pillowers 더 보러가기
