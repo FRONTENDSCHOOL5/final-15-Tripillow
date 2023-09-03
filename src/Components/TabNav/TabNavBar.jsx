@@ -51,7 +51,6 @@ const TabNavBar = (props) => {
     const icon = icons.find((el) => el.path === location.pathname);
     icon && setIsClicked(icon.name);
     setIsSearch(false);
-    console.log('useEffect 호출');
   }, [location, icons]);
 
 
