@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 
-import logo from 'Assets/logo.png';
+import PCLogo from 'Assets/logo.png';
+import TabLogo from 'Assets/character.svg';
 import home from 'Assets/icons/icon-home.svg';
 import post from 'Assets/icons/icon-edit.svg';
 import profile from 'Assets/icons/icon-user.svg';
@@ -18,12 +19,17 @@ import productfill from 'Assets/icons/icon-shop-fill.svg';
 import chatfill from 'Assets/icons/icon-message-circle-fill.svg';
 import postfill from 'Assets/icons/icon-edit-fill.svg';
 import searchfill from 'Assets/icons/icon-search-fill.svg';
-import PCNavbarModal from 'Components/common/Modal/PCNavbarModal';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
+import isTab from 'Recoil/isTab/isTab';
+import SideNavBarModal from 'Components/common/Modal/SideNavBarModal';
 import PCAlertModal from 'Components/common/Modal/PCAlertModal';
 import Search from 'Pages/Search';
+import { useRecoilValue } from 'recoil';
 
-const PCNavBar = (props) => {
+const SideNavBar = (props) => {
   const navigate = useNavigate();
+  const isPCScreen = useRecoilValue(isDesktop);
+  const isTabScreen = useRecoilValue(isTab);
   const location = useLocation();
   const [isClicked, setIsClicked] = useState('');
   const [isSearch, setIsSearch] = useState(false);
@@ -52,13 +58,15 @@ const PCNavBar = (props) => {
 
   return (
     <>
-      <Layout>
+      <Layout isPCScreen={isPCScreen}>
         <MainButton
           onClick={() => {
             navigate('/home');
           }}
+          isPCScreen={isPCScreen}
         >
-          <img src={logo} alt='logo' style={{ width: '80%' }} />
+          {isPCScreen && <img src={PCLogo} alt='logo' style={{ width: '80%' }} />}
+          {isTabScreen && <img src={TabLogo} alt='logo' />}
         </MainButton>
         {icons.map((el, i) => {
           return (
@@ -71,21 +79,22 @@ const PCNavBar = (props) => {
                   navigate(el.path);
                 }
               }}
+              isPCScreen={isPCScreen}
             >
-              <Icon src={isClicked === el.name ? el.imgfill : el.img} />
-              <IconInfo setColor={isClicked === el.name}>{el.name}</IconInfo>
+              <Icon src={isClicked === el.name ? el.imgfill : el.img} isPCScreen={isPCScreen} />
+              {isPCScreen && <IconInfo setColor={isClicked === el.name}>{el.name}</IconInfo>}
             </Button>
           );
         })}
         <MoreLayout>
-          <More onClick={handleMoreClick} id='PCNavModal'>
-            <img src={menu} alt='menu' /> 더보기
+          <More onClick={handleMoreClick} id='PCNavModal' isPCScreen={isPCScreen}>
+            <img src={menu} alt='menu' /> {isPCScreen && '더보기'}
           </More>
         </MoreLayout>
       </Layout>
       {isModalOn &&
         createPortal(
-          <PCNavbarModal setIsModalOn={setIsModalOn} setIsAlertModalOn={setIsAlertModalOn}></PCNavbarModal>,
+          <SideNavBarModal setIsModalOn={setIsModalOn} setIsAlertModalOn={setIsAlertModalOn}></SideNavBarModal>,
           $Root,
         )}
       {isAlertModalOn &&
@@ -103,30 +112,61 @@ const PCNavBar = (props) => {
 };
 
 const Layout = styled.div`
-  width: 335px;
-  height: 100%;
-  padding-top: 46px;
-  position: absolute;
-  background-color: #fff;
-  box-shadow: 2px 0px 8px 0px rgba(0, 0, 0, 0.05);
-  box-sizing: border-box;
-  position: fixed;
-  overflow: auto;
+  ${(props) =>
+    props.isPCScreen
+      ? css`
+          width: 335px;
+          height: 100%;
+          padding-top: 46px;
+          position: absolute;
+          background-color: #fff;
+          box-shadow: 2px 0px 8px 0px rgba(0, 0, 0, 0.05);
+          box-sizing: border-box;
+          position: fixed;
+          overflow: auto;
+        `
+      : css`
+          width: 80px;
+          height: 100%;
+          padding-top: 46px;
+          position: absolute;
+          top: 0;
+          left: 0;
+          background-color: #fff;
+          box-shadow: 2px 0px 8px 0px rgba(0, 0, 0, 0.05);
+          box-sizing: border-box;
+          position: fixed;
+          overflow: auto;
+        `}
 `;
 
 const MainButton = styled.button`
   display: flex;
-  width: 221px;
   margin: 0 auto 30px;
+  width: ${(props) => (props.isPCScreen ? '221px' : 'undefined')};
 `;
+
+// const Logo = styled.img`
+//   ${(props) =>
+//     props.isPCScreen &&
+//     css`
+//       width: 80%;
+//     `}
+// `;
 
 const Button = styled.button`
   display: flex;
   align-items: center;
-  width: 280px;
   height: 50px;
-  padding: 10px 30px;
+  padding: 10px 20px;
   margin: 0 auto 10px;
+
+  ${(props) =>
+    props.isPCScreen &&
+    css`
+      width: 280px;
+      padding: 10px 30px;
+    `}
 
   &:last-of-type {
     margin: 0 auto 70px;
@@ -146,7 +186,11 @@ const Button = styled.button`
 const Icon = styled.img`
   width: 24px;
   height: 24px;
-  margin-right: 39px;
+  ${(props) =>
+    props.isPCScreen &&
+    css`
+      margin-right: 39px;
+    `}
 `;
 
 const IconInfo = styled.span`
@@ -169,16 +213,26 @@ const More = styled.button`
   display: flex;
   color: ${(props) => (props.setColor ? 'var(--primary)' : 'var(--dark-gray)')};
   align-items: center;
-  gap: 35px;
-  width: 280px;
+
   height: 50px;
   margin: 0 auto;
-  padding: 0 30px;
+  padding: 10px 20px;
   background-color: #fff;
   font-size: var(--md);
   cursor: pointer;
+
+  ${(props) =>
+    props.isPCScreen &&
+    css`
+      gap: 35px;
+      width: 280px;
+      padding: 10px 30px;
+    `}
+
   img {
     width: 30px;
+    align-items: center;
+    justify-content: center;
   }
 
   &:hover {
@@ -192,4 +246,4 @@ const More = styled.button`
   }
 `;
 
-export default PCNavBar;
+export default SideNavBar;

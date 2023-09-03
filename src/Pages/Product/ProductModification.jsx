@@ -4,7 +4,7 @@ import throttle from 'lodash.throttle';
 import Toggle from 'Components/common/Toggle';
 import styled from 'styled-components';
 import Navbar from 'Components/common/Navbar';
-import TabNavBar from 'Components/TabNav/TabNavBar';
+// import TabNavBar from 'Components/TabNav/TabNavBar';
 import Input from 'Components/common/Input';
 import URL from 'Api/URL';
 import ImageUploadAPI from 'Api/Upload/ImageUploadAPI';
@@ -105,7 +105,7 @@ const ProductModification = () => {
 
   return (
     <Layout $isPCScreen={isPCScreen}>
-      {isTabScreen && <TabNavBar />}
+      {/* {isTabScreen && <TabNavBar />} */}
       {!isPCScreen && (
         <UploadHeader type='submit' onClick={throttledHandleSubmit}>
           저장

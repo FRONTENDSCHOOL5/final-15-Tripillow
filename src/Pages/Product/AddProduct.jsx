@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import imageCompression from 'browser-image-compression';
 import Toggle from 'Components/common/Toggle';
 import Navbar from 'Components/common/Navbar';
-import TabNavBar from 'Components/TabNav/TabNavBar';
+// import TabNavBar from 'Components/TabNav/TabNavBar';
 import Input from 'Components/common/Input';
 import { LayoutStyle } from 'Styles/Layout';
 import UploadHeader from 'Components/common/Header/UploadHeader';
@@ -109,7 +109,7 @@ const AddProduct = (props) => {
 
   return (
     <Layout $isPCScreen={isPCScreen}>
-      {isTabScreen && <TabNavBar />}
+      {/* {isTabScreen && <TabNavBar />} */}
       <h1 className='a11y-hidden'>상품 등록 페이지</h1>
       {!isPCScreen && !isTabScreen && (
         <UploadHeader onClick={throttledHandleSubmit} disabled={!imageLink || !productName || !price || !description}>

@@ -18,7 +18,7 @@ import isDesktop from 'Recoil/isDesktop/isDesktop';
 import isTab from 'Recoil/isTab/isTab';
 import { isProduct } from 'Recoil/productCategory/productCategory';
 import MyPillowings from 'Components/Home/MyPillowings';
-import TabNavBar from 'Components/TabNav/TabNavBar';
+// import TabNavBar from 'Components/TabNav/TabNavBar';
 
 const Product = () => {
   const navigate = useNavigate();
@@ -91,7 +91,7 @@ const Product = () => {
 
   return (
     <StyledLayout $isPCScreen={isPCScreen}>
-      {isTabScreen && <TabNavBar />}
+      {/* {isTabScreen && <TabNavBar />} */}
       {!isPCScreen && (
         <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='확인'>
           Pillower의 판매상품

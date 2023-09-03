@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import AppRoutes from 'Router/AppRoutes';
 import GlobalStyle from './GlobalStyle';
+import useCheckDevice from './Components/PCNav/useCheckDevice';
 
 function App() {
   const setScreenSize = () => {
@@ -9,6 +10,8 @@ function App() {
     document.documentElement.style.setProperty('--vh', `${vh}px`);
   };
   const queryClient = new QueryClient();
+
+  useCheckDevice();
 
   useEffect(() => {
     setScreenSize();

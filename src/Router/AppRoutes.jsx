@@ -20,11 +20,14 @@ import PostModification from 'Pages/Post/PostModification';
 import ProtectRoute from 'Utils/ProtectRoute/ProtectRoute';
 import Setting from 'Pages/Profile/Setting';
 import Landing from 'Pages/Landing';
-import PCNavBar from 'Components/PCNav/PCNavBar';
+import SideNavBar from 'Components/PCNav/SideNavBar';
 import isDesktop from 'Recoil/isDesktop/isDesktop';
+import isTab from 'Recoil/isTab/isTab';
+// import TabNavBar from 'Components/TabNav/TabNavBar';
 
 const AppRoutes = () => {
   const isPCScreen = useRecoilValue(isDesktop);
+  const isTabScreen = useRecoilValue(isTab);
 
   return (
     <Routes>
@@ -34,7 +37,8 @@ const AppRoutes = () => {
       <Route
         element={
           <ProtectRoute>
-            {isPCScreen && <PCNavBar />}
+            {/* {isPCScreen ? <SideNavBar /> : isTabScreen && <TabNavBar></TabNavBar>} */}
+            {(isPCScreen || isTabScreen) && <SideNavBar />}
             <Outlet />
           </ProtectRoute>
         }

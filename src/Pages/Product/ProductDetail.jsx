@@ -19,7 +19,7 @@ import MyPillowings from 'Components/Home/MyPillowings';
 import PCModal from 'Components/common/Modal/PCModal';
 import ProductDeleteAPI from 'Api/Product/ProductDeleteAPI';
 import PCAlertModal from 'Components/common/Modal/PCAlertModal';
-import TabNavBar from 'Components/TabNav/TabNavBar';
+// import TabNavBar from 'Components/TabNav/TabNavBar';
 
 const ProductDetail = () => {
   const [productId, setProductId] = useState('');
@@ -102,7 +102,7 @@ const ProductDetail = () => {
     <>
       {productDetail && (
         <Layout $isPCScreen={isPCScreen}>
-          {isTabScreen && <TabNavBar />}
+          {/* {isTabScreen && <TabNavBar />} */}
 
           {!isPCScreen && !isTabScreen && (
             <BasicHeader
