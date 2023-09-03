@@ -30,8 +30,7 @@ const Profile = () => {
     if (!!state) {
       navigate(pathname, { replace: true });
     }
-    //eslint-disable-next-line
-  }, [state]);
+  }, [state, pathname, navigate]);
 
   return (
     <Layout $isPCScreen={isPCScreen}>
