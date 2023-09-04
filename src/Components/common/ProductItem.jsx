@@ -21,7 +21,7 @@ const ProductItem = (props) => {
   return (
     <>
       <ProductLayout to={`/product/detail/${product?.id}`}>
-        <ButtonLayout>
+        <ButtonLayout aria-label={product?.itemName}>
           <ProductImgLayout>
             <ProductImg src={productImgValidation} alt={product?.itemName} />
           </ProductImgLayout>

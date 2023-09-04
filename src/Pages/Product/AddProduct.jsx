@@ -118,7 +118,7 @@ const AddProduct = (props) => {
       )}
       <AddProductContent>
         <Label htmlFor='file-upload'>
-          <Image src={imageLink || defaultImage} />
+          <Image src={imageLink || defaultImage} alt='상품 이미지' />
         </Label>
         <input id='file-upload' className='a11y-hidden' onChange={handleImgChange} type='file' />
         <CategoryTxt>카테고리</CategoryTxt>
