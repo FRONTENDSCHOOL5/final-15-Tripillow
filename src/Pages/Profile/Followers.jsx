@@ -10,7 +10,7 @@ import FollowerListAPI from 'Api/Profile/FollowerListAPI';
 import FollowingListAPI from 'Api/Profile/FollowingListAPI';
 import isDesktop from 'Recoil/isDesktop/isDesktop';
 import MyPillowings from 'Components/Home/MyPillowings';
-import useIsWideView from 'Components/PCNav/useIsWideView';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const Followers = () => {
   const location = useLocation();

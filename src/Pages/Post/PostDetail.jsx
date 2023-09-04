@@ -12,7 +12,7 @@ import HomePostLayout from 'Components/HomePost/HomePostLayout';
 import MyInfoAPI from 'Api/Profile/MyInfoAPI';
 import MyPillowings from 'Components/Home/MyPillowings';
 import isDesktop from 'Recoil/isDesktop/isDesktop';
-import useIsWideView from 'Components/PCNav/useIsWideView';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const PostDetail = () => {
   const { id } = useParams();

@@ -53,7 +53,6 @@ const TabNavBar = (props) => {
     setIsSearch(false);
   }, [location, icons]);
 
-
   return (
     <>
       <Layout>

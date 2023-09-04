@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import topbutton from 'Assets/icons/topbutton.svg';
-import useIsWideView from 'Components/PCNav/useIsWideView';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const TopButton = () => {
   const isWideView = useIsWideView();

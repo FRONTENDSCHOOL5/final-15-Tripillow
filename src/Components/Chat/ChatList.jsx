@@ -5,7 +5,7 @@ import Navbar from 'Components/common/Navbar';
 import ChatUser from 'Components/Chat/ChatUser';
 import useFollowing from 'Hooks/useFollowing';
 import { LayoutStyle } from 'Styles/Layout';
-import useIsWideView from 'Components/PCNav/useIsWideView';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const ChatList = () => {
   const isWideView = useIsWideView();

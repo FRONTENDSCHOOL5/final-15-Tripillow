@@ -10,7 +10,7 @@ import Navbar from 'Components/common/Navbar';
 import User from 'Components/common/User';
 import UserSkeleton from 'Components/common/Skeleton/UserSkeleton';
 import isDesktop from 'Recoil/isDesktop/isDesktop';
-import useIsWideView from 'Components/PCNav/useIsWideView';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const Search = ({ setIsSearch, setIsClicked }) => {
   const token = useRecoilValue(userToken);

@@ -17,7 +17,7 @@ import CompressedImageUploadAPI from 'Api/Upload/CompressedImageUploadAPI';
 import isDesktop from 'Recoil/isDesktop/isDesktop';
 import Button from 'Components/common/Button';
 import MyPillowings from 'Components/Home/MyPillowings';
-import useIsWideView from 'Components/PCNav/useIsWideView';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const PostModification = () => {
   const navigate = useNavigate();

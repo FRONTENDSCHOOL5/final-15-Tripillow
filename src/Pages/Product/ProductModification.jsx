@@ -16,7 +16,7 @@ import { LayoutStyle } from 'Styles/Layout';
 import isDesktop from 'Recoil/isDesktop/isDesktop';
 import Button from 'Components/common/Button';
 import MyPillowings from 'Components/Home/MyPillowings';
-import useIsWideView from 'Components/PCNav/useIsWideView';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const ProductModification = () => {
   const navigate = useNavigate();

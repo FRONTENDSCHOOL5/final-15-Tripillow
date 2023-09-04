@@ -18,7 +18,7 @@ import MyPillowings from 'Components/Home/MyPillowings';
 import PCModal from 'Components/common/Modal/PCModal';
 import ProductDeleteAPI from 'Api/Product/ProductDeleteAPI';
 import PCAlertModal from 'Components/common/Modal/PCAlertModal';
-import useIsWideView from 'Components/PCNav/useIsWideView';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const ProductDetail = () => {
   const [productId, setProductId] = useState('');

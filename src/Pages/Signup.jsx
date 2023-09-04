@@ -5,7 +5,7 @@ import isDesktop from 'Recoil/isDesktop/isDesktop';
 import isLogin from 'Recoil/isLogin/isLogin';
 import SignupForm from 'Components/Sign/SignupForm';
 import PCSign from 'Components/Sign/PCSign';
-import useIsWideView from 'Components/PCNav/useIsWideView';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const Signup = () => {
   const navigate = useNavigate();

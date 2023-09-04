@@ -1,7 +1,7 @@
 import React from 'react';
 import PCChat from 'Components/Chat/PCChat';
 import ChatContent from 'Components/Chat/ChatContent';
-import useIsWideView from 'Components/PCNav/useIsWideView';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const ChatDetail = () => {
   const isWideView = useIsWideView();

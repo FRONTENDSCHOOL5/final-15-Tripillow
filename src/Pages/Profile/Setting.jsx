@@ -8,7 +8,7 @@ import isLogin from 'Recoil/isLogin/isLogin';
 import accountName from 'Recoil/accountName/accountName';
 import BasicHeader from 'Components/common/Header/BasicHeader';
 import AlertModal from 'Components/common/Modal/AlertModal';
-import useIsWideView from 'Components/PCNav/useIsWideView';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const Setting = () => {
   const navigate = useNavigate();

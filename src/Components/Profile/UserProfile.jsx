@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import AlertTop from 'Components/common/Modal/AlertTop';
 import MobileUser from 'Components/Profile/MobileUser';
 import PCUser from 'Components/Profile/PCUser';
-import useIsWideView from 'Components/PCNav/useIsWideView';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const UserProfile = (props) => {
   const isWideView = useIsWideView();

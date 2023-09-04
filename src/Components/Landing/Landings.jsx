@@ -7,7 +7,7 @@ import tripillowCharacter from 'Assets/tripillowCharacter.gif';
 import { FadeIn, logoFadeIn, PCBackFadeout } from 'Styles/LandingAnimation';
 import PCTripillow from 'Components/Landing/PCTripillow';
 import Logo from 'Assets/logo.png';
-import useIsWideView from 'Components/PCNav/useIsWideView';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const Landings = () => {
   const isWideView = useIsWideView();

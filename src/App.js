@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import AppRoutes from 'Router/AppRoutes';
 import GlobalStyle from './GlobalStyle';
-import useCheckDevice from './Components/PCNav/useCheckDevice';
+import useCheckDevice from './Components/SideNav/useCheckDevice';
 
 function App() {
   const setScreenSize = () => {

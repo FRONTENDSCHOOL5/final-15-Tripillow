@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import profileImg from 'Assets/profile-sm.png';
 import isDesktop from 'Recoil/isDesktop/isDesktop';
 import PostCommentAPI from 'Api/Post/PostCommentAPI';
-import useIsWideView from 'Components/PCNav/useIsWideView';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 export default function PostComment({ postId, setIsNewComment, userImg }) {
   const [userInput, setUserInput] = useState('');

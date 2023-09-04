@@ -7,7 +7,7 @@ import ErrorMSG from 'Styles/ErrorMSG';
 import useSignup from 'Hooks/Sign/useSignup';
 import { formFadeIn } from 'Styles/SignAnimation';
 import { uploadFile } from 'Utils/uploadFile';
-import useIsWideView from 'Components/PCNav/useIsWideView';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 import profileImg from 'Assets/profile-lg.png';
 import uploadfile from 'Assets/icons/upload-file.svg';
 

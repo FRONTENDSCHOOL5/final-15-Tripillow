@@ -15,7 +15,7 @@ import isDesktop from 'Recoil/isDesktop/isDesktop';
 import Button from 'Components/common/Button';
 import MyPillowings from 'Components/Home/MyPillowings';
 import { uploadFile } from 'Utils/uploadFile';
-import useIsWideView from 'Components/PCNav/useIsWideView';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const UserProfileSetting = () => {
   const navigate = useNavigate();

@@ -9,7 +9,7 @@ import AlertTop from 'Components/common/Modal/AlertTop';
 import isDesktop from 'Recoil/isDesktop/isDesktop';
 import MyPillowings from 'Components/Home/MyPillowings';
 import ProfileMain from 'Components/Profile/ProfileMain';
-import useIsWideView from 'Components/PCNav/useIsWideView';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const Profile = () => {
   const navigate = useNavigate();

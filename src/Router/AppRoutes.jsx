@@ -19,8 +19,8 @@ import PostModification from 'Pages/Post/PostModification';
 import ProtectRoute from 'Utils/ProtectRoute/ProtectRoute';
 import Setting from 'Pages/Profile/Setting';
 import Landing from 'Pages/Landing';
-import SideNavBar from 'Components/PCNav/SideNavBar';
-import useIsWideView from 'Components/PCNav/useIsWideView';
+import SideNavBar from 'Components/SideNav/SideNavBar';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const AppRoutes = () => {
   const isWideView = useIsWideView();

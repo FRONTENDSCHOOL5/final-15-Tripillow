@@ -6,7 +6,7 @@ import { LayoutStyle } from 'Styles/Layout';
 import BasicHeader from 'Components/common/Header/BasicHeader';
 import profileSm from 'Assets/profile-sm.png';
 import tripillow from 'Assets/logo-primary.png';
-import useIsWideView from 'Components/PCNav/useIsWideView';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const ChatContent = () => {
   const location = useLocation();

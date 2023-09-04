@@ -19,7 +19,7 @@ import isTab from 'Recoil/isTab/isTab';
 import Button from 'Components/common/Button';
 import MyPillowings from 'Components/Home/MyPillowings';
 import { validateImageFileFormat } from 'Utils/validate';
-import useIsWideView from 'Components/PCNav/useIsWideView';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const AddProduct = (props) => {
   const navigate = useNavigate();

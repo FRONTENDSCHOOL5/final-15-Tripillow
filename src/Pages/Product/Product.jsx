@@ -17,7 +17,7 @@ import userToken from 'Recoil/userToken/userToken';
 import isDesktop from 'Recoil/isDesktop/isDesktop';
 import { isProduct } from 'Recoil/productCategory/productCategory';
 import MyPillowings from 'Components/Home/MyPillowings';
-import useIsWideView from 'Components/PCNav/useIsWideView';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const Product = () => {
   const navigate = useNavigate();

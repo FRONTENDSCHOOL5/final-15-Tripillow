@@ -18,7 +18,7 @@ import AlertTop from 'Components/common/Modal/AlertTop';
 import PCModal from 'Components/common/Modal/PCModal';
 import PCAlertModal from 'Components/common/Modal/PCAlertModal';
 import DeletePostAPI from 'Api/Post/DeletePostAPI';
-import useIsWideView from 'Components/PCNav/useIsWideView';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const HomePostLayout = (props) => {
   const navigate = useNavigate();

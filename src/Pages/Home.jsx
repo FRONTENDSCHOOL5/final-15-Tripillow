@@ -16,7 +16,7 @@ import Spinner from 'Components/common/Spinner';
 import Empty from 'Components/common/Empty';
 import logo from 'Assets/logo-gray.png';
 import MyPillowings from 'Components/Home/MyPillowings';
-import useIsWideView from 'Components/PCNav/useIsWideView';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 import isDesktop from 'Recoil/isDesktop/isDesktop';
 
 const Home = () => {

@@ -8,7 +8,7 @@ import useLogin from 'Hooks/Sign/useLogin';
 import { formFadeIn } from 'Styles/SignAnimation';
 import PCToast from 'Components/common/Modal/PCToast';
 import AlertTop from 'Components/common/Modal/AlertTop';
-import useIsWideView from 'Components/PCNav/useIsWideView';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 import Kakao from 'Assets/pc_kakaotalk.png';
 import Google from 'Assets/icons/google.svg';
 import face from 'Assets/icons/pc_facebook.svg';

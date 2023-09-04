@@ -17,7 +17,7 @@ import Button from 'Components/common/Button';
 import MyPillowings from 'Components/Home/MyPillowings';
 import isDesktop from 'Recoil/isDesktop/isDesktop';
 
-import useIsWideView from 'Components/PCNav/useIsWideView';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 export default function Post() {
   const navigate = useNavigate();

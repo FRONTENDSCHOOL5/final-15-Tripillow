@@ -12,7 +12,7 @@ import ReportCommentAPI from 'Api/Post/ReportCommentAPI';
 import AlertTop from 'Components/common/Modal/AlertTop';
 import PCModal from 'Components/common/Modal/PCModal';
 import PCAlertModal from 'Components/common/Modal/PCAlertModal';
-import useIsWideView from 'Components/PCNav/useIsWideView';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const Comment = ({ commentInfo, postId, setIsNewComment }) => {
   const name = useRecoilValue(accountname);

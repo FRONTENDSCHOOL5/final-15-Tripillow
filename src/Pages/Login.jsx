@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 import isLogin from 'Recoil/isLogin/isLogin';
 import PCSign from 'Components/Sign/PCSign.jsx';
 import LoginForm from 'Components/Sign/LoginForm';
-import useIsWideView from 'Components/PCNav/useIsWideView';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const Login = () => {
   const navigate = useNavigate();
