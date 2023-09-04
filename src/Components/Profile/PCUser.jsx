@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import CommonButton from 'Components/common/Button';
-import { UserProfileLayout, ImgLayout, ShareIconStyle } from 'Components/Profile/UserStyle';
+import { UserProfileLayout, ImgLayout, ShareIconStyle } from 'Styles/UserStyle';
 import UseUserProfile from 'Hooks/useUserProfile';
 import ProfileImg from 'Assets/profile-lg.png';
 

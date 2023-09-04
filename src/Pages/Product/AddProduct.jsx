@@ -21,7 +21,7 @@ import MyPillowings from 'Components/Home/MyPillowings';
 import { validateImageFileFormat } from 'Utils/validate';
 import useIsWideView from 'Components/SideNav/useIsWideView';
 
-const AddProduct = (props) => {
+const AddProduct = () => {
   const navigate = useNavigate();
   const isPCScreen = useRecoilValue(isDesktop);
   const isTabScreen = useRecoilValue(isTab);
