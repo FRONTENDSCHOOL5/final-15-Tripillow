@@ -66,7 +66,11 @@ const PCNavBar = (props) => {
               key={i}
               onClick={() => {
                 setIsClicked(el.name);
-                if (el.name === 'Search') setIsSearch(true);
+                if (el.name === 'Search') {
+                  const path = location.pathname;
+                  setIsSearch((prev) => !prev);
+                  if (isSearch === true) setIsClicked(path.slice(1).charAt(0).toUpperCase() + path.slice(2));
+                }
                 if (el.path) {
                   navigate(el.path);
                 }
