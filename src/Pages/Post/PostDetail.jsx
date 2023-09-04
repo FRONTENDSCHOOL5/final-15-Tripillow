@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { LayoutStyle } from 'Styles/Layout';
+import { useRecoilValue } from 'recoil';
 import Comment from 'Components/Comment/Comment';
 import PostComment from 'Components/common/PostComment';
 import BasicHeader from 'Components/common/Header/BasicHeader';
@@ -10,12 +10,14 @@ import PostDetailAPI from 'Api/Post/PostDetailAPI';
 import GetNumerousCommentAPI from 'Api/Post/GetNumerousCommentAPI';
 import HomePostLayout from 'Components/HomePost/HomePostLayout';
 import MyInfoAPI from 'Api/Profile/MyInfoAPI';
-import isDesktop from 'Recoil/isDesktop/isDesktop';
 import MyPillowings from 'Components/Home/MyPillowings';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const PostDetail = () => {
   const { id } = useParams();
   const postId = id;
+  const isWideView = useIsWideView();
   const isPCScreen = useRecoilValue(isDesktop);
   const [myInfo, setMyInfo] = useState({});
   const [postInfo, setPostInfo] = useState({});
@@ -80,8 +82,8 @@ const PostDetail = () => {
   };
 
   return (
-    <Layout $isPCScreen={isPCScreen}>
-      {!isPCScreen && (
+    <Layout $isWideView={isWideView}>
+      {!isWideView && (
         <BasicHeader
           btn1='설정 및 개인정보'
           btn2='로그아웃'
@@ -104,7 +106,7 @@ const PostDetail = () => {
         </CommentLayout>
       </main>
       <PostComment setIsNewComment={setIsNewComment} postId={postId} userImg={myInfo.image}></PostComment>
-      {isPCScreen && <MyPillowings $on={isPCScreen} />}
+      <MyPillowings $on={isPCScreen} />
     </Layout>
   );
 };

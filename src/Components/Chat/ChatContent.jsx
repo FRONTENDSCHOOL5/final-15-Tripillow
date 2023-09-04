@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styled, { css } from 'styled-components';
-import { useRecoilValue } from 'recoil';
 import MyInfoAPI from 'Api/Profile/MyInfoAPI';
 import { LayoutStyle } from 'Styles/Layout';
 import BasicHeader from 'Components/common/Header/BasicHeader';
-import isDesktop from 'Recoil/isDesktop/isDesktop';
 import profileSm from 'Assets/profile-sm.png';
 import tripillow from 'Assets/logo-primary.png';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const ChatContent = () => {
   const location = useLocation();
@@ -15,7 +14,8 @@ const ChatContent = () => {
   const randomMessage = location.state?.randomMessage;
   const userImg = location.state?.userImg;
   const account = location.state?.account;
-  const isPCScreen = useRecoilValue(isDesktop);
+  const isWideView = useIsWideView();
+
   const [inputValue, setInputValue] = useState('');
   const [chatValue, setChatValue] = useState([]);
   const [myInfo, setMyInfo] = useState({});
@@ -59,7 +59,7 @@ const ChatContent = () => {
   const minutes = now.getMinutes().toString().padStart(2, '0');
 
   return (
-    <ChatLayout $isPCScreen={isPCScreen} $index={!username}>
+    <ChatLayout $isWideView={isWideView} $index={!username}>
       {!username ? <h1 className='a11y-hidden'>채팅 상세</h1> : <h2 className='a11y-hidden'>채팅 상세</h2>}
       {!username ? (
         <IndexLayout>
@@ -70,7 +70,7 @@ const ChatContent = () => {
         </IndexLayout>
       ) : (
         <>
-          {!isPCScreen && (
+          {!isWideView && (
             <BasicHeader btn1='신고하기' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='확인' isChat>
               {username}
             </BasicHeader>
@@ -93,7 +93,7 @@ const ChatContent = () => {
               </ChatDetail>
             </ChatContentLayout>
           ))}
-          <ChatInputBar $isPCScreen={isPCScreen}>
+          <ChatInputBar $isWideView={isWideView}>
             <UserImageLayout to={`/profile`}>
               <UserImage src={myInfo.image || profileSm} alt='프로필 이미지' />
             </UserImageLayout>
@@ -124,7 +124,7 @@ const ChatLayout = styled.div`
   padding-right: 16px;
 
   ${(props) =>
-    props.$isPCScreen &&
+    props.$isWideView &&
     css`
       max-width: 100%;
       padding: 0px 16px 100px;
@@ -189,7 +189,7 @@ const ChatInputBar = styled.div`
   border-top: 0.5px solid var(--light-gray);
 
   ${(props) =>
-    props.$isPCScreen &&
+    props.$isWideView &&
     css`
       width: 100%;
       position: absolute;

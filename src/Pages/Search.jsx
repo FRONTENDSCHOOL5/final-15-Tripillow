@@ -10,10 +10,13 @@ import Navbar from 'Components/common/Navbar';
 import User from 'Components/common/User';
 import UserSkeleton from 'Components/common/Skeleton/UserSkeleton';
 import isDesktop from 'Recoil/isDesktop/isDesktop';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const Search = ({ setIsSearch, setIsClicked }) => {
   const token = useRecoilValue(userToken);
   const isPCScreen = useRecoilValue(isDesktop);
+  const isWideView = useIsWideView();
+
   const location = useLocation();
 
   const [searchKeyword, setSearchKeyword] = useState('');
@@ -129,8 +132,8 @@ const Search = ({ setIsSearch, setIsClicked }) => {
   );
   return (
     <>
-      {isPCScreen ? (
-        <PCBackground onClick={closeModal}>
+      {isWideView ? (
+        <PCBackground onClick={closeModal} isPCScreen={isPCScreen}>
           <PCSearchLayout onClick={(e) => e.stopPropagation()}>
             <SearchInput value={searchKeyword} onChange={handleSearchKeyword} />
             <SearchContent />
@@ -165,7 +168,7 @@ const PCBackground = styled.div`
   position: fixed;
   width: 100%;
   height: 100%;
-  left: 349px;
+  left: ${(props) => (props.isPCScreen ? '349px' : '83px')};
   z-index: 50;
 `;
 

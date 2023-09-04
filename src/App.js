@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import AppRoutes from 'Router/AppRoutes';
 import GlobalStyle from './GlobalStyle';
-import useIsDesktop from 'Components/PCNav/useIsDesktop';
+import useCheckDevice from './Components/SideNav/useCheckDevice';
 
 function App() {
   const setScreenSize = () => {
@@ -11,7 +11,7 @@ function App() {
   };
   const queryClient = new QueryClient();
 
-  useIsDesktop();
+  useCheckDevice();
 
   useEffect(() => {
     setScreenSize();

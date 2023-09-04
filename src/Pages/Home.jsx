@@ -15,11 +15,13 @@ import HomePostSkeleton from 'Components/common/Skeleton/HomePostSkeleton';
 import Spinner from 'Components/common/Spinner';
 import Empty from 'Components/common/Empty';
 import logo from 'Assets/logo-gray.png';
-import isDesktop from 'Recoil/isDesktop/isDesktop';
 import MyPillowings from 'Components/Home/MyPillowings';
+import useIsWideView from 'Components/SideNav/useIsWideView';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
 
 const Home = () => {
   const isPCScreen = useRecoilValue(isDesktop);
+  const isWideView = useIsWideView();
   const token = useRecoilValue(userToken);
   const queryClient = useQueryClient();
 
@@ -106,8 +108,8 @@ const Home = () => {
   }, [inView]);
 
   return (
-    <Layout $isPCScreen={isPCScreen}>
-      {!isPCScreen && <MainHeader />}
+    <Layout $isWideView={isWideView}>
+      {!isWideView && <MainHeader />}
       <main style={{ paddingBottom: 90 }}>
         <Toggle
           margin='25px 0 0 16px'
@@ -137,8 +139,8 @@ const Home = () => {
         <div ref={ref}> {isFetchingNextPage && <Spinner />}</div>
       </main>
       <TopButton />
-      {isPCScreen || <Navbar />}
-      {isPCScreen && <MyPillowings $on={isPCScreen} />}
+      {isWideView || <Navbar />}
+      <MyPillowings $on={isPCScreen} />
     </Layout>
   );
 };

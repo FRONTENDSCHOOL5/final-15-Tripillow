@@ -18,7 +18,7 @@ import productfill from 'Assets/icons/icon-shop-fill.svg';
 import chatfill from 'Assets/icons/icon-message-circle-fill.svg';
 import postfill from 'Assets/icons/icon-edit-fill.svg';
 import searchfill from 'Assets/icons/icon-search-fill.svg';
-import PCNavbarModal from 'Components/common/Modal/PCNavbarModal';
+import SideNavBarModal from 'Components/common/Modal/SideNavBarModal';
 import PCAlertModal from 'Components/common/Modal/PCAlertModal';
 import Search from 'Pages/Search';
 
@@ -89,7 +89,7 @@ const TabNavBar = (props) => {
       </Layout>
       {isModalOn &&
         createPortal(
-          <PCNavbarModal setIsModalOn={setIsModalOn} setIsAlertModalOn={setIsAlertModalOn}></PCNavbarModal>,
+          <SideNavBarModal setIsModalOn={setIsModalOn} setIsAlertModalOn={setIsAlertModalOn}></SideNavBarModal>,
           $Root,
         )}
       {isAlertModalOn &&
@@ -114,7 +114,6 @@ const Layout = styled.nav`
   top: 0;
   left: 0;
   background-color: #fff;
-  /* background-color: #b68a8a; */
   box-shadow: 2px 0px 8px 0px rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
   position: fixed;

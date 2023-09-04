@@ -10,13 +10,13 @@ import accountname from 'Recoil/accountName/accountName';
 import DeleteCommentAPI from 'Api/Post/DeleteCommentAPI';
 import ReportCommentAPI from 'Api/Post/ReportCommentAPI';
 import AlertTop from 'Components/common/Modal/AlertTop';
-import isDesktop from 'Recoil/isDesktop/isDesktop';
 import PCModal from 'Components/common/Modal/PCModal';
 import PCAlertModal from 'Components/common/Modal/PCAlertModal';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const Comment = ({ commentInfo, postId, setIsNewComment }) => {
   const name = useRecoilValue(accountname);
-  const isPCScreen = useRecoilValue(isDesktop);
+  const isWideView = useIsWideView();
   const [isTopModalOn, setIsTopModalOn] = useState(false);
   const [isModalOn, setIsModalOn] = useState(false);
   const [isAlertModalOn, setIsAlertModalOn] = useState(false);
@@ -66,7 +66,7 @@ const Comment = ({ commentInfo, postId, setIsNewComment }) => {
   return (
     <CommentLayout>
       {isTopModalOn && (
-        <AlertTop isPCScreen={isPCScreen} isError={true}>
+        <AlertTop isWideView={isWideView} isError={true}>
           댓글이 신고되었습니다.
         </AlertTop>
       )}
@@ -83,7 +83,7 @@ const Comment = ({ commentInfo, postId, setIsNewComment }) => {
       <Text>{commentInfo.content}</Text>
       <ModalOn>
         {isModalOn &&
-          (isPCScreen ? (
+          (isWideView ? (
             <PCModal
               handleAlertModal={handleAlertModal}
               setIsModalOn={setIsModalOn}
@@ -101,7 +101,7 @@ const Comment = ({ commentInfo, postId, setIsNewComment }) => {
             ></CommentModal>
           ))}
         {isAlertModalOn &&
-          (isPCScreen ? (
+          (isWideView ? (
             <PCAlertModal
               setIsAlertModalOn={setIsAlertModalOn}
               rightClick={handleDelete}
@@ -137,8 +137,6 @@ const ProfileLink = styled(Link)`
   display: block;
   width: 36px;
   height: 36px;
-  /* border-radius: 50%; */
-  /* overflow: hidden; */
 `;
 
 const ProfileImg = styled.img`
