@@ -1,13 +1,12 @@
 import React from 'react';
-import { useRecoilValue } from 'recoil';
-import isDesktop from 'Recoil/isDesktop/isDesktop';
 import PCChat from 'Components/Chat/PCChat';
 import ChatContent from 'Components/Chat/ChatContent';
+import useIsWideView from 'Components/PCNav/useIsWideView';
 
 const ChatDetail = () => {
-  const isPCScreen = useRecoilValue(isDesktop);
+  const isWideView = useIsWideView();
 
-  return isPCScreen ? <PCChat /> : <ChatContent />;
+  return isWideView ? <PCChat /> : <ChatContent />;
 };
 
 export default ChatDetail;
