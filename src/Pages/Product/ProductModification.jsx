@@ -113,7 +113,7 @@ const ProductModification = () => {
       )}
       <form>
         <Label htmlFor='file-upload'>
-          <Image src={productInputs.product?.itemImage || defaultImage} />
+          <Image src={productInputs.product?.itemImage || defaultImage} alt={productInputs.product.itemName}/>
         </Label>
         <input id='file-upload' className='a11y-hidden' onChange={handleImgChange} type='file' />
         <CategoryTxt>카테고리</CategoryTxt>

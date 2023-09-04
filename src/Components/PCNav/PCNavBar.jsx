@@ -47,7 +47,7 @@ const PCNavBar = (props) => {
     const icon = icons.find((el) => el.path === location.pathname);
     icon && setIsClicked(icon.name);
     setIsSearch(false);
-    //eslint-disable-next-line
+    // eslint-disable-next-line
   }, [location]);
 
   return (
@@ -57,6 +57,7 @@ const PCNavBar = (props) => {
           onClick={() => {
             navigate('/home');
           }}
+          aria-label='홈'
         >
           <img src={logo} alt='logo' style={{ width: '80%' }} />
         </MainButton>
@@ -75,6 +76,7 @@ const PCNavBar = (props) => {
                   navigate(el.path);
                 }
               }}
+              aria-label={el.name}
             >
               <Icon src={isClicked === el.name ? el.imgfill : el.img} alt={el.name} />
               <IconInfo setColor={isClicked === el.name}>{el.name}</IconInfo>
@@ -82,8 +84,8 @@ const PCNavBar = (props) => {
           );
         })}
         <MoreLayout>
-          <More onClick={handleMoreClick} id='PCNavModal'>
-            <img src={menu} alt='menu' /> 더보기
+          <More onClick={handleMoreClick} id='PCNavModal' aria-label='더 보기'>
+            <img src={menu} alt='메뉴' /> 더보기
           </More>
         </MoreLayout>
       </Layout>
