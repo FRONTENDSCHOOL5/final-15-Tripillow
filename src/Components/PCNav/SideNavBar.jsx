@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import styled, { css } from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
@@ -33,14 +33,17 @@ const SideNavBar = (props) => {
   const location = useLocation();
   const [isClicked, setIsClicked] = useState('');
   const [isSearch, setIsSearch] = useState(false);
-  const icons = [
-    { name: 'Search', img: search, imgfill: searchfill },
-    { name: 'Home', img: home, imgfill: homefill, path: '/home' },
-    { name: 'Chat', img: chat, imgfill: chatfill, path: '/chat' },
-    { name: 'Product', img: product, imgfill: productfill, path: '/product' },
-    { name: 'Add Post', img: post, imgfill: postfill, path: '/post' },
-    { name: 'Profile', img: profile, imgfill: profilefill, path: '/profile' },
-  ];
+  const icons = useMemo(
+    () => [
+      { name: 'Search', img: search, imgfill: searchfill },
+      { name: 'Home', img: home, imgfill: homefill, path: '/home' },
+      { name: 'Chat', img: chat, imgfill: chatfill, path: '/chat' },
+      { name: 'Product', img: product, imgfill: productfill, path: '/product' },
+      { name: 'Add Post', img: post, imgfill: postfill, path: '/post' },
+      { name: 'Profile', img: profile, imgfill: profilefill, path: '/profile' },
+    ],
+    [],
+  );
   const [isModalOn, setIsModalOn] = useState(false);
   const [isAlertModalOn, setIsAlertModalOn] = useState(false);
   const $Root = document.getElementById('root');
@@ -53,8 +56,7 @@ const SideNavBar = (props) => {
     const icon = icons.find((el) => el.path === location.pathname);
     icon && setIsClicked(icon.name);
     setIsSearch(false);
-    //eslint-disable-next-line
-  }, [location]);
+  }, [location, icons]);
 
   return (
     <>
@@ -81,7 +83,7 @@ const SideNavBar = (props) => {
               }}
               isPCScreen={isPCScreen}
             >
-              <Icon src={isClicked === el.name ? el.imgfill : el.img} isPCScreen={isPCScreen} />
+              <Icon src={isClicked === el.name ? el.imgfill : el.img} alt={el.name} isPCScreen={isPCScreen} />
               {isPCScreen && <IconInfo setColor={isClicked === el.name}>{el.name}</IconInfo>}
             </Button>
           );
