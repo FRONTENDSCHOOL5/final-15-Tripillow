@@ -50,7 +50,7 @@ const User = (props) => {
       <UserContentsLayout>
         <Link to={`/profile/${props.accountname}`} onClick={() => props.setIsSearch && props.setIsSearch(false)}>
           {props.search ? (
-            props.username.includes(props.keyword) && props.accountname.includes(props.keyword) ? (
+            props?.username.includes(props.keyword) && props.accountname.includes(props.keyword) ? (
               <div>
                 <UserTitle>
                   {leftSideUser}
@@ -63,7 +63,7 @@ const User = (props) => {
                   {rightSideAccount}
                 </UserContent>
               </div>
-            ) : props.username.includes(props.keyword) ? (
+            ) : props?.username.includes(props.keyword) ? (
               <div>
                 <UserTitle>
                   {leftSideUser}
@@ -74,7 +74,7 @@ const User = (props) => {
               </div>
             ) : (
               <div>
-                <UserTitle>{props.username}</UserTitle>
+                <UserTitle>{props?.username}</UserTitle>
                 <UserContent>
                   @{leftSideAccount}
                   <HighLighted>{props.keyword}</HighLighted>
@@ -84,7 +84,7 @@ const User = (props) => {
             )
           ) : (
             <div>
-              <UserTitle>{props.username}</UserTitle>
+              <UserTitle>{props?.username}</UserTitle>
               <UserContent>{props.content}</UserContent>
             </div>
           )}

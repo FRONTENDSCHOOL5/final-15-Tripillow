@@ -18,8 +18,8 @@ const PCUserProfile = ({ user, handleCopy }) => {
       </ImgLayout>
       <UserInfo>
         <UserNameIcons>
-          <h2>{user.username}</h2>
-          {user.accountname === name ? (
+          <h2>{user?.username}</h2>
+          {user?.accountname === name ? (
             <IconLayout>
               <CommonButton onClick={() => navigate('/profile/edit')} clicked width='91px' fontSize='var(--xs)'>
                 프로필 수정
@@ -45,18 +45,18 @@ const PCUserProfile = ({ user, handleCopy }) => {
             </IconLayout>
           )}
         </UserNameIcons>
-        <CommonParagraph>{'@' + user.accountname}</CommonParagraph>
+        <CommonParagraph>{'@' + user?.accountname}</CommonParagraph>
         <FollowsLayout>
           <FollowLayout to={followerPath} state={user}>
             <strong>{followCount}</strong>
             <p>pillowers</p>
           </FollowLayout>
           <FollowLayout to={followingPath} state={user} color='var(--dark-gray)'>
-            <strong>{user.followingCount}</strong>
+            <strong>{user?.followingCount}</strong>
             <p>pillowings</p>
           </FollowLayout>
         </FollowsLayout>
-        <CommonParagraph>{user.intro}</CommonParagraph>
+        <CommonParagraph>{user?.intro}</CommonParagraph>
       </UserInfo>
     </UserProfileLayout>
   );
