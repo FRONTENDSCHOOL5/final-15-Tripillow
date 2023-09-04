@@ -45,7 +45,6 @@ const Setting = () => {
 
   return (
     <Layout $isWideView={isWideView}>
-      <h1 className='a11y-hidden'>설정 및 개인정보</h1>
       {!isWideView && <BasicHeader>설정 및 개인정보</BasicHeader>}
       <SectionCommonLayout>
         <TitleCommonLayout>알림 설정</TitleCommonLayout>

@@ -21,6 +21,7 @@ const PostDetail = () => {
   const isPCScreen = useRecoilValue(isDesktop);
   const [myInfo, setMyInfo] = useState({});
   const [postInfo, setPostInfo] = useState({});
+  console.log('🚀  postInfo:', postInfo);
   const updatePostInfo = (data) => {
     setPostInfo(data);
   };
@@ -90,6 +91,7 @@ const PostDetail = () => {
           txt='정말 로그아웃 하시겠습니까?'
           rightbtn='로그아웃'
           isPost
+          subject={`${postInfo.post?.author?.username}의 게시글`}
         ></BasicHeader>
       )}
       <main>

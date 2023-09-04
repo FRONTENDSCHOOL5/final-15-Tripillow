@@ -9,6 +9,7 @@ const MainHeader = () => {
   const navigate = useNavigate();
   return (
     <HeaderLayout>
+      <h1 className='a11y-hidden'>홈페이지</h1>
       <LogoLayout>
         <img src={logo} alt='로고' />
       </LogoLayout>

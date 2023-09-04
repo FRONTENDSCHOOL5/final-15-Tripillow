@@ -10,6 +10,7 @@ const PCLogin = () => {
 
   return (
     <PCLayout>
+      <h1 className='a11y-hidden'>{pathname === '/login' ? '로그인 페이지' : '회원가입 페이지'}</h1>
       <PCTripillow />
       {pathname === '/login' ? <LoginForm /> : <SignupForm />}
     </PCLayout>

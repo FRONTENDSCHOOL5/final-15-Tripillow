@@ -8,6 +8,7 @@ const SearchHeader = ({ value, onChange }) => {
   const navigate = useNavigate();
   return (
     <HeaderLayout>
+      <h1 className='a11y-hidden'>검색 페이지</h1>
       <PrevButton
         onClick={() => {
           navigate(-1);
