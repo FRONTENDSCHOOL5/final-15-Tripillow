@@ -46,7 +46,7 @@ const Profile = () => {
       )}
       <ProfileMain setIsDeleted={setIsDeleted} setIsModified={setIsModified} />
       {isWideView || <Navbar />}
-      <MyPillowings $on={isPCScreen} />
+      {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </Layout>
   );
 };

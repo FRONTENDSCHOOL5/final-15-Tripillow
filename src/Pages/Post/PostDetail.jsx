@@ -106,7 +106,7 @@ const PostDetail = () => {
         </CommentLayout>
       </main>
       <PostComment setIsNewComment={setIsNewComment} postId={postId} userImg={myInfo.image}></PostComment>
-      <MyPillowings $on={isPCScreen} />
+      {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </Layout>
   );
 };

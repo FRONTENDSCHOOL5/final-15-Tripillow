@@ -236,7 +236,7 @@ const PostModification = () => {
           </>
         )}
       </form>
-      <MyPillowings $on={isPCScreen} />
+      {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </PostLayout>
   );
 };

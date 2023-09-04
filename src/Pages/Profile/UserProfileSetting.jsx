@@ -164,7 +164,7 @@ const UserProfileSetting = () => {
           </Button>
         )}
       </Form>
-      <MyPillowings $on={isPCScreen} />
+      {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </UserSettingLayout>
   );
 };

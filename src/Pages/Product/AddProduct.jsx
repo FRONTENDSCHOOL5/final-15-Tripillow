@@ -165,7 +165,7 @@ const AddProduct = (props) => {
         )}
       </AddProductContent>
       {isWideView || <Navbar />}
-      <MyPillowings $on={isPCScreen} />
+      {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </Layout>
   );
 };

@@ -183,7 +183,7 @@ const ProductDetail = () => {
               {productDetail?.link}
             </ProductContent>
           </main>
-          <MyPillowings $on={isPCScreen} />
+          {isPCScreen && <MyPillowings $on={isPCScreen} />}
         </Layout>
       )}
     </>

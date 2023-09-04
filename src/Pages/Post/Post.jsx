@@ -159,7 +159,7 @@ export default function Post() {
           </Button>
         )}
       </form>
-      <MyPillowings $on={isPCScreen} />
+      {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </PostLayout>
   );
 }
