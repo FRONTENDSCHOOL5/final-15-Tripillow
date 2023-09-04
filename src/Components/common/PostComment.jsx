@@ -4,12 +4,14 @@ import styled from 'styled-components';
 import profileImg from 'Assets/profile-sm.png';
 import isDesktop from 'Recoil/isDesktop/isDesktop';
 import PostCommentAPI from 'Api/Post/PostCommentAPI';
+import useIsWideView from 'Components/PCNav/useIsWideView';
 
 export default function PostComment({ postId, setIsNewComment, userImg }) {
   const [userInput, setUserInput] = useState('');
   const [isPostingComment, setIsPostingComment] = useState(false);
   const input = useRef();
   const isPCScreen = useRecoilValue(isDesktop);
+  const isWideView = useIsWideView();
   const handleInputChange = (e) => {
     const input = e.target.value;
     setUserInput(input);
@@ -37,7 +39,7 @@ export default function PostComment({ postId, setIsNewComment, userImg }) {
   };
 
   return (
-    <FooterFormLayout $isPCScreen={isPCScreen}>
+    <FooterFormLayout $isWideView={isWideView}>
       <InputLayout>
         <ProfileImg src={userImg || profileImg}></ProfileImg>
         <InputStyle type='text' placeholder='댓글 입력하기' ref={input} onChange={handleInputChange} />
@@ -53,7 +55,7 @@ const FooterFormLayout = styled.form`
   display: flex;
   justify-content: space-between;
   /* min-width: 388px; */
-  width: ${(props) => (props.$isPCScreen ? '480px' : '390px')};
+  width: ${(props) => (props.$isWideView ? '480px' : '390px')};
   min-height: 60px;
   padding: 13px 18px 30px;
   box-sizing: border-box;

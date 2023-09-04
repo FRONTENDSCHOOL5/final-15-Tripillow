@@ -15,15 +15,15 @@ import HeartPostAPI from 'Api/Post/HeartPostAPI';
 import UnheartPostAPI from 'Api/Post/UnheartPostAPI';
 import PostImage from 'Components/common/PostImage';
 import AlertTop from 'Components/common/Modal/AlertTop';
-import isDesktop from 'Recoil/isDesktop/isDesktop';
 import PCModal from 'Components/common/Modal/PCModal';
 import PCAlertModal from 'Components/common/Modal/PCAlertModal';
 import DeletePostAPI from 'Api/Post/DeletePostAPI';
+import useIsWideView from 'Components/PCNav/useIsWideView';
 
 const HomePostLayout = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const isPCScreen = useRecoilValue(isDesktop);
+  const isWideView = useIsWideView();
   const pathname = location.pathname;
   const inDetail = !['/home', '/profile'].some((path) => pathname.startsWith(path));
   const name = useRecoilValue(accountName);
@@ -104,7 +104,7 @@ const HomePostLayout = (props) => {
   return (
     <Layout>
       {isTopModalOn && (
-        <AlertTop isPCScreen={isPCScreen} isError={true}>
+        <AlertTop isWideView={isWideView} isError={true}>
           게시글이 신고되었습니다.
         </AlertTop>
       )}
@@ -157,7 +157,7 @@ const HomePostLayout = (props) => {
       <span style={{ fontSize: '10px', color: 'var(--dark-gray)' }}>{createdAt}</span>
       <OnModal id='OnModal'>
         {isModalOn &&
-          (isPCScreen ? (
+          (isWideView ? (
             <PCModal
               handleAlertModal={handleAlertModal}
               setIsModalOn={setIsModalOn}
@@ -178,7 +178,7 @@ const HomePostLayout = (props) => {
             ></PostModal>
           ))}
         {isAlertModalOn &&
-          (isPCScreen ? (
+          (isWideView ? (
             <PCAlertModal
               setIsAlertModalOn={setIsAlertModalOn}
               rightClick={handleDelete}

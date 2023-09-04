@@ -15,10 +15,13 @@ import isDesktop from 'Recoil/isDesktop/isDesktop';
 import Button from 'Components/common/Button';
 import MyPillowings from 'Components/Home/MyPillowings';
 import { uploadFile } from 'Utils/uploadFile';
+import useIsWideView from 'Components/PCNav/useIsWideView';
 
 const UserProfileSetting = () => {
   const navigate = useNavigate();
   const isPCScreen = useRecoilValue(isDesktop);
+  const isWideView = useIsWideView();
+
   const [imgURL, setImgURL] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const updateErrorMessage = (data) => {
@@ -89,8 +92,8 @@ const UserProfileSetting = () => {
   };
 
   return (
-    <UserSettingLayout $isPCScreen={isPCScreen}>
-      {!isPCScreen && (
+    <UserSettingLayout $isWideView={isWideView}>
+      {!isWideView && (
         <UploadHeader
           onClick={handleSubmit}
           type='submit'
@@ -148,7 +151,7 @@ const UserProfileSetting = () => {
           name='intro'
           onChange={handleInputChange}
         ></Input>
-        {isPCScreen && (
+        {isWideView && (
           <Button
             onClick={handleSubmit}
             type='submit'
@@ -161,7 +164,7 @@ const UserProfileSetting = () => {
           </Button>
         )}
       </Form>
-      {isPCScreen && <MyPillowings $on={isPCScreen} />}
+      <MyPillowings $on={isPCScreen} />
     </UserSettingLayout>
   );
 };

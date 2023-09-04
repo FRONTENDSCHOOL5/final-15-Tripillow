@@ -15,18 +15,17 @@ import ProductItemSkeleton from 'Components/common/Skeleton/ProductItemSkeleton'
 import URL from 'Api/URL';
 import userToken from 'Recoil/userToken/userToken';
 import isDesktop from 'Recoil/isDesktop/isDesktop';
-import isTab from 'Recoil/isTab/isTab';
 import { isProduct } from 'Recoil/productCategory/productCategory';
 import MyPillowings from 'Components/Home/MyPillowings';
-// import TabNavBar from 'Components/TabNav/TabNavBar';
+import useIsWideView from 'Components/PCNav/useIsWideView';
 
 const Product = () => {
   const navigate = useNavigate();
   const isPCScreen = useRecoilValue(isDesktop);
+  const isWideView = useIsWideView();
   const name = useRecoilValue(accountName);
   const token = useRecoilValue(userToken);
   const [isLeftToggle, setIsLeftToggle] = useRecoilState(isProduct);
-  const isTabScreen = useRecoilValue(isTab);
 
   const {
     data: user,
@@ -90,9 +89,8 @@ const Product = () => {
   });
 
   return (
-    <StyledLayout $isPCScreen={isPCScreen}>
-      {/* {isTabScreen && <TabNavBar />} */}
-      {!isPCScreen && (
+    <StyledLayout $isWideView={isWideView}>
+      {!isWideView && (
         <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='확인'>
           Pillower의 판매상품
         </BasicHeader>
@@ -131,8 +129,8 @@ const Product = () => {
           height='50px'
         ></CircleButton>
       </div>
-      {isPCScreen || isTabScreen || <Navbar />}
-      {(isPCScreen || isTabScreen) && <MyPillowings $on={isPCScreen} />}
+      {isWideView || <Navbar />}
+      <MyPillowings $on={isPCScreen} />
     </StyledLayout>
   );
 };

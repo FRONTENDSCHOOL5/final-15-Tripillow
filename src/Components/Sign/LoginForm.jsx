@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
-import { useRecoilValue } from 'recoil';
 import { LayoutStyle } from 'Styles/Layout';
 import Button from 'Components/common/Button';
 import Input from 'Components/common/Input';
 import useLogin from 'Hooks/Sign/useLogin';
-import isDesktop from 'Recoil/isDesktop/isDesktop';
 import { formFadeIn } from 'Styles/SignAnimation';
 import PCToast from 'Components/common/Modal/PCToast';
 import AlertTop from 'Components/common/Modal/AlertTop';
-
+import useIsWideView from 'Components/PCNav/useIsWideView';
 import Kakao from 'Assets/pc_kakaotalk.png';
 import Google from 'Assets/icons/google.svg';
 import face from 'Assets/icons/pc_facebook.svg';
 
 const LoginForm = () => {
   const { handleFormSubmit, userInput, handleInputChange, errorMsg, handleError, userErrorMessage } = useLogin();
-  const isPCScreen = useRecoilValue(isDesktop);
+  const isWideView = useIsWideView();
+
   const navigate = useNavigate();
   const { state } = useLocation();
   const [warnMSG, setWarnMSG] = useState('');
@@ -40,9 +39,9 @@ const LoginForm = () => {
   }, [state, navigate]);
 
   return (
-    <Layout onSubmit={handleFormSubmit} $isPCScreen={isPCScreen}>
+    <Layout onSubmit={handleFormSubmit} $isWideView={isWideView}>
       <h1>로그인</h1>
-      {warnMSG && !isPCScreen && (
+      {warnMSG && !isWideView && (
         <AlertTop top='0px' newAnimation isError={warnMSG}>
           {warnMSG}
         </AlertTop>
@@ -84,14 +83,14 @@ const LoginForm = () => {
         로그인
       </Button>
       <Link to='/signup'>이메일로 회원가입</Link>
-      {isPCScreen && (
+      {isWideView && (
         <LoginMethodLayout>
           <img src={Kakao} style={{ width: '23px' }} alt='kakao icon' />
           <img src={Google} style={{ width: '26px' }} alt='google icon' />
           <img src={face} style={{ width: '22px' }} alt='facebook icon' />
         </LoginMethodLayout>
       )}
-      {warnMSG && isPCScreen && <PCToast warnMessage={warnMSG} />}
+      {warnMSG && isWideView && <PCToast warnMessage={warnMSG} />}
     </Layout>
   );
 };
@@ -115,8 +114,8 @@ const Layout = styled.form`
     color: var(--dark-gray);
   }
 
-  ${({ $isPCScreen }) =>
-    $isPCScreen &&
+  ${({ $isWideView }) =>
+    $isWideView &&
     css`
       height: 740px;
       padding: 54px 34px;
@@ -139,7 +138,7 @@ const LoginMethodLayout = styled.div`
   display: flex;
   align-items: center;
 
-  img:not(:last-child) {
+  img {
     margin-right: 13px;
     cursor: pointer;
   }

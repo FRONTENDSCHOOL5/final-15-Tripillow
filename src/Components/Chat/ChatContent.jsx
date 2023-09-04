@@ -8,6 +8,8 @@ import BasicHeader from 'Components/common/Header/BasicHeader';
 import isDesktop from 'Recoil/isDesktop/isDesktop';
 import profileSm from 'Assets/profile-sm.png';
 import tripillow from 'Assets/logo-primary.png';
+import useIsWideView from 'Components/PCNav/useIsWideView';
+
 
 const ChatContent = () => {
   const location = useLocation();
@@ -16,6 +18,8 @@ const ChatContent = () => {
   const userImg = location.state?.userImg;
   const account = location.state?.account;
   const isPCScreen = useRecoilValue(isDesktop);
+  const isWideView = useIsWideView();
+
   const [inputValue, setInputValue] = useState('');
   const [chatValue, setChatValue] = useState([]);
   const [myInfo, setMyInfo] = useState({});

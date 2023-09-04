@@ -146,14 +146,6 @@ const MainButton = styled.button`
   width: ${(props) => (props.isPCScreen ? '221px' : 'undefined')};
 `;
 
-// const Logo = styled.img`
-//   ${(props) =>
-//     props.isPCScreen &&
-//     css`
-//       width: 80%;
-//     `}
-// `;
-
 const Button = styled.button`
   display: flex;
   align-items: center;

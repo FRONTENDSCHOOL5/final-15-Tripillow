@@ -1,20 +1,18 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { useRecoilValue } from 'recoil';
 import { LayoutStyle } from 'Styles/Layout';
 import Button from 'Components/common/Button';
 import Input from 'Components/common/Input';
 import ErrorMSG from 'Styles/ErrorMSG';
 import useSignup from 'Hooks/Sign/useSignup';
-import isDesktop from 'Recoil/isDesktop/isDesktop';
 import { formFadeIn } from 'Styles/SignAnimation';
 import { uploadFile } from 'Utils/uploadFile';
-
+import useIsWideView from 'Components/PCNav/useIsWideView';
 import profileImg from 'Assets/profile-lg.png';
 import uploadfile from 'Assets/icons/upload-file.svg';
 
 const Signup = () => {
-  const isPCScreen = useRecoilValue(isDesktop);
+  const isWideView = useIsWideView();
   const {
     emailPwCheck,
     handleSubmit,
@@ -34,7 +32,7 @@ const Signup = () => {
   return (
     <>
       {emailPwCheck ? (
-        <UserSettingLayout $isPCScreen={isPCScreen}>
+        <UserSettingLayout $isWideView={isWideView}>
           <Title>프로필 설정</Title>
           <Inform>나중에 언제든지 변경할 수 있습니다.</Inform>
           <Form action='post' onSubmit={handleSubmit}>
@@ -102,7 +100,7 @@ const Signup = () => {
           </Form>
         </UserSettingLayout>
       ) : (
-        <SignupLayout $isPCScreen={isPCScreen}>
+        <SignupLayout $isWideView={isWideView}>
           <Title>이메일로 회원가입</Title>
           <Form onSubmit={goNext}>
             <Input
@@ -161,8 +159,8 @@ const SignupLayout = styled.div`
   align-items: center;
   background-color: white;
 
-  ${({ $isPCScreen }) =>
-    $isPCScreen &&
+  ${({ $isWideView }) =>
+    $isWideView &&
     css`
       height: 740px;
       padding: 54px 34px;
@@ -189,8 +187,8 @@ const UserSettingLayout = styled.div`
   align-items: center;
   background-color: white;
 
-  ${({ $isPCScreen }) =>
-    $isPCScreen &&
+  ${({ $isWideView }) =>
+    $isWideView &&
     css`
       height: 740px;
       padding: 54px 34px;

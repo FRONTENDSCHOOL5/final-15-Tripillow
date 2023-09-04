@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import imageCompression from 'browser-image-compression';
 import Toggle from 'Components/common/Toggle';
 import Navbar from 'Components/common/Navbar';
-// import TabNavBar from 'Components/TabNav/TabNavBar';
 import Input from 'Components/common/Input';
 import { LayoutStyle } from 'Styles/Layout';
 import UploadHeader from 'Components/common/Header/UploadHeader';
@@ -20,11 +19,13 @@ import isTab from 'Recoil/isTab/isTab';
 import Button from 'Components/common/Button';
 import MyPillowings from 'Components/Home/MyPillowings';
 import { validateImageFileFormat } from 'Utils/validate';
+import useIsWideView from 'Components/PCNav/useIsWideView';
 
 const AddProduct = (props) => {
   const navigate = useNavigate();
   const isPCScreen = useRecoilValue(isDesktop);
   const isTabScreen = useRecoilValue(isTab);
+  const isWideView = useIsWideView();
   const [productName, setProductName] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
@@ -108,10 +109,9 @@ const AddProduct = (props) => {
   };
 
   return (
-    <Layout $isPCScreen={isPCScreen}>
-      {/* {isTabScreen && <TabNavBar />} */}
+    <Layout $isWideView={isWideView}>
       <h1 className='a11y-hidden'>상품 등록 페이지</h1>
-      {!isPCScreen && !isTabScreen && (
+      {!isWideView && !isTabScreen && (
         <UploadHeader onClick={throttledHandleSubmit} disabled={!imageLink || !productName || !price || !description}>
           저장
         </UploadHeader>
@@ -151,7 +151,7 @@ const AddProduct = (props) => {
           상세 설명
         </label>
         <ProductText id='product' value={description} onChange={(e) => setDescription(e.target.value)} />
-        {isPCScreen && (
+        {isWideView && (
           <Button
             type='submit'
             width='90px'
@@ -164,8 +164,8 @@ const AddProduct = (props) => {
           </Button>
         )}
       </AddProductContent>
-      {isPCScreen || isTabScreen || <Navbar />}
-      {isPCScreen && <MyPillowings $on={isPCScreen} />}
+      {isWideView || <Navbar />}
+      <MyPillowings $on={isPCScreen} />
     </Layout>
   );
 };

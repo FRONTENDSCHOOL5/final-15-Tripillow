@@ -17,12 +17,15 @@ import CompressedImageUploadAPI from 'Api/Upload/CompressedImageUploadAPI';
 import isDesktop from 'Recoil/isDesktop/isDesktop';
 import Button from 'Components/common/Button';
 import MyPillowings from 'Components/Home/MyPillowings';
+import useIsWideView from 'Components/PCNav/useIsWideView';
 
 const PostModification = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const postId = location.state;
   const isPCScreen = useRecoilValue(isDesktop);
+  const isWideView = useIsWideView();
+
   const [postInput, setPostInput] = useState({
     post: {
       content: '',
@@ -181,8 +184,8 @@ const PostModification = () => {
   };
 
   return (
-    <PostLayout $isPCScreen={isPCScreen}>
-      {!isPCScreen && (
+    <PostLayout $isWideView={isWideView}>
+      {!isWideView && (
         <UploadHeader disabled={!postInput.post.content} onClick={throttledHandleSubmit}>
           수정
         </UploadHeader>
@@ -199,7 +202,7 @@ const PostModification = () => {
         ></Toggle>
       </ToggleLayout>
       <form>
-        {isPCScreen && (
+        {isWideView && (
           <Button
             disabled={!postInput.post.content}
             onClick={throttledHandleSubmit}
@@ -210,7 +213,7 @@ const PostModification = () => {
             수정
           </Button>
         )}
-        {isPCScreen && (
+        {isWideView && (
           <>
             <PCImgUpload htmlFor='img-input'>+ 여행사진 추가하기</PCImgUpload>
             <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
@@ -224,7 +227,7 @@ const PostModification = () => {
               <ImgDelete type='button' key={`ImgDelete-${i}`} onClick={() => handleImgClose(i)}></ImgDelete>
             </ImgLayout>
           ))}
-        {!isPCScreen && (
+        {!isWideView && (
           <>
             <label htmlFor='img-input'>
               <ImgIcon src={iconImg}></ImgIcon>
@@ -233,7 +236,7 @@ const PostModification = () => {
           </>
         )}
       </form>
-      {isPCScreen && <MyPillowings $on={isPCScreen} />}
+      <MyPillowings $on={isPCScreen} />
     </PostLayout>
   );
 };

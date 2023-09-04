@@ -13,14 +13,17 @@ import { LayoutStyle } from 'Styles/Layout';
 import iconImg from 'Assets/icons/upload-file.svg';
 import UploadPostAPI from 'Api/Post/UploadPostAPI';
 import CompressedImageUploadAPI from 'Api/Upload/CompressedImageUploadAPI';
-import isDesktop from 'Recoil/isDesktop/isDesktop';
 import Button from 'Components/common/Button';
 import MyPillowings from 'Components/Home/MyPillowings';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
+
+import useIsWideView from 'Components/PCNav/useIsWideView';
 
 export default function Post() {
   const navigate = useNavigate();
   const textarea = useRef();
   const isPCScreen = useRecoilValue(isDesktop);
+  const isWideView = useIsWideView();
   const [inputValue, setInputValue] = useState('');
   const [imgURL, setImgURL] = useState([]);
   const [isLeftToggle, setIsLeftToggle] = useState(true);
@@ -107,8 +110,8 @@ export default function Post() {
   };
 
   return (
-    <PostLayout $isPCScreen={isPCScreen}>
-      {!isPCScreen && (
+    <PostLayout $isWideView={isWideView}>
+      {!isWideView && (
         <UploadHeader disabled={!inputValue} onClick={throttledHandleSubmit}>
           업로드
         </UploadHeader>
@@ -117,7 +120,7 @@ export default function Post() {
         <Toggle leftButton='국내' rightButton='해외' setIsLeftToggle={setIsLeftToggle} margin='0 0 22px 0'></Toggle>
       </ToggleLayout>
       <form>
-        {isPCScreen && (
+        {isWideView && (
           <>
             <PCImgUpload htmlFor='img-input'>+ 여행사진 추가하기</PCImgUpload>
             <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
@@ -128,14 +131,14 @@ export default function Post() {
           <ImgLayout key={`ImgLayout-${i}`}>
             <Img src={`${URL}/${el}`} key={`Img-${i}`} />
             <ImgDelete
-              $isPCScreen={isPCScreen}
+              $isWideView={isWideView}
               type='button'
               key={`ImgDelete-${i}`}
               onClick={() => handleImgClose(i)}
             ></ImgDelete>
           </ImgLayout>
         ))}
-        {!isPCScreen && (
+        {!isWideView && (
           <>
             <label htmlFor='img-input'>
               <ImgIcon src={iconImg}></ImgIcon>
@@ -143,7 +146,7 @@ export default function Post() {
             <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
           </>
         )}
-        {isPCScreen && (
+        {isWideView && (
           <Button
             disabled={!inputValue}
             onClick={throttledHandleSubmit}
@@ -156,7 +159,7 @@ export default function Post() {
           </Button>
         )}
       </form>
-      {isPCScreen && <MyPillowings $on={isPCScreen} />}
+      <MyPillowings $on={isPCScreen} />
     </PostLayout>
   );
 }

@@ -3,7 +3,6 @@ import { createPortal } from 'react-dom';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { useRecoilValue } from 'recoil';
-import isTab from 'Recoil/isTab/isTab';
 import accountName from 'Recoil/accountName/accountName';
 import ProductDetailAPI from 'Api/Product/ProductDetailAPI';
 import { LayoutStyle } from 'Styles/Layout';
@@ -19,7 +18,7 @@ import MyPillowings from 'Components/Home/MyPillowings';
 import PCModal from 'Components/common/Modal/PCModal';
 import ProductDeleteAPI from 'Api/Product/ProductDeleteAPI';
 import PCAlertModal from 'Components/common/Modal/PCAlertModal';
-// import TabNavBar from 'Components/TabNav/TabNavBar';
+import useIsWideView from 'Components/PCNav/useIsWideView';
 
 const ProductDetail = () => {
   const [productId, setProductId] = useState('');
@@ -29,7 +28,8 @@ const ProductDetail = () => {
   const $Root = document.getElementById('root');
   const userName = useRecoilValue(accountName);
   const isPCScreen = useRecoilValue(isDesktop);
-  const isTabScreen = useRecoilValue(isTab);
+  const isWideView = useIsWideView();
+
   const productDetail = ProductDetailAPI(params.id);
   const userImg = productDetail.author?.image;
   const isMine = userName === productDetail.author?.accountname;
@@ -101,10 +101,8 @@ const ProductDetail = () => {
   return (
     <>
       {productDetail && (
-        <Layout $isPCScreen={isPCScreen}>
-          {/* {isTabScreen && <TabNavBar />} */}
-
-          {!isPCScreen && !isTabScreen && (
+        <Layout $isWideView={isWideView}>
+          {!isWideView && (
             <BasicHeader
               empty={!userCheck}
               userId={productId}
@@ -119,10 +117,10 @@ const ProductDetail = () => {
           <main style={{ position: 'relative' }}>
             <Image src={productDetail.itemImage} onClick={() => setShowImg(true)} />
 
-            {(isPCScreen || isTabScreen) && <MoreBtn onClick={handleMoreBtn} />}
+            {isWideView && <MoreBtn onClick={handleMoreBtn} />}
 
             {isModalOn &&
-              (isPCScreen || isTabScreen) &&
+              isWideView &&
               createPortal(
                 <PCModal
                   isMine={isMine}
@@ -134,19 +132,6 @@ const ProductDetail = () => {
                 />,
                 $Root,
               )}
-            {/* {isModalOn && isTabScreen && (
-              <Modal
-                btn1='수정'
-                btn2='삭제'
-                handleProductModify={handleModify}
-                handleCancel={handleCloseModal}
-                isMine={isMine}
-                setIsModalOn={setIsModalOn}
-                // handleModify={handleModify}
-                handleAlertModal={handleAlertModal}
-                handleDelete={handleDelete}
-              />
-            )} */}
             {isAlertModalOn && (
               <PCAlertModal
                 txt='정말 삭제하시겠습니까?'
@@ -156,8 +141,8 @@ const ProductDetail = () => {
             )}
 
             {showImg && (
-              <ModalBg onClick={() => setShowImg(false)} $isPCScreen={isPCScreen}>
-                <ModalImg src={productDetail.itemImage} $isPCScreen={isPCScreen} />
+              <ModalBg onClick={() => setShowImg(false)} $isWideView={isWideView}>
+                <ModalImg src={productDetail.itemImage} $isWideView={isWideView} />
               </ModalBg>
             )}
 
@@ -170,9 +155,9 @@ const ProductDetail = () => {
             <ProductContent size='var(--xl)' weight='700'>
               {trimContent(productDetail?.itemName)}
             </ProductContent>
-            <ProductButtonLayout $isPCScreen={isPCScreen}>
+            <ProductButtonLayout $isWideView={isWideView}>
               <div>
-                {!isPCScreen && (
+                {!isWideView && (
                   <Icon
                     src={isClick === false ? hearticon : heartfill}
                     onClick={() => {
@@ -187,8 +172,8 @@ const ProductDetail = () => {
                   navigate(`/chat/${username}`, { state: { username, userImg, randomMessage } });
                 }}
                 right='12px'
-                position={isPCScreen ? 'static' : 'absolute'}
-                margin={isPCScreen ? '0 0 5px 260px' : '0 0 5px 0'}
+                position={isWideView ? 'static' : 'absolute'}
+                margin={isWideView ? '0 0 5px 260px' : '0 0 5px 0'}
               >
                 채팅하기
               </Button>
@@ -197,7 +182,7 @@ const ProductDetail = () => {
               {productDetail?.link}
             </ProductContent>
           </main>
-          {isPCScreen && <MyPillowings $on={isPCScreen} />}
+          <MyPillowings $on={isPCScreen} />
         </Layout>
       )}
     </>
@@ -208,7 +193,7 @@ const Layout = styled.div`
   ${LayoutStyle}
   padding: 48px 12px 73px 16px;
   ${(props) =>
-    props.$isPCScreen ||
+    props.$isWideView ||
     css`
       position: relative;
     `}
@@ -237,10 +222,10 @@ const MoreBtn = styled.button`
 const ModalBg = styled.div`
   position: fixed;
   top: 0;
-  width: ${(props) => (props.$isPCScreen ? 'calc(100% - 335px)' : '390px ')};
+  width: ${(props) => (props.$isWideView ? '100%' : '390px ')};
 
-  left: ${(props) => (props.$isPCScreen ? '335px' : '50%')};
-  transform: ${(props) => (props.$isPCScreen ? '' : 'translate(-50%)')};
+  left: ${(props) => (props.$isWideView ? 0 : '50%')};
+  transform: ${(props) => (props.$isWideView ? '' : 'translate(-50%)')};
   min-height: 60px;
   /* margin-bottom: 13px; */
   height: 100%;
@@ -252,7 +237,7 @@ const ModalBg = styled.div`
 `;
 
 const ModalImg = styled.img`
-  width: ${(props) => (props.$isPCScreen ? '50%' : '100%')};
+  width: ${(props) => (props.$isWideView ? '50%' : '100%')};
   margin: auto;
 `;
 
@@ -268,7 +253,7 @@ const ProductContent = styled.p`
 
 const ProductButtonLayout = styled.div`
   display: flex;
-  width: ${(props) => (props.$isPCScreen ? '480px' : '390px')};
+  width: ${(props) => (props.$isWideView ? '480px' : '390px')};
   margin: 0 auto;
   align-items: center;
   padding: 25px 0 20px;
@@ -280,7 +265,7 @@ const ProductButtonLayout = styled.div`
   background-color: white;
 
   ${(props) =>
-    props.$isPCScreen &&
+    props.$isWideView &&
     css`
       position: static;
       padding: 10px 0 0;
@@ -288,11 +273,11 @@ const ProductButtonLayout = styled.div`
 
   div {
     display: flex;
-    margin-left: ${(props) => (props.$isPCScreen ? '0' : '20px')};
+    margin-left: ${(props) => (props.$isWideView ? '0' : '20px')};
   }
 
   button {
-    margin-top: ${(props) => (props.$isPCScreen ? '-200px' : '0')};
+    margin-top: ${(props) => (props.$isWideView ? '-200px' : '0')};
   }
 `;
 

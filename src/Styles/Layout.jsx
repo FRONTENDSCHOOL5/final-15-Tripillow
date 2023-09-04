@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 
 const LayoutStyle = css`
   /* max-width: 390px; */
-  max-width: ${(props) => (props.$isPCScreen ? '480px' : '390px')};
+  max-width: ${(props) => (props.$isWideView ? '480px' : '390px')};
   height: calc(var(--vh, 1vh) * 100);
   margin: 0 auto;
   box-sizing: border-box;
