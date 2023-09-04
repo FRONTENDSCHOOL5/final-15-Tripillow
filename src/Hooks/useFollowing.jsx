@@ -8,15 +8,14 @@ const UseFollowing = () => {
   const { fetchFollowing } = FollowingListAPI(accountname);
   const [followingData, setFollowingData] = useState([]);
 
-  const handleFetch = async () => {
-    const data = await fetchFollowing();
-    if (data) setFollowingData(data);
-  };
-
   useEffect(() => {
+    const handleFetch = async () => {
+      const data = await fetchFollowing();
+      if (data) setFollowingData(data);
+    };
+
     handleFetch();
-    //eslint-disable-next-line
-  }, []);
+  }, [fetchFollowing]);
 
   return { followingData };
 };

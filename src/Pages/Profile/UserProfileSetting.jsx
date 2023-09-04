@@ -44,8 +44,7 @@ const UserProfileSetting = () => {
     };
 
     handleFetch();
-    //eslint-disable-next-line
-  }, []);
+  }, [getUserData]);
 
   useEffect(() => {
     if (data.username && data.accountname && data.intro && data.image) {
