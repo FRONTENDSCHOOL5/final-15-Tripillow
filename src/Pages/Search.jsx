@@ -133,7 +133,7 @@ const Search = ({ setIsSearch, setIsClicked }) => {
   return (
     <>
       {isWideView ? (
-        <PCBackground onClick={closeModal}>
+        <PCBackground onClick={closeModal} isPCScreen={isPCScreen}>
           <PCSearchLayout onClick={(e) => e.stopPropagation()}>
             <SearchInput value={searchKeyword} onChange={handleSearchKeyword} />
             <SearchContent />
@@ -168,7 +168,7 @@ const PCBackground = styled.div`
   position: fixed;
   width: 100%;
   height: 100%;
-  left: 349px;
+  left: ${(props) => (props.isPCScreen ? '349px' : '83px')};
   z-index: 50;
 `;
 
