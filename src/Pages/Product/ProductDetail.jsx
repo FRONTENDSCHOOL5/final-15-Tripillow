@@ -115,9 +115,9 @@ const ProductDetail = () => {
             </BasicHeader>
           )}
           <main style={{ position: 'relative' }}>
-            <Image src={productDetail.itemImage} onClick={() => setShowImg(true)} />
+            <Image src={productDetail.itemImage} onClick={() => setShowImg(true)} alt={productDetail?.itemName} />
 
-            {isWideView && <MoreBtn onClick={handleMoreBtn} />}
+            {isWideView && <MoreBtn onClick={handleMoreBtn} aria-label='사진 더 보기' />}
 
             {isModalOn &&
               isWideView &&
@@ -142,7 +142,7 @@ const ProductDetail = () => {
 
             {showImg && (
               <ModalBg onClick={() => setShowImg(false)} $isWideView={isWideView}>
-                <ModalImg src={productDetail.itemImage} $isWideView={isWideView} />
+                <ModalImg src={productDetail.itemImage} $isWideView={isWideView} alt={productDetail.itemName} />
               </ModalBg>
             )}
 
@@ -163,6 +163,7 @@ const ProductDetail = () => {
                     onClick={() => {
                       setIsClick(!isClick);
                     }}
+                    alt='좋아요'
                   />
                 )}
                 <ProudctPrice>{productDetail.price?.toLocaleString()}원</ProudctPrice>

@@ -10,8 +10,8 @@ const UploadHeader = (props) => {
 
   return (
     <HeaderLayout>
-      <PrevButton onClick={() => navigate(-1)} />
-      <Button {...props} width='90px' fontSize='14px' padding='7.75px'>
+      <PrevButton onClick={() => navigate(-1)} aria-label='뒤로 가기' />
+      <Button {...props} aria-label='업로드' width='90px' fontSize='14px' padding='7.75px'>
         {props.children}
       </Button>
     </HeaderLayout>

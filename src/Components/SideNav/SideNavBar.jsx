@@ -66,6 +66,7 @@ const SideNavBar = (props) => {
             navigate('/home');
           }}
           isPCScreen={isPCScreen}
+          aria-label='홈'
         >
           {isPCScreen && <img src={PCLogo} alt='logo' style={{ width: '80%' }} />}
           {isTabScreen && <img src={TabLogo} alt='logo' />}
@@ -86,6 +87,7 @@ const SideNavBar = (props) => {
                 }
               }}
               isPCScreen={isPCScreen}
+              aria-label={el.name}
             >
               <Icon src={isClicked === el.name ? el.imgfill : el.img} alt={el.name} isPCScreen={isPCScreen} />
               {isPCScreen && <IconInfo setColor={isClicked === el.name}>{el.name}</IconInfo>}
@@ -93,8 +95,8 @@ const SideNavBar = (props) => {
           );
         })}
         <MoreLayout>
-          <More onClick={handleMoreClick} id='PCNavModal' isPCScreen={isPCScreen}>
-            <img src={menu} alt='menu' /> {isPCScreen && '더보기'}
+          <More onClick={handleMoreClick} id='PCNavModal' isPCScreen={isPCScreen} aria-label='더 보기'>
+            <img src={menu} alt='메뉴' /> {isPCScreen && '더보기'}
           </More>
         </MoreLayout>
       </Layout>

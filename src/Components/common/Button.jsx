@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components';
 const Button = (props) => {
   const { type } = props;
   return (
-    <BtnStyle type={type ? type : 'button'} {...props}>
+    <BtnStyle type={type ? type : 'button'} {...props} aria-label={props.children}>
       {props.children}
     </BtnStyle>
   );

@@ -5,7 +5,7 @@ import upload from 'Assets/icons/upload.svg';
 const CircleButton = (props) => {
   const { type } = props;
 
-  return <CircleButtonStyle type={type ? type : 'button'} {...props}></CircleButtonStyle>;
+  return <CircleButtonStyle type={type ? type : 'button'} aria-label='추가' {...props}></CircleButtonStyle>;
 };
 
 const CircleButtonStyle = styled.button`

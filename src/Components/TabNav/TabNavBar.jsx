@@ -60,6 +60,7 @@ const TabNavBar = (props) => {
           onClick={() => {
             navigate('/home');
           }}
+          aria-label='홈'
         >
           <img src={character} alt='logo' />
         </MainButton>
@@ -74,13 +75,14 @@ const TabNavBar = (props) => {
                   navigate(el.path);
                 }
               }}
+              aria-label={el.name}
             >
               <Icon src={isClicked === el.name ? el.imgfill : el.img} alt={el.name} />
             </Button>
           );
         })}
         <MoreLayout>
-          <More onClick={handleMoreClick} id='PCNavModal'>
+          <More onClick={handleMoreClick} id='PCNavModal' aria-label='더 보기'>
             <img src={menu} alt='menu' />
           </More>
         </MoreLayout>
