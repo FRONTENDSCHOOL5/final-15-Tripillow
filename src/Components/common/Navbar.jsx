@@ -42,8 +42,9 @@ const Navbar = (props) => {
           onClick={() => {
             navigate(el.path[0]);
           }}
+          aria-label={el.name}
         >
-          <IconImg src={buttonId === i ? el.fillImage : el.image} />
+          <IconImg src={buttonId === i ? el.fillImage : el.image} alt={el.name} />
           <IconInfo setColor={buttonId === i}>{el.name}</IconInfo>
         </IconLayout>
       ))}

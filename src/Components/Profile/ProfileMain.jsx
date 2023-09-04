@@ -101,8 +101,8 @@ const ProfileMain = ({ setIsDeleted, setIsModified }) => {
             {postDataQuery.data?.length > 0 ? (
               <>
                 {listView ? (
-                  postDataQuery.data?.map((post, index) => (
-                    <HomePostLayout key={index} post={post} updatePost={updatePost} />
+                  postDataQuery.data?.map((post) => (
+                    <HomePostLayout key={post.id} post={post} updatePost={updatePost} />
                   ))
                 ) : (
                   <ImageLayoutBackground>

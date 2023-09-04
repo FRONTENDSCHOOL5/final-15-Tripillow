@@ -10,10 +10,12 @@ import FollowerListAPI from 'Api/Profile/FollowerListAPI';
 import FollowingListAPI from 'Api/Profile/FollowingListAPI';
 import isDesktop from 'Recoil/isDesktop/isDesktop';
 import MyPillowings from 'Components/Home/MyPillowings';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const Followers = () => {
   const location = useLocation();
   const isPCScreen = useRecoilValue(isDesktop);
+  const isWideView = useIsWideView();
   const pathIdentifier = location.pathname.split('/');
   const last = pathIdentifier.length - 1;
   const accountname = location.state?.accountname;
@@ -46,7 +48,7 @@ const Followers = () => {
 
   return (
     <Layout>
-      {!isPCScreen && (
+      {!isWideView && (
         <>
           {pageTitle === 'Pillowers' && <BasicHeader empty>Pillowers</BasicHeader>}
           {pageTitle === 'Pillowings' && <BasicHeader empty>Pillowings</BasicHeader>}
@@ -62,7 +64,7 @@ const Followers = () => {
               <FollowUser followers key={index} user={following} pathIdentifier={pathIdentifier} margin='24px 0 0 0' />
             ))}
       </main>
-      {isPCScreen || <Navbar />}
+      {isWideView || <Navbar />}
       {isPCScreen && regex.test(location.pathname) && <MyPillowings $on={isPCScreen} />}
     </Layout>
   );

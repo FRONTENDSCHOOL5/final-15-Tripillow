@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-export default function PCNavbarModal(props) {
+const SideNavBarModal = (props) => {
   const navigate = useNavigate();
   const closeModal = (e) => {
     props.setIsModalOn(false);
@@ -30,7 +30,7 @@ export default function PCNavbarModal(props) {
       </ModalLayout>
     </ModalBackground>
   );
-}
+};
 
 const ModalBackground = styled.div`
   position: fixed;
@@ -78,3 +78,5 @@ const Button = styled.button`
     margin: 0 5px 5px 5px;
   }
 `;
+
+export default SideNavBarModal;

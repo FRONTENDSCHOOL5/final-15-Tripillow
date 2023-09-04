@@ -1,30 +1,29 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
-import { useRecoilValue } from 'recoil';
 import { LayoutStyle } from 'Styles/Layout';
 import LoginMethod from 'Components/LoginMethod';
 import tripillowCharacter from 'Assets/tripillowCharacter.gif';
-import isDesktop from 'Recoil/isDesktop/isDesktop';
 import { FadeIn, logoFadeIn, PCBackFadeout } from 'Styles/LandingAnimation';
 import PCTripillow from 'Components/Landing/PCTripillow';
 import Logo from 'Assets/logo.png';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const Landings = () => {
-  const isPCScreen = useRecoilValue(isDesktop);
+  const isWideView = useIsWideView();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isPCScreen) {
+    if (isWideView) {
       const timer = setTimeout(() => {
         navigate('login');
       }, 4500);
 
       return () => clearTimeout(timer);
     }
-  }, [isPCScreen, navigate]);
+  }, [isWideView, navigate]);
 
-  if (isPCScreen) {
+  if (isWideView) {
     return (
       <PCLandingLayout>
         <PCTripillow />

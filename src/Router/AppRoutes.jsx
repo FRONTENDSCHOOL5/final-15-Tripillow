@@ -1,5 +1,4 @@
 import { Route, Outlet, Routes } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
 import Home from 'Pages/Home';
 import Search from 'Pages/Search';
 import Login from 'Pages/Login';
@@ -20,11 +19,11 @@ import PostModification from 'Pages/Post/PostModification';
 import ProtectRoute from 'Utils/ProtectRoute/ProtectRoute';
 import Setting from 'Pages/Profile/Setting';
 import Landing from 'Pages/Landing';
-import PCNavBar from 'Components/PCNav/PCNavBar';
-import isDesktop from 'Recoil/isDesktop/isDesktop';
+import SideNavBar from 'Components/SideNav/SideNavBar';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const AppRoutes = () => {
-  const isPCScreen = useRecoilValue(isDesktop);
+  const isWideView = useIsWideView();
 
   return (
     <Routes>
@@ -34,7 +33,7 @@ const AppRoutes = () => {
       <Route
         element={
           <ProtectRoute>
-            {isPCScreen && <PCNavBar />}
+            {isWideView && <SideNavBar />}
             <Outlet />
           </ProtectRoute>
         }

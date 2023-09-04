@@ -10,10 +10,13 @@ import Navbar from 'Components/common/Navbar';
 import User from 'Components/common/User';
 import UserSkeleton from 'Components/common/Skeleton/UserSkeleton';
 import isDesktop from 'Recoil/isDesktop/isDesktop';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const Search = ({ setIsSearch, setIsClicked }) => {
   const token = useRecoilValue(userToken);
   const isPCScreen = useRecoilValue(isDesktop);
+  const isWideView = useIsWideView();
+
   const location = useLocation();
 
   const [searchKeyword, setSearchKeyword] = useState('');
@@ -129,13 +132,13 @@ const Search = ({ setIsSearch, setIsClicked }) => {
   );
   return (
     <>
-      {isPCScreen ? (
-        <PCLayout onClick={closeModal}>
+      {isWideView ? (
+        <PCBackground onClick={closeModal} isPCScreen={isPCScreen}>
           <PCSearchLayout onClick={(e) => e.stopPropagation()}>
             <SearchInput value={searchKeyword} onChange={handleSearchKeyword} />
             <SearchContent />
           </PCSearchLayout>
-        </PCLayout>
+        </PCBackground>
       ) : (
         <Layout>
           <SearchHeader value={searchKeyword} onChange={handleSearchKeyword} />
@@ -161,27 +164,25 @@ const ShowAllButton = styled.button`
   color: var(--primary);
 `;
 
-const PCLayout = styled.div`
-  position: absolute;
+const PCBackground = styled.div`
+  position: fixed;
   width: 100%;
   height: 100%;
-  left: 335px;
+  left: ${(props) => (props.isPCScreen ? '349px' : '83px')};
+  z-index: 50;
 `;
 
 const PCSearchLayout = styled.div`
   width: 390px;
   position: fixed;
-  left: 335px;
   top: 0;
   height: 100%;
   padding: 16px 16px;
   background-color: white;
-  box-shadow: 0px -2px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: rgba(0, 0, 0, 0.05) 4px 0px 5px;
   box-sizing: border-box;
-  border-radius: 10px 10px 0 0;
   animation: fadeInModal 0.5s ease;
   overflow: auto;
-  z-index: 1;
 
   @keyframes fadeInModal {
     from {

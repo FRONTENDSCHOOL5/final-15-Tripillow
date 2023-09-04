@@ -1,20 +1,19 @@
 import React from 'react';
-import { useRecoilValue } from 'recoil';
 import styled, { css } from 'styled-components';
 import BasicHeader from 'Components/common/Header/BasicHeader';
 import Navbar from 'Components/common/Navbar';
 import ChatUser from 'Components/Chat/ChatUser';
-import isDesktop from 'Recoil/isDesktop/isDesktop';
 import useFollowing from 'Hooks/useFollowing';
 import { LayoutStyle } from 'Styles/Layout';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const ChatList = () => {
-  const isPCScreen = useRecoilValue(isDesktop);
+  const isWideView = useIsWideView();
   const { followingData } = useFollowing();
 
   return (
-    <ChatListLayout $isPCScreen={isPCScreen} $pc={isPCScreen}>
-      {!isPCScreen && (
+    <ChatListLayout $isWideView={isWideView} $pc={isWideView}>
+      {!isWideView && (
         <BasicHeader
           btn1='설정 및 개인정보'
           btn2='로그아웃'
@@ -34,7 +33,7 @@ const ChatList = () => {
             />
           ))}
       </ChatUserLayout>
-      {isPCScreen || <Navbar />}
+      {isWideView || <Navbar />}
     </ChatListLayout>
   );
 };

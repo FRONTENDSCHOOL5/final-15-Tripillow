@@ -1,16 +1,15 @@
 import React from 'react';
-import { useRecoilValue } from 'recoil';
 import styled, { css } from 'styled-components';
-import isDesktop from 'Recoil/isDesktop/isDesktop';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const ImageModal = ({ setIsModalOn, imgSrc }) => {
-  const isPCScreen = useRecoilValue(isDesktop);
+  const isWideView = useIsWideView();
   const closeModal = () => {
     setIsModalOn(false);
   };
   return (
-    <ModalBackground onClick={closeModal} $isPCScreen={isPCScreen}>
-      <Modal src={imgSrc} $isPCScreen={isPCScreen} />
+    <ModalBackground onClick={closeModal} $isWideView={isWideView}>
+      <Modal src={imgSrc} $isWideView={isWideView} />
     </ModalBackground>
   );
 };
@@ -18,12 +17,12 @@ const ImageModal = ({ setIsModalOn, imgSrc }) => {
 const ModalBackground = styled.div`
   position: fixed;
   top: 0;
-  left: ${(props) => (props.$isPCScreen ? '335px' : '0')};
-  width: ${(props) => (props.$isPCScreen ? 'calc(100% - 335px)' : '390px')};
+  left: 0;
+  width: ${(props) => (props.$isWideView ? '100%' : '390px')};
   height: 100%;
   background-color: rgba(0, 0, 0, 0.8);
   ${(props) =>
-    props.$isPCScreen ||
+    props.$isWideView ||
     css`
       top: 50%;
       left: 50%;
@@ -36,7 +35,7 @@ const Modal = styled.img`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: ${(props) => (props.$isPCScreen ? '50%' : '100%')};
+  width: ${(props) => (props.$isWideView ? '50%' : '100%')};
   margin: auto;
 `;
 

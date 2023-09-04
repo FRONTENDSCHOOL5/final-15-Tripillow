@@ -20,7 +20,7 @@ const AlertLayout = styled.div`
   animation: ${(props) => (props.newAnimation ? 'landingFadeIn 2s forwards' : 'alertFadeIn 2s forwards')};
 
   ${(props) =>
-    props.isPCScreen &&
+    props.isWideView &&
     css`
       top: 0;
       left: calc((100% - 480px) / 2);

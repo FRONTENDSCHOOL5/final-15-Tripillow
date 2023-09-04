@@ -15,11 +15,13 @@ import HomePostSkeleton from 'Components/common/Skeleton/HomePostSkeleton';
 import Spinner from 'Components/common/Spinner';
 import Empty from 'Components/common/Empty';
 import logo from 'Assets/logo-gray.png';
-import isDesktop from 'Recoil/isDesktop/isDesktop';
 import MyPillowings from 'Components/Home/MyPillowings';
+import useIsWideView from 'Components/SideNav/useIsWideView';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
 
 const Home = () => {
   const isPCScreen = useRecoilValue(isDesktop);
+  const isWideView = useIsWideView();
   const token = useRecoilValue(userToken);
   const queryClient = useQueryClient();
 
@@ -34,7 +36,6 @@ const Home = () => {
     const updatedGlobalPosts = [];
 
     if (cachedData) {
-      feedCount.current += 1;
       for (let i = 0; i < cachedData.pages.length; i++) {
         cachedData?.pages[i]?.forEach((post) => {
           const match = post.content.match(/^\[(K|G)\]/);
@@ -60,7 +61,8 @@ const Home = () => {
     setGlobalPosts((prev) => [...prev, ...updatedGlobalPosts]);
   };
 
-  const fetchFollowedFeed = async ({ pageParam }) => {
+  const fetchFollowedFeed = async ({ pageParam = 0 }) => {
+    feedCount.current = pageParam;
     const response = await fetch(`${URL}/post/feed/?limit=20&skip=${pageParam * 20}`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -100,15 +102,14 @@ const Home = () => {
 
   useEffect(() => {
     if (inView && hasNextPage) {
-      feedCount.current += 1;
       fetchNextPage();
     }
     //eslint-disable-next-line
   }, [inView]);
 
   return (
-    <Layout $isPCScreen={isPCScreen}>
-      {!isPCScreen && <MainHeader />}
+    <Layout $isWideView={isWideView}>
+      {!isWideView && <MainHeader />}
       <main style={{ paddingBottom: 90 }}>
         <Toggle
           margin='25px 0 0 16px'
@@ -122,7 +123,7 @@ const Home = () => {
             <HomePostSkeleton />
             <HomePostSkeleton />
           </>
-        ) : followedFeed?.pages?.length > 0 ? (
+        ) : followedFeed?.pages[0].length > 0 ? (
           isLeftToggle ? (
             koreaPosts.map((post) => <HomePost key={post.id} post={post} />)
           ) : (
@@ -138,8 +139,8 @@ const Home = () => {
         <div ref={ref}> {isFetchingNextPage && <Spinner />}</div>
       </main>
       <TopButton />
-      {isPCScreen || <Navbar />}
-      {isPCScreen && <MyPillowings $on={isPCScreen} />}
+      {isWideView || <Navbar />}
+      <MyPillowings $on={isPCScreen} />
     </Layout>
   );
 };

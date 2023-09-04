@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
@@ -18,7 +18,7 @@ import productfill from 'Assets/icons/icon-shop-fill.svg';
 import chatfill from 'Assets/icons/icon-message-circle-fill.svg';
 import postfill from 'Assets/icons/icon-edit-fill.svg';
 import searchfill from 'Assets/icons/icon-search-fill.svg';
-import PCNavbarModal from 'Components/common/Modal/PCNavbarModal';
+import SideNavBarModal from 'Components/common/Modal/SideNavBarModal';
 import PCAlertModal from 'Components/common/Modal/PCAlertModal';
 import Search from 'Pages/Search';
 
@@ -27,14 +27,18 @@ const TabNavBar = (props) => {
   const location = useLocation();
   const [isClicked, setIsClicked] = useState('');
   const [isSearch, setIsSearch] = useState(false);
-  const icons = [
-    { name: 'Search', img: search, imgfill: searchfill },
-    { name: 'Home', img: home, imgfill: homefill, path: '/home' },
-    { name: 'Chat', img: chat, imgfill: chatfill, path: '/chat' },
-    { name: 'Product', img: product, imgfill: productfill, path: '/product' },
-    { name: 'Add Post', img: post, imgfill: postfill, path: '/post' },
-    { name: 'Profile', img: profile, imgfill: profilefill, path: '/profile' },
-  ];
+  const icons = useMemo(
+    () => [
+      { name: 'Search', img: search, imgfill: searchfill },
+      { name: 'Home', img: home, imgfill: homefill, path: '/home' },
+      { name: 'Chat', img: chat, imgfill: chatfill, path: '/chat' },
+      { name: 'Product', img: product, imgfill: productfill, path: '/product' },
+      { name: 'Add Post', img: post, imgfill: postfill, path: '/post' },
+      { name: 'Profile', img: profile, imgfill: profilefill, path: '/profile' },
+    ],
+    [],
+  );
+
   const [isModalOn, setIsModalOn] = useState(false);
   const [isAlertModalOn, setIsAlertModalOn] = useState(false);
   const $Root = document.getElementById('root');
@@ -47,8 +51,7 @@ const TabNavBar = (props) => {
     const icon = icons.find((el) => el.path === location.pathname);
     icon && setIsClicked(icon.name);
     setIsSearch(false);
-    //eslint-disable-next-line
-  }, [location]);
+  }, [location, icons]);
 
   return (
     <>
@@ -57,6 +60,7 @@ const TabNavBar = (props) => {
           onClick={() => {
             navigate('/home');
           }}
+          aria-label='홈'
         >
           <img src={character} alt='logo' />
         </MainButton>
@@ -71,21 +75,21 @@ const TabNavBar = (props) => {
                   navigate(el.path);
                 }
               }}
+              aria-label={el.name}
             >
-              <Icon src={isClicked === el.name ? el.imgfill : el.img} />
-              {/* <IconInfo setColor={isClicked === el.name}>{el.name}</IconInfo> */}
+              <Icon src={isClicked === el.name ? el.imgfill : el.img} alt={el.name} />
             </Button>
           );
         })}
         <MoreLayout>
-          <More onClick={handleMoreClick} id='PCNavModal'>
+          <More onClick={handleMoreClick} id='PCNavModal' aria-label='더 보기'>
             <img src={menu} alt='menu' />
           </More>
         </MoreLayout>
       </Layout>
       {isModalOn &&
         createPortal(
-          <PCNavbarModal setIsModalOn={setIsModalOn} setIsAlertModalOn={setIsAlertModalOn}></PCNavbarModal>,
+          <SideNavBarModal setIsModalOn={setIsModalOn} setIsAlertModalOn={setIsAlertModalOn}></SideNavBarModal>,
           $Root,
         )}
       {isAlertModalOn &&
@@ -102,7 +106,7 @@ const TabNavBar = (props) => {
   );
 };
 
-const Layout = styled.div`
+const Layout = styled.nav`
   width: 80px;
   height: 100%;
   padding-top: 46px;
@@ -110,7 +114,6 @@ const Layout = styled.div`
   top: 0;
   left: 0;
   background-color: #fff;
-  /* background-color: #b68a8a; */
   box-shadow: 2px 0px 8px 0px rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
   position: fixed;

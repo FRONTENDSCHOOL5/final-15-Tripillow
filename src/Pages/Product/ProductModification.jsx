@@ -4,7 +4,6 @@ import throttle from 'lodash.throttle';
 import Toggle from 'Components/common/Toggle';
 import styled from 'styled-components';
 import Navbar from 'Components/common/Navbar';
-import TabNavBar from 'Components/TabNav/TabNavBar';
 import Input from 'Components/common/Input';
 import URL from 'Api/URL';
 import ImageUploadAPI from 'Api/Upload/ImageUploadAPI';
@@ -15,14 +14,14 @@ import ProductModifyAPI from 'Api/Product/ProductModifyAPI';
 import ProductDetailAPI from 'Api/Product/ProductDetailAPI';
 import { LayoutStyle } from 'Styles/Layout';
 import isDesktop from 'Recoil/isDesktop/isDesktop';
-import isTab from 'Recoil/isTab/isTab';
 import Button from 'Components/common/Button';
 import MyPillowings from 'Components/Home/MyPillowings';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const ProductModification = () => {
   const navigate = useNavigate();
   const isPCScreen = useRecoilValue(isDesktop);
-  const isTabScreen = useRecoilValue(isTab);
+  const isWideView = useIsWideView();
   const [productInputs, setProductInputs] = useState({
     product: {
       itemName: '',
@@ -104,16 +103,15 @@ const ProductModification = () => {
   }, [isModified, navigate]);
 
   return (
-    <Layout $isPCScreen={isPCScreen}>
-      {isTabScreen && <TabNavBar />}
-      {!isPCScreen && (
+    <Layout $isWideView={isWideView}>
+      {!isWideView && (
         <UploadHeader type='submit' onClick={throttledHandleSubmit}>
           저장
         </UploadHeader>
       )}
       <form>
         <Label htmlFor='file-upload'>
-          <Image src={productInputs.product?.itemImage || defaultImage} />
+          <Image src={productInputs.product?.itemImage || defaultImage} alt={productInputs.product.itemName} />
         </Label>
         <input id='file-upload' className='a11y-hidden' onChange={handleImgChange} type='file' />
         <CategoryTxt>카테고리</CategoryTxt>
@@ -149,14 +147,14 @@ const ProductModification = () => {
           상세 설명
         </label>
         <ProductText id='product' name='link' value={productInputs.product.link} onChange={handleInputChange} />
-        {isPCScreen && (
+        {isWideView && (
           <Button type='submit' onClick={throttledHandleSubmit} width='90px' fontSize='14px' padding='7.75px'>
             저장
           </Button>
         )}
       </form>
-      {isPCScreen || isTabScreen || <Navbar />}
-      {isPCScreen && <MyPillowings $on={isPCScreen} />}
+      {isWideView || <Navbar />}
+      <MyPillowings $on={isPCScreen} />
     </Layout>
   );
 };

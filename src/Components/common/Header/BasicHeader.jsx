@@ -93,11 +93,12 @@ const BasicHeader = (props) => {
           onClick={() => {
             props.isChat ? navigate('/chat') : navigate(-1);
           }}
+          aria-label='뒤로 가기'
         />
         {props.children && <HeaderContent>{props.children}</HeaderContent>}
       </ContentLayout>
       {props.empty || currentPath[currentPath.length - 1] === 'setting' ? null : (
-        <MoreButton onClick={handleMorebutton} />
+        <MoreButton onClick={handleMorebutton} aria-label='더 보기' />
       )}
       {modal && (
         <Modal
