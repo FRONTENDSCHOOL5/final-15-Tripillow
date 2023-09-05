@@ -30,9 +30,23 @@ const ProductDetail = () => {
   const isPCScreen = useRecoilValue(isDesktop);
   const isWideView = useIsWideView();
 
-  const productDetail = ProductDetailAPI(params.id);
-  const userImg = productDetail.author?.image;
-  const isMine = userName === productDetail.author?.accountname;
+  const getProductDetail = ProductDetailAPI(params.id);
+  // const  productDetail  = ProductDetailAPI(params.id);
+  // console.log(productDetail)
+  const [productDetail, setProductDetail] = useState();
+
+  useEffect(() => {
+    const handleDetail = async () => {
+      const details = await getProductDetail();
+
+      setProductDetail(details.product);
+      console.log('details : ' , details);
+    };
+    handleDetail();
+  }, []);
+  console.log(productDetail);
+  const userImg = productDetail?.author?.image;
+  const isMine = userName === productDetail?.author?.accountname;
   const [userCheck, setUserCheck] = useState(false);
   const [showImg, setShowImg] = useState(false);
 
@@ -52,7 +66,7 @@ const ProductDetail = () => {
     setRandomMessage(selectedMessage);
   }, []);
 
-  const username = productDetail.author?.username;
+  const username = productDetail?.author?.username;
 
   useEffect(() => {
     setProductId(params.id);
@@ -95,8 +109,8 @@ const ProductDetail = () => {
   };
 
   useEffect(() => {
-    if (userName === productDetail.author?.accountname) setUserCheck(true);
-  }, [userName, productDetail.author?.accountname]);
+    if (userName === productDetail?.author?.accountname) setUserCheck(true);
+  }, [userName, productDetail?.author?.accountname]);
 
   return (
     <>
