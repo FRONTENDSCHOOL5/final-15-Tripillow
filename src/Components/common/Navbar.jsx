@@ -12,27 +12,21 @@ import homefill from 'Assets/icons/icon-home-fill.svg';
 import shopfill from 'Assets/icons/icon-shop-fill.svg';
 import chatfill from 'Assets/icons/icon-message-circle-fill.svg';
 import postfill from 'Assets/icons/icon-edit-fill.svg';
-import { useLocation, useNavigate } from 'react-router-dom';
+import navbarIcon from 'Recoil/navbarIcon/navbarIcon';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 
 const Navbar = (props) => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const [buttonId, setButtonId] = useState(0);
+  const [iconState, setIconState] = useRecoilState(navbarIcon);
 
   const icons = [
-    { name: '홈', image: home, fillImage: homefill, path: ['/home'] },
-    { name: '채팅', image: chat, fillImage: chatfill, path: ['/chat'] },
-    { name: '상품', image: shop, fillImage: shopfill, path: ['/product', '/addproduct'] },
-    { name: '게시물 작성', image: post, fillImage: postfill, path: ['/post'] },
-    { name: '프로필', image: user, fillImage: userfill, path: ['/profile'] },
+    { name: 'Home', image: home, fillImage: homefill, path: ['/home'] },
+    { name: 'Chat', image: chat, fillImage: chatfill, path: ['/chat'] },
+    { name: 'Product', image: shop, fillImage: shopfill, path: ['/product', '/addproduct'] },
+    { name: 'Add Post', image: post, fillImage: postfill, path: ['/post'] },
+    { name: 'Profile', image: user, fillImage: userfill, path: ['/profile'] },
   ];
-
-  useEffect(() => {
-    const path = location.pathname;
-    const buttonIndex = icons.findIndex((icon) => icon.path.includes(path));
-    setButtonId(buttonIndex !== -1 ? buttonIndex : '');
-    //eslint-disable-next-line
-  }, [location]);
 
   return (
     <NavbarLayout margin={props.margin}>
@@ -40,12 +34,14 @@ const Navbar = (props) => {
         <IconLayout
           key={i}
           onClick={() => {
+            setIconState(el.name);
+
             navigate(el.path[0]);
           }}
           aria-label={el.name}
         >
-          <IconImg src={buttonId === i ? el.fillImage : el.image} alt={el.name} />
-          <IconInfo setColor={buttonId === i}>{el.name}</IconInfo>
+          <IconImg src={iconState === el.name ? el.fillImage : el.image} alt={el.name} />
+          <IconInfo setColor={iconState === el.name}>{el.name}</IconInfo>
         </IconLayout>
       ))}
     </NavbarLayout>
