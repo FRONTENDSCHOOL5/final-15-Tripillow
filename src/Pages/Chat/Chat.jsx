@@ -6,7 +6,7 @@ import useIsWideView from 'Components/SideNav/useIsWideView';
 const Chat = () => {
   const isWideView = useIsWideView();
 
-  return <>{isWideView ? <PCChat /> : <ChatList />}</>;
+  return isWideView ? <PCChat /> : <ChatList />;
 };
 
 export default Chat;

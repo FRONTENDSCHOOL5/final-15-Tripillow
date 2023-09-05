@@ -19,7 +19,7 @@ const PCTripillow = () => {
   );
 };
 
-const PCTripillowLayout = styled.div`
+const PCTripillowLayout = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: center;

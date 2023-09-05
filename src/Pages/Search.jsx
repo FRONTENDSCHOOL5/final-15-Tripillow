@@ -172,7 +172,7 @@ const PCBackground = styled.div`
   z-index: 50;
 `;
 
-const PCSearchLayout = styled.div`
+const PCSearchLayout = styled.article`
   width: 390px;
   position: fixed;
   top: 0;

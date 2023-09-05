@@ -20,7 +20,7 @@ const UseUserProfile = (props) => {
   const [isFollow, setIsFollow] = useState(user?.isfollow);
   const [followText, setFollowText] = useState(!follow ? '팔로우' : '언팔로우');
   const [randomMessage, setRandomMessage] = useState('');
-  const [followCount, setFollowCount] = useState(user.followerCount);
+  const [followCount, setFollowCount] = useState(user?.followerCount);
 
   const { followUser } = FollowAPI(account);
   const { unFollowUser } = UnFollowAPI(account);

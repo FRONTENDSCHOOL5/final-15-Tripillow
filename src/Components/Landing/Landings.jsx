@@ -26,12 +26,14 @@ const Landings = () => {
   if (isWideView) {
     return (
       <PCLandingLayout>
+        <h1 className='a11y-hidden'>Tripillow 랜딩페이지</h1>
         <PCTripillow />
       </PCLandingLayout>
     );
   } else {
     return (
       <MobileLandingLayout>
+        <h1 className='a11y-hidden'>Tripillow 랜딩페이지</h1>
         <TripillowLayout>
           <img src={tripillowCharacter} alt='Tripillow 베게를 껴안고 작은 지구 위에 앉은 나무늘보 캐릭터' />
           <img src={Logo} alt='Tripillow' />
