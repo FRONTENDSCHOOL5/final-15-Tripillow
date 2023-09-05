@@ -154,7 +154,7 @@ const ProductModification = () => {
         )}
       </form>
       {isWideView || <Navbar />}
-      <MyPillowings $on={isPCScreen} />
+      {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </Layout>
   );
 };

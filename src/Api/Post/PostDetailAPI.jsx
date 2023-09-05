@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useRecoilValue } from 'recoil';
 import URL from 'Api/URL';
 import userToken from 'Recoil/userToken/userToken';
@@ -5,7 +6,7 @@ import userToken from 'Recoil/userToken/userToken';
 const PostDetailAPI = (postId, updatePostInfo) => {
   const token = useRecoilValue(userToken);
 
-  const getPostDetail = async () => {
+  const getPostDetail = useCallback(async () => {
     try {
       const response = await fetch(`${URL}/post/${postId}`, {
         method: 'GET',
@@ -19,7 +20,7 @@ const PostDetailAPI = (postId, updatePostInfo) => {
     } catch (error) {
       console.error('API 응답에 실패하였습니다.', error);
     }
-  };
+  }, [postId, updatePostInfo, token]);
 
   return getPostDetail;
 };
