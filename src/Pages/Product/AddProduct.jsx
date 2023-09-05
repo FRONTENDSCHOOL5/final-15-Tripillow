@@ -111,7 +111,7 @@ const AddProduct = (props) => {
   return (
     <Layout $isWideView={isWideView}>
       <h1 className='a11y-hidden'>상품 등록 페이지</h1>
-      {!isWideView && !isTabScreen && (
+      {!isWideView && (
         <UploadHeader onClick={throttledHandleSubmit} disabled={!imageLink || !productName || !price || !description}>
           저장
         </UploadHeader>
