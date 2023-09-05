@@ -8,6 +8,7 @@ import isLogin from 'Recoil/isLogin/isLogin';
 import accountName from 'Recoil/accountName/accountName';
 import { isKorea, isOverseas } from 'Recoil/whichCountry/whichCountry';
 import { isList, isAlbum } from 'Recoil/whichView/whichView';
+import navbarIcon from 'Recoil/navbarIcon/navbarIcon';
 
 const PCAlertModal = (props) => {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ const PCAlertModal = (props) => {
   const setOverseas = useSetRecoilState(isOverseas);
   const setListView = useSetRecoilState(isList);
   const setAlbumView = useSetRecoilState(isAlbum);
+  const setNavbarIcon = useSetRecoilState(navbarIcon);
 
   const closeModal = (e) => {
     props.setIsAlertModalOn(false);
@@ -35,6 +37,7 @@ const PCAlertModal = (props) => {
     setOverseas(false);
     setListView(true);
     setAlbumView(false);
+    setNavbarIcon('Home');
   };
 
   return (
