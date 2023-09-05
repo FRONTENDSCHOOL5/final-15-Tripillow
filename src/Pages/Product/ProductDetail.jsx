@@ -32,8 +32,7 @@ const ProductDetail = () => {
 
   const getProductDetail = ProductDetailAPI(params.id);
 
-  const [productDetail, setProductDetail] = useState(()=> {});
-
+  const [productDetail, setProductDetail] = useState(() => {});
 
   const userImg = productDetail?.author?.image;
   const isMine = userName === productDetail?.author?.accountname;
@@ -45,7 +44,6 @@ const ProductDetail = () => {
   const [isModalOn, setIsModalOn] = useState(false);
   const [isAlertModalOn, setIsAlertModalOn] = useState(false);
 
-
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * chatLists.length);
     const selectedMessage = chatLists[randomIndex];
@@ -53,14 +51,13 @@ const ProductDetail = () => {
   }, []);
 
   const username = productDetail?.author?.username;
-  
 
   useEffect(() => {
     const handleDetail = async () => {
       const details = await getProductDetail();
 
       setProductDetail(details.product);
-      console.log('details : ' , details);
+      console.log('details : ', details);
     };
     handleDetail();
   }, [getProductDetail]);
@@ -178,6 +175,7 @@ const ProductDetail = () => {
                     alt='좋아요'
                   />
                 )}
+
                 <ProudctPrice>{productDetail?.price?.toLocaleString()}원</ProudctPrice>
               </div>
               <Button
@@ -305,6 +303,7 @@ const ProudctPrice = styled.p`
   font-size: 18px;
   font-weight: 700;
   line-height: 1.3;
+  white-space: nowrap;
 `;
 
 export default ProductDetail;
