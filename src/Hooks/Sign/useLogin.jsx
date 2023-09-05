@@ -12,8 +12,8 @@ const useLogin = () => {
   const [userErrorMessage, setUserErrorMessage] = useState('');
   const [userInput, setUserInput] = useState({
     user: {
-      email: '',
-      password: '',
+      email: 'sudo@sudo.com',
+      password: '123123',
     },
   });
 
