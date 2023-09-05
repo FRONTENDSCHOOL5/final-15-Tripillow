@@ -27,21 +27,12 @@ const UserProfile = (props) => {
 
   return (
     <>
-      {user && (
-        <>
-          {isModal && (
-            <AlertTop isModal={isModal} isWideView={isWideView}>
-              클립보드에 복사되었습니다
-            </AlertTop>
-          )}
-          <h1 className='a11y-hidden'>사용자 프로필</h1>
-          {isWideView ? (
-            <PCUser user={user} handleCopy={handleCopy} />
-          ) : (
-            <MobileUser user={user} handleCopy={handleCopy} />
-          )}
-        </>
+      {isModal && (
+        <AlertTop isModal={isModal} isWideView={isWideView}>
+          클립보드에 복사되었습니다
+        </AlertTop>
       )}
+      {isWideView ? <PCUser user={user} handleCopy={handleCopy} /> : <MobileUser user={user} handleCopy={handleCopy} />}
     </>
   );
 };

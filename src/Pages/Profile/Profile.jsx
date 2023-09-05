@@ -14,6 +14,7 @@ import useIsWideView from 'Components/SideNav/useIsWideView';
 const Profile = () => {
   const navigate = useNavigate();
   const { state, pathname } = useLocation();
+  const pathArr = pathname.split('/');
   const isPCScreen = useRecoilValue(isDesktop);
   const isWideView = useIsWideView();
   const [isDeleted, setIsDeleted] = useState(state?.isDeleted);
@@ -37,7 +38,13 @@ const Profile = () => {
   return (
     <Layout $isWideView={isWideView}>
       {!isWideView && (
-        <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='로그아웃' />
+        <BasicHeader
+          btn1='설정 및 개인정보'
+          btn2='로그아웃'
+          txt='정말 로그아웃 하시겠습니까?'
+          rightbtn='로그아웃'
+          subject={pathArr.length > 2 ? `${pathArr[2]}의 프로필` : '나의 프로필'}
+        />
       )}
       {(isModified || isDeleted) && (
         <AlertTop isWideView={isWideView} isError={isDeleted}>
@@ -46,7 +53,7 @@ const Profile = () => {
       )}
       <ProfileMain setIsDeleted={setIsDeleted} setIsModified={setIsModified} />
       {isWideView || <Navbar />}
-      <MyPillowings $on={isPCScreen} />
+      {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </Layout>
   );
 };

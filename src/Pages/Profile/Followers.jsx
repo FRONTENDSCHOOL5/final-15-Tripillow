@@ -51,7 +51,11 @@ const Followers = () => {
       {!isWideView && (
         <>
           {pageTitle === 'Pillowers' && <BasicHeader empty>Pillowers</BasicHeader>}
-          {pageTitle === 'Pillowings' && <BasicHeader empty>Pillowings</BasicHeader>}
+          {pageTitle === 'Pillowings' && (
+            <BasicHeader empty subject={`팔로잉 페이지`}>
+              Pillowings
+            </BasicHeader>
+          )}
         </>
       )}
 

@@ -19,10 +19,7 @@ const ChatContent = () => {
   const [inputValue, setInputValue] = useState('');
   const [chatValue, setChatValue] = useState([]);
   const [myInfo, setMyInfo] = useState({});
-  const updateMyInfo = (data) => {
-    setMyInfo(data);
-  };
-  const { getUserData } = MyInfoAPI(updateMyInfo);
+  const { getUserData } = MyInfoAPI();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,7 +57,6 @@ const ChatContent = () => {
 
   return (
     <ChatLayout $isWideView={isWideView} $index={!username}>
-      {!username ? <h1 className='a11y-hidden'>채팅 상세</h1> : <h2 className='a11y-hidden'>채팅 상세</h2>}
       {!username ? (
         <IndexLayout>
           <CharLayout>
@@ -71,7 +67,14 @@ const ChatContent = () => {
       ) : (
         <>
           {!isWideView && (
-            <BasicHeader btn1='신고하기' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='확인' isChat>
+            <BasicHeader
+              btn1='신고하기'
+              btn2='로그아웃'
+              txt='정말 로그아웃 하시겠습니까?'
+              rightbtn='확인'
+              isChat
+              subject={`${username}의 채팅`}
+            >
               {username}
             </BasicHeader>
           )}

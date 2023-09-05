@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import CommonButton from 'Components/common/Button';
-import { UserProfileLayout, ImgLayout, IconBox, ShareIconStyle } from 'Components/Profile/UserStyle';
+import { UserProfileLayout, ImgLayout, IconBox, ShareIconStyle } from 'Styles/UserStyle';
 import UseUserProfile from 'Hooks/useUserProfile';
 import Chat from 'Assets/icons/icon-message-circle-1.svg';
 import ProfileImg from 'Assets/profile-lg.png';

@@ -121,6 +121,7 @@ const ProductDetail = () => {
               btn2='삭제'
               txt='정말 삭제 하시겠습니까?'
               rightbtn='확인'
+              subject={`${productDetail.author?.username}의 상품`}
             >
               판매 중인 상품
             </BasicHeader>
@@ -194,7 +195,7 @@ const ProductDetail = () => {
               {productDetail?.link}
             </ProductContent>
           </main>
-          <MyPillowings $on={isPCScreen} />
+          {isPCScreen && <MyPillowings $on={isPCScreen} />}
         </Layout>
       )}
     </>

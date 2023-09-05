@@ -27,8 +27,23 @@ const BasicHeader = (props) => {
   const setOverseas = useSetRecoilState(isOverseas);
   const setListView = useSetRecoilState(isList);
   const setAlbumView = useSetRecoilState(isAlbum);
-  const location = useLocation();
-  const currentPath = location.pathname.split('/');
+  const { pathname } = useLocation();
+  const currentPath = pathname.split('/');
+
+  const paths = {
+    '/chat': '채팅 페이지',
+    '/product': '상품 페이지',
+    '/profile/followers': '팔로우 페이지',
+    '/profile': '프로필 페이지',
+    '/profile/setting': '설정 및 개인정보',
+
+    /**
+     * '/product/detail/:id'
+     * '/post/:id'
+     * '/profile/:accountname/followers'
+     * '/chat/:username'
+     */
+  };
 
   const userId = props.userId;
 
@@ -86,8 +101,11 @@ const BasicHeader = (props) => {
     navigate('/profile/setting');
   };
 
+  console.log(props.subject);
+
   return (
     <HeaderLayout>
+      <h1 className='a11y-hidden'>{props.subject ? props.subject : paths[pathname]}</h1>
       <ContentLayout>
         <PrevButton
           onClick={() => {
