@@ -20,11 +20,11 @@ const Navbar = (props) => {
   const [iconState, setIconState] = useRecoilState(navbarIcon);
 
   const icons = [
-    { name: 'Home', image: home, fillImage: homefill, path: ['/home'] },
-    { name: 'Chat', image: chat, fillImage: chatfill, path: ['/chat'] },
-    { name: 'Product', image: shop, fillImage: shopfill, path: ['/product', '/addproduct'] },
-    { name: 'Add Post', image: post, fillImage: postfill, path: ['/post'] },
-    { name: 'Profile', image: user, fillImage: userfill, path: ['/profile'] },
+    { name: 'Home', koreanName: '홈', image: home, fillImage: homefill, path: ['/home'] },
+    { name: 'Chat', koreanName: '채팅', image: chat, fillImage: chatfill, path: ['/chat'] },
+    { name: 'Product', koreanName: '상품', image: shop, fillImage: shopfill, path: ['/product', '/addproduct'] },
+    { name: 'Add Post', koreanName: '게시물 작성', image: post, fillImage: postfill, path: ['/post'] },
+    { name: 'Profile', koreanName: '프로필', image: user, fillImage: userfill, path: ['/profile'] },
   ];
 
   return (
@@ -40,7 +40,7 @@ const Navbar = (props) => {
           aria-label={el.name}
         >
           <IconImg src={iconState === el.name ? el.fillImage : el.image} alt={el.name} />
-          <IconInfo setColor={iconState === el.name}>{el.name}</IconInfo>
+          <IconInfo setColor={iconState === el.name}>{el.koreanName}</IconInfo>
         </IconLayout>
       ))}
     </NavbarLayout>
