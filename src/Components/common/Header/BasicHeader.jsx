@@ -15,6 +15,7 @@ import HeaderLayout from 'Styles/HeaderLayout';
 import AlertModal from 'Components/common/Modal/AlertModal';
 import prev from 'Assets/icons/icon-arrow-back.svg';
 import more from 'Assets/icons/icon-more-vertical.svg';
+import navbarIcon from 'Recoil/navbarIcon/navbarIcon';
 
 const BasicHeader = (props) => {
   const navigate = useNavigate();
@@ -27,6 +28,8 @@ const BasicHeader = (props) => {
   const setOverseas = useSetRecoilState(isOverseas);
   const setListView = useSetRecoilState(isList);
   const setAlbumView = useSetRecoilState(isAlbum);
+  const setNavbarIcon = useSetRecoilState(navbarIcon);
+
   const { pathname } = useLocation();
   const currentPath = pathname.split('/');
 
@@ -80,6 +83,7 @@ const BasicHeader = (props) => {
     setOverseas(false);
     setListView(true);
     setAlbumView(false);
+    setNavbarIcon('Home');
   };
 
   const handleProductDelete = ProductDeleteAPI(userId);

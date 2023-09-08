@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import styled, { css } from 'styled-components';
@@ -38,11 +38,6 @@ const HomePostLayout = (props) => {
     post.createdAt.slice(0, 4) + '년 ' + post.createdAt.slice(5, 7) + '월 ' + post.createdAt.slice(8, 10) + '일 ';
   const [isHearted, setIsHearted] = useState(post.hearted);
   const [heartCount, setHeartCount] = useState(post.heartCount);
-
-  useEffect(() => {
-    setIsModalOn(false);
-    setIsAlertModalOn(false);
-  }, []);
 
   const handlePostClick = () => {
     if (inDetail) {

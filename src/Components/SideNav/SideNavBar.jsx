@@ -21,17 +21,18 @@ import postfill from 'Assets/icons/icon-edit-fill.svg';
 import searchfill from 'Assets/icons/icon-search-fill.svg';
 import isDesktop from 'Recoil/isDesktop/isDesktop';
 import isTab from 'Recoil/isTab/isTab';
+import navbarIcon from 'Recoil/navbarIcon/navbarIcon';
 import SideNavBarModal from 'Components/common/Modal/SideNavBarModal';
 import PCAlertModal from 'Components/common/Modal/PCAlertModal';
 import Search from 'Pages/Search';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 const SideNavBar = (props) => {
   const navigate = useNavigate();
   const isPCScreen = useRecoilValue(isDesktop);
   const isTabScreen = useRecoilValue(isTab);
+  const [iconState, setIconState] = useRecoilState(navbarIcon);
   const location = useLocation();
-  const [isClicked, setIsClicked] = useState('');
   const [isSearch, setIsSearch] = useState(false);
   const icons = useMemo(
     () => [
@@ -53,10 +54,8 @@ const SideNavBar = (props) => {
   };
 
   useEffect(() => {
-    const icon = icons.find((el) => el.path === location.pathname);
-    icon && setIsClicked(icon.name);
     setIsSearch(false);
-  }, [location, icons]);
+  }, [location]);
 
   return (
     <>
@@ -76,11 +75,11 @@ const SideNavBar = (props) => {
             <Button
               key={i}
               onClick={() => {
-                setIsClicked(el.name);
+                setIconState(el.name);
                 if (el.name === 'Search') {
                   const path = location.pathname;
                   setIsSearch((prev) => !prev);
-                  if (isSearch === true) setIsClicked(path.slice(1).charAt(0).toUpperCase() + path.slice(2));
+                  if (isSearch === true) setIconState(path.slice(1).charAt(0).toUpperCase() + path.slice(2));
                 }
                 if (el.path) {
                   navigate(el.path);
@@ -89,8 +88,8 @@ const SideNavBar = (props) => {
               isPCScreen={isPCScreen}
               aria-label={el.name}
             >
-              <Icon src={isClicked === el.name ? el.imgfill : el.img} alt={el.name} isPCScreen={isPCScreen} />
-              {isPCScreen && <IconInfo setColor={isClicked === el.name}>{el.name}</IconInfo>}
+              <Icon src={iconState === el.name ? el.imgfill : el.img} alt={el.name} isPCScreen={isPCScreen} />
+              {isPCScreen && <IconInfo setColor={iconState === el.name}>{el.name}</IconInfo>}
             </Button>
           );
         })}
@@ -114,7 +113,7 @@ const SideNavBar = (props) => {
           ></PCAlertModal>,
           $Root,
         )}
-      {isSearch && <Search setIsSearch={setIsSearch} setIsClicked={setIsClicked} />}
+      {isSearch && <Search setIsSearch={setIsSearch} setIconState={setIconState} />}
     </>
   );
 };

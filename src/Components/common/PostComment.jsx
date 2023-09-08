@@ -1,16 +1,13 @@
 import React, { useState, useRef } from 'react';
-import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import profileImg from 'Assets/profile-sm.png';
-import isDesktop from 'Recoil/isDesktop/isDesktop';
 import PostCommentAPI from 'Api/Post/PostCommentAPI';
 import useIsWideView from 'Components/SideNav/useIsWideView';
 
-export default function PostComment({ postId, setIsNewComment, userImg }) {
+const PostComment = ({ postId, setIsNewComment, userImg }) => {
   const [userInput, setUserInput] = useState('');
   const [isPostingComment, setIsPostingComment] = useState(false);
   const input = useRef();
-  const isPCScreen = useRecoilValue(isDesktop);
   const isWideView = useIsWideView();
   const handleInputChange = (e) => {
     const input = e.target.value;
@@ -49,7 +46,7 @@ export default function PostComment({ postId, setIsNewComment, userImg }) {
       </PostButton>
     </FooterFormLayout>
   );
-}
+};
 
 const FooterFormLayout = styled.form`
   display: flex;
@@ -89,3 +86,4 @@ const InputStyle = styled.input`
 const PostButton = styled.button`
   color: var(--primary);
 `;
+export default PostComment;

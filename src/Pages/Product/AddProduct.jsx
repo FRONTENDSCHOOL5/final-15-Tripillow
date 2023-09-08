@@ -15,7 +15,6 @@ import defaultImage from 'Assets/addproduct.png';
 import ErrorMSG from 'Styles/ErrorMSG';
 import UploadProductAPI from 'Api/Product/UploadProductAPI';
 import isDesktop from 'Recoil/isDesktop/isDesktop';
-import isTab from 'Recoil/isTab/isTab';
 import Button from 'Components/common/Button';
 import MyPillowings from 'Components/Home/MyPillowings';
 import { validateImageFileFormat } from 'Utils/validate';
@@ -24,7 +23,6 @@ import useIsWideView from 'Components/SideNav/useIsWideView';
 const AddProduct = () => {
   const navigate = useNavigate();
   const isPCScreen = useRecoilValue(isDesktop);
-  const isTabScreen = useRecoilValue(isTab);
   const isWideView = useIsWideView();
   const [productName, setProductName] = useState('');
   const [price, setPrice] = useState('');
@@ -111,7 +109,7 @@ const AddProduct = () => {
   return (
     <Layout $isWideView={isWideView}>
       <h1 className='a11y-hidden'>상품 등록 페이지</h1>
-      {!isWideView && !isTabScreen && (
+      {!isWideView && (
         <UploadHeader onClick={throttledHandleSubmit} disabled={!imageLink || !productName || !price || !description}>
           저장
         </UploadHeader>

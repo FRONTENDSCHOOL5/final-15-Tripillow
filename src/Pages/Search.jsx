@@ -12,7 +12,7 @@ import UserSkeleton from 'Components/common/Skeleton/UserSkeleton';
 import isDesktop from 'Recoil/isDesktop/isDesktop';
 import useIsWideView from 'Components/SideNav/useIsWideView';
 
-const Search = ({ setIsSearch, setIsClicked }) => {
+const Search = ({ setIsSearch, setIconState }) => {
   const token = useRecoilValue(userToken);
   const isPCScreen = useRecoilValue(isDesktop);
   const isWideView = useIsWideView();
@@ -84,7 +84,7 @@ const Search = ({ setIsSearch, setIsClicked }) => {
   const closeModal = () => {
     const path = location.pathname;
     setIsSearch(false);
-    setIsClicked(path.slice(1).charAt(0).toUpperCase() + path.slice(2));
+    setIconState(path.slice(1).charAt(0).toUpperCase() + path.slice(2));
   };
 
   const SearchContent = () => (

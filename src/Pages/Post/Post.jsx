@@ -19,7 +19,7 @@ import isDesktop from 'Recoil/isDesktop/isDesktop';
 
 import useIsWideView from 'Components/SideNav/useIsWideView';
 
-export default function Post() {
+const Post = () => {
   const navigate = useNavigate();
   const textarea = useRef();
   const isPCScreen = useRecoilValue(isDesktop);
@@ -162,7 +162,7 @@ export default function Post() {
       {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </PostLayout>
   );
-}
+};
 
 const PostLayout = styled.div`
   ${LayoutStyle};
@@ -227,3 +227,5 @@ const PCImgUpload = styled.label`
   color: var(--dark-gray);
   cursor: pointer;
 `;
+
+export default Post;
