@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import UserSkeleton from 'Components/common/Skeleton/UserSkeleton';
 import User from 'Components/common/User';
@@ -36,33 +36,33 @@ const SearchContent = ({ header, setIsSearch }) => {
 
   const debounceValue = useDebounceValue(searchKeyword, 750);
 
-  const searchUser = async () => {
-    setSearchData([]);
-    setShowAllResults(false);
-    setIsLoading(true);
-    try {
-      const response = await fetch(`${URL}/user/searchuser/?keyword=${debounceValue}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
-      const data = await response.json();
-      setSearchData(data);
-    } catch (error) {
-      console.error('에러', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const searchUser = async () => {
+      setSearchData([]);
+      setShowAllResults(false);
+      setIsLoading(true);
+      try {
+        const response = await fetch(`${URL}/user/searchuser/?keyword=${debounceValue}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+        const data = await response.json();
+        setSearchData(data);
+      } catch (error) {
+        console.error('에러', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     if (debounceValue === '') {
       setSearchData([]);
       return;
     }
     searchUser();
-  }, [debounceValue]);
+  }, [debounceValue, token]);
 
   const handleAllResults = () => {
     setShowAllResults(true);
