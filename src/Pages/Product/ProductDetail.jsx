@@ -30,9 +30,12 @@ const ProductDetail = () => {
   const isPCScreen = useRecoilValue(isDesktop);
   const isWideView = useIsWideView();
 
-  const productDetail = ProductDetailAPI(params.id);
-  const userImg = productDetail.author?.image;
-  const isMine = userName === productDetail.author?.accountname;
+  const getProductDetail = ProductDetailAPI(params.id);
+
+  const [productDetail, setProductDetail] = useState(() => {});
+
+  const userImg = productDetail?.author?.image;
+  const isMine = userName === productDetail?.author?.accountname;
   const [userCheck, setUserCheck] = useState(false);
   const [showImg, setShowImg] = useState(false);
 
@@ -40,11 +43,6 @@ const ProductDetail = () => {
 
   const [isModalOn, setIsModalOn] = useState(false);
   const [isAlertModalOn, setIsAlertModalOn] = useState(false);
-  //FIXME - 임의로 해둔 것 수정필요합니다.
-  //eslint-disable-next-line
-  const [modal, setModal] = useState(false);
-  //eslint-disable-next-line
-  const [alertModal, setAlertModal] = useState(false);
 
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * chatLists.length);
@@ -52,7 +50,17 @@ const ProductDetail = () => {
     setRandomMessage(selectedMessage);
   }, []);
 
-  const username = productDetail.author?.username;
+  const username = productDetail?.author?.username;
+
+  useEffect(() => {
+    const handleDetail = async () => {
+      const details = await getProductDetail();
+
+      setProductDetail(details.product);
+      console.log('details : ', details);
+    };
+    handleDetail();
+  }, [getProductDetail]);
 
   useEffect(() => {
     setProductId(params.id);
@@ -95,8 +103,8 @@ const ProductDetail = () => {
   };
 
   useEffect(() => {
-    if (userName === productDetail.author?.accountname) setUserCheck(true);
-  }, [userName, productDetail.author?.accountname]);
+    if (userName === productDetail?.author?.accountname) setUserCheck(true);
+  }, [userName, productDetail?.author?.accountname]);
 
   return (
     <>
@@ -116,7 +124,7 @@ const ProductDetail = () => {
             </BasicHeader>
           )}
           <main style={{ position: 'relative' }}>
-            <Image src={productDetail.itemImage} onClick={() => setShowImg(true)} alt={productDetail?.itemName} />
+            <Image src={productDetail?.itemImage} onClick={() => setShowImg(true)} alt={productDetail?.itemName} />
 
             {isWideView && <MoreBtn onClick={handleMoreBtn} aria-label='사진 더 보기' />}
 
@@ -143,15 +151,15 @@ const ProductDetail = () => {
 
             {showImg && (
               <ModalBg onClick={() => setShowImg(false)} $isWideView={isWideView}>
-                <ModalImg src={productDetail.itemImage} $isWideView={isWideView} alt={productDetail.itemName} />
+                <ModalImg src={productDetail?.itemImage} $isWideView={isWideView} alt={productDetail?.itemName} />
               </ModalBg>
             )}
 
             <User
-              accountname={productDetail.author?.accountname}
-              userImg={productDetail.author?.image}
-              username={productDetail.author?.username}
-              content={'@' + productDetail.author?.accountname}
+              accountname={productDetail?.author?.accountname}
+              userImg={productDetail?.author?.image}
+              username={productDetail?.author?.username}
+              content={'@' + productDetail?.author?.accountname}
             />
             <ProductContent size='var(--xl)' weight='700'>
               {trimContent(productDetail?.itemName)}
@@ -167,7 +175,8 @@ const ProductDetail = () => {
                     alt='좋아요'
                   />
                 )}
-                <ProudctPrice>{productDetail.price?.toLocaleString()}원</ProudctPrice>
+
+                <ProudctPrice>{productDetail?.price?.toLocaleString()}원</ProudctPrice>
               </div>
               <Button
                 onClick={() => {
@@ -294,6 +303,7 @@ const ProudctPrice = styled.p`
   font-size: 18px;
   font-weight: 700;
   line-height: 1.3;
+  white-space: nowrap;
 `;
 
 export default ProductDetail;
