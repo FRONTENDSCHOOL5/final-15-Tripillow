@@ -23,7 +23,7 @@ import isDesktop from 'Recoil/isDesktop/isDesktop';
 import isTab from 'Recoil/isTab/isTab';
 import SideNavBarModal from 'Components/common/Modal/SideNavBarModal';
 import PCAlertModal from 'Components/common/Modal/PCAlertModal';
-import Search from 'Pages/Search';
+import SearchModal from 'Pages/Search/SearchModal';
 import { useRecoilValue } from 'recoil';
 
 const SideNavBar = (props) => {
@@ -114,7 +114,7 @@ const SideNavBar = (props) => {
           ></PCAlertModal>,
           $Root,
         )}
-      {isSearch && <Search setIsSearch={setIsSearch} setIsClicked={setIsClicked} />}
+      {isSearch && <SearchModal setIsSearch={setIsSearch} setIsClicked={setIsClicked} />}
     </>
   );
 };
