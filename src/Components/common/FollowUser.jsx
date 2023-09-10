@@ -1,74 +1,59 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil';
-import accountName from '../../Recoil/accountName/accountName';
-import profileSm from '../../Assets/profile-sm.png';
-import Button from './Button';
-import FollowAPI from '../../Utils/FollowAPI';
-import UnFollowAPI from '../../Utils/UnFollowAPI';
-import MyInfoAPI from '../../Utils/MyInfoAPI';
+import profileSm from 'Assets/profile-sm.png';
+import Button from 'Components/common/Button';
+import FollowAPI from 'Api/Profile/FollowAPI';
+import UnFollowAPI from 'Api/Profile/UnFollowAPI';
+import MyInfoAPI from 'Api/Profile/MyInfoAPI';
 
 const FollowUser = (props) => {
-  const url = props.user?.image.split('/') || null;
-  const isFollowed = props.user?.isfollow;
-  const name = useRecoilValue(accountName);
+  const { user, margin } = props;
+  const url = user?.image.split('/') || null;
+  const isFollowed = user?.isfollow;
   const pathIdentifier = props.pathIdentifier;
   const { getUserData } = MyInfoAPI();
-  const { followUser } = FollowAPI({ account: props.user?.accountname });
-  const { unFollowUser } = UnFollowAPI({ account: props.user?.accountname });
+  const { followUser } = FollowAPI(props.user?.accountname);
+  const { unFollowUser } = UnFollowAPI(props.user?.accountname);
 
-  const [followCount, setFollowCount] = useState(props.user?.followingCount);
-  const [isFollow, setIsFollow] = useState(props.user?.isfollow);
   const [followText, setFollowText] = useState(!isFollowed ? '팔로우' : '취소');
 
   useEffect(() => {
-    if (isFollowed) {
-      setFollowText('취소');
-    } else if (!isFollowed) {
-      setFollowText('팔로우');
-    }
-  }, [isFollowed]);
-
-  useEffect(() => {
     const fetchUserData = async () => {
-      const data = await getUserData();
-      setFollowCount(data.followingCount);
+      await getUserData();
     };
     fetchUserData();
-  }, []);
+  }, [getUserData]);
 
   const handleFollowButtonClick = async (e) => {
-    if (isFollow) {
+    if (e.target.textContent === '취소') {
       setFollowText('팔로우');
-      setFollowCount((prevCount) => prevCount - 1);
-      const data = await unFollowUser();
+      await unFollowUser();
     } else {
       setFollowText('취소');
-      setFollowCount((prevCount) => prevCount + 1);
-      const data = await followUser();
+      await followUser();
     }
   };
   return (
-    <UserLayout margin={props.margin}>
-      <Link to={`/profile/${props.user.accountname}`}>
+    <UserLayout margin={margin}>
+      <Link to={`/profile/${user.accountname}`}>
         <UserImgLayout>
-          <UserImg src={url[url.length - 1] === 'null' ? profileSm : props.user?.image} alt={props.user?.username} />
+          <UserImg src={url[url?.length - 1] === 'null' ? profileSm : user?.image} alt={user?.username} />
         </UserImgLayout>
       </Link>
       <UserContentsLayout>
         <div>
-          <UserTitle>{props.user?.username}</UserTitle>
-          <UserContent>{props.user?.intro} </UserContent>
+          <UserTitle>{user?.username}</UserTitle>
+          <UserContent>{user?.intro} </UserContent>
         </div>
-        {props.followers && pathIdentifier.length < 4 && (
+        {props.followers && pathIdentifier?.length < 4 && (
           <Button
             onClick={handleFollowButtonClick}
             clicked={followText === '취소'}
             width='56px'
             fontSize='var(--xs)'
             border='none'
-            padding={props.user?.intro ? '5.75px' : '8.5px'}
+            padding={user?.intro ? '5.75px' : '8.5px'}
           >
             {followText}
           </Button>

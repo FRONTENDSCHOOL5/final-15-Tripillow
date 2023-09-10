@@ -1,47 +1,52 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import URL from '../../Utils/URL';
-import PostDetailAPI from '../../Utils/PostDetailAPI';
-import ImageUploadAPI from '../../Utils/ImageUploadAPI';
-import { validateImageFileFormat } from '../../Utils/validate';
-import userToken from '../../Recoil/userToken/userToken';
-import { LayoutStyle } from '../../Styles/Layout';
-import UploadHeader from '../../Components/common/Header/UploadHeader';
-import Toggle from '../../Components/common/Toggle';
-import x from '../../Assets/icons/x.svg';
-import iconImg from '../../Assets/icons/upload-file.svg';
+import { useRecoilValue } from 'recoil';
+import throttle from 'lodash.throttle';
+import URL from 'Api/URL';
+import PostDetailAPI from 'Api/Post/PostDetailAPI';
+import { validateImageFileFormat } from 'Utils/validate';
+import { LayoutStyle } from 'Styles/Layout';
+import UploadHeader from 'Components/common/Header/UploadHeader';
+import Toggle from 'Components/common/Toggle';
+import x from 'Assets/icons/x.svg';
+import iconImg from 'Assets/icons/upload-file.svg';
+import PostModifyAPI from 'Api/Post/PostModifyAPI';
+import imageCompression from 'browser-image-compression';
+import CompressedImageUploadAPI from 'Api/Upload/CompressedImageUploadAPI';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
+import Button from 'Components/common/Button';
+import MyPillowings from 'Components/Home/MyPillowings';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const PostModification = () => {
   const navigate = useNavigate();
-  const token = useRecoilValue(userToken);
   const location = useLocation();
   const postId = location.state;
+  const isPCScreen = useRecoilValue(isDesktop);
+  const isWideView = useIsWideView();
+
   const [postInput, setPostInput] = useState({
     post: {
       content: '',
       image: '',
     },
   }); //새로 제출할 값
-  const [postDetail, setPostDetail] = useState({}); // 기존값
+  const [originalPost, setOriginalPost] = useState({}); // 기존값
   const textarea = useRef();
   const [imgURL, setImgURL] = useState([]); // [234, 456]
   const [isLeftToggle, setIsLeftToggle] = useState(true);
   const [rightOn, setRightOn] = useState(false);
-  const getPostDetail = PostDetailAPI(postId, setPostDetail);
+  const [imgChange, setImgChange] = useState(false);
+  const getPostDetail = PostDetailAPI(postId, setOriginalPost);
+  const { postModify } = PostModifyAPI(postId, postInput, isLeftToggle);
 
   useEffect(() => {
     const getDetail = async () => {
       await getPostDetail();
     };
     getDetail();
-  }, []);
-
-  useEffect(() => {
-    textarea.current.value = postInput.post.content;
-    handleResizeHeight();
-  }, [postInput.post.content]);
+  }, [getPostDetail]);
 
   useEffect(() => {
     const trimContent = (content) => {
@@ -55,23 +60,39 @@ const PostModification = () => {
       return content;
     };
 
-    Object.keys(postDetail).length > 0 &&
+    Object.keys(originalPost).length > 0 &&
       setPostInput({
         post: {
-          content: trimContent(postDetail.post.content),
-          image: postDetail.post.image,
+          content: trimContent(originalPost.post.content),
+          image: originalPost.post.image,
         },
       });
-  }, [postDetail]);
+    setImgChange((prev) => !prev);
+  }, [originalPost]);
 
   useEffect(() => {
-    setImgURL(postInput.post.image.split(', '));
+    textarea.current.value = postInput.post.content;
+    handleResizeHeight();
   }, [postInput]);
 
-  const handleImageInput = async (e) => {
-    if (imgURL.length >= 3 || e.target.files.length === 0) return;
-    if (!validateImageFileFormat(e.target.files[0].name)) return console.error('ERROR: 파일 확장자');
-    const data = await ImageUploadAPI(e);
+  useEffect(() => {
+    if (postInput.post.image === '') setImgURL([]);
+    else setImgURL(postInput.post.image.split(', '));
+    //eslint-disable-next-line
+  }, [imgChange]);
+
+  const handleDataForm = async (dataURI) => {
+    const byteString = atob(dataURI.split(',')[1]);
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    const blob = new Blob([ia], {
+      type: 'image/jpeg',
+    });
+    const file = new File([blob], 'image.jpg');
+    const data = await CompressedImageUploadAPI(file);
     const image = postInput.post.image === '' ? data.filename : postInput.post.image + `, ${data.filename}`;
     if (data) {
       setPostInput((prev) => ({
@@ -81,34 +102,56 @@ const PostModification = () => {
           image: image,
         },
       }));
+      setImgChange((prev) => !prev);
+    }
+  };
+
+  const handleImageInput = async (e) => {
+    if (imgURL.length >= 3) {
+      return alert('파일은 3장을 넘길 수 없습니다.');
+    }
+    const file = e.target?.files[0];
+    if (!file || file.length === 0) {
+      return;
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      return alert('파일은 10MB를 넘길 수 없습니다.');
+    }
+    if (!validateImageFileFormat(file.name)) {
+      return alert('파일 확장자를 확인해주세요');
+    }
+    const options = {
+      maxSizeMB: 0.9,
+      maxWidthOrHeight: 490,
+      useWebWorker: true,
+    };
+
+    try {
+      // 압축 결과
+      const compressedFile = await imageCompression(file, options);
+
+      const reader = new FileReader();
+      reader.readAsDataURL(compressedFile);
+      reader.onloadend = () => {
+        const base64data = reader.result;
+        handleDataForm(base64data);
+      };
+    } catch (error) {
+      console.log(error);
     }
   };
 
   const handleSubmit = async () => {
-    try {
-      const response = await fetch(`${URL}/post/${postId}`, {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...postInput,
-          post: {
-            ...postInput.post,
-            content: isLeftToggle ? `[K]${postInput.post.content}` : `[G]${postInput.post.content}`,
-          },
-        }),
-      });
-      const res = await response.json();
-      textarea.current.value = '';
-      setImgURL([]);
-      navigate('/profile');
-      return res;
-    } catch (error) {
-      console.error(error);
-    }
+    await postModify();
+    textarea.current.value = '';
+    setImgURL([]);
+    navigate('/profile', { state: { isModified: true } });
   };
+
+  const throttledHandleSubmit = throttle(handleSubmit, 3000, {
+    leading: true,
+    trailing: false,
+  });
 
   const handleResizeHeight = () => {
     textarea.current.style.height = 'auto';
@@ -129,6 +172,7 @@ const PostModification = () => {
 
   const handleImgClose = (i) => {
     const newImg = [...imgURL.slice(0, i), ...imgURL.slice(i + 1, imgURL.length)].join(', ');
+
     setPostInput((prev) => ({
       ...prev,
       post: {
@@ -136,13 +180,16 @@ const PostModification = () => {
         image: newImg,
       },
     }));
+    setImgChange((prev) => !prev);
   };
 
   return (
-    <PostLayout>
-      <UploadHeader disabled={!postInput.post.content} onClick={handleSubmit}>
-        업로드
-      </UploadHeader>
+    <PostLayout $isWideView={isWideView}>
+      {!isWideView && (
+        <UploadHeader disabled={!postInput.post.content} onClick={throttledHandleSubmit}>
+          수정
+        </UploadHeader>
+      )}
       <ToggleLayout>
         <ToggleTitle>여행지</ToggleTitle>
         <Toggle
@@ -155,6 +202,23 @@ const PostModification = () => {
         ></Toggle>
       </ToggleLayout>
       <form>
+        {isWideView && (
+          <Button
+            disabled={!postInput.post.content}
+            onClick={throttledHandleSubmit}
+            width='90px'
+            fontSize='14px'
+            padding='7.75px'
+          >
+            수정
+          </Button>
+        )}
+        {isWideView && (
+          <>
+            <PCImgUpload htmlFor='img-input'>+ 여행사진 추가하기</PCImgUpload>
+            <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
+          </>
+        )}
         <TextInput placeholder='게시글 입력하기...' ref={textarea} onChange={handleInputChange} rows='1'></TextInput>
         {imgURL[0] !== '' &&
           imgURL.map((el, i) => (
@@ -163,11 +227,16 @@ const PostModification = () => {
               <ImgDelete type='button' key={`ImgDelete-${i}`} onClick={() => handleImgClose(i)}></ImgDelete>
             </ImgLayout>
           ))}
-        <label htmlFor='img-input'>
-          <ImgIcon src={iconImg}></ImgIcon>
-        </label>
-        <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
+        {!isWideView && (
+          <>
+            <label htmlFor='img-input'>
+              <ImgIcon src={iconImg}></ImgIcon>
+            </label>
+            <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
+          </>
+        )}
       </form>
+      {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </PostLayout>
   );
 };
@@ -175,6 +244,14 @@ const PostModification = () => {
 const PostLayout = styled.div`
   ${LayoutStyle};
   position: relative;
+
+  form {
+    & > button {
+      position: absolute;
+      top: 80px;
+      right: 0;
+    }
+  }
 `;
 
 const ToggleLayout = styled.section`
@@ -225,6 +302,18 @@ const ImgIcon = styled.img`
   right: 16px;
   bottom: 16px;
   border-radius: 50%;
+  cursor: pointer;
+`;
+
+const PCImgUpload = styled.label`
+  margin-left: 16px;
+  margin-bottom: 20px;
+  display: inline-block;
+  padding: 10px;
+  border: 1px solid var(--light-gray);
+  border-radius: 10px;
+  font-size: var(--xs);
+  color: var(--dark-gray);
   cursor: pointer;
 `;
 

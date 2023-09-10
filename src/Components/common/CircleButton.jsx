@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import upload from '../../Assets/icons/upload.svg';
+import upload from 'Assets/icons/upload.svg';
 
 const CircleButton = (props) => {
   const { type } = props;
 
-  return <CircleButtonStyle type={type ? type : 'button'} {...props}></CircleButtonStyle>;
+  return <CircleButtonStyle type={type ? type : 'button'} aria-label='추가' {...props}></CircleButtonStyle>;
 };
 
 const CircleButtonStyle = styled.button`
@@ -19,7 +19,7 @@ const CircleButtonStyle = styled.button`
   bottom: ${(props) => props.bottom};
   transform: ${(props) => props.transform};
   background: ${(props) => `url(${props.bgUrl || upload}) no-repeat center/cover`};
-  margin : ${props => props.margin}
+  margin: ${(props) => props.margin};
 `;
 
 export default CircleButton;

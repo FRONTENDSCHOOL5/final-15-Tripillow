@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components';
 const Button = (props) => {
   const { type } = props;
   return (
-    <BtnStyle type={type ? type : 'button'} {...props}>
+    <BtnStyle type={type ? type : 'button'} {...props} aria-label={props.children}>
       {props.children}
     </BtnStyle>
   );
@@ -19,8 +19,8 @@ const BtnStyle = styled.button`
   font-weight: ${(props) => props.fontWeight || '400'};
   border-radius: ${(props) => props.borderRadius || '44px'};
   margin: ${(props) => props.margin || '0px'};
-  position: ${props=> props.position || ''};
-  right: ${props=> props.right || '0px'};
+  position: ${(props) => props.position || ''};
+  right: ${(props) => props.right || '0px'};
 
   ${(props) =>
     props.disabled &&

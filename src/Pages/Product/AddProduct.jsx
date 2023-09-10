@@ -1,58 +1,94 @@
 import React, { useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import Toggle from '../../Components/common/Toggle';
+import throttle from 'lodash.throttle';
 import styled from 'styled-components';
-import Navbar from '../../Components/common/Navbar';
-import Input from '../../Components/common/Input';
-import UploadHeader from '../../Components/common/Header/UploadHeader';
-import URL from '../../Utils/URL';
-import userToken from '../../Recoil/userToken/userToken';
-import ImageUploadAPI from '../../Utils/ImageUploadAPI';
-import defaultImage from '../../Assets/addproduct.png';
+import imageCompression from 'browser-image-compression';
+import Toggle from 'Components/common/Toggle';
+import Navbar from 'Components/common/Navbar';
+import Input from 'Components/common/Input';
+import { LayoutStyle } from 'Styles/Layout';
+import UploadHeader from 'Components/common/Header/UploadHeader';
+import URL from 'Api/URL';
 import { useNavigate } from 'react-router-dom';
-import ErrorMSG from '../../Styles/ErrorMSG';
+import { useRecoilValue } from 'recoil';
+import ImageUploadAPI from 'Api/Upload/ImageUploadAPI';
+import defaultImage from 'Assets/addproduct.png';
+import ErrorMSG from 'Styles/ErrorMSG';
+import UploadProductAPI from 'Api/Product/UploadProductAPI';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
+import Button from 'Components/common/Button';
+import MyPillowings from 'Components/Home/MyPillowings';
+import { validateImageFileFormat } from 'Utils/validate';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
-const AddProduct = (props) => {
+const AddProduct = () => {
+  const navigate = useNavigate();
+  const isPCScreen = useRecoilValue(isDesktop);
+  const isWideView = useIsWideView();
   const [productName, setProductName] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
   const [imageLink, setImageLink] = useState('');
-  const token = useRecoilValue(userToken);
-  const navigate = useNavigate();
   const [priceErr, setPriceErr] = useState(false);
+  const [isLeftToggle, setIsLeftToggle] = useState(true);
+  const uploadProduct = UploadProductAPI({ productName, price, description, imageLink }, isLeftToggle);
 
   const handleSubmit = async () => {
-    try {
-      const response = await fetch(URL + '/product', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
-
-        body: JSON.stringify({
-          product: {
-            itemName: productName,
-            price: parseInt(price), //1원 이상
-            link: description,
-            itemImage: imageLink,
-          },
-        }),
-      });
-      const data = await response.json();
-    } catch (error) {
-      console.error('[에러 발생!!!!! in AddProduct submit API]');
-    }
+    await uploadProduct();
     navigate('/profile');
   };
 
-  const handleChange = async (e) => {
+  const throttledHandleSubmit = throttle(handleSubmit, 3000, {
+    leading: true,
+    trailing: false,
+  });
+
+  const handleDataForm = async (dataURI) => {
+    const byteString = atob(dataURI.split(',')[1]);
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    const blob = new Blob([ia], {
+      type: 'image/jpeg',
+    });
+    const file = new File([blob], 'image.jpg');
+    const data = await ImageUploadAPI(file);
+    if (data) {
+      setImageLink(`${URL}/${data.filename}`);
+    }
+  };
+
+  const handleImgChange = async (e) => {
+    const file = e.target?.files[0];
     if (e.target.files[0].size > 10 * 1024 * 1024) {
       console.log('[ERROR 이미지 용량이 10MB를 넘습니다]');
       return null;
     }
-    const response = await ImageUploadAPI(e);
-    setImageLink(`${URL}/${response.filename}`);
+    if (!validateImageFileFormat(e.target.files[0].name)) return alert('파일 확장자를 확인해주세요');
+
+    // const response = await ImageUploadAPI(e);
+    // setImageLink(`${URL}/${response.filename}`);
+
+    const options = {
+      maxSizeMB: 0.9,
+      maxWidthOrHeight: 490,
+      useWebWorker: true,
+    };
+
+    try {
+      // 압축 결과
+      const compressedFile = await imageCompression(file, options);
+
+      const reader = new FileReader();
+      reader.readAsDataURL(compressedFile);
+      reader.onloadend = () => {
+        const base64data = reader.result;
+        handleDataForm(base64data);
+      };
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleMinMax = (e) => {
@@ -71,25 +107,27 @@ const AddProduct = (props) => {
   };
 
   return (
-    <Layout>
-      <UploadHeader onClick={handleSubmit} disabled={!productName || !price || !description}>
-        저장
-      </UploadHeader>
-      <main>
+    <Layout $isWideView={isWideView}>
+      <h1 className='a11y-hidden'>상품 등록 페이지</h1>
+      {!isWideView && (
+        <UploadHeader onClick={throttledHandleSubmit} disabled={!imageLink || !productName || !price || !description}>
+          저장
+        </UploadHeader>
+      )}
+      <AddProductContent>
         <Label htmlFor='file-upload'>
-          <Image src={imageLink || defaultImage} />
+          <Image src={imageLink || defaultImage} alt='상품 이미지' />
         </Label>
-        <input id='file-upload' className='a11y-hidden' onChange={handleChange} type='file' />
+        <input id='file-upload' className='a11y-hidden' onChange={handleImgChange} type='file' />
         <CategoryTxt>카테고리</CategoryTxt>
-        <Toggle margin='0 0 20px 0' leftButton='여행용품' rightButton='외화' />
+        <Toggle margin='0 0 20px 0' leftButton='여행용품' rightButton='외화' setIsLeftToggle={setIsLeftToggle} />
 
-        {/* //fixme: label 클릭하면 input에 위치 */}
         <Input
           width='100%'
           value={productName}
           onChange={handleInputChange}
           maxLength='16'
-          // htmlFor={forId}
+          forId='product name'
           label='상품명'
           placeholder='1~15자 이내여야 합니다.'
           mb='16px'
@@ -98,6 +136,7 @@ const AddProduct = (props) => {
         <SecondInput
           value={price}
           onChange={handleMinMax}
+          forId='price'
           label='가격'
           min='1'
           max='10000000'
@@ -110,29 +149,44 @@ const AddProduct = (props) => {
           상세 설명
         </label>
         <ProductText id='product' value={description} onChange={(e) => setDescription(e.target.value)} />
-      </main>
-      <Navbar />
+        {isWideView && (
+          <Button
+            type='submit'
+            width='90px'
+            fontSize='14px'
+            padding='7.75px'
+            onClick={throttledHandleSubmit}
+            disabled={!imageLink || !productName || !price || !description}
+          >
+            저장
+          </Button>
+        )}
+      </AddProductContent>
+      {isWideView || <Navbar />}
+      {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </Layout>
   );
 };
-
 const Layout = styled.div`
-  max-width: 390px;
-  min-height: 100%;
+  ${LayoutStyle}
+
   padding: 48px 12px 73px 16px;
-  box-sizing: border-box;
+`;
 
-  margin: 0 auto;
-  border: 1px solid var(--light-gray);
+const AddProductContent = styled.main`
+  display: flex;
+  flex-direction: column;
 
-  main {
-    margin-bottom: 30px;
+  textarea + button {
+    margin-top: 14px;
+    align-self: flex-end;
   }
 `;
+
 const Label = styled.label`
   display: block;
   width: calc(100% + 16px + 12px); // Image 너비에 패딩값 차감
-  height: 232px;
+  min-height: 232px;
   margin-left: -16px;
   margin-right: -12px;
   margin-bottom: 14px;

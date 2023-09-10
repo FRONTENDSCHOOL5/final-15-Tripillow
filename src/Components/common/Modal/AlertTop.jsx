@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const AlertTop = ({ children, ...props }) => {
   return <AlertLayout {...props}>{children}</AlertLayout>;
@@ -16,9 +16,18 @@ const AlertLayout = styled.div`
   background-color: ${(props) => (props.isError ? 'var(--error)' : 'var(--primary)')};
   color: white;
   box-shadow: 0 4px 5px rgba(0, 0, 0, 0.1);
-  animation: ${(props) => (props.newAnimation ? 'landingFadeIn 2s' : 'fadeIn 2s forwards')};
+  text-align: center;
+  animation: ${(props) => (props.newAnimation ? 'landingFadeIn 2s forwards' : 'alertFadeIn 2s forwards')};
 
-  @keyframes fadeIn {
+  ${(props) =>
+    props.isWideView &&
+    css`
+      top: 0;
+      left: calc((100% - 480px) / 2);
+      width: 480px;
+    `}
+
+  @keyframes alertFadeIn {
     0% {
       transform: translateY(-60px);
     }

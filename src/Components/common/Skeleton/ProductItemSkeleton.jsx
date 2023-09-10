@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import SkeletonItem from '../../../Styles/SkeletonItem';
+import SkeletonItem from 'Styles/SkeletonItem';
 
 function ProductItemSkeleton() {
   return (
@@ -13,7 +13,7 @@ function ProductItemSkeleton() {
 }
 
 const ProductImgSkeleton = styled(SkeletonItem)`
-  width: 140px;
+  width: 160px;
   height: 90px;
   margin-bottom: 7px;
   border-radius: 8px;

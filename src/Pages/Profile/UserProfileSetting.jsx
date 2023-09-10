@@ -1,22 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import URL from '../../Utils/URL';
-import ImageUploadAPI from '../../Utils/ImageUploadAPI';
-import UserInfoAPI from '../../Utils/MyInfoAPI';
-import EditProfileAPI from '../../Utils/EditProfileAPI';
-import AccountValidAPI from '../../Utils/AccountValidAPI';
-import Input from '../../Components/common/Input';
-import UploadHeader from '../../Components/common/Header/UploadHeader';
-import { LayoutStyle } from '../../Styles/Layout';
-import profileImg from '../../Assets/profile-lg.png';
-import ErrorMSG from '../../Styles/ErrorMSG';
-import uploadfile from '../../Assets/icons/upload-file.svg';
+import { useRecoilValue } from 'recoil';
+import MyInfoAPI from 'Api/Profile/MyInfoAPI';
+import EditProfileAPI from 'Api/Profile/EditProfileAPI';
+import AccountValidAPI from 'Api/Valid/AccountValidAPI';
+import Input from 'Components/common/Input';
+import UploadHeader from 'Components/common/Header/UploadHeader';
+import { LayoutStyle } from 'Styles/Layout';
+import ErrorMSG from 'Styles/ErrorMSG';
+import profileImg from 'Assets/profile-lg.png';
+import uploadfile from 'Assets/icons/upload-file.svg';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
+import Button from 'Components/common/Button';
+import MyPillowings from 'Components/Home/MyPillowings';
+import { uploadFile } from 'Utils/uploadFile';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const UserProfileSetting = () => {
   const navigate = useNavigate();
+  const isPCScreen = useRecoilValue(isDesktop);
+  const isWideView = useIsWideView();
+
   const [imgURL, setImgURL] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const updateErrorMessage = (data) => {
+    setErrorMessage(data);
+  };
   const [data, setData] = useState({});
   const [text, setText] = useState({
     user: {
@@ -27,16 +37,17 @@ const UserProfileSetting = () => {
     },
   });
   const [account, setAccount] = useState({ user: { accountname: text.user.accountname } });
-  const { getUserData } = UserInfoAPI({ setData });
-  const getAccountValidAPI = AccountValidAPI({ account, setErrorMessage });
+  const { getUserData } = MyInfoAPI();
+  const getAccountValidAPI = AccountValidAPI(account, updateErrorMessage);
 
   useEffect(() => {
     const handleFetch = async () => {
-      await getUserData();
+      const res = await getUserData();
+      res && setData(res);
     };
 
     handleFetch();
-  }, []);
+  }, [getUserData]);
 
   useEffect(() => {
     if (data.username && data.accountname && data.intro && data.image) {
@@ -56,19 +67,7 @@ const UserProfileSetting = () => {
   }, [text]);
 
   const handleAccountValid = async () => {
-    const res = await getAccountValidAPI();
-  };
-
-  const handleImageInput = async (e) => {
-    const res = await ImageUploadAPI(e);
-    setImgURL(URL + '/' + res.filename);
-    setText({
-      ...text,
-      user: {
-        ...text.user,
-        image: URL + '/' + res.filename,
-      },
-    });
+    await getAccountValidAPI();
   };
 
   const handleInputChange = (e) => {
@@ -93,20 +92,27 @@ const UserProfileSetting = () => {
   };
 
   return (
-    <UserSettingLayout>
-      <UploadHeader
-        onClick={handleSubmit}
-        type='submit'
-        disabled={errorMessage && errorMessage !== '사용 가능한 계정ID 입니다.'}
-      >
-        저장
-      </UploadHeader>
+    <UserSettingLayout $isWideView={isWideView}>
+      {!isWideView && (
+        <UploadHeader
+          onClick={handleSubmit}
+          type='submit'
+          disabled={errorMessage && errorMessage !== '사용 가능한 계정ID 입니다.'}
+        >
+          저장
+        </UploadHeader>
+      )}
       <Form>
         <ImageLayout>
           <ImgLabel htmlFor='file-input'>
             <ProfileImg src={imgURL ? imgURL : data.image ? data.image : profileImg} />
           </ImgLabel>
-          <input id='file-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
+          <input
+            id='file-input'
+            className='a11y-hidden'
+            type='file'
+            onChange={(e) => uploadFile(e, setImgURL, text, setText)}
+          />
         </ImageLayout>
         <Input
           label='사용자 이름'
@@ -117,7 +123,6 @@ const UserProfileSetting = () => {
           value={text.user.username}
           name='username'
           onChange={handleInputChange}
-          width='322px'
         ></Input>
         <Input
           label='계정 ID'
@@ -146,7 +151,20 @@ const UserProfileSetting = () => {
           name='intro'
           onChange={handleInputChange}
         ></Input>
+        {isWideView && (
+          <Button
+            onClick={handleSubmit}
+            type='submit'
+            disabled={errorMessage && errorMessage !== '사용 가능한 계정ID 입니다.'}
+            width='90px'
+            fontSize='14px'
+            padding='7.75px'
+          >
+            저장
+          </Button>
+        )}
       </Form>
+      {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </UserSettingLayout>
   );
 };
@@ -160,8 +178,14 @@ const UserSettingLayout = styled.div`
 `;
 
 const Form = styled.form`
+  width: 100%;
   display: flex;
   flex-direction: column;
+
+  button {
+    margin-top: 14px;
+    align-self: flex-end;
+  }
 `;
 
 const ImageLayout = styled.div`

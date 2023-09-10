@@ -9,7 +9,6 @@ const HeaderLayout = styled.header`
   height: 48px;
   margin: 0 auto;
   padding: 0 12px 0 16px;
-  border: 1px solid var(--light-gray);
   border-bottom: 0.5px solid var(--light-gray);
   background-color: white;
   position: fixed;
