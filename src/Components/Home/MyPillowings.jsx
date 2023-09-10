@@ -6,7 +6,6 @@ import FollowUser from 'Components/common/FollowUser';
 import UseFollowing from 'Hooks/useFollowing';
 
 const MyPillowings = (props) => {
-  console.log('mypillowings');
   const { followingData } = UseFollowing();
   const { getUserData } = MyInfoAPI();
   const [user, setUser] = useState();
