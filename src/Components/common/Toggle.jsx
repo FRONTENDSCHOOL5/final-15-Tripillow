@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import { isKorea, isOverseas } from '../../Recoil/whichCountry/whichCountry';
-import { useRecoilState } from 'recoil';
 
 const Toggle = (props) => {
   const [toggleLeft, setToggleLeft] = useState(true);
@@ -30,10 +28,18 @@ const Toggle = (props) => {
 
   return (
     <ToggleLayout margin={props.margin}>
-      <ToggleButton onClick={handleToggleLeft} active={props.rightOn ? !props.rightOn : toggleLeft}>
+      <ToggleButton
+        onClick={handleToggleLeft}
+        active={props.rightOn ? !props.rightOn : toggleLeft}
+        aria-label={props.leftButton}
+      >
         {props.leftButton}
       </ToggleButton>
-      <ToggleButton onClick={handleToggleRight} active={props.rightOn ? props.rightOn : toggleRight}>
+      <ToggleButton
+        onClick={handleToggleRight}
+        active={props.rightOn ? props.rightOn : toggleRight}
+        aria-label={props.rightButton}
+      >
         {props.rightButton}
       </ToggleButton>
     </ToggleLayout>

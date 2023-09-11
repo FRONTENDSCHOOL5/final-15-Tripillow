@@ -1,39 +1,40 @@
 import React, { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import FollowUser from '../../Components/common/FollowUser';
-import BasicHeader from '../../Components/common/Header/BasicHeader';
-import Navbar from '../../Components/common/Navbar';
-import FollowingListAPI from '../../Utils/FollowingListAPI';
-import FollowerListAPI from '../../Utils/FollowerListAPI';
+import FollowUser from 'Components/common/FollowUser';
+import BasicHeader from 'Components/common/Header/BasicHeader';
+import Navbar from 'Components/common/Navbar';
+import { LayoutStyle } from 'Styles/Layout';
+import FollowerListAPI from 'Api/Profile/FollowerListAPI';
+import FollowingListAPI from 'Api/Profile/FollowingListAPI';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
+import MyPillowings from 'Components/Home/MyPillowings';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const Followers = () => {
   const location = useLocation();
+  const isPCScreen = useRecoilValue(isDesktop);
+  const isWideView = useIsWideView();
   const pathIdentifier = location.pathname.split('/');
   const last = pathIdentifier.length - 1;
   const accountname = location.state?.accountname;
-  const [current, setCurrent] = useState('followers');
   const [followerData, setFollowerData] = useState([]);
   const [followingData, setFollowingData] = useState([]);
   const [pageTitle, setPageTitle] = useState('Followers');
-  const { fetchFollower } = FollowerListAPI({ accountname });
-  const { fetchFollowing } = FollowingListAPI({ accountname });
-
-  useEffect(() => {
-    if (pathIdentifier) {
-      setCurrent(pathIdentifier[last]);
-    }
-  }, [accountname]);
+  const { fetchFollower } = FollowerListAPI(accountname);
+  const { fetchFollowing } = FollowingListAPI(accountname);
+  const regex = /^\/profile\/.+\/followers$/;
 
   useEffect(() => {
     const handleFetch = async () => {
-      if (pathIdentifier[last] === 'followers') {
+      if (location.pathname.endsWith('followers')) {
         const follower = await fetchFollower();
         if (follower) {
           setFollowerData(follower);
           setPageTitle('Pillowers');
         }
-      } else if (pathIdentifier[last] === 'followings') {
+      } else if (location.pathname.endsWith('followings')) {
         const following = await fetchFollowing();
         if (following) {
           setFollowingData(following);
@@ -43,12 +44,21 @@ const Followers = () => {
     };
 
     handleFetch();
-  }, [accountname]);
+  }, [accountname, location.pathname, fetchFollower, fetchFollowing]);
 
   return (
     <Layout>
-      {pageTitle === 'Pillowers' && <BasicHeader empty>Pillowers</BasicHeader>}
-      {pageTitle === 'Pillowings' && <BasicHeader empty>Pillowings</BasicHeader>}
+      {!isWideView && (
+        <>
+          {pageTitle === 'Pillowers' && <BasicHeader empty>Pillowers</BasicHeader>}
+          {pageTitle === 'Pillowings' && (
+            <BasicHeader empty subject={`팔로잉 페이지`}>
+              Pillowings
+            </BasicHeader>
+          )}
+        </>
+      )}
+
       <main>
         {pathIdentifier[last] === 'followers'
           ? followerData.map((follower, index) => (
@@ -58,20 +68,15 @@ const Followers = () => {
               <FollowUser followers key={index} user={following} pathIdentifier={pathIdentifier} margin='24px 0 0 0' />
             ))}
       </main>
-      <footer>
-        <Navbar />
-      </footer>
+      {isWideView || <Navbar />}
+      {isPCScreen && regex.test(location.pathname) && <MyPillowings $on={isPCScreen} />}
     </Layout>
   );
 };
 
 const Layout = styled.div`
-  max-width: 390px;
-  min-height: 100%;
-  margin: 0 auto;
+  ${LayoutStyle}
   padding: 48px 12px 73px 16px;
-  border: 0.5px solid var(--light-gray);
-  box-sizing: border-box;
 
   footer {
     margin-top: 24px;

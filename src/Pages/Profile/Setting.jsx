@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { LayoutStyle } from '../../Styles/Layout';
-import { useRecoilState } from 'recoil';
+import { LayoutStyle } from 'Styles/Layout';
+import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import userToken from '../../Recoil/userToken/userToken';
-import isLogin from '../../Recoil/isLogin/isLogin';
-import accountName from '../../Recoil/accountName/accountName';
-import BasicHeader from '../../Components/common/Header/BasicHeader';
-import AlertModal from '../../Components/common/Modal/AlertModal';
+import userToken from 'Recoil/userToken/userToken';
+import isLogin from 'Recoil/isLogin/isLogin';
+import accountName from 'Recoil/accountName/accountName';
+import BasicHeader from 'Components/common/Header/BasicHeader';
+import AlertModal from 'Components/common/Modal/AlertModal';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const Setting = () => {
   const navigate = useNavigate();
-  const [token, setToken] = useRecoilState(userToken);
-  const [name, setName] = useRecoilState(accountName);
-  const [login, setLogin] = useRecoilState(isLogin);
+  const setToken = useSetRecoilState(userToken);
+  const setName = useSetRecoilState(accountName);
+  const setLogin = useSetRecoilState(isLogin);
+  const isWideView = useIsWideView();
   const [logoutModal, setLogoutModal] = useState(false);
   const [deleteAccountModal, setDeleteAccountModal] = useState(false);
   const [marketingClicked, setMarketingClicked] = useState(true);
@@ -42,9 +44,8 @@ const Setting = () => {
   };
 
   return (
-    <Layout>
-      <h1 className='a11y-hidden'>설정 및 개인정보</h1>
-      <BasicHeader>설정 및 개인정보</BasicHeader>
+    <Layout $isWideView={isWideView}>
+      {!isWideView && <BasicHeader>설정 및 개인정보</BasicHeader>}
       <SectionCommonLayout>
         <TitleCommonLayout>알림 설정</TitleCommonLayout>
         <ContentCommonLayout>
@@ -124,7 +125,7 @@ const Setting = () => {
 
 const Layout = styled.div`
   ${LayoutStyle}
-  background-color: #f2f2f2;
+  background-color: ${(props) => (props.$isWideView ? '#fff' : '#f2f2f2')};
 `;
 
 const SectionCommonLayout = styled.section`

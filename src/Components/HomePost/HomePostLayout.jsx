@@ -1,31 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import accountName from '../../Recoil/accountName/accountName';
-import { useRecoilValue } from 'recoil';
-import styled from 'styled-components';
-import User from '../common/User';
-import Profile from '../../Assets/profile-sm.png';
-import iconUnheart from '../../Assets/icons/icon-heart.svg';
-import iconHeart from '../../Assets/icons/icon-heart-fill.svg';
-import iconChat from '../../Assets/icons/icon-message-circle-1.svg';
-import PostModal from '../PostModal';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import PostAlertModal from '../common/Modal/PostAlertModal';
-import DeletePostAPI from '../../Utils/DeletePostAPI';
-import ReportPostAPI from '../../Utils/ReportPostAPI';
-import HeartPostAPI from '../../Utils/HeartPostAPI';
-import UnheartPostAPI from '../../Utils/UnheartPostAPI';
-import PostImage from '../common/PostImage';
-import AlertTop from '../common/Modal/AlertTop';
+import { useRecoilValue } from 'recoil';
+import styled, { css } from 'styled-components';
+import accountName from 'Recoil/accountName/accountName';
+import User from 'Components/common/User';
+import Profile from 'Assets/profile-sm.png';
+import iconUnheart from 'Assets/icons/icon-heart.svg';
+import iconHeart from 'Assets/icons/icon-heart-fill.svg';
+import iconChat from 'Assets/icons/icon-message-circle-1.svg';
+import PostModal from 'Components/PostModal';
+import PostAlertModal from 'Components/common/Modal/PostAlertModal';
+import ReportPostAPI from 'Api/Post/ReportPostAPI';
+import HeartPostAPI from 'Api/Post/HeartPostAPI';
+import UnheartPostAPI from 'Api/Post/UnheartPostAPI';
+import PostImage from 'Components/common/PostImage';
+import AlertTop from 'Components/common/Modal/AlertTop';
+import PCModal from 'Components/common/Modal/PCModal';
+import PCAlertModal from 'Components/common/Modal/PCAlertModal';
+import DeletePostAPI from 'Api/Post/DeletePostAPI';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const HomePostLayout = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const isWideView = useIsWideView();
   const pathname = location.pathname;
   const inDetail = !['/home', '/profile'].some((path) => pathname.startsWith(path));
   const name = useRecoilValue(accountName);
   const [isTopModalOn, setIsTopModalOn] = useState(false);
   const [isModalOn, setIsModalOn] = useState(false);
-  const [isAlertModalOn, setIsAlerModalOn] = useState(false);
+  const [isAlertModalOn, setIsAlertModalOn] = useState(false);
   const post = props.post;
   const isMine = post.author.accountname === name;
   const userImg = post.author.image;
@@ -34,11 +38,6 @@ const HomePostLayout = (props) => {
     post.createdAt.slice(0, 4) + '년 ' + post.createdAt.slice(5, 7) + '월 ' + post.createdAt.slice(8, 10) + '일 ';
   const [isHearted, setIsHearted] = useState(post.hearted);
   const [heartCount, setHeartCount] = useState(post.heartCount);
-
-  useEffect(() => {
-    setIsModalOn(false);
-    setIsAlerModalOn(false);
-  }, []);
 
   const handlePostClick = () => {
     if (inDetail) {
@@ -49,12 +48,12 @@ const HomePostLayout = (props) => {
 
   const closeModal = () => {
     setIsModalOn(false);
-    setIsAlerModalOn(false);
+    setIsAlertModalOn(false);
   };
 
   const handleAlertModal = (e) => {
     e.stopPropagation();
-    setIsAlerModalOn(true);
+    setIsAlertModalOn(true);
   };
 
   const deletePost = DeletePostAPI(post.id);
@@ -63,12 +62,12 @@ const HomePostLayout = (props) => {
   const unheartPost = UnheartPostAPI(post.id);
 
   const handleDelete = async () => {
-    const response = await deletePost();
+    await deletePost();
     closeModal();
     if (location.pathname === '/profile') {
-      window.location.reload();
+      props.updatePost(true);
     } else {
-      navigate('/profile');
+      navigate('/profile', { state: { isDeleted: true } });
     }
   };
 
@@ -77,11 +76,10 @@ const HomePostLayout = (props) => {
   };
 
   const handleReport = async () => {
-    const response = await reportPost();
+    await reportPost();
     setIsTopModalOn(true);
-    // setIsTopModalOn(false);
     closeModal();
-    // TODO 리포트 되었다는 모달 띄우기
+    setTimeout(() => setIsTopModalOn(false), 2300);
   };
 
   const handleHeart = async () => {
@@ -91,7 +89,7 @@ const HomePostLayout = (props) => {
   };
 
   const trimContent = (content) => {
-    const match = content.match(/^\[(K|G)\]/);
+    const match = content?.match(/^\[(K|G)\]/);
     if (match) {
       return content.slice(3);
     }
@@ -100,13 +98,17 @@ const HomePostLayout = (props) => {
 
   return (
     <Layout>
-      {isTopModalOn && <AlertTop isError={true}>게시글이 신고되었습니다.</AlertTop>}
+      {isTopModalOn && (
+        <AlertTop isWideView={isWideView} isError={true}>
+          게시글이 신고되었습니다.
+        </AlertTop>
+      )}
       <User
         accountname={post.author.accountname}
         userImg={userImg || Profile}
         username={post.author.username}
         content={'@' + post.author.accountname}
-        margin={'0 0 5px 0'}
+        margin={'0 0 10px 0'}
         moreBtn
         setIsModalOn={setIsModalOn}
         productId={post.id}
@@ -148,27 +150,45 @@ const HomePostLayout = (props) => {
         </>
       )}
       <span style={{ fontSize: '10px', color: 'var(--dark-gray)' }}>{createdAt}</span>
-      <ModalOn>
-        {isModalOn && (
-          <PostModal
-            isMine={isMine}
-            postId={post.id}
-            handleAlertModal={handleAlertModal}
-            handleModify={handleModify}
-            handleReport={handleReport}
-            closeModal={closeModal}
-          ></PostModal>
-        )}
-        {isAlertModalOn && (
-          <PostAlertModal
-            isMine={isMine}
-            setIsModalOn={setIsModalOn}
-            handleDelete={handleDelete}
-            handleReport={handleReport}
-            closeModal={closeModal}
-          ></PostAlertModal>
-        )}
-      </ModalOn>
+      <OnModal id='OnModal'>
+        {isModalOn &&
+          (isWideView ? (
+            <PCModal
+              handleAlertModal={handleAlertModal}
+              setIsModalOn={setIsModalOn}
+              handleReport={handleReport}
+              handleModify={handleModify}
+              closeModal={closeModal}
+              isMine={isMine}
+              isComment={false}
+            ></PCModal>
+          ) : (
+            <PostModal
+              isMine={isMine}
+              postId={post.id}
+              handleAlertModal={handleAlertModal}
+              handleModify={handleModify}
+              handleReport={handleReport}
+              closeModal={closeModal}
+            ></PostModal>
+          ))}
+        {isAlertModalOn &&
+          (isWideView ? (
+            <PCAlertModal
+              setIsAlertModalOn={setIsAlertModalOn}
+              rightClick={handleDelete}
+              txt='게시글을 삭제할까요?'
+            ></PCAlertModal>
+          ) : (
+            <PostAlertModal
+              isMine={isMine}
+              setIsModalOn={setIsModalOn}
+              handleDelete={handleDelete}
+              handleReport={handleReport}
+              closeModal={closeModal}
+            ></PostAlertModal>
+          ))}
+      </OnModal>
     </Layout>
   );
 };
@@ -187,7 +207,7 @@ const IconLayout = styled.div`
 
 const IconButton = styled.button`
   width: 39px;
-  color: var(--gary);
+  color: var(--gray);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -215,11 +235,19 @@ const Content = styled.p`
     font-size: 10px;
     color: var(--dark-gray);
   }
+
+  ${(props) =>
+    !props.inDetail &&
+    css`
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    `}
 `;
 
-const ModalOn = styled.div`
+const OnModal = styled.div`
   position: relative;
-  height: (100vh - 60px);
   z-index: 9999;
 `;
 

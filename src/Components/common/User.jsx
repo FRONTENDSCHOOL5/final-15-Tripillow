@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import profileSm from '../../Assets/profile-sm.png';
-import more from '../../Assets/icons/s-icon-more-vertical.svg';
-import Button from './Button';
+import profileSm from 'Assets/profile-sm.png';
+import more from 'Assets/icons/s-icon-more-vertical.svg';
+import Button from 'Components/common/Button';
 
 const User = (props) => {
   const setIsModalOn = props.setIsModalOn;
@@ -21,65 +21,74 @@ const User = (props) => {
     return { leftSide, rightSide };
   };
 
+  const handleImageError = (e) => {
+    e.target.src = profileSm;
+  };
+
   const { leftSide: leftSideUser, rightSide: rightSideUser } = highlightKeyword(props.username, props.keyword);
   const { leftSide: leftSideAccount, rightSide: rightSideAccount } = highlightKeyword(props.accountname, props.keyword);
 
   return (
     <UserLayout margin={props.margin}>
-      <Link to={`/profile/${props.accountname}`}>
-        <UserImgLayout>
-          <UserImg
-            src={
-              url[url.length - 1] === 'null' ||
-              url[url.length - 1] === 'undefined' ||
-              (url[0] !== 'data:image' && url[0] !== 'https:')
-                ? profileSm
-                : props.userImg
-            }
-            alt={props.username}
-          />
-        </UserImgLayout>
+      <Link to={`/profile/${props.accountname}`} onClick={() => props.setIsSearch && props.setIsSearch(false)}>
+        <div>
+          <UserImgLayout>
+            <UserImg
+              src={
+                url[url.length - 1] === 'null' ||
+                url[url.length - 1] === 'undefined' ||
+                (url[0] !== 'data:image' && url[0] !== 'https:')
+                  ? profileSm
+                  : props.userImg
+              }
+              alt={props.username}
+              onError={handleImageError}
+            />
+          </UserImgLayout>
+        </div>
       </Link>
       <UserContentsLayout>
-        {props.search ? (
-          props.username.includes(props.keyword) && props.accountname.includes(props.keyword) ? (
-            <div>
-              <UserTitle>
-                {leftSideUser}
-                <HighLighted>{props.keyword}</HighLighted>
-                {rightSideUser}
-              </UserTitle>
-              <UserContent>
-                @{leftSideAccount}
-                <HighLighted>{props.keyword}</HighLighted>
-                {rightSideAccount}
-              </UserContent>
-            </div>
-          ) : props.username.includes(props.keyword) ? (
-            <div>
-              <UserTitle>
-                {leftSideUser}
-                <HighLighted>{props.keyword}</HighLighted>
-                {rightSideUser}
-              </UserTitle>
-              <UserContent>{props.content}</UserContent>
-            </div>
+        <Link to={`/profile/${props.accountname}`} onClick={() => props.setIsSearch && props.setIsSearch(false)}>
+          {props.search ? (
+            props?.username.includes(props.keyword) && props.accountname.includes(props.keyword) ? (
+              <div>
+                <UserTitle>
+                  {leftSideUser}
+                  <HighLighted>{props.keyword}</HighLighted>
+                  {rightSideUser}
+                </UserTitle>
+                <UserContent>
+                  @{leftSideAccount}
+                  <HighLighted>{props.keyword}</HighLighted>
+                  {rightSideAccount}
+                </UserContent>
+              </div>
+            ) : props?.username.includes(props.keyword) ? (
+              <div>
+                <UserTitle>
+                  {leftSideUser}
+                  <HighLighted>{props.keyword}</HighLighted>
+                  {rightSideUser}
+                </UserTitle>
+                <UserContent>{props.content}</UserContent>
+              </div>
+            ) : (
+              <div>
+                <UserTitle>{props?.username}</UserTitle>
+                <UserContent>
+                  @{leftSideAccount}
+                  <HighLighted>{props.keyword}</HighLighted>
+                  {rightSideAccount}
+                </UserContent>
+              </div>
+            )
           ) : (
             <div>
-              <UserTitle>{props.username}</UserTitle>
-              <UserContent>
-                @{leftSideAccount}
-                <HighLighted>{props.keyword}</HighLighted>
-                {rightSideAccount}
-              </UserContent>
+              <UserTitle>{props?.username}</UserTitle>
+              <UserContent>{props.content}</UserContent>
             </div>
-          )
-        ) : (
-          <div>
-            <UserTitle>{props.username}</UserTitle>
-            <UserContent>{props.content}</UserContent>
-          </div>
-        )}
+          )}
+        </Link>
 
         {props.moreBtn && <MoreBtn type='button' onClick={handleOnClick} />}
         {props.followers && (
@@ -96,7 +105,6 @@ const UserLayout = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-  cursor: pointer;
   margin: ${(props) => props.margin};
   overflow: hidden;
 `;

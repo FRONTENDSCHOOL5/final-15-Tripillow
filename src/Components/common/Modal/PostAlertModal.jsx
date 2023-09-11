@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 const PostAlertModal = ({ isMine, isComment, setIsModalOn, handleDelete, closeModal, handleReport }) => {
   const name = isComment ? '댓글' : '게시글';
-  setIsModalOn(false);
   return (
     <ModalBackground onClick={closeModal}>
       <ModalLayout>
@@ -67,7 +66,6 @@ const ModalButton = styled.button`
   padding: 14px 0;
   height: 100%;
   font-size: var(--sm);
-  /* color: ${(props) => (props.color ? 'var(--primary)' : 'black')}; */
   color: ${(props) => props.color || 'black'};
   border-radius: 0 0 10px 10px;
   border-top: 1px solid #dbdbdb;

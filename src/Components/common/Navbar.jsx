@@ -1,37 +1,31 @@
-import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import home from '../../Assets/icons/icon-home.svg';
-import post from '../../Assets/icons/icon-edit.svg';
-import user from '../../Assets/icons/icon-user.svg';
-import chat from '../../Assets/icons/icon-message-circle.svg';
-import shop from '../../Assets/icons/icon-shop.svg';
+import home from 'Assets/icons/icon-home.svg';
+import post from 'Assets/icons/icon-edit.svg';
+import user from 'Assets/icons/icon-user.svg';
+import chat from 'Assets/icons/icon-message-circle.svg';
+import shop from 'Assets/icons/icon-shop.svg';
 // 클릭 시 아이콘
-import userfill from '../../Assets/icons/icon-user-fill.svg';
-import homefill from '../../Assets/icons/icon-home-fill.svg';
-import shopfill from '../../Assets/icons/icon-shop-fill.svg';
-import chatfill from '../../Assets/icons/icon-message-circle-fill.svg';
-import postfill from '../../Assets/icons/icon-edit-fill.svg';
-import { useLocation, useNavigate } from 'react-router-dom';
+import userfill from 'Assets/icons/icon-user-fill.svg';
+import homefill from 'Assets/icons/icon-home-fill.svg';
+import shopfill from 'Assets/icons/icon-shop-fill.svg';
+import chatfill from 'Assets/icons/icon-message-circle-fill.svg';
+import postfill from 'Assets/icons/icon-edit-fill.svg';
+import navbarIcon from 'Recoil/navbarIcon/navbarIcon';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 
 const Navbar = (props) => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const [buttonId, setButtonId] = useState(0);
+  const [iconState, setIconState] = useRecoilState(navbarIcon);
 
   const icons = [
-    { name: '홈', image: home, fillImage: homefill, path: ['/home'] },
-    { name: '채팅', image: chat, fillImage: chatfill, path: ['/chat'] },
-    { name: '상품', image: shop, fillImage: shopfill, path: ['/product', '/addproduct'] },
-    { name: '게시물 작성', image: post, fillImage: postfill, path: ['/post'] },
-    { name: '프로필', image: user, fillImage: userfill, path: ['/profile'] },
+    { name: 'Home', koreanName: '홈', image: home, fillImage: homefill, path: ['/home'] },
+    { name: 'Chat', koreanName: '채팅', image: chat, fillImage: chatfill, path: ['/chat'] },
+    { name: 'Product', koreanName: '상품', image: shop, fillImage: shopfill, path: ['/product', '/addproduct'] },
+    { name: 'Add Post', koreanName: '게시물 작성', image: post, fillImage: postfill, path: ['/post'] },
+    { name: 'Profile', koreanName: '프로필', image: user, fillImage: userfill, path: ['/profile'] },
   ];
-
-  useEffect(() => {
-    const path = location.pathname;
-    const buttonIndex = icons.findIndex((icon) => icon.path.includes(path));
-    setButtonId(buttonIndex !== -1 ? buttonIndex : '');
-  }, [location]);
 
   return (
     <NavbarLayout margin={props.margin}>
@@ -39,18 +33,21 @@ const Navbar = (props) => {
         <IconLayout
           key={i}
           onClick={() => {
+            setIconState(el.name);
+
             navigate(el.path[0]);
           }}
+          aria-label={el.name}
         >
-          <IconImg src={buttonId === i ? el.fillImage : el.image} />
-          <IconInfo setColor={buttonId === i}>{el.name}</IconInfo>
+          <IconImg src={iconState === el.name ? el.fillImage : el.image} alt={el.name} />
+          <IconInfo setColor={iconState === el.name}>{el.koreanName}</IconInfo>
         </IconLayout>
       ))}
     </NavbarLayout>
   );
 };
 
-const NavbarLayout = styled.div`
+const NavbarLayout = styled.footer`
   display: flex;
   gap: 20px;
   width: 390px;
@@ -58,8 +55,7 @@ const NavbarLayout = styled.div`
   margin: 0 auto;
   padding: 15px 25px;
   box-sizing: border-box;
-  border: 1px solid var(--light-gray);
-  border-top: 0.5px solid #dbdbdb;
+  border-top: 0.5px solid var(--light-gray);
   position: fixed;
   bottom: 0;
   left: 0;

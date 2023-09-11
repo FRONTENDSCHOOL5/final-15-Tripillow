@@ -1,16 +1,24 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import userToken from '../Recoil/userToken/userToken';
-import { Layout } from '../Styles/Layout';
-import URL from '../Utils/URL';
-import SearchHeader from '../Components/common/Header/SearchHeader';
-import Navbar from '../Components/common/Navbar';
-import User from '../Components/common/User';
-import UserSkeleton from '../Components/common/Skeleton/UserSkeleton';
+import userToken from 'Recoil/userToken/userToken';
+import { Layout } from 'Styles/Layout';
+import URL from 'Api/URL';
+import { SearchHeader, SearchInput } from 'Components/common/Header/SearchHeader';
+import Navbar from 'Components/common/Navbar';
+import User from 'Components/common/User';
+import UserSkeleton from 'Components/common/Skeleton/UserSkeleton';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
-const Search = () => {
+const Search = ({ setIsSearch, setIconState }) => {
   const token = useRecoilValue(userToken);
+  const isPCScreen = useRecoilValue(isDesktop);
+  const isWideView = useIsWideView();
+
+  const location = useLocation();
+
   const [searchKeyword, setSearchKeyword] = useState('');
   const [searchData, setSearchData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -66,56 +74,79 @@ const Search = () => {
     }
 
     searchUser();
+    //eslint-disable-next-line
   }, [debounceValue]);
 
   const handleAllResults = () => {
     setShowAllResults(true);
   };
 
+  const closeModal = () => {
+    const path = location.pathname;
+    setIsSearch(false);
+    setIconState(path.slice(1).charAt(0).toUpperCase() + path.slice(2));
+  };
+
+  const SearchContent = () => (
+    <SearchContentLayout>
+      <ul>
+        {isLoading && (
+          <>
+            <UserSkeleton />
+            <UserSkeleton />
+            <UserSkeleton />
+            <UserSkeleton />
+          </>
+        )}
+        {showAllResults
+          ? searchData.map((user) => (
+              <SearchedUser key={user._id}>
+                <User
+                  search
+                  keyword={debounceValue}
+                  userImg={user.image}
+                  username={user.username}
+                  content={'@' + user.accountname}
+                  accountname={user.accountname}
+                  setIsSearch={setIsSearch}
+                />
+              </SearchedUser>
+            ))
+          : searchData.slice(0, 9).map((user) => (
+              <SearchedUser key={user._id}>
+                <User
+                  search
+                  keyword={debounceValue}
+                  userImg={user.image}
+                  username={user.username}
+                  content={'@' + user.accountname}
+                  accountname={user.accountname}
+                  setIsSearch={setIsSearch}
+                />
+              </SearchedUser>
+            ))}
+        {showAllResults ||
+          (searchData.length > 10 && <ShowAllButton onClick={handleAllResults}>결과 모두 보기</ShowAllButton>)}
+      </ul>
+    </SearchContentLayout>
+  );
   return (
-    <Layout>
-      <SearchHeader value={searchKeyword} onChange={handleSearchKeyword} />
-      <SearchContentLayout>
-        <ul>
-          {isLoading && (
-            <>
-              <UserSkeleton />
-              <UserSkeleton />
-              <UserSkeleton />
-              <UserSkeleton />
-            </>
-          )}
-          {showAllResults
-            ? searchData.map((user) => (
-                <SearchedUser key={user._id}>
-                  <User
-                    search
-                    keyword={debounceValue}
-                    userImg={user.image}
-                    username={user.username}
-                    content={'@' + user.accountname}
-                    accountname={user.accountname}
-                  />
-                </SearchedUser>
-              ))
-            : searchData.slice(0, 9).map((user) => (
-                <SearchedUser key={user._id}>
-                  <User
-                    search
-                    keyword={debounceValue}
-                    userImg={user.image}
-                    username={user.username}
-                    content={'@' + user.accountname}
-                    accountname={user.accountname}
-                  />
-                </SearchedUser>
-              ))}
-          {showAllResults ||
-            (searchData.length > 10 && <ShowAllButton onClick={handleAllResults}>결과 모두 보기</ShowAllButton>)}
-        </ul>
-      </SearchContentLayout>
-      <Navbar />
-    </Layout>
+    <>
+      {isWideView ? (
+        <PCBackground onClick={closeModal} isPCScreen={isPCScreen}>
+          <PCSearchLayout onClick={(e) => e.stopPropagation()}>
+            <SearchInput value={searchKeyword} onChange={handleSearchKeyword} />
+            <SearchContent />
+          </PCSearchLayout>
+        </PCBackground>
+      ) : (
+        <Layout>
+          <SearchHeader value={searchKeyword} onChange={handleSearchKeyword} />
+          <SearchContent />
+          <Navbar />
+        </Layout>
+      )}
+    </>
   );
 };
 
@@ -131,6 +162,36 @@ const ShowAllButton = styled.button`
   width: 100%;
   font-size: var(--sm);
   color: var(--primary);
+`;
+
+const PCBackground = styled.div`
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: ${(props) => (props.isPCScreen ? '349px' : '83px')};
+  z-index: 50;
+`;
+
+const PCSearchLayout = styled.article`
+  width: 390px;
+  position: fixed;
+  top: 0;
+  height: 100%;
+  padding: 16px 16px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.05) 4px 0px 5px;
+  box-sizing: border-box;
+  animation: fadeInModal 0.5s ease;
+  overflow: auto;
+
+  @keyframes fadeInModal {
+    from {
+      transform: translateX(-60%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
 `;
 
 export default Search;

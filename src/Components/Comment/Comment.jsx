@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import profileImg from '../../Assets/profile-sm.png';
+import profileImg from 'Assets/profile-sm.png';
 import styled from 'styled-components';
-import more from '../../Assets/icons/icon-more-vertical.svg';
-import CommentModal from './CommentModal';
-import PostAlertModal from '../common/Modal/PostAlertModal';
-import accountname from '../../Recoil/accountName/accountName';
-import DeleteCommentAPI from '../../Utils/DeleteCommentAPI';
-import ReportCommentAPI from '../../Utils/ReportCommentAPI';
-import AlertTop from '../common/Modal/AlertTop';
+import more from 'Assets/icons/icon-more-vertical.svg';
+import CommentModal from 'Components/Comment/CommentModal';
+import PostAlertModal from 'Components/common/Modal/PostAlertModal';
+import accountname from 'Recoil/accountName/accountName';
+import DeleteCommentAPI from 'Api/Post/DeleteCommentAPI';
+import ReportCommentAPI from 'Api/Post/ReportCommentAPI';
+import AlertTop from 'Components/common/Modal/AlertTop';
+import PCModal from 'Components/common/Modal/PCModal';
+import PCAlertModal from 'Components/common/Modal/PCAlertModal';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const Comment = ({ commentInfo, postId, setIsNewComment }) => {
   const name = useRecoilValue(accountname);
+  const isWideView = useIsWideView();
   const [isTopModalOn, setIsTopModalOn] = useState(false);
   const [isModalOn, setIsModalOn] = useState(false);
   const [isAlertModalOn, setIsAlertModalOn] = useState(false);
@@ -37,15 +41,21 @@ const Comment = ({ commentInfo, postId, setIsNewComment }) => {
   };
 
   const handleDelete = async () => {
-    const response = await deleteComment();
+    await deleteComment();
     closeModal();
     setIsNewComment((prev) => !prev);
   };
 
   const handleReport = async () => {
-    const response = await reportComment();
+    await reportComment();
     setIsTopModalOn(true);
     closeModal();
+    setTimeout(() => setIsTopModalOn(false), 2300);
+  };
+
+  const handleAlertModal = (e) => {
+    e.stopPropagation();
+    setIsAlertModalOn(true);
   };
 
   useEffect(() => {
@@ -55,7 +65,11 @@ const Comment = ({ commentInfo, postId, setIsNewComment }) => {
 
   return (
     <CommentLayout>
-      {isTopModalOn && <AlertTop isError={true}>댓글이 신고되었습니다.</AlertTop>}
+      {isTopModalOn && (
+        <AlertTop isWideView={isWideView} isError={true}>
+          댓글이 신고되었습니다.
+        </AlertTop>
+      )}
       <Profile>
         <ProfileLink
           to={commentInfo.author.accountname === name ? `/profile` : `/profile/${commentInfo.author.accountname}`}
@@ -68,24 +82,41 @@ const Comment = ({ commentInfo, postId, setIsNewComment }) => {
       </Profile>
       <Text>{commentInfo.content}</Text>
       <ModalOn>
-        {isModalOn && (
-          <CommentModal
-            isMine={isMine}
-            commentInfo={commentInfo}
-            setIsAlertModalOn={setIsAlertModalOn}
-            closeModal={closeModal}
-          ></CommentModal>
-        )}
-        {isAlertModalOn && (
-          <PostAlertModal
-            isMine={isMine}
-            isComment={true}
-            setIsModalOn={setIsModalOn}
-            handleDelete={handleDelete}
-            handleReport={handleReport}
-            closeModal={closeModal}
-          ></PostAlertModal>
-        )}
+        {isModalOn &&
+          (isWideView ? (
+            <PCModal
+              handleAlertModal={handleAlertModal}
+              setIsModalOn={setIsModalOn}
+              handleReport={handleReport}
+              closeModal={closeModal}
+              isMine={isMine}
+              isComment={true}
+            ></PCModal>
+          ) : (
+            <CommentModal
+              isMine={isMine}
+              commentInfo={commentInfo}
+              setIsAlertModalOn={setIsAlertModalOn}
+              closeModal={closeModal}
+            ></CommentModal>
+          ))}
+        {isAlertModalOn &&
+          (isWideView ? (
+            <PCAlertModal
+              setIsAlertModalOn={setIsAlertModalOn}
+              rightClick={handleDelete}
+              txt='댓글을 삭제할까요?'
+            ></PCAlertModal>
+          ) : (
+            <PostAlertModal
+              isMine={isMine}
+              isComment={true}
+              setIsModalOn={setIsModalOn}
+              handleDelete={handleDelete}
+              handleReport={handleReport}
+              closeModal={closeModal}
+            ></PostAlertModal>
+          ))}
       </ModalOn>
     </CommentLayout>
   );
@@ -106,8 +137,6 @@ const ProfileLink = styled(Link)`
   display: block;
   width: 36px;
   height: 36px;
-  /* border-radius: 50%; */
-  /* overflow: hidden; */
 `;
 
 const ProfileImg = styled.img`
