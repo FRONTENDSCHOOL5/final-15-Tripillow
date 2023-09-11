@@ -42,8 +42,6 @@ const Product = () => {
     return response.json();
   });
 
-  if (userError) console.log(userError);
-
   const {
     data: productsQuery,
     error: productError,
@@ -51,29 +49,29 @@ const Product = () => {
   } = useQuery(
     'products',
     async () => {
-      if (userLoading === false) {
-        const productsData = await Promise.all(
-          user.map(async (followingAccount) => {
-            const response = await fetch(`${URL}/product/${followingAccount.accountname}`, {
-              method: 'GET',
-              headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-type': 'application/json',
-              },
-            });
-            const responseData = await response.json();
-            return responseData;
-          }),
-        );
-        return productsData;
-      }
+      const productsData = await Promise.all(
+        user.map(async (followingAccount) => {
+          const response = await fetch(`${URL}/product/${followingAccount.accountname}`, {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-type': 'application/json',
+            },
+          });
+          const responseData = await response.json();
+          return responseData;
+        }),
+      );
+      return productsData;
     },
     {
-      enabled: !!user,
+      enabled: !!user && !userLoading,
     },
   );
 
-  if (productError) console.log(productError);
+  if (userError) return alert(userError);
+
+  if (productError) return alert(productError);
 
   const tripProduct = [];
   const tripMoney = [];
