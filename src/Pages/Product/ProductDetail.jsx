@@ -140,13 +140,15 @@ const ProductDetail = () => {
                 />,
                 $Root,
               )}
-            {isAlertModalOn && (
-              <PCAlertModal
-                txt='정말 삭제하시겠습니까?'
-                rightClick={handleDelete}
-                setIsAlertModalOn={setIsAlertModalOn}
-              />
-            )}
+            {isAlertModalOn &&
+              createPortal(
+                <PCAlertModal
+                  txt='정말 삭제하시겠습니까?'
+                  rightClick={handleDelete}
+                  setIsAlertModalOn={setIsAlertModalOn}
+                />,
+                $Root,
+              )}
 
             {showImg && (
               <ModalBg onClick={() => setShowImg(false)} $isWideView={isWideView}>
