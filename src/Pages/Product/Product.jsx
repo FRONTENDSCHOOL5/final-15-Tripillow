@@ -18,6 +18,7 @@ import isDesktop from 'Recoil/isDesktop/isDesktop';
 import { isProduct } from 'Recoil/productCategory/productCategory';
 import MyPillowings from 'Components/Home/MyPillowings';
 import useIsWideView from 'Components/SideNav/useIsWideView';
+import MetaTag from 'Components/common/MetaTag';
 
 const Product = () => {
   const navigate = useNavigate();
@@ -89,49 +90,56 @@ const Product = () => {
   });
 
   return (
-    <StyledLayout $isWideView={isWideView}>
-      {!isWideView && (
-        <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='확인'>
-          Pillower의 판매상품
-        </BasicHeader>
-      )}
-      <Toggle
-        margin='0 0 20px 0'
-        leftButton='여행용품'
-        rightButton='외화'
-        setIsLeftToggle={setIsLeftToggle}
-        rightOn={!isLeftToggle}
+    <>
+      <MetaTag
+        title='Tripillow 상품'
+        description='팔로잉 하는 사람들의 여행 중고 물품을 구경하고 거래해보세요'
+        url='https://tripillow.netlify.app/product'
       />
-      <GridLayout>
-        {userLoading === true ||
-          (productLoading === true && (
-            <>
-              {Array.from({ length: 8 }, (_, index) => (
-                <div key={index}>
-                  <ProductItemSkeleton />
-                </div>
-              ))}
-            </>
-          ))}
-        {isLeftToggle
-          ? tripProduct.map((product, i) => <ProductItem key={i} product={product} />)
-          : tripMoney.map((product, i) => <ProductItem key={i} product={product} />)}
-        {productLoading === false && productsQuery?.length === 0 && <p>등록된 상품이 없습니다.</p>}
-      </GridLayout>
-      <div style={{ position: 'fixed', width: '360px', height: '48px', bottom: '100px' }}>
-        <CircleButton
-          onClick={() => {
-            navigate('/addproduct');
-          }}
-          position='relative'
-          margin='0 0 0 auto'
-          width='50px'
-          height='50px'
-        ></CircleButton>
-      </div>
-      {isWideView || <Navbar />}
-      {isPCScreen && <MyPillowings $on={isPCScreen} />}
-    </StyledLayout>
+      <StyledLayout $isWideView={isWideView}>
+        {!isWideView && (
+          <BasicHeader btn1='설정 및 개인정보' btn2='로그아웃' txt='정말 로그아웃 하시겠습니까?' rightbtn='확인'>
+            Pillower의 판매상품
+          </BasicHeader>
+        )}
+        <Toggle
+          margin='0 0 20px 0'
+          leftButton='여행용품'
+          rightButton='외화'
+          setIsLeftToggle={setIsLeftToggle}
+          rightOn={!isLeftToggle}
+        />
+        <GridLayout>
+          {userLoading === true ||
+            (productLoading === true && (
+              <>
+                {Array.from({ length: 8 }, (_, index) => (
+                  <div key={index}>
+                    <ProductItemSkeleton />
+                  </div>
+                ))}
+              </>
+            ))}
+          {isLeftToggle
+            ? tripProduct.map((product, i) => <ProductItem key={i} product={product} />)
+            : tripMoney.map((product, i) => <ProductItem key={i} product={product} />)}
+          {productLoading === false && productsQuery?.length === 0 && <p>등록된 상품이 없습니다.</p>}
+        </GridLayout>
+        <div style={{ position: 'fixed', width: '360px', height: '48px', bottom: '100px' }}>
+          <CircleButton
+            onClick={() => {
+              navigate('/addproduct');
+            }}
+            position='relative'
+            margin='0 0 0 auto'
+            width='50px'
+            height='50px'
+          ></CircleButton>
+        </div>
+        {isWideView || <Navbar />}
+        {isPCScreen && <MyPillowings $on={isPCScreen} />}
+      </StyledLayout>
+    </>
   );
 };
 
