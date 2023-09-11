@@ -23,7 +23,6 @@ const PostComment = ({ postId, setIsNewComment, userImg }) => {
     }
     setIsPostingComment(true);
     try {
-      console.log(e);
       await handlePostComment();
       setIsNewComment(true);
       input.current.value = '';
