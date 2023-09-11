@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import HeaderLayout from 'Styles/HeaderLayout';
 import prev from 'Assets/icons/icon-arrow-back.svg';
 
-const SearchHeader = ({ value, onChange }) => {
+const SearchHeader = ({ value, onChange, header }) => {
   const navigate = useNavigate();
-  return (
+  return header ? (
     <HeaderLayout>
       <h1 className='a11y-hidden'>검색 페이지</h1>
       <PrevButton
@@ -16,11 +16,9 @@ const SearchHeader = ({ value, onChange }) => {
       />
       <SearchInput type='text' placeholder='계정 검색' value={value} onChange={onChange} />
     </HeaderLayout>
+  ) : (
+    <SearchInput type='text' placeholder='계정 검색' value={value} onChange={onChange} />
   );
-};
-
-const SearchInput = ({ value, onChange }) => {
-  return <Input type='text' placeholder='계정 검색' value={value} onChange={onChange} />;
 };
 
 const PrevButton = styled.button`
@@ -29,7 +27,7 @@ const PrevButton = styled.button`
   margin-right: 8px;
   background-image: url(${prev});
 `;
-const Input = styled.input`
+const SearchInput = styled.input`
   width: 100%;
   height: 32px;
   border: none;
@@ -42,4 +40,4 @@ const Input = styled.input`
   }
 `;
 
-export { SearchHeader, SearchInput };
+export default SearchHeader;
