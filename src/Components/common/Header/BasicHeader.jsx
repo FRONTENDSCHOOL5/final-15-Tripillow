@@ -105,8 +105,6 @@ const BasicHeader = (props) => {
     navigate('/profile/setting');
   };
 
-  console.log(props.subject);
-
   return (
     <HeaderLayout>
       <h1 className='a11y-hidden'>{props.subject ? props.subject : paths[pathname]}</h1>
