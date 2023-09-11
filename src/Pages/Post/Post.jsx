@@ -16,8 +16,8 @@ import CompressedImageUploadAPI from 'Api/Upload/CompressedImageUploadAPI';
 import Button from 'Components/common/Button';
 import MyPillowings from 'Components/Home/MyPillowings';
 import isDesktop from 'Recoil/isDesktop/isDesktop';
-
 import useIsWideView from 'Components/SideNav/useIsWideView';
+import MetaTag from 'Components/common/MetaTag';
 
 const Post = () => {
   const navigate = useNavigate();
@@ -79,7 +79,7 @@ const Post = () => {
         handleDataForm(base64data);
       };
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -110,57 +110,64 @@ const Post = () => {
   };
 
   return (
-    <PostLayout $isWideView={isWideView}>
-      {!isWideView && (
-        <UploadHeader disabled={!inputValue} onClick={throttledHandleSubmit}>
-          업로드
-        </UploadHeader>
-      )}
-      <ToggleLayout>
-        <Toggle leftButton='국내' rightButton='해외' setIsLeftToggle={setIsLeftToggle} margin='0 0 22px 0'></Toggle>
-      </ToggleLayout>
-      <form>
-        {isWideView && (
-          <>
-            <PCImgUpload htmlFor='img-input'>+ 여행사진 추가하기</PCImgUpload>
-            <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
-          </>
-        )}
-        <TextInput placeholder='게시글 입력하기...' ref={textarea} onChange={handleInputChange} rows='1'></TextInput>
-        {imgURL.map((el, i) => (
-          <ImgLayout key={`ImgLayout-${i}`}>
-            <Img src={`${URL}/${el}`} key={`Img-${i}`} />
-            <ImgDelete
-              $isWideView={isWideView}
-              type='button'
-              key={`ImgDelete-${i}`}
-              onClick={() => handleImgClose(i)}
-            ></ImgDelete>
-          </ImgLayout>
-        ))}
+    <>
+      <MetaTag
+        title='Tripillow 게시물 업로드'
+        description='여행 사진과 여행 경험을 공유하기위해 게시물을 업로드해보세요'
+        url='https://tripillow.netlify.app/post'
+      />
+      <PostLayout $isWideView={isWideView}>
         {!isWideView && (
-          <>
-            <label htmlFor='img-input'>
-              <ImgIcon src={iconImg}></ImgIcon>
-            </label>
-            <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
-          </>
-        )}
-        {isWideView && (
-          <Button
-            disabled={!inputValue}
-            onClick={throttledHandleSubmit}
-            width='90px'
-            fontSize='14px'
-            padding='7.75px'
-            style={{ position: 'absolute', top: '55px' }}
-          >
+          <UploadHeader disabled={!inputValue} onClick={throttledHandleSubmit}>
             업로드
-          </Button>
+          </UploadHeader>
         )}
-      </form>
-      {isPCScreen && <MyPillowings $on={isPCScreen} />}
-    </PostLayout>
+        <ToggleLayout>
+          <Toggle leftButton='국내' rightButton='해외' setIsLeftToggle={setIsLeftToggle} margin='0 0 22px 0'></Toggle>
+        </ToggleLayout>
+        <form>
+          {isWideView && (
+            <>
+              <PCImgUpload htmlFor='img-input'>+ 여행사진 추가하기</PCImgUpload>
+              <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
+            </>
+          )}
+          <TextInput placeholder='게시글 입력하기...' ref={textarea} onChange={handleInputChange} rows='1'></TextInput>
+          {imgURL.map((el, i) => (
+            <ImgLayout key={`ImgLayout-${i}`}>
+              <Img src={`${URL}/${el}`} key={`Img-${i}`} />
+              <ImgDelete
+                $isWideView={isWideView}
+                type='button'
+                key={`ImgDelete-${i}`}
+                onClick={() => handleImgClose(i)}
+              ></ImgDelete>
+            </ImgLayout>
+          ))}
+          {!isWideView && (
+            <>
+              <label htmlFor='img-input'>
+                <ImgIcon src={iconImg}></ImgIcon>
+              </label>
+              <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
+            </>
+          )}
+          {isWideView && (
+            <Button
+              disabled={!inputValue}
+              onClick={throttledHandleSubmit}
+              width='90px'
+              fontSize='14px'
+              padding='7.75px'
+              style={{ position: 'absolute', top: '55px' }}
+            >
+              업로드
+            </Button>
+          )}
+        </form>
+        {isPCScreen && <MyPillowings $on={isPCScreen} />}
+      </PostLayout>
+    </>
   );
 };
 

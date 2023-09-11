@@ -22,8 +22,16 @@ const ProfileView = () => {
   };
   return (
     <ViewLayout>
-      <ViewButton bgImg={listView ? listOn : listOff} onClick={handleListView}></ViewButton>
-      <ViewButton bgImg={albumView ? AlbumOn : AlbumOff} onClick={handleAlbumView}></ViewButton>
+      <ViewButton
+        bgImg={listView ? listOn : listOff}
+        onClick={handleListView}
+        aria-label='게시물 리스트 형식으로 보기'
+      ></ViewButton>
+      <ViewButton
+        bgImg={albumView ? AlbumOn : AlbumOff}
+        onClick={handleAlbumView}
+        aria-label='게시물 앨범 형식으로 보기'
+      ></ViewButton>
     </ViewLayout>
   );
 };

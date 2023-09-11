@@ -18,6 +18,7 @@ import logo from 'Assets/logo-gray.png';
 import MyPillowings from 'Components/Home/MyPillowings';
 import useIsWideView from 'Components/SideNav/useIsWideView';
 import isDesktop from 'Recoil/isDesktop/isDesktop';
+import MetaTag from 'Components/common/MetaTag';
 
 const Home = () => {
   const isPCScreen = useRecoilValue(isDesktop);
@@ -108,40 +109,47 @@ const Home = () => {
   }, [inView]);
 
   return (
-    <Layout $isWideView={isWideView}>
-      {!isWideView && <MainHeader />}
-      <main style={{ paddingBottom: 90 }}>
-        <Toggle
-          margin='25px 0 0 16px'
-          leftButton='국내'
-          rightButton='해외'
-          setIsLeftToggle={setIsLeftToggle}
-          rightOn={!isLeftToggle}
+    <>
+      <Layout $isWideView={isWideView}>
+        <MetaTag
+          title='Tripillow 홈페이지'
+          description='Tripillow에서 내가 팔로잉하는 게시물을 국내와 해외 카테고리로 볼 수 있습니다'
+          url='https://tripillow.netlify.app/home'
         />
-        {isLoading ? (
-          <>
-            <HomePostSkeleton />
-            <HomePostSkeleton />
-          </>
-        ) : followedFeed?.pages[0].length > 0 ? (
-          isLeftToggle ? (
-            koreaPosts.map((post) => <HomePost key={post.id} post={post} />)
+        {!isWideView && <MainHeader />}
+        <main style={{ paddingBottom: 90 }}>
+          <Toggle
+            margin='25px 0 0 16px'
+            leftButton='국내'
+            rightButton='해외'
+            setIsLeftToggle={setIsLeftToggle}
+            rightOn={!isLeftToggle}
+          />
+          {isLoading ? (
+            <>
+              <HomePostSkeleton />
+              <HomePostSkeleton />
+            </>
+          ) : followedFeed?.pages[0].length > 0 ? (
+            isLeftToggle ? (
+              koreaPosts.map((post) => <HomePost key={post.id} post={post} />)
+            ) : (
+              globalPosts.map((post) => <HomePost key={post.id} post={post} />)
+            )
           ) : (
-            globalPosts.map((post) => <HomePost key={post.id} post={post} />)
-          )
-        ) : (
-          !isLoading && (
-            <Empty image={logo} alt='로고' navigate='/search' buttonName='검색하기'>
-              유저를 검색해 팔로우 해보세요!
-            </Empty>
-          )
-        )}
-        <div ref={ref}> {isFetchingNextPage && <Spinner />}</div>
-      </main>
-      <TopButton />
-      {isWideView || <Navbar />}
-      {isPCScreen && <MyPillowings $on={isPCScreen} />}
-    </Layout>
+            !isLoading && (
+              <Empty image={logo} alt='로고' navigate='/search' buttonName='검색하기'>
+                유저를 검색해 팔로우 해보세요!
+              </Empty>
+            )
+          )}
+          <div ref={ref}> {isFetchingNextPage && <Spinner />}</div>
+        </main>
+        <TopButton />
+        {isWideView || <Navbar />}
+        {isPCScreen && <MyPillowings $on={isPCScreen} />}
+      </Layout>
+    </>
   );
 };
 
