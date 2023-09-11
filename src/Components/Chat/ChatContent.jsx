@@ -106,7 +106,7 @@ const ChatContent = () => {
               onKeyDown={handleKeyDown}
               placeholder='메시지 입력하기...'
             />
-            <SendButton onClick={handleButtonClicked} inputValue={inputValue}>
+            <SendButton onClick={handleButtonClicked} inputValue={inputValue} aria-label='전송하기'>
               전송
             </SendButton>
           </ChatInputBar>

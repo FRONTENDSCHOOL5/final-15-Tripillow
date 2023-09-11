@@ -78,7 +78,7 @@ const Comment = ({ commentInfo, postId, setIsNewComment }) => {
         </ProfileLink>
         <UserName>{commentInfo.author.username}</UserName>
         <Time>{createdAt}</Time>
-        <MoreBtn onClick={handleModal}></MoreBtn>
+        <MoreBtn onClick={handleModal} aria-label='댓글 설정 더보기'></MoreBtn>
       </Profile>
       <Text>{commentInfo.content}</Text>
       <ModalOn>

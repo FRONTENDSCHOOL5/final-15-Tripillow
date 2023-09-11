@@ -12,11 +12,11 @@ const CommentModal = ({ isMine, setIsAlertModalOn, closeModal }) => {
       <ModalLayout>
         <SlideBar></SlideBar>
         {isMine ? (
-          <button type='button' onClick={handleAlertModal}>
+          <button type='button' onClick={handleAlertModal} aria-label='삭제하기'>
             삭제
           </button>
         ) : (
-          <button type='button' onClick={handleAlertModal}>
+          <button type='button' onClick={handleAlertModal} aria-label='신고하기'>
             신고하기
           </button>
         )}

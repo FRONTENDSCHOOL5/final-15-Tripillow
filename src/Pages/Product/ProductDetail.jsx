@@ -57,7 +57,6 @@ const ProductDetail = () => {
       const details = await getProductDetail();
 
       setProductDetail(details.product);
-      console.error('details : ', details);
     };
     handleDetail();
   }, [getProductDetail]);

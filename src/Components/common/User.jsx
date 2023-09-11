@@ -90,7 +90,7 @@ const User = (props) => {
           )}
         </Link>
 
-        {props.moreBtn && <MoreBtn type='button' onClick={handleOnClick} />}
+        {props.moreBtn && <MoreBtn type='button' onClick={handleOnClick} aria-label='게시글 설정 더보기' />}
         {props.followers && (
           <Button width='56px' fontSize='var(--xs)' border='none' padding='5.75px'>
             팔로우

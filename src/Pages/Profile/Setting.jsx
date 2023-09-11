@@ -9,6 +9,7 @@ import accountName from 'Recoil/accountName/accountName';
 import BasicHeader from 'Components/common/Header/BasicHeader';
 import AlertModal from 'Components/common/Modal/AlertModal';
 import useIsWideView from 'Components/SideNav/useIsWideView';
+import MetaTag from 'Components/common/MetaTag';
 
 const Setting = () => {
   const navigate = useNavigate();
@@ -44,82 +45,99 @@ const Setting = () => {
   };
 
   return (
-    <Layout $isWideView={isWideView}>
-      {!isWideView && <BasicHeader>설정 및 개인정보</BasicHeader>}
-      <SectionCommonLayout>
-        <TitleCommonLayout>알림 설정</TitleCommonLayout>
-        <ContentCommonLayout>
-          <p>마케팅 정보 수신 및 알림</p>
-          <input
-            type='checkbox'
-            id='marketing_switch'
-            onChange={() => setMarketingClicked(!marketingClicked)}
-            checked={marketingClicked}
+    <>
+      <MetaTag
+        title='Tripillow 설정'
+        description='알림 및 맞춤 설정을 설정해보세요'
+        url='https://tripillow.netlify.app/setting'
+      />
+      <Layout $isWideView={isWideView}>
+        {!isWideView && <BasicHeader>설정 및 개인정보</BasicHeader>}
+        <SectionCommonLayout>
+          <TitleCommonLayout>알림 설정</TitleCommonLayout>
+          <ContentCommonLayout>
+            <p>마케팅 정보 수신 및 알림</p>
+            <input
+              type='checkbox'
+              id='marketing_switch'
+              onChange={() => setMarketingClicked(!marketingClicked)}
+              checked={marketingClicked}
+            />
+            <label htmlFor='marketing_switch'>Toggle</label>
+          </ContentCommonLayout>
+          <ContentCommonLayout>
+            <p>팔로우 알림</p>
+            <input
+              type='checkbox'
+              id='follow_switch'
+              onChange={() => setFollowClicked(!followClicked)}
+              checked={followClicked}
+            />
+            <label htmlFor='follow_switch'>Toggle</label>
+          </ContentCommonLayout>
+          <ContentCommonLayout>
+            <p>댓글 알림</p>
+            <input
+              type='checkbox'
+              id='comment_switch'
+              onChange={() => setCommentClicked(!commentClicked)}
+              checked={commentClicked}
+            />
+            <label htmlFor='comment_switch'>Toggle</label>
+          </ContentCommonLayout>
+          <ContentCommonLayout>
+            <p>채팅 알림</p>
+            <input
+              type='checkbox'
+              id='chat_switch'
+              onChange={() => setChatClicked(!chatClicked)}
+              checked={chatClicked}
+            />
+            <label htmlFor='chat_switch'>Toggle</label>
+          </ContentCommonLayout>
+        </SectionCommonLayout>
+        <SectionCommonLayout>
+          <TitleCommonLayout>약관 및 정책</TitleCommonLayout>
+          <ContentCommonLayout>
+            <p>이용약관</p>
+            <Link to='#none'>약관 보기</Link>
+          </ContentCommonLayout>
+          <ContentCommonLayout>
+            <p>개인정보처리방침</p>
+            <Link to='#none'>약관 보기</Link>
+          </ContentCommonLayout>
+          <ContentCommonLayout>
+            <p>마케팅 정보 수신 동의</p>
+            <Link to='#none'>약관 보기</Link>
+          </ContentCommonLayout>
+        </SectionCommonLayout>
+        <SectionCommonLayout>
+          <TitleCommonLayout>설정</TitleCommonLayout>
+          <ContentCommonLayout>
+            <button onClick={handleLogOutModal}>로그아웃</button>
+          </ContentCommonLayout>
+          <ContentCommonLayout>
+            <button onClick={handleDeleteAccountModal}>회원탈퇴</button>
+          </ContentCommonLayout>
+        </SectionCommonLayout>
+        {logoutModal && (
+          <AlertModal
+            txt='정말 로그아웃 하시겠습니까?'
+            rightbtn='확인'
+            rightClick={handleSignOut}
+            leftClick={handleCancel}
           />
-          <label htmlFor='marketing_switch'>Toggle</label>
-        </ContentCommonLayout>
-        <ContentCommonLayout>
-          <p>팔로우 알림</p>
-          <input
-            type='checkbox'
-            id='follow_switch'
-            onChange={() => setFollowClicked(!followClicked)}
-            checked={followClicked}
+        )}
+        {deleteAccountModal && (
+          <AlertModal
+            txt='정말 탈퇴 하시겠습니까?'
+            rightbtn='확인'
+            rightClick={handleSignOut}
+            leftClick={handleCancel}
           />
-          <label htmlFor='follow_switch'>Toggle</label>
-        </ContentCommonLayout>
-        <ContentCommonLayout>
-          <p>댓글 알림</p>
-          <input
-            type='checkbox'
-            id='comment_switch'
-            onChange={() => setCommentClicked(!commentClicked)}
-            checked={commentClicked}
-          />
-          <label htmlFor='comment_switch'>Toggle</label>
-        </ContentCommonLayout>
-        <ContentCommonLayout>
-          <p>채팅 알림</p>
-          <input type='checkbox' id='chat_switch' onChange={() => setChatClicked(!chatClicked)} checked={chatClicked} />
-          <label htmlFor='chat_switch'>Toggle</label>
-        </ContentCommonLayout>
-      </SectionCommonLayout>
-      <SectionCommonLayout>
-        <TitleCommonLayout>약관 및 정책</TitleCommonLayout>
-        <ContentCommonLayout>
-          <p>이용약관</p>
-          <Link to='#none'>약관 보기</Link>
-        </ContentCommonLayout>
-        <ContentCommonLayout>
-          <p>개인정보처리방침</p>
-          <Link to='#none'>약관 보기</Link>
-        </ContentCommonLayout>
-        <ContentCommonLayout>
-          <p>마케팅 정보 수신 동의</p>
-          <Link to='#none'>약관 보기</Link>
-        </ContentCommonLayout>
-      </SectionCommonLayout>
-      <SectionCommonLayout>
-        <TitleCommonLayout>설정</TitleCommonLayout>
-        <ContentCommonLayout>
-          <button onClick={handleLogOutModal}>로그아웃</button>
-        </ContentCommonLayout>
-        <ContentCommonLayout>
-          <button onClick={handleDeleteAccountModal}>회원탈퇴</button>
-        </ContentCommonLayout>
-      </SectionCommonLayout>
-      {logoutModal && (
-        <AlertModal
-          txt='정말 로그아웃 하시겠습니까?'
-          rightbtn='확인'
-          rightClick={handleSignOut}
-          leftClick={handleCancel}
-        />
-      )}
-      {deleteAccountModal && (
-        <AlertModal txt='정말 탈퇴 하시겠습니까?' rightbtn='확인' rightClick={handleSignOut} leftClick={handleCancel} />
-      )}
-    </Layout>
+        )}
+      </Layout>
+    </>
   );
 };
 

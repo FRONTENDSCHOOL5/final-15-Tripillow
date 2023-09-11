@@ -62,7 +62,7 @@ const AddProduct = () => {
   const handleImgChange = async (e) => {
     const file = e.target?.files[0];
     if (e.target.files[0].size > 10 * 1024 * 1024) {
-      console.error('[ERROR 이미지 용량이 10MB를 넘습니다]');
+      alert('[ERROR 이미지 용량이 10MB를 넘습니다]');
       return null;
     }
     if (!validateImageFileFormat(e.target.files[0].name)) return alert('파일 확장자를 확인해주세요');
@@ -87,7 +87,7 @@ const AddProduct = () => {
         handleDataForm(base64data);
       };
     } catch (error) {
-      console.error(error);
+      alert(error.message);
     }
   };
 
