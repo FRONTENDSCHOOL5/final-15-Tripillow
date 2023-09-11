@@ -42,7 +42,7 @@ const Product = () => {
     return response.json();
   });
 
-  if (userError) console.log(userError);
+  if (userError) console.error(userError);
 
   const {
     data: productsQuery,
@@ -73,7 +73,7 @@ const Product = () => {
     },
   );
 
-  if (productError) console.log(productError);
+  if (productError) console.error(productError);
 
   const tripProduct = [];
   const tripMoney = [];

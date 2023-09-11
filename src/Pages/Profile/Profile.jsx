@@ -30,7 +30,7 @@ const Profile = () => {
   }, [isDeleted, isModified]);
 
   useEffect(() => {
-    if (!!state) {
+    if (state === true) {
       navigate(pathname, { replace: true });
     }
   }, [state, pathname, navigate]);

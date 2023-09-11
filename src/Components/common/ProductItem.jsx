@@ -13,7 +13,7 @@ const ProductItem = (props) => {
   const trimContent = (content) => {
     const match = content.match(/^\[(P|M)\]/);
     if (match) {
-      if (match[1] === 'P' || 'M') return content.slice(3);
+      if (match[1] === 'P' || match[1] === 'M') return content.slice(3);
     }
     return content;
   };
