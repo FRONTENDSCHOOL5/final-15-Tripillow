@@ -76,7 +76,7 @@ export default function PostImage({ post }) {
             aria-label='사진 왼쪽으로 넘기기'
           ></ArrowButton>
         )}
-        <img src={URL + '/' + pictures[currentIndex]} onError={handleError} alt='' />
+        <img src={pictures[currentIndex]} onError={handleError} alt='' />
         {pictures.length > 1 && pictures[pictures.length - 1] !== pictures[currentIndex] && (
           <ArrowButton
             onClick={handleNext}
