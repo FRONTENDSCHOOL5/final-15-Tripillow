@@ -54,8 +54,9 @@ const SideNavBar = (props) => {
   };
 
   useEffect(() => {
-    setIsSearch(false);
-  }, [location]);
+    const path = location.pathname;
+    setIconState(path.slice(1).charAt(0).toUpperCase() + path.slice(2));
+  }, [location, setIconState]);
 
   return (
     <>
