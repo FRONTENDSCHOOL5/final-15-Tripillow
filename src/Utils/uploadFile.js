@@ -1,4 +1,3 @@
-import URL from 'Api/URL';
 import ImageUploadAPI from 'Api/Upload/ImageUploadAPI';
 import imageCompression from 'browser-image-compression';
 
@@ -23,7 +22,7 @@ const handleDataForm = async (dataURL) => {
     if (data) {
       const imageUrl = data.filename;
 
-      return URL + '/' + imageUrl;
+      return imageUrl;
     }
   } catch (error) {
     console.error(error);

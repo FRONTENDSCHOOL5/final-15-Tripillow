@@ -16,6 +16,7 @@ import Button from 'Components/common/Button';
 import MyPillowings from 'Components/Home/MyPillowings';
 import useIsWideView from 'Components/SideNav/useIsWideView';
 import { uploadFile } from 'Utils/uploadFile';
+import URL from 'Api/URL';
 
 const PostModification = () => {
   const navigate = useNavigate();
@@ -188,7 +189,7 @@ const PostModification = () => {
         {imgURL[0] !== '' &&
           imgURL.map((el, i) => (
             <ImgLayout key={`ImgLayout-${i}`}>
-              <Img src={el} key={`Img-${i}`} />
+              <Img src={`${URL}/${el}`} key={`Img-${i}`} />
               <ImgDelete type='button' key={`ImgDelete-${i}`} onClick={() => handleImgClose(i)}></ImgDelete>
             </ImgLayout>
           ))}

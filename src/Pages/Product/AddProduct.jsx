@@ -17,6 +17,7 @@ import MyPillowings from 'Components/Home/MyPillowings';
 import { validateImageFileFormat } from 'Utils/validate';
 import useIsWideView from 'Components/SideNav/useIsWideView';
 import { uploadFile } from 'Utils/uploadFile';
+import URL from 'Api/URL';
 
 const AddProduct = () => {
   const navigate = useNavigate();
@@ -49,7 +50,7 @@ const AddProduct = () => {
     if (!validateImageFileFormat(file.name)) return alert('파일 확장자를 확인해주세요');
 
     await uploadFile(e, (imageUrl) => {
-      setImageLink(imageUrl);
+      setImageLink(URL + '/' + imageUrl);
     });
   };
 
@@ -110,7 +111,12 @@ const AddProduct = () => {
         <label htmlFor='product' style={{ color: '#767676', fontSize: 'var(--xs)' }}>
           상세 설명
         </label>
-        <ProductText id='product' value={description} onChange={(e) => setDescription(e.target.value)} />
+        <ProductText
+          id='product'
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          $isWideView={isWideView}
+        />
         {isWideView && (
           <Button
             type='submit'
@@ -170,12 +176,12 @@ const ProductText = styled.textarea.attrs({
   placeholder: '제품에 대한 설명을 입력해주세요!',
 })`
   width: 100%;
-  min-height: 140px;
+  min-height: ${(props) => (props.$isWideView ? '340px' : '140px')};
   margin-top: 12px;
   padding: 10px;
   resize: none;
   border: 1px solid var(--light-gray);
-  font-size: var(--xs);
+  font-size: ${(props) => (props.$isWideView ? 'var(--lg)' : 'var(--sm)')};
   box-sizing: border-box;
 
   ::placeholder {

@@ -16,6 +16,7 @@ import isDesktop from 'Recoil/isDesktop/isDesktop';
 import useIsWideView from 'Components/SideNav/useIsWideView';
 import MetaTag from 'Components/common/MetaTag';
 import { uploadFile } from 'Utils/uploadFile';
+import URL from 'Api/URL';
 
 const Post = () => {
   const navigate = useNavigate();
@@ -100,7 +101,7 @@ const Post = () => {
           <TextInput placeholder='게시글 입력하기...' ref={textarea} onChange={handleInputChange} rows='1'></TextInput>
           {imgURL.map((el, i) => (
             <ImgLayout key={`ImgLayout-${i}`}>
-              <Img src={el} key={`Img-${i}`} />
+              <Img src={`${URL}/${el}`} key={`Img-${i}`} />
               <ImgDelete
                 $isWideView={isWideView}
                 type='button'

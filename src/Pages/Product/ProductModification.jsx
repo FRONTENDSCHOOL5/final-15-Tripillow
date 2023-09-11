@@ -16,6 +16,7 @@ import Button from 'Components/common/Button';
 import MyPillowings from 'Components/Home/MyPillowings';
 import useIsWideView from 'Components/SideNav/useIsWideView';
 import { uploadFile } from 'Utils/uploadFile';
+import URL from 'Api/URL';
 
 const ProductModification = () => {
   const navigate = useNavigate();
@@ -31,38 +32,41 @@ const ProductModification = () => {
   });
   const [isLeftToggle, setIsLeftToggle] = useState(true);
   const [rightOn, setRightOn] = useState(false);
-
   const location = useLocation();
   const productId = location.state;
   const [isModified, setIsModified] = useState(false);
   const productDetail = ProductDetailAPI(productId);
   const { handleProductModify } = ProductModifyAPI(productId, productInputs, isLeftToggle);
 
+  const trimContent = (content) => {
+    const match = content?.match(/^\[(P|M)\]/);
+    if (match) {
+      if (match[0] === '[M]') {
+        setRightOn(true);
+      }
+      return content.slice(3);
+    }
+    return content;
+  };
+
   // 작성한 정보 불러오는 부분
   useEffect(() => {
-    const trimContent = (content) => {
-      const match = content.match(/^\[(P|M)\]/);
-      if (match) {
-        if (match[0] === '[M]') {
-          setRightOn(true);
-        }
-        return content.slice(3);
+    const getProductDetailData = async () => {
+      const detailData = await productDetail();
+      if (detailData && Object.keys(detailData).length > 0) {
+        setProductInputs((prev) => ({
+          product: {
+            ...prev.productInput,
+            itemName: trimContent(detailData.product.itemName),
+            price: detailData.product.price,
+            link: detailData.product.link,
+            itemImage: detailData.product.itemImage,
+          },
+        }));
       }
-      return content;
     };
 
-    // 수정할 때 []내용 사라지고 상품명 나오게
-    Object.keys(productDetail).length > 0 &&
-      setProductInputs((prev) => ({
-        product: {
-          // ...prev.product,
-
-          itemName: trimContent(productDetail.itemName),
-          price: productDetail.price,
-          link: productDetail.link,
-          itemImage: productDetail.itemImage,
-        },
-      }));
+    getProductDetailData();
   }, [productDetail]);
 
   const handleImgChange = async (e) => {
@@ -71,7 +75,7 @@ const ProductModification = () => {
         ...productInputs,
         product: {
           ...productInputs.product,
-          itemImage: imageUrl,
+          itemImage: URL + '/' + imageUrl,
         },
       }));
     });
@@ -146,7 +150,13 @@ const ProductModification = () => {
         <label htmlFor='product' style={{ color: '#767676', fontSize: 'var(--xs)' }}>
           상세 설명
         </label>
-        <ProductText id='product' name='link' value={productInputs.product.link} onChange={handleInputChange} />
+        <ProductText
+          id='product'
+          name='link'
+          value={productInputs.product.link}
+          onChange={handleInputChange}
+          $isWideView={isWideView}
+        />
         {isWideView && (
           <Button type='submit' onClick={throttledHandleSubmit} width='90px' fontSize='14px' padding='7.75px'>
             저장
@@ -198,12 +208,12 @@ const ProductText = styled.textarea.attrs({
   placeholder: '제품에 대한 설명을 입력해주세요!',
 })`
   width: 100%;
-  min-height: 140px;
+  min-height: ${(props) => (props.$isWideView ? '340px' : '140px')};
   margin-top: 12px;
   padding: 10px;
   resize: none;
   border: 1px solid var(--light-gray);
-  font-size: var(--xs);
+  font-size: ${(props) => (props.$isWideView ? 'var(--lg)' : 'var(--sm')};
   box-sizing: border-box;
 
   ::placeholder {

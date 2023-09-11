@@ -6,6 +6,7 @@ import Input from 'Components/common/Input';
 import ErrorMSG from 'Styles/ErrorMSG';
 import useSignup from 'Hooks/Sign/useSignup';
 import { formFadeIn } from 'Styles/SignAnimation';
+import URL from 'Api/URL';
 import { uploadFile } from 'Utils/uploadFile';
 import useIsWideView from 'Components/SideNav/useIsWideView';
 import profileImg from 'Assets/profile-lg.png';
@@ -35,10 +36,10 @@ const Signup = () => {
         ...userInfo,
         user: {
           ...userInfo.user,
-          image: imageUrl,
+          image: URL + '/' + imageUrl,
         },
       });
-      setImgURL(imageUrl);
+      setImgURL(URL + '/' + imageUrl);
     });
   };
 
