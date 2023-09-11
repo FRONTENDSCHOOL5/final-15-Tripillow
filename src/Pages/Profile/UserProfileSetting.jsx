@@ -81,6 +81,19 @@ const UserProfileSetting = () => {
     }));
   };
 
+  const uploadImage = async (e) => {
+    await uploadFile(e, (imageUrl) => {
+      setText({
+        ...text,
+        user: {
+          ...text.user,
+          image: imageUrl,
+        },
+      });
+      setImgURL(imageUrl);
+    });
+  };
+
   const { handleEditProfileAPI } = EditProfileAPI({ ...text });
 
   const handleSubmit = async (e) => {
@@ -107,12 +120,7 @@ const UserProfileSetting = () => {
           <ImgLabel htmlFor='file-input'>
             <ProfileImg src={imgURL ? imgURL : data.image ? data.image : profileImg} />
           </ImgLabel>
-          <input
-            id='file-input'
-            className='a11y-hidden'
-            type='file'
-            onChange={(e) => uploadFile(e, setImgURL, text, setText)}
-          />
+          <input id='file-input' className='a11y-hidden' type='file' onChange={uploadImage} />
         </ImageLayout>
         <Input
           label='사용자 이름'

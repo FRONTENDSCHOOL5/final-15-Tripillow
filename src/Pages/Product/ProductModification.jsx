@@ -5,8 +5,6 @@ import Toggle from 'Components/common/Toggle';
 import styled from 'styled-components';
 import Navbar from 'Components/common/Navbar';
 import Input from 'Components/common/Input';
-import URL from 'Api/URL';
-import ImageUploadAPI from 'Api/Upload/ImageUploadAPI';
 import defaultImage from 'Assets/addproduct.png';
 import { useLocation, useNavigate } from 'react-router-dom';
 import UploadHeader from 'Components/common/Header/UploadHeader';
@@ -17,6 +15,7 @@ import isDesktop from 'Recoil/isDesktop/isDesktop';
 import Button from 'Components/common/Button';
 import MyPillowings from 'Components/Home/MyPillowings';
 import useIsWideView from 'Components/SideNav/useIsWideView';
+import { uploadFile } from 'Utils/uploadFile';
 
 const ProductModification = () => {
   const navigate = useNavigate();
@@ -67,14 +66,15 @@ const ProductModification = () => {
   }, [productDetail]);
 
   const handleImgChange = async (e) => {
-    const response = await ImageUploadAPI(e);
-    setProductInputs((productInputs) => ({
-      ...productInputs,
-      product: {
-        ...productInputs.product,
-        itemImage: `${URL}/${response.filename}`,
-      },
-    }));
+    await uploadFile(e, (imageUrl) => {
+      setProductInputs((productInputs) => ({
+        ...productInputs,
+        product: {
+          ...productInputs.product,
+          itemImage: imageUrl,
+        },
+      }));
+    });
   };
 
   const handleInputChange = (e) => {

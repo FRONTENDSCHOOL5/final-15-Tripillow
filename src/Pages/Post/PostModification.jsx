@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import throttle from 'lodash.throttle';
-import URL from 'Api/URL';
 import PostDetailAPI from 'Api/Post/PostDetailAPI';
 import { validateImageFileFormat } from 'Utils/validate';
 import { LayoutStyle } from 'Styles/Layout';
@@ -12,12 +11,11 @@ import Toggle from 'Components/common/Toggle';
 import x from 'Assets/icons/x.svg';
 import iconImg from 'Assets/icons/upload-file.svg';
 import PostModifyAPI from 'Api/Post/PostModifyAPI';
-import imageCompression from 'browser-image-compression';
-import CompressedImageUploadAPI from 'Api/Upload/CompressedImageUploadAPI';
 import isDesktop from 'Recoil/isDesktop/isDesktop';
 import Button from 'Components/common/Button';
 import MyPillowings from 'Components/Home/MyPillowings';
 import useIsWideView from 'Components/SideNav/useIsWideView';
+import { uploadFile } from 'Utils/uploadFile';
 
 const PostModification = () => {
   const navigate = useNavigate();
@@ -81,31 +79,6 @@ const PostModification = () => {
     //eslint-disable-next-line
   }, [imgChange]);
 
-  const handleDataForm = async (dataURI) => {
-    const byteString = atob(dataURI.split(',')[1]);
-    const ab = new ArrayBuffer(byteString.length);
-    const ia = new Uint8Array(ab);
-    for (let i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    const blob = new Blob([ia], {
-      type: 'image/jpeg',
-    });
-    const file = new File([blob], 'image.jpg');
-    const data = await CompressedImageUploadAPI(file);
-    const image = postInput.post.image === '' ? data.filename : postInput.post.image + `, ${data.filename}`;
-    if (data) {
-      setPostInput((prev) => ({
-        ...prev,
-        post: {
-          ...prev.post,
-          image: image,
-        },
-      }));
-      setImgChange((prev) => !prev);
-    }
-  };
-
   const handleImageInput = async (e) => {
     if (imgURL.length >= 3) {
       return alert('파일은 3장을 넘길 수 없습니다.');
@@ -120,25 +93,17 @@ const PostModification = () => {
     if (!validateImageFileFormat(file.name)) {
       return alert('파일 확장자를 확인해주세요');
     }
-    const options = {
-      maxSizeMB: 0.9,
-      maxWidthOrHeight: 490,
-      useWebWorker: true,
-    };
 
-    try {
-      // 압축 결과
-      const compressedFile = await imageCompression(file, options);
-
-      const reader = new FileReader();
-      reader.readAsDataURL(compressedFile);
-      reader.onloadend = () => {
-        const base64data = reader.result;
-        handleDataForm(base64data);
-      };
-    } catch (error) {
-      console.error(error);
-    }
+    await uploadFile(e, (imageUrl) => {
+      setPostInput({
+        ...postInput,
+        post: {
+          ...postInput.post,
+          image: imageUrl,
+        },
+      });
+      setImgURL((prev) => [...prev, imageUrl]);
+    });
   };
 
   const handleSubmit = async () => {
@@ -223,7 +188,7 @@ const PostModification = () => {
         {imgURL[0] !== '' &&
           imgURL.map((el, i) => (
             <ImgLayout key={`ImgLayout-${i}`}>
-              <Img src={`${URL}/${el}`} key={`Img-${i}`} />
+              <Img src={el} key={`Img-${i}`} />
               <ImgDelete type='button' key={`ImgDelete-${i}`} onClick={() => handleImgClose(i)}></ImgDelete>
             </ImgLayout>
           ))}

@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import throttle from 'lodash.throttle';
-import imageCompression from 'browser-image-compression';
-import URL from 'Api/URL';
 import { validateImageFileFormat } from 'Utils/validate';
 import UploadHeader from 'Components/common/Header/UploadHeader';
 import Toggle from 'Components/common/Toggle';
@@ -12,12 +10,12 @@ import x from 'Assets/icons/x.svg';
 import { LayoutStyle } from 'Styles/Layout';
 import iconImg from 'Assets/icons/upload-file.svg';
 import UploadPostAPI from 'Api/Post/UploadPostAPI';
-import CompressedImageUploadAPI from 'Api/Upload/CompressedImageUploadAPI';
 import Button from 'Components/common/Button';
 import MyPillowings from 'Components/Home/MyPillowings';
 import isDesktop from 'Recoil/isDesktop/isDesktop';
 import useIsWideView from 'Components/SideNav/useIsWideView';
 import MetaTag from 'Components/common/MetaTag';
+import { uploadFile } from 'Utils/uploadFile';
 
 const Post = () => {
   const navigate = useNavigate();
@@ -28,23 +26,6 @@ const Post = () => {
   const [imgURL, setImgURL] = useState([]);
   const [isLeftToggle, setIsLeftToggle] = useState(true);
   const uploadPost = UploadPostAPI(imgURL, inputValue, isLeftToggle);
-
-  const handleDataForm = async (dataURI) => {
-    const byteString = atob(dataURI.split(',')[1]);
-    const ab = new ArrayBuffer(byteString.length);
-    const ia = new Uint8Array(ab);
-    for (let i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    const blob = new Blob([ia], {
-      type: 'image/jpeg',
-    });
-    const file = new File([blob], 'image.jpg');
-    const data = await CompressedImageUploadAPI(file);
-    if (data) {
-      setImgURL((prev) => prev.concat(data.filename));
-    }
-  };
 
   const handleImageInput = async (e) => {
     const file = e.target?.files[0];
@@ -62,25 +43,9 @@ const Post = () => {
       return alert('파일 확장자를 확인해주세요');
     }
 
-    const options = {
-      maxSizeMB: 0.9,
-      maxWidthOrHeight: 490,
-      useWebWorker: true,
-    };
-
-    try {
-      // 압축 결과
-      const compressedFile = await imageCompression(file, options);
-
-      const reader = new FileReader();
-      reader.readAsDataURL(compressedFile);
-      reader.onloadend = () => {
-        const base64data = reader.result;
-        handleDataForm(base64data);
-      };
-    } catch (error) {
-      console.error(error);
-    }
+    await uploadFile(e, (imageUrl) => {
+      setImgURL((prev) => [...prev, imageUrl]);
+    });
   };
 
   const handleSubmit = async () => {
@@ -135,7 +100,7 @@ const Post = () => {
           <TextInput placeholder='게시글 입력하기...' ref={textarea} onChange={handleInputChange} rows='1'></TextInput>
           {imgURL.map((el, i) => (
             <ImgLayout key={`ImgLayout-${i}`}>
-              <Img src={`${URL}/${el}`} key={`Img-${i}`} />
+              <Img src={el} key={`Img-${i}`} />
               <ImgDelete
                 $isWideView={isWideView}
                 type='button'
