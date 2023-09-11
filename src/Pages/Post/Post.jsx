@@ -79,7 +79,7 @@ const Post = () => {
         handleDataForm(base64data);
       };
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

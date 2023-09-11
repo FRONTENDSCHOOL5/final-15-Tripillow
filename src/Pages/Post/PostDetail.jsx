@@ -21,7 +21,6 @@ const PostDetail = () => {
   const isPCScreen = useRecoilValue(isDesktop);
   const [myInfo, setMyInfo] = useState({});
   const [postInfo, setPostInfo] = useState({});
-  console.log('🚀  postInfo:', postInfo);
   const updatePostInfo = (data) => {
     setPostInfo(data);
   };
