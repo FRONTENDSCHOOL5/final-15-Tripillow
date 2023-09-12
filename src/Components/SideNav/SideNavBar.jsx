@@ -120,7 +120,7 @@ const SideNavBar = (props) => {
   );
 };
 
-const Layout = styled.div`
+const Layout = styled.nav`
   ${(props) =>
     props.isPCScreen
       ? css`

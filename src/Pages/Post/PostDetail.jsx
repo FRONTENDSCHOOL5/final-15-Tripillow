@@ -99,14 +99,14 @@ const PostDetail = () => {
             <HomePostLayout post={postInfo.post} comments={comments}></HomePostLayout>
           )}
         </section>
-        <CommentLayout>
+        <CommentLayout aria-label='댓글 리스트'>
           {visibleComments.map((el, i) => (
             <Comment key={i} postId={postId} commentInfo={el} setIsNewComment={setIsNewComment}></Comment>
           ))}
           {showMore && <MoreComment onClick={handleShowMore}>더보기</MoreComment>}
         </CommentLayout>
+        <PostComment setIsNewComment={setIsNewComment} postId={postId} userImg={myInfo.image}></PostComment>
       </main>
-      <PostComment setIsNewComment={setIsNewComment} postId={postId} userImg={myInfo.image}></PostComment>
       {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </Layout>
   );

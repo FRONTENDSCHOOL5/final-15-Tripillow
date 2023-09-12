@@ -73,6 +73,11 @@ const Comment = ({ commentInfo, postId, setIsNewComment }) => {
       <Profile>
         <ProfileLink
           to={commentInfo.author.accountname === name ? `/profile` : `/profile/${commentInfo.author.accountname}`}
+          aria-label={
+            commentInfo.author.accountname === name
+              ? '내 프로필로 이동하기'
+              : `${commentInfo.author.accountname}님의 프로필로 이동하기`
+          }
         >
           <ProfileImg src={commentInfo.author.image || profileImg} alt='프로필 이미지'></ProfileImg>
         </ProfileLink>

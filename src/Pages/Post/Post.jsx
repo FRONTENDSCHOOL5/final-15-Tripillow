@@ -122,49 +122,58 @@ const Post = () => {
             업로드
           </UploadHeader>
         )}
-        <ToggleLayout>
-          <Toggle leftButton='국내' rightButton='해외' setIsLeftToggle={setIsLeftToggle} margin='0 0 22px 0'></Toggle>
-        </ToggleLayout>
-        <form>
-          {isWideView && (
-            <>
-              <PCImgUpload htmlFor='img-input'>+ 여행사진 추가하기</PCImgUpload>
-              <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
-            </>
-          )}
-          <TextInput placeholder='게시글 입력하기...' ref={textarea} onChange={handleInputChange} rows='1'></TextInput>
-          {imgURL.map((el, i) => (
-            <ImgLayout key={`ImgLayout-${i}`}>
-              <Img src={`${URL}/${el}`} key={`Img-${i}`} />
-              <ImgDelete
-                $isWideView={isWideView}
-                type='button'
-                key={`ImgDelete-${i}`}
-                onClick={() => handleImgClose(i)}
-              ></ImgDelete>
-            </ImgLayout>
-          ))}
-          {!isWideView && (
-            <>
-              <label htmlFor='img-input'>
-                <ImgIcon src={iconImg}></ImgIcon>
-              </label>
-              <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
-            </>
-          )}
-          {isWideView && (
-            <Button
-              disabled={!inputValue}
-              onClick={throttledHandleSubmit}
-              width='90px'
-              fontSize='14px'
-              padding='7.75px'
-              style={{ position: 'absolute', top: '55px' }}
-            >
-              업로드
-            </Button>
-          )}
-        </form>
+        <main>
+          <ToggleLayout>
+            <Toggle leftButton='국내' rightButton='해외' setIsLeftToggle={setIsLeftToggle} margin='0 0 22px 0'></Toggle>
+          </ToggleLayout>
+          <form>
+            {isWideView && (
+              <>
+                <PCImgUpload htmlFor='img-input'>+ 여행사진 추가하기</PCImgUpload>
+                <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
+              </>
+            )}
+            <TextInput
+              placeholder='게시글 입력하기...'
+              ref={textarea}
+              onChange={handleInputChange}
+              rows='1'
+              aria-label='게시글 입력창'
+            ></TextInput>
+            {imgURL.map((el, i) => (
+              <ImgLayout key={`ImgLayout-${i}`}>
+                <Img src={`${URL}/${el}`} key={`Img-${i}`} aria-label={`추가한 사진 ${i}`} />
+                <ImgDelete
+                  $isWideView={isWideView}
+                  type='button'
+                  key={`ImgDelete-${i}`}
+                  onClick={() => handleImgClose(i)}
+                  aria-label={`${i} 사진 삭제 버튼`}
+                ></ImgDelete>
+              </ImgLayout>
+            ))}
+            {!isWideView && (
+              <>
+                <label htmlFor='img-input'>
+                  <ImgIcon src={iconImg} aria-label='사진 추가 버튼'></ImgIcon>
+                </label>
+                <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
+              </>
+            )}
+            {isWideView && (
+              <Button
+                disabled={!inputValue}
+                onClick={throttledHandleSubmit}
+                width='90px'
+                fontSize='14px'
+                padding='7.75px'
+                style={{ position: 'absolute', top: '55px' }}
+              >
+                업로드
+              </Button>
+            )}
+          </form>
+        </main>
         {isPCScreen && <MyPillowings $on={isPCScreen} />}
       </PostLayout>
     </>

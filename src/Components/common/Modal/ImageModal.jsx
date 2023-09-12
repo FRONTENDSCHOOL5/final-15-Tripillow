@@ -9,7 +9,7 @@ const ImageModal = ({ setIsModalOn, imgSrc }) => {
   };
   return (
     <ModalBackground onClick={closeModal} $isWideView={isWideView}>
-      <Modal src={imgSrc} $isWideView={isWideView} />
+      <Modal src={imgSrc} $isWideView={isWideView} alt='이미지 원본 모달창' />
     </ModalBackground>
   );
 };
