@@ -98,15 +98,13 @@ const Home = () => {
     } else {
       fetchNextPage();
     }
-    //eslint-disable-next-line
-  }, []);
+  }, [queryClient, fetchNextPage]);
 
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();
     }
-    //eslint-disable-next-line
-  }, [inView]);
+  }, [inView, hasNextPage, fetchNextPage]);
 
   return (
     <>
