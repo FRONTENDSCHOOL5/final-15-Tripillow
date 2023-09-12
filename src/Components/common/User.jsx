@@ -30,7 +30,11 @@ const User = (props) => {
 
   return (
     <UserLayout margin={props.margin}>
-      <Link to={`/profile/${props.accountname}`} onClick={() => props.setIsSearch && props.setIsSearch(false)}>
+      <Link
+        to={`/profile/${props.accountname}`}
+        onClick={() => props.setIsSearch && props.setIsSearch(false)}
+        aria-label={`${props.accountname} 프로필로 이동`}
+      >
         <div>
           <UserImgLayout>
             <UserImg
@@ -48,7 +52,11 @@ const User = (props) => {
         </div>
       </Link>
       <UserContentsLayout>
-        <Link to={`/profile/${props.accountname}`} onClick={() => props.setIsSearch && props.setIsSearch(false)}>
+        <Link
+          to={`/profile/${props.accountname}`}
+          onClick={() => props.setIsSearch && props.setIsSearch(false)}
+          aria-label={`${props.accountname} 프로필로 이동`}
+        >
           {props.search ? (
             props?.username.includes(props.keyword) && props.accountname.includes(props.keyword) ? (
               <div>
@@ -92,7 +100,7 @@ const User = (props) => {
 
         {props.moreBtn && <MoreBtn type='button' onClick={handleOnClick} aria-label='게시글 설정 더보기' />}
         {props.followers && (
-          <Button width='56px' fontSize='var(--xs)' border='none' padding='5.75px'>
+          <Button width='56px' fontSize='var(--xs)' border='none' padding='5.75px' aria-label='팔로우 버튼'>
             팔로우
           </Button>
         )}

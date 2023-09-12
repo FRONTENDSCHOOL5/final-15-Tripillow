@@ -24,7 +24,7 @@ import isTab from 'Recoil/isTab/isTab';
 import navbarIcon from 'Recoil/navbarIcon/navbarIcon';
 import SideNavBarModal from 'Components/common/Modal/SideNavBarModal';
 import PCAlertModal from 'Components/common/Modal/PCAlertModal';
-import SearchModal from 'Pages/Search/SearchModal';
+import SearchModal from 'Components/Search/SearchModal';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 const SideNavBar = (props) => {

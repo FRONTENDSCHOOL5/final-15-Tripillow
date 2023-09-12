@@ -112,7 +112,11 @@ const SearchContent = ({ header, setIsSearch }) => {
                 </SearchedUser>
               ))}
           {showAllResults ||
-            (searchData.length > 10 && <ShowAllButton onClick={handleAllResults}>결과 모두 보기</ShowAllButton>)}
+            (searchData.length > 10 && (
+              <ShowAllButton onClick={handleAllResults} aria-label='결과 모두 보기'>
+                결과 모두 보기
+              </ShowAllButton>
+            ))}
         </ul>
       </SearchContentLayout>
     </>
