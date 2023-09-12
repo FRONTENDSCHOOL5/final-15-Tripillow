@@ -108,7 +108,7 @@ const Post = () => {
             ></TextInput>
             {imgURL.map((el, i) => (
               <ImgLayout key={`ImgLayout-${i}`}>
-                <Img src={`${URL}/${el}`} key={`Img-${i}`} aria-label={`추가한 사진 ${i}`} />
+                <Img src={`${URL}/${el}`} key={`Img-${i}`} alt={`추가한 사진 ${i}`} />
                 <ImgDelete
                   $isWideView={isWideView}
                   type='button'
@@ -121,7 +121,7 @@ const Post = () => {
             {!isWideView && (
               <>
                 <label htmlFor='img-input'>
-                  <ImgIcon src={iconImg} aria-label='사진 추가 버튼'></ImgIcon>
+                  <ImgIcon src={iconImg} alt='사진 추가 버튼'></ImgIcon>
                 </label>
                 <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
               </>

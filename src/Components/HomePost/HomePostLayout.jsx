@@ -121,11 +121,11 @@ const HomePostLayout = (props) => {
           <IconLayout>
             <IconButton onClick={handleHeart} aria-label='좋아요 누르기'>
               <img src={isHearted ? iconHeart : iconUnheart} alt='하트 아이콘' />
-              <span aria-label='좋아요 개수'>{heartCount}</span>
+              <span>{heartCount}</span>
             </IconButton>
-            <IconButton onClick={handlePostClick} aria-label='게시물 상세로 이동'>
+            <IconButton onClick={handlePostClick} aria-label={inDetail ? '댓글 개수' : '게시글 상세 페이지로 이동'}>
               <img src={iconChat} alt='채팅 아이콘' />
-              <span aria-label='댓글 개수'>{props.comments?.length || post.commentCount}</span>
+              <span>{props.comments?.length || post.commentCount}</span>
             </IconButton>
           </IconLayout>
           <Content onClick={handlePostClick} inDetail={inDetail}>
@@ -138,13 +138,13 @@ const HomePostLayout = (props) => {
             {trimContent(post.content)}
           </Content>
           <IconLayout>
-            <IconButton onClick={handleHeart}>
+            <IconButton onClick={handleHeart} aria-label='좋아요 누르기'>
               <img src={isHearted ? iconHeart : iconUnheart} alt='하트 아이콘' />
-              <span aria-label='좋아요 개수'>{heartCount}</span>
+              <span>{heartCount}</span>
             </IconButton>
-            <IconButton onClick={handlePostClick}>
+            <IconButton onClick={handlePostClick} aria-label={inDetail ? '댓글 개수' : '게시글 상세 페이지로 이동'}>
               <img src={iconChat} alt='채팅 아이콘' />
-              <span aria-label='댓글 개수'>{props.commets?.length || post.commentCount}</span>
+              <span>{props.commets?.length || post.commentCount}</span>
             </IconButton>
           </IconLayout>
         </>
