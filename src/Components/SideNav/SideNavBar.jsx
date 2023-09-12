@@ -63,6 +63,7 @@ const SideNavBar = (props) => {
         <MainButton
           onClick={() => {
             navigate('/home');
+            setIconState('Home');
           }}
           isPCScreen={isPCScreen}
           aria-label='홈'
