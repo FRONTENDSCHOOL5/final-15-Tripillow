@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil';
+import { useSetRecoilState } from 'recoil';
+import URL from 'Api/URL';
 import MyInfoAPI from 'Api/Profile/MyInfoAPI';
 import EditProfileAPI from 'Api/Profile/EditProfileAPI';
 import AccountValidAPI from 'Api/Valid/AccountValidAPI';
@@ -11,15 +12,14 @@ import { LayoutStyle } from 'Styles/Layout';
 import ErrorMSG from 'Styles/ErrorMSG';
 import profileImg from 'Assets/profile-lg.png';
 import uploadfile from 'Assets/icons/upload-file.svg';
-import isDesktop from 'Recoil/isDesktop/isDesktop';
+import accountName from 'Recoil/accountName/accountName';
 import Button from 'Components/common/Button';
-import MyPillowings from 'Components/Home/MyPillowings';
 import { uploadFile } from 'Utils/uploadFile';
 import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const UserProfileSetting = () => {
   const navigate = useNavigate();
-  const isPCScreen = useRecoilValue(isDesktop);
+  const setAccountName = useSetRecoilState(accountName);
   const isWideView = useIsWideView();
 
   const [imgURL, setImgURL] = useState('');
@@ -64,7 +64,8 @@ const UserProfileSetting = () => {
 
   useEffect(() => {
     setAccount({ user: { accountname: text.user.accountname } });
-  }, [text]);
+    setAccountName(text.user.accountname);
+  }, [text, setAccountName]);
 
   const handleAccountValid = async () => {
     await getAccountValidAPI();
@@ -79,6 +80,19 @@ const UserProfileSetting = () => {
         [name]: value,
       },
     }));
+  };
+
+  const uploadImage = async (e) => {
+    await uploadFile(e, (imageUrl) => {
+      setText({
+        ...text,
+        user: {
+          ...text.user,
+          image: URL + '/' + imageUrl,
+        },
+      });
+      setImgURL(URL + '/' + imageUrl);
+    });
   };
 
   const { handleEditProfileAPI } = EditProfileAPI({ ...text });
@@ -107,12 +121,7 @@ const UserProfileSetting = () => {
           <ImgLabel htmlFor='file-input'>
             <ProfileImg src={imgURL ? imgURL : data.image ? data.image : profileImg} />
           </ImgLabel>
-          <input
-            id='file-input'
-            className='a11y-hidden'
-            type='file'
-            onChange={(e) => uploadFile(e, setImgURL, text, setText)}
-          />
+          <input id='file-input' className='a11y-hidden' type='file' onChange={uploadImage} />
         </ImageLayout>
         <Input
           label='사용자 이름'
@@ -164,7 +173,6 @@ const UserProfileSetting = () => {
           </Button>
         )}
       </Form>
-      {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </UserSettingLayout>
   );
 };

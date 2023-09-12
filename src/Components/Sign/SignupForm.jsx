@@ -6,6 +6,7 @@ import Input from 'Components/common/Input';
 import ErrorMSG from 'Styles/ErrorMSG';
 import useSignup from 'Hooks/Sign/useSignup';
 import { formFadeIn } from 'Styles/SignAnimation';
+import URL from 'Api/URL';
 import { uploadFile } from 'Utils/uploadFile';
 import useIsWideView from 'Components/SideNav/useIsWideView';
 import profileImg from 'Assets/profile-lg.png';
@@ -29,6 +30,19 @@ const Signup = () => {
     handlePasswordValid,
   } = useSignup();
 
+  const uploadImage = async (e) => {
+    await uploadFile(e, (imageUrl) => {
+      setUserInfo({
+        ...userInfo,
+        user: {
+          ...userInfo.user,
+          image: URL + '/' + imageUrl,
+        },
+      });
+      setImgURL(URL + '/' + imageUrl);
+    });
+  };
+
   return (
     <>
       {emailPwCheck ? (
@@ -38,14 +52,9 @@ const Signup = () => {
           <Form action='post' onSubmit={handleSubmit}>
             <ImageLayout>
               <ImgLabel htmlFor='file-input'>
-                <ProfileImg src={imgURL ? imgURL : profileImg} />
+                <ProfileImg src={imgURL ? imgURL : profileImg} width='100%' />
               </ImgLabel>
-              <input
-                id='file-input'
-                className='a11y-hidden'
-                type='file'
-                onChange={(e) => uploadFile(e, setImgURL, userInfo, setUserInfo)}
-              />
+              <input id='file-input' className='a11y-hidden' type='file' onChange={uploadImage} />
             </ImageLayout>
             <Input
               label='사용자 이름'

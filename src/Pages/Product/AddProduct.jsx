@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 import throttle from 'lodash.throttle';
 import styled from 'styled-components';
-import imageCompression from 'browser-image-compression';
 import Toggle from 'Components/common/Toggle';
 import Navbar from 'Components/common/Navbar';
 import Input from 'Components/common/Input';
 import { LayoutStyle } from 'Styles/Layout';
 import UploadHeader from 'Components/common/Header/UploadHeader';
-import URL from 'Api/URL';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import ImageUploadAPI from 'Api/Upload/ImageUploadAPI';
 import defaultImage from 'Assets/addproduct.png';
 import ErrorMSG from 'Styles/ErrorMSG';
 import UploadProductAPI from 'Api/Product/UploadProductAPI';
@@ -19,6 +16,8 @@ import Button from 'Components/common/Button';
 import MyPillowings from 'Components/Home/MyPillowings';
 import { validateImageFileFormat } from 'Utils/validate';
 import useIsWideView from 'Components/SideNav/useIsWideView';
+import { uploadFile } from 'Utils/uploadFile';
+import URL from 'Api/URL';
 
 const AddProduct = () => {
   const navigate = useNavigate();
@@ -42,53 +41,17 @@ const AddProduct = () => {
     trailing: false,
   });
 
-  const handleDataForm = async (dataURI) => {
-    const byteString = atob(dataURI.split(',')[1]);
-    const ab = new ArrayBuffer(byteString.length);
-    const ia = new Uint8Array(ab);
-    for (let i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    const blob = new Blob([ia], {
-      type: 'image/jpeg',
-    });
-    const file = new File([blob], 'image.jpg');
-    const data = await ImageUploadAPI(file);
-    if (data) {
-      setImageLink(`${URL}/${data.filename}`);
-    }
-  };
-
   const handleImgChange = async (e) => {
     const file = e.target?.files[0];
-    if (e.target.files[0].size > 10 * 1024 * 1024) {
+    if (file.size > 10 * 1024 * 1024) {
       alert('[ERROR 이미지 용량이 10MB를 넘습니다]');
       return null;
     }
-    if (!validateImageFileFormat(e.target.files[0].name)) return alert('파일 확장자를 확인해주세요');
+    if (!validateImageFileFormat(file.name)) return alert('파일 확장자를 확인해주세요');
 
-    // const response = await ImageUploadAPI(e);
-    // setImageLink(`${URL}/${response.filename}`);
-
-    const options = {
-      maxSizeMB: 0.9,
-      maxWidthOrHeight: 490,
-      useWebWorker: true,
-    };
-
-    try {
-      // 압축 결과
-      const compressedFile = await imageCompression(file, options);
-
-      const reader = new FileReader();
-      reader.readAsDataURL(compressedFile);
-      reader.onloadend = () => {
-        const base64data = reader.result;
-        handleDataForm(base64data);
-      };
-    } catch (error) {
-      alert(error.message);
-    }
+    await uploadFile(e, (imageUrl) => {
+      setImageLink(URL + '/' + imageUrl);
+    });
   };
 
   const handleMinMax = (e) => {
@@ -148,7 +111,12 @@ const AddProduct = () => {
         <label htmlFor='product' style={{ color: '#767676', fontSize: 'var(--xs)' }}>
           상세 설명
         </label>
-        <ProductText id='product' value={description} onChange={(e) => setDescription(e.target.value)} />
+        <ProductText
+          id='product'
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          $isWideView={isWideView}
+        />
         {isWideView && (
           <Button
             type='submit'
@@ -208,12 +176,12 @@ const ProductText = styled.textarea.attrs({
   placeholder: '제품에 대한 설명을 입력해주세요!',
 })`
   width: 100%;
-  min-height: 140px;
+  min-height: ${(props) => (props.$isWideView ? '340px' : '140px')};
   margin-top: 12px;
   padding: 10px;
   resize: none;
   border: 1px solid var(--light-gray);
-  font-size: var(--xs);
+  font-size: ${(props) => (props.$isWideView ? 'var(--lg)' : 'var(--sm)')};
   box-sizing: border-box;
 
   ::placeholder {
