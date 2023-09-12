@@ -23,7 +23,7 @@ const LoginForm = () => {
 
   useEffect(() => {
     const handleSnackbar = () => {
-      if (state === true) {
+      if (state) {
         setWarnMSG(state);
         setTimeout(() => {
           setWarnMSG('');
@@ -33,7 +33,7 @@ const LoginForm = () => {
 
     handleSnackbar();
 
-    if (state === true) {
+    if (state) {
       navigate('/login', { replace: true });
     }
   }, [state, navigate]);
