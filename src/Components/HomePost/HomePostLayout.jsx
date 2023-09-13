@@ -123,7 +123,7 @@ const HomePostLayout = (props) => {
               <img src={isHearted ? iconHeart : iconUnheart} alt='하트 아이콘' />
               <span>{heartCount}</span>
             </IconButton>
-            <IconButton onClick={handlePostClick} aria-label='게시물 상세로 이동'>
+            <IconButton onClick={handlePostClick} aria-label={inDetail ? '댓글 개수' : '게시글 상세 페이지로 이동'}>
               <img src={iconChat} alt='채팅 아이콘' />
               <span>{props.comments?.length || post.commentCount}</span>
             </IconButton>
@@ -138,11 +138,11 @@ const HomePostLayout = (props) => {
             {trimContent(post.content)}
           </Content>
           <IconLayout>
-            <IconButton onClick={handleHeart}>
+            <IconButton onClick={handleHeart} aria-label='좋아요 누르기'>
               <img src={isHearted ? iconHeart : iconUnheart} alt='하트 아이콘' />
               <span>{heartCount}</span>
             </IconButton>
-            <IconButton onClick={handlePostClick}>
+            <IconButton onClick={handlePostClick} aria-label={inDetail ? '댓글 개수' : '게시글 상세 페이지로 이동'}>
               <img src={iconChat} alt='채팅 아이콘' />
               <span>{props.commets?.length || post.commentCount}</span>
             </IconButton>

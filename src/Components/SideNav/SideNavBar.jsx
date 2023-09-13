@@ -54,9 +54,8 @@ const SideNavBar = (props) => {
   };
 
   useEffect(() => {
-    const path = location.pathname;
-    setIconState(path.slice(1).charAt(0).toUpperCase() + path.slice(2));
-  }, [location, setIconState]);
+    setIsSearch(false);
+  }, [location]);
 
   return (
     <>
@@ -64,6 +63,7 @@ const SideNavBar = (props) => {
         <MainButton
           onClick={() => {
             navigate('/home');
+            setIconState('Home');
           }}
           isPCScreen={isPCScreen}
           aria-label='홈'
@@ -119,7 +119,7 @@ const SideNavBar = (props) => {
   );
 };
 
-const Layout = styled.div`
+const Layout = styled.nav`
   ${(props) =>
     props.isPCScreen
       ? css`
