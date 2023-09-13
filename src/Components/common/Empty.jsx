@@ -17,7 +17,6 @@ const Empty = (props) => {
           fontSize='14px'
           border='none'
           padding='12.75px 0px'
-          aria-label={props.buttonName}
         >
           {props.buttonName}
         </Button>
