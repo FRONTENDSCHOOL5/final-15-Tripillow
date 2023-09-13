@@ -79,65 +79,67 @@ const AddProduct = () => {
           저장
         </UploadHeader>
       )}
-      <form>
-        <Label htmlFor='file-upload'>
-          <Image src={imageLink || defaultImage} alt='상품 이미지' />
-        </Label>
-        <input id='file-upload' className='a11y-hidden' onChange={handleImgChange} type='file' />
-        <CategoryTxt>카테고리</CategoryTxt>
-        <Toggle margin='0 0 20px 0' leftButton='여행용품' rightButton='외화' setIsLeftToggle={setIsLeftToggle} />
+      <main>
+        <form>
+          <Label htmlFor='file-upload'>
+            <Image src={imageLink || defaultImage} alt='상품 이미지' />
+          </Label>
+          <input id='file-upload' className='a11y-hidden' onChange={handleImgChange} type='file' />
+          <CategoryTxt>카테고리</CategoryTxt>
+          <Toggle margin='0 0 20px 0' leftButton='여행용품' rightButton='외화' setIsLeftToggle={setIsLeftToggle} />
 
-        <Input
-          width='100%'
-          value={productName}
-          onChange={handleInputChange}
-          maxLength='16'
-          forId='product name'
-          label='상품명'
-          placeholder='1~15자 이내여야 합니다.'
-          mb='16px'
-        />
-        {productName.length >= 16 && <ErrorMSG errorColor>1~15자 이내로 입력하세요.</ErrorMSG>}
-        <SecondInput
-          value={price}
-          onChange={handleMinMax}
-          forId='price'
-          label='가격'
-          min='1'
-          max='10000000'
-          placeholder='1원부터 1천만원 사이의 값만 입력 가능합니다.'
-          type='number'
-          mb='16px'
-        />
-        {priceErr && <ErrorMSG errorColor>천만원 이하의 상품만 판매가능합니다.</ErrorMSG>}
-        <label htmlFor='product' style={{ color: '#767676', fontSize: 'var(--xs)' }}>
-          상세 설명
-        </label>
-        <ProductText
-          id='product'
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          $isWideView={isWideView}
-        />
-        {isWideView && (
-          <Button
-            type='submit'
-            width='90px'
-            fontSize='14px'
-            padding='7.75px'
-            onClick={throttledHandleSubmit}
-            disabled={!imageLink || !productName || !price || !description}
-          >
-            저장
-          </Button>
-        )}
-      </form>
+          <Input
+            width='100%'
+            value={productName}
+            onChange={handleInputChange}
+            maxLength='16'
+            forId='product name'
+            label='상품명'
+            placeholder='1~15자 이내여야 합니다.'
+            mb='16px'
+          />
+          {productName.length >= 16 && <ErrorMSG errorColor>1~15자 이내로 입력하세요.</ErrorMSG>}
+          <SecondInput
+            value={price}
+            onChange={handleMinMax}
+            forId='price'
+            label='가격'
+            min='1'
+            max='10000000'
+            placeholder='1원부터 1천만원 사이의 값만 입력 가능합니다.'
+            type='number'
+            mb='16px'
+          />
+          {priceErr && <ErrorMSG errorColor>천만원 이하의 상품만 판매가능합니다.</ErrorMSG>}
+          <label htmlFor='product' style={{ color: '#767676', fontSize: 'var(--xs)' }}>
+            상세 설명
+          </label>
+          <ProductText
+            id='product'
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            $isWideView={isWideView}
+          />
+          {isWideView && (
+            <Button
+              type='submit'
+              width='90px'
+              fontSize='14px'
+              padding='7.75px'
+              onClick={throttledHandleSubmit}
+              disabled={!imageLink || !productName || !price || !description}
+            >
+              저장
+            </Button>
+          )}
+        </form>
+      </main>
       {isWideView || <Navbar />}
       {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </Layout>
   );
 };
-const Layout = styled.main`
+const Layout = styled.div`
   ${LayoutStyle}
 
   padding: 48px 12px 73px 16px;
