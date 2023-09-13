@@ -17,6 +17,7 @@ import MyPillowings from 'Components/Home/MyPillowings';
 import useIsWideView from 'Components/SideNav/useIsWideView';
 import { uploadFile } from 'Utils/uploadFile';
 import URL from 'Api/URL';
+import { Label, SecondInput, ProductText, Image, CategoryTxt } from 'Styles/ProductSharedStyles';
 
 const ProductModification = () => {
   const navigate = useNavigate();
@@ -169,7 +170,7 @@ const ProductModification = () => {
   );
 };
 
-const Layout = styled.div`
+const Layout = styled.main`
   ${LayoutStyle}
   padding: 48px 12px 73px 16px;
 
@@ -182,57 +183,6 @@ const Layout = styled.div`
     align-self: flex-end;
     margin-top: 14px;
   }
-`;
-
-const Label = styled.label`
-  display: block;
-  width: calc(100% + 16px + 12px);
-  height: 232px;
-  margin-left: -16px;
-  margin-right: -12px;
-  margin-bottom: 14px;
-  cursor: pointer;
-`;
-
-const SecondInput = styled(Input)`
-  ::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-  ::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-`;
-const ProductText = styled.textarea.attrs({
-  placeholder: '제품에 대한 설명을 입력해주세요!',
-})`
-  width: 100%;
-  min-height: ${(props) => (props.$isWideView ? '340px' : '140px')};
-  margin-top: 12px;
-  padding: 10px;
-  resize: none;
-  border: 1px solid var(--light-gray);
-  font-size: ${(props) => (props.$isWideView ? 'var(--lg)' : 'var(--sm')};
-  box-sizing: border-box;
-
-  ::placeholder {
-    color: var(--light-gray);
-  }
-  &:focus {
-    border: 1px solid var(--primary);
-  }
-`;
-
-const Image = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
-const CategoryTxt = styled.div`
-  color: var(--dark-gray);
-  font-size: var(--xs);
-  margin-bottom: 10px;
 `;
 
 export default ProductModification;
