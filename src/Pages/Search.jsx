@@ -1,6 +1,6 @@
 import { Layout } from 'Styles/Layout';
 import Navbar from 'Components/common/Navbar';
-import SearchContent from './SearchContent';
+import SearchContent from 'Components/Search/SearchContent';
 import useIsWideView from 'Components/SideNav/useIsWideView';
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';

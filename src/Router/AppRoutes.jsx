@@ -1,6 +1,6 @@
 import { Route, Outlet, Routes } from 'react-router-dom';
 import Home from 'Pages/Home';
-import Search from 'Pages/Search/Search';
+import Search from 'Pages/Search';
 import Login from 'Pages/Login';
 import Signup from 'Pages/Signup';
 import Profile from 'Pages/Profile/Profile';

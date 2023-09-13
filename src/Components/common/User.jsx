@@ -30,7 +30,11 @@ const User = (props) => {
 
   return (
     <UserLayout margin={props.margin}>
-      <Link to={`/profile/${props.accountname}`} onClick={() => props.setIsSearch && props.setIsSearch(false)}>
+      <Link
+        to={`/profile/${props.accountname}`}
+        onClick={() => props.setIsSearch && props.setIsSearch(false)}
+        aria-label={`${props.accountname} 프로필로 이동`}
+      >
         <div>
           <UserImgLayout>
             <UserImg
@@ -48,7 +52,11 @@ const User = (props) => {
         </div>
       </Link>
       <UserContentsLayout>
-        <Link to={`/profile/${props.accountname}`} onClick={() => props.setIsSearch && props.setIsSearch(false)}>
+        <Link
+          to={`/profile/${props.accountname}`}
+          onClick={() => props.setIsSearch && props.setIsSearch(false)}
+          aria-label={`${props.accountname} 프로필로 이동`}
+        >
           {props.search ? (
             props?.username.includes(props.keyword) && props.accountname.includes(props.keyword) ? (
               <div>

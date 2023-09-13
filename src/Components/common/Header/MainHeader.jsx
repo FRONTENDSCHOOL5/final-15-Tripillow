@@ -17,6 +17,7 @@ const MainHeader = () => {
         onClick={() => {
           navigate('/search');
         }}
+        aria-label='검색 버튼'
       />
     </HeaderLayout>
   );

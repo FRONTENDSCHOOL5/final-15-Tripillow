@@ -10,14 +10,15 @@ const SearchHeader = ({ value, onChange, header }) => {
     <HeaderLayout>
       <h1 className='a11y-hidden'>검색 페이지</h1>
       <PrevButton
+        aria-label='뒤로 가기 버튼'
         onClick={() => {
           navigate(-1);
         }}
       />
-      <SearchInput type='text' placeholder='계정 검색' value={value} onChange={onChange} />
+      <SearchInput type='search' placeholder='계정 검색' value={value} onChange={onChange} aria-label='계정 검색' />
     </HeaderLayout>
   ) : (
-    <SearchInput type='text' placeholder='계정 검색' value={value} onChange={onChange} />
+    <SearchInput type='search' placeholder='계정 검색' value={value} onChange={onChange} aria-label='계정 검색' />
   );
 };
 
