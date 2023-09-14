@@ -2,10 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import defaultImg from 'Assets/defaultImg.png';
+import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const ProductItem = (props) => {
   const product = props.product;
   const productImg = product?.itemImage;
+  const isWideView = useIsWideView();
 
   const productImgValidation =
     productImg.startsWith('https:') || productImg.startsWith('data:image') ? product?.itemImage : defaultImg;
@@ -22,7 +24,7 @@ const ProductItem = (props) => {
     <>
       <ProductLayout to={`/product/detail/${product?.id}`}>
         <ButtonLayout aria-label={product?.itemName}>
-          <ProductImgLayout>
+          <ProductImgLayout $isWideView={isWideView}>
             <ProductImg src={productImgValidation} alt={product?.itemName} />
           </ProductImgLayout>
           <ProductInfo size='14px' color='black'>
@@ -52,8 +54,8 @@ const ButtonLayout = styled.button`
 
 const ProductImgLayout = styled.div`
   margin-bottom: 7px;
-  width: 160px;
-  height: 90px;
+  width: ${(props) => (props.$isWideView ? '220px' : '160px')};
+  height: ${(props) => (props.$isWideView ? '120px' : '90px')};
   border-radius: 8px;
   overflow: hidden;
 `;

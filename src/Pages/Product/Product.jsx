@@ -107,7 +107,7 @@ const Product = () => {
           setIsLeftToggle={setIsLeftToggle}
           rightOn={!isLeftToggle}
         />
-        <GridLayout>
+        <GridLayout $isWideView={isWideView}>
           {userLoading === true ||
             (productLoading === true && (
               <>
@@ -123,17 +123,15 @@ const Product = () => {
             : tripMoney.map((product, i) => <ProductItem key={i} product={product} />)}
           {productLoading === false && productsQuery?.length === 0 && <p>등록된 상품이 없습니다.</p>}
         </GridLayout>
-        <div style={{ position: 'fixed', width: '360px', height: '48px', bottom: '100px' }}>
+        <AddBtnLayout $isWideView={isWideView}>
           <CircleButton
             onClick={() => {
               navigate('/addproduct');
             }}
             position='relative'
             margin='0 0 0 auto'
-            width='50px'
-            height='50px'
           ></CircleButton>
-        </div>
+        </AddBtnLayout>
         {isWideView || <Navbar />}
         {isPCScreen && <MyPillowings $on={isPCScreen} />}
       </StyledLayout>
@@ -149,8 +147,14 @@ const StyledLayout = styled(Layout)`
 const GridLayout = styled.main`
   padding-bottom: 90px;
   display: grid;
-  grid-gap: 20px;
+  grid-gap: ${(props) => (props.isWideView ? '20px' : '40px')};
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
 `;
 
+const AddBtnLayout = styled.div`
+  position: fixed;
+  width: ${(props) => (props.$isWideView ? '450px' : '360px')};
+  height: 48px;
+  bottom: ${(props) => (props.$isWideView ? '65px' : '100px')};
+`;
 export default Product;
