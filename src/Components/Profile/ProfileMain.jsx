@@ -30,9 +30,10 @@ const ProfileMain = ({ setIsDeleted, setIsModified }) => {
 
   const queries = useQueries([
     {
-      queryKey: 'myData',
+      queryKey: ['myData', myAccount],
       queryFn: MyInfoAPI().getUserData,
       enabled: !userAccountname,
+      myAccount,
     },
     {
       queryKey: ['userData', userAccountname],
@@ -40,18 +41,19 @@ const ProfileMain = ({ setIsDeleted, setIsModified }) => {
       enabled: !!userAccountname,
     },
     {
-      queryKey: ['postData', account],
+      queryKey: ['postData', account, myAccount],
       queryFn: GetPostAPI(account).getPostData,
       enabled: !!account,
     },
     {
-      queryKey: ['productData', account],
+      queryKey: ['productData', account, myAccount],
       queryFn: ProductListAPI(account).getProductList,
       enabled: !!account,
     },
   ]);
 
   const [myDataQuery, userDataQuery, postDataQuery, productDataQuery] = queries;
+  const { refetch: refetchMyData } = myDataQuery;
   const { refetch: refetchPostData } = postDataQuery;
 
   useEffect(() => {
@@ -59,6 +61,10 @@ const ProfileMain = ({ setIsDeleted, setIsModified }) => {
       setIsLoading(false);
     }
   }, [myDataQuery.isLoading, postDataQuery.isLoading, productDataQuery.isLoading]);
+
+  useEffect(() => {
+    if (myDataQuery.data) refetchMyData();
+  }, [refetchMyData, myDataQuery.data]);
 
   const updatePost = (isDeleteUpdate) => {
     if (isDeleteUpdate) {

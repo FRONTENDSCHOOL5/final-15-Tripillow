@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { LayoutStyle } from 'Styles/Layout';
 import BasicHeader from 'Components/common/Header/BasicHeader';
 import Navbar from 'Components/common/Navbar';
 import AlertTop from 'Components/common/Modal/AlertTop';
-import isDesktop from 'Recoil/isDesktop/isDesktop';
-import MyPillowings from 'Components/Home/MyPillowings';
 import ProfileMain from 'Components/Profile/ProfileMain';
 import useIsWideView from 'Components/SideNav/useIsWideView';
 import MetaTag from 'Components/common/MetaTag';
@@ -16,7 +13,6 @@ const Profile = () => {
   const navigate = useNavigate();
   const { state, pathname } = useLocation();
   const pathArr = pathname.split('/');
-  const isPCScreen = useRecoilValue(isDesktop);
   const isWideView = useIsWideView();
   const [isDeleted, setIsDeleted] = useState(state?.isDeleted);
   const [isModified, setIsModified] = useState(state?.isModified);
@@ -60,7 +56,6 @@ const Profile = () => {
         )}
         <ProfileMain setIsDeleted={setIsDeleted} setIsModified={setIsModified} />
         {isWideView || <Navbar />}
-        {isPCScreen && <MyPillowings $on={isPCScreen} />}
       </Layout>
     </>
   );
