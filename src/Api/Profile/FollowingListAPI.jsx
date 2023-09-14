@@ -8,7 +8,7 @@ const FollowingListAPI = (accountname) => {
 
   const fetchFollowing = useCallback(async () => {
     try {
-      const response = await fetch(`${URL}/profile/${accountname}/following`, {
+      const response = await fetch(`${URL}/profile/${accountname}/following?limit=Number`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
