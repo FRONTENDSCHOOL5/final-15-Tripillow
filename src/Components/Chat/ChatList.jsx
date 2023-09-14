@@ -21,7 +21,7 @@ const ChatList = () => {
           rightbtn='확인'
         ></BasicHeader>
       )}
-      <ChatUserLayout>
+      <ChatUserLayout $pc={isWideView}>
         {followingData &&
           followingData.map((item, index) => (
             <ChatUser
@@ -46,14 +46,22 @@ const ChatListLayout = styled.div`
   ${(props) =>
     props.$pc &&
     css`
+      overflow-y: auto;
       box-shadow: 4px 0 5px rgba(0, 0, 0, 0.05);
     `}
 `;
 
 const ChatUserLayout = styled.div`
+  padding-bottom: 80px;
   flex-shrink: 0;
   flex-basis: 40%;
   margin: 0 auto;
+
+  ${(props) =>
+    props.$pc &&
+    css`
+      padding-bottom: 0;
+    `}
 `;
 
 export default ChatList;
