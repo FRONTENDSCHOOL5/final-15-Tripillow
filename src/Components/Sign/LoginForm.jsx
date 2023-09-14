@@ -56,6 +56,7 @@ const LoginForm = () => {
         onChange={handleInputChange}
         autoComplete='off'
         autoFocus
+        aria-label='이메일 아이디 입력하기'
       />
       {errorMsg && !userInput.user.email && !userInput.user.password && <IdErrorStyle>{errorMsg}</IdErrorStyle>}
       <Input
@@ -66,6 +67,7 @@ const LoginForm = () => {
         value={userInput.user.password}
         onChange={handleInputChange}
         autoComplete='off'
+        aria-label='비밀번호 입력하기'
       />
       {errorMsg && userInput.user.email && !userInput.user.password && <ErrorStyle>{errorMsg}</ErrorStyle>}
       {userErrorMessage && userInput.user.email && userInput.user.password && (
