@@ -27,7 +27,7 @@ import PCAlertModal from 'Components/common/Modal/PCAlertModal';
 import SearchModal from 'Components/Search/SearchModal';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-const SideNavBar = (props) => {
+const SideNavBar = () => {
   const navigate = useNavigate();
   const isPCScreen = useRecoilValue(isDesktop);
   const isTabScreen = useRecoilValue(isTab);
@@ -128,7 +128,7 @@ const Layout = styled.nav`
           padding-top: 46px;
           position: absolute;
           background-color: #fff;
-          box-shadow: 2px 0px 8px 0px rgba(0, 0, 0, 0.05);
+          box-shadow: 2px 0px 15px 0px rgba(0, 0, 0, 0.1);
           box-sizing: border-box;
           position: fixed;
           overflow: auto;
@@ -141,7 +141,7 @@ const Layout = styled.nav`
           top: 0;
           left: 0;
           background-color: #fff;
-          box-shadow: 2px 0px 8px 0px rgba(0, 0, 0, 0.05);
+          box-shadow: 2px 0px 8px 0px rgba(0, 0, 0, 0.1);
           box-sizing: border-box;
           position: fixed;
           overflow: auto;

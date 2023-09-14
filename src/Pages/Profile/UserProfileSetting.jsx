@@ -118,7 +118,7 @@ const UserProfileSetting = () => {
       )}
       <Form>
         <ImageLayout>
-          <ImgLabel htmlFor='file-input'>
+          <ImgLabel htmlFor='file-input' aria-label='프로필 이미지 등록하기'>
             <ProfileImg src={imgURL ? imgURL : data.image ? data.image : profileImg} />
           </ImgLabel>
           <input id='file-input' className='a11y-hidden' type='file' onChange={uploadImage} />
@@ -132,6 +132,7 @@ const UserProfileSetting = () => {
           value={text.user.username}
           name='username'
           onChange={handleInputChange}
+          aria-label='닉네임 입력하기'
         ></Input>
         <Input
           label='계정 ID'
@@ -143,6 +144,7 @@ const UserProfileSetting = () => {
           name='accountname'
           onChange={handleInputChange}
           onBlur={handleAccountValid}
+          aria-label='계정 아이디 입력하기'
         ></Input>
         {errorMessage === '사용 가능한 계정ID 입니다.' && text.user.accountname && (
           <ErrorMSG errorColor={errorMessage !== '사용 가능한 계정ID 입니다.'}>{errorMessage}</ErrorMSG>
@@ -159,6 +161,7 @@ const UserProfileSetting = () => {
           value={text.user.intro}
           name='intro'
           onChange={handleInputChange}
+          aria-label='자기소개 입력하기'
         ></Input>
         {isWideView && (
           <Button
