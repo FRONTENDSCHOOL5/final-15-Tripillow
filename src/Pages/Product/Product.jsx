@@ -5,12 +5,12 @@ import { useQuery } from 'react-query';
 
 import BasicHeader from 'Components/common/Header/BasicHeader';
 import Navbar from 'Components/common/Navbar';
-import ProductItem from 'Components/common/ProductItem';
+// import ProductItem from 'Components/common/ProductItem';
 import { Layout } from 'Styles/Layout';
 import CircleButton from 'Components/common/CircleButton';
 import accountName from 'Recoil/accountName/accountName';
 import Toggle from 'Components/common/Toggle';
-import ProductItemSkeleton from 'Components/common/Skeleton/ProductItemSkeleton';
+// import ProductItemSkeleton from 'Components/common/Skeleton/ProductItemSkeleton';
 
 import URL from 'Api/URL';
 import userToken from 'Recoil/userToken/userToken';
@@ -19,6 +19,8 @@ import { isProduct } from 'Recoil/productCategory/productCategory';
 import MyPillowings from 'Components/Home/MyPillowings';
 import useIsWideView from 'Components/SideNav/useIsWideView';
 import MetaTag from 'Components/common/MetaTag';
+import LazyLoadedProductItem from './LazyLoadedProductItem';
+// import LazyLoadedProductItem from './LazyLoadedProductItem';
 
 const Product = () => {
   const navigate = useNavigate();
@@ -108,7 +110,7 @@ const Product = () => {
           rightOn={!isLeftToggle}
         />
         <GridLayout $isWideView={isWideView}>
-          {userLoading === true ||
+          {/* {userLoading === true ||
             (productLoading === true && (
               <>
                 {Array.from({ length: 8 }, (_, index) => (
@@ -117,10 +119,11 @@ const Product = () => {
                   </div>
                 ))}
               </>
-            ))}
+            ))} */}
+
           {isLeftToggle
-            ? tripProduct.map((product, i) => <ProductItem key={i} product={product} />)
-            : tripMoney.map((product, i) => <ProductItem key={i} product={product} />)}
+            ? tripProduct.map((product, i) => <LazyLoadedProductItem key={i} product={product} />)
+            : tripMoney.map((product, i) => <LazyLoadedProductItem key={i} product={product} />)}
           {productLoading === false && productsQuery?.length === 0 && <p>등록된 상품이 없습니다.</p>}
         </GridLayout>
         <AddBtnLayout $isWideView={isWideView}>
