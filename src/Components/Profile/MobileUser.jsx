@@ -20,19 +20,19 @@ const MobileUser = ({ user, handleCopy }) => {
           <p>pillowers</p>
         </FollowLayout>
         <ImgLayout>
-          <img src={user.image ? user.image : ProfileImg} alt='사용자 프로필 사진' />
+          <img src={user?.image ? user?.image : ProfileImg} alt='사용자 프로필 사진' />
         </ImgLayout>
         <FollowLayout to={followingPath} state={user} color='#767676'>
-          <strong>{user.followingCount}</strong>
+          <strong>{user?.followingCount}</strong>
           <p>pillowings</p>
         </FollowLayout>
       </ImgFollowLayout>
       <UserInfoLayout>
-        <h2>{user.username}</h2>
-        <p>{'@' + user.accountname}</p>
-        <p>{user.intro}</p>
+        <h2>{user?.username}</h2>
+        <p>{'@' + user?.accountname}</p>
+        <p>{user?.intro}</p>
       </UserInfoLayout>
-      {user.accountname === name ? (
+      {user?.accountname === name ? (
         <IconLayout>
           <CommonButton clicked width='120px' fontSize='var(--sm)' onClick={() => navigate('/profile/edit')}>
             프로필 수정
