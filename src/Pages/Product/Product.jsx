@@ -11,15 +11,16 @@ import CircleButton from 'Components/common/CircleButton';
 import accountName from 'Recoil/accountName/accountName';
 import Toggle from 'Components/common/Toggle';
 // import ProductItemSkeleton from 'Components/common/Skeleton/ProductItemSkeleton';
-
-import URL from 'Api/URL';
 import userToken from 'Recoil/userToken/userToken';
+import URL from 'Api/URL';
+
 import isDesktop from 'Recoil/isDesktop/isDesktop';
 import { isProduct } from 'Recoil/productCategory/productCategory';
 import MyPillowings from 'Components/Home/MyPillowings';
 import useIsWideView from 'Components/SideNav/useIsWideView';
 import MetaTag from 'Components/common/MetaTag';
 import LazyLoadedProductItem from './LazyLoadedProductItem';
+import FollowingListAPI from 'Api/Profile/FollowingListAPI';
 // import LazyLoadedProductItem from './LazyLoadedProductItem';
 
 const Product = () => {
@@ -27,23 +28,13 @@ const Product = () => {
   const isPCScreen = useRecoilValue(isDesktop);
   const isWideView = useIsWideView();
   const name = useRecoilValue(accountName);
-  const token = useRecoilValue(userToken);
   const [isLeftToggle, setIsLeftToggle] = useRecoilState(isProduct);
+  const token = useRecoilValue(userToken);
+  const { fetchFollowing } = FollowingListAPI(name);
+  // const { getProductList } = ProductListAPI();
 
-  const {
-    data: user,
-    isLoading: userLoading,
-    error: userError,
-  } = useQuery('followingAccounts', async () => {
-    const response = await fetch(`${URL}/profile/${name}/following/`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-type': 'application/json',
-      },
-    });
-    return response.json();
-  });
+  const { data: user, isLoading: userLoading, error: userError } = useQuery('followingAccounts', fetchFollowing);
+  console.log(user);
 
   const {
     data: productsQuery,
