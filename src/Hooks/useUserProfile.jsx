@@ -6,6 +6,7 @@ import UnFollowAPI from 'Api/Profile/UnFollowAPI';
 import chatLists from 'Mock/chatLists';
 import accountName from 'Recoil/accountName/accountName';
 import { followerURL, followingURL } from 'Recoil/followPath/followPath';
+import { useMutation } from 'react-query';
 
 const UseUserProfile = (props) => {
   const user = props;
@@ -25,6 +26,28 @@ const UseUserProfile = (props) => {
   const { followUser } = FollowAPI(account);
   const { unFollowUser } = UnFollowAPI(account);
 
+  const followMutation = useMutation(() => followUser, {
+    onSuccess: () => {
+      setIsFollow(true);
+      setFollowText('언팔로우');
+      setFollowCount((prevCount) => prevCount + 1);
+    },
+    onError: (error) => {
+      console.error('Error following user:', error);
+    },
+  });
+
+  const unFollowMutation = useMutation(() => unFollowUser, {
+    onSuccess: () => {
+      setIsFollow(false);
+      setFollowText('팔로우');
+      setFollowCount((prevCount) => prevCount - 1);
+    },
+    onError: (error) => {
+      console.error('Error unfollowing user:', error);
+    },
+  });
+
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * chatLists.length);
     const selectedMessage = chatLists[randomIndex];
@@ -41,15 +64,9 @@ const UseUserProfile = (props) => {
 
   const handleFollowButtonClick = async (e) => {
     if (isFollow) {
-      setIsFollow(false);
-      setFollowText('팔로우');
-      setFollowCount((prevCount) => prevCount - 1);
-      await unFollowUser();
+      unFollowMutation.mutate();
     } else {
-      setIsFollow(true);
-      setFollowText('언팔로우');
-      setFollowCount((prevCount) => prevCount + 1);
-      await followUser();
+      followMutation.mutate();
     }
   };
 
