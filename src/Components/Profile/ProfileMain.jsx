@@ -30,13 +30,14 @@ const ProfileMain = ({ setIsDeleted, setIsModified }) => {
 
   const queries = useQueries([
     {
-      queryKey: ['myData', myAccount],
+      queryKey: ['myData', myAccount, account, userAccountname],
       queryFn: MyInfoAPI().getUserData,
       enabled: !userAccountname,
       myAccount,
+      account,
     },
     {
-      queryKey: ['userData', userAccountname],
+      queryKey: ['userData', userAccountname, account, myAccount],
       queryFn: UserInfoAPI(userAccountname).getUserInfo,
       enabled: !!userAccountname,
     },
@@ -57,10 +58,10 @@ const ProfileMain = ({ setIsDeleted, setIsModified }) => {
   const { refetch: refetchPostData } = postDataQuery;
 
   useEffect(() => {
-    if (!myDataQuery.isLoading && !postDataQuery.isLoading && !productDataQuery.isLoading) {
+    if (!myDataQuery.isLoading && !userDataQuery.isLoading && !postDataQuery.isLoading && !productDataQuery.isLoading) {
       setIsLoading(false);
     }
-  }, [myDataQuery.isLoading, postDataQuery.isLoading, productDataQuery.isLoading]);
+  }, [myDataQuery.isLoading, postDataQuery.isLoading, productDataQuery.isLoading, userDataQuery.isLoading]);
 
   useEffect(() => {
     if (myDataQuery.data) refetchMyData();
@@ -91,7 +92,7 @@ const ProfileMain = ({ setIsDeleted, setIsModified }) => {
         <ProfileSkeleton userAccountname={userAccountname} />
       ) : (
         <>
-          <UserProfile user={userAccountname ? userDataQuery.data : myDataQuery.data} />
+          <UserProfile />
           <UserProductLayout>
             <h2>판매 중인 상품</h2>
             <ProductListLayout>
