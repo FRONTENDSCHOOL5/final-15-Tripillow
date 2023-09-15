@@ -3,14 +3,21 @@ import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import CommonButton from 'Components/common/Button';
 import { UserProfileLayout, ImgLayout, IconBox, ShareIconStyle } from 'Styles/UserStyle';
-import UseUserProfile from 'Hooks/useUserProfile';
 import Chat from 'Assets/icons/icon-message-circle-1.svg';
 import ProfileImg from 'Assets/profile-lg.png';
 
-const MobileUser = ({ user, handleCopy }) => {
+const MobileUser = ({ user, ...props }) => {
   const navigate = useNavigate();
-  const { followerPath, followingPath, name, followText, handleFollowButtonClick, handleChatClick, followCount } =
-    UseUserProfile(user);
+  const {
+    followCount,
+    name,
+    handleChatClick,
+    followText,
+    handleFollowButtonClick,
+    followerPath,
+    followingPath,
+    handleCopy,
+  } = props;
 
   return (
     <UserProfileLayout>
@@ -44,7 +51,7 @@ const MobileUser = ({ user, handleCopy }) => {
       ) : (
         <IconLayout>
           <ChatIconStyle onClick={handleChatClick} />
-          <CommonButton width='120px' clicked={followText === '언팔로우'} onClick={handleFollowButtonClick}>
+          <CommonButton width='120px' clicked={!user?.isFollow} onClick={handleFollowButtonClick}>
             {followText}
           </CommonButton>
           <ShareIconStyle onClick={handleCopy} />
