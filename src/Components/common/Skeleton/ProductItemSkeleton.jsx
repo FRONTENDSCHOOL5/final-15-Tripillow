@@ -1,11 +1,13 @@
+import useIsWideView from 'Components/SideNav/useIsWideView';
 import React from 'react';
 import styled from 'styled-components';
 import SkeletonItem from 'Styles/SkeletonItem';
 
-function ProductItemSkeleton() {
+function ProductItemSkeleton(props) {
+  const isWideView = useIsWideView();
   return (
     <>
-      <ProductImgSkeleton />
+      <ProductImgSkeleton $isWideView={isWideView} />
       <ProductInfoSkeleton />
       <ProductPriceSkeleton />
     </>
@@ -13,8 +15,8 @@ function ProductItemSkeleton() {
 }
 
 const ProductImgSkeleton = styled(SkeletonItem)`
-  width: 160px;
-  height: 90px;
+  width: ${(props) => (props.$isWideView ? '220px' : '160px')};
+  height: ${(props) => (props.$isWideView ? '120px' : '90px')};
   margin-bottom: 7px;
   border-radius: 8px;
 `;
