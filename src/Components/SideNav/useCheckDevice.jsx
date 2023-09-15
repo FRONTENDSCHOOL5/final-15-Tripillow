@@ -9,6 +9,8 @@ const useCheckDevice = () => {
 
   useEffect(() => {
     const handleResize = () => {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
       if (window.innerWidth > 1280) setIsPCScreen(true);
       else setIsPCScreen(false);
       if (640 < window.innerWidth && window.innerWidth < 1279) setIsTabScreen(true);
