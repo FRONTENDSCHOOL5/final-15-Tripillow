@@ -45,10 +45,10 @@ const PCSearchLayout = styled.article`
 
   @keyframes fadeInModal {
     from {
-      transform: translateX(-60%);
+      opacity: 0;
     }
     to {
-      transform: translateX(0);
+      opacity: 1;
     }
   }
 `;
