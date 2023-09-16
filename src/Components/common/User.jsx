@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import profileSm from 'Assets/profile-sm.png';
@@ -10,8 +10,12 @@ const User = (props) => {
   const handleOnClick = () => {
     setIsModalOn((prev) => !prev);
   };
-
   const url = props.userImg?.split('/') || 'null';
+  const linkRef = useRef();
+
+  const handleClick = (event) => {
+    if (event.key === 'Enter' && !props.moreBtn) linkRef.current.click();
+  };
 
   const highlightKeyword = (text, keyword) => {
     const startIndex = text?.indexOf(keyword);
@@ -29,8 +33,10 @@ const User = (props) => {
   const { leftSide: leftSideAccount, rightSide: rightSideAccount } = highlightKeyword(props.accountname, props.keyword);
 
   return (
-    <UserLayout margin={props.margin}>
+    <UserLayout onKeyDown={handleClick} margin={props.margin} tabIndex={props.moreBtn ? -1 : 0}>
       <Link
+        ref={linkRef}
+        tabIndex={props.moreBtn ? 0 : -1}
         to={`/profile/${props.accountname}`}
         onClick={() => props.setIsSearch && props.setIsSearch(false)}
         aria-label={`${props.accountname} 프로필로 이동`}
@@ -53,6 +59,7 @@ const User = (props) => {
       </Link>
       <UserContentsLayout>
         <Link
+          tabIndex={props.moreBtn ? 0 : -1}
           to={`/profile/${props.accountname}`}
           onClick={() => props.setIsSearch && props.setIsSearch(false)}
           aria-label={`${props.accountname} 프로필로 이동`}
