@@ -15,10 +15,10 @@ const SearchHeader = ({ value, onChange, header }) => {
           navigate(-1);
         }}
       />
-      <SearchInput type='search' placeholder='계정 검색' value={value} onChange={onChange} aria-label='계정 검색' />
+      <SearchInput type='text' placeholder='계정 검색' value={value} onChange={onChange} aria-label='계정 검색' />
     </HeaderLayout>
   ) : (
-    <SearchInput type='search' placeholder='계정 검색' value={value} onChange={onChange} aria-label='계정 검색' />
+    <SearchInput type='text' placeholder='계정 검색' value={value} onChange={onChange} aria-label='계정 검색' />
   );
 };
 
