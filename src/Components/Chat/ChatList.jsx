@@ -1,15 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import BasicHeader from 'Components/common/Header/BasicHeader';
 import Navbar from 'Components/common/Navbar';
 import ChatUser from 'Components/Chat/ChatUser';
-import useFollowing from 'Hooks/useFollowing';
 import { LayoutStyle } from 'Styles/Layout';
 import useIsWideView from 'Components/SideNav/useIsWideView';
+import accountName from 'Recoil/accountName/accountName';
+import { useRecoilValue } from 'recoil';
+import FollowingListAPI from 'Api/Profile/FollowingListAPI';
 
 const ChatList = () => {
   const isWideView = useIsWideView();
-  const { followingData } = useFollowing();
+  const accountname = useRecoilValue(accountName);
+  const { fetchFollowing } = FollowingListAPI(accountname);
+  const [followingData, setFollowingData] = useState([]);
+
+  useEffect(() => {
+    const handleFetch = async () => {
+      const data = await fetchFollowing();
+      if (data) setFollowingData(data);
+    };
+
+    handleFetch();
+  }, [fetchFollowing]);
 
   return (
     <ChatListLayout $isWideView={isWideView} $pc={isWideView}>

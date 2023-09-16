@@ -1,43 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import MyInfoAPI from 'Api/Profile/MyInfoAPI';
 import FollowUser from 'Components/common/FollowUser';
-import UseFollowing from 'Hooks/useFollowing';
+import accountName from 'Recoil/accountName/accountName';
+import FollowingListAPI from 'Api/Profile/FollowingListAPI';
+import { useRecoilValue } from 'recoil';
 
 const MyPillowings = (props) => {
-  const { followingData } = UseFollowing();
-  const { getUserData } = MyInfoAPI();
-  const [user, setUser] = useState();
+  const accountname = useRecoilValue(accountName);
+  const { fetchFollowing } = FollowingListAPI(accountname, 5);
+  const [followingData, setFollowingData] = useState([]);
 
   useEffect(() => {
-    const getData = async () => {
-      const userData = await getUserData();
-      userData && setUser(userData);
+    const handleFetch = async () => {
+      const data = await fetchFollowing();
+      if (data) setFollowingData(data);
     };
 
-    getData();
-  }, [getUserData]);
+    handleFetch();
+  }, [fetchFollowing]);
 
   return (
-    <>
-      <Layout {...props}>
-        <h2>My Pillowings</h2>
-        <div>
-          {followingData &&
-            followingData
-              .slice(0, 5)
-              .map((user, idx) => <FollowUser followers key={idx} user={user} margin='24px 0 0 0' />)}
-        </div>
-        <PillowingsMore to='/profile/followings' state={user}>
-          pillowers 더 보러가기
-        </PillowingsMore>
-      </Layout>
-    </>
+    <Layout {...props}>
+      <h2>My Pillowings</h2>
+      <div>
+        {followingData &&
+          followingData.map((user, idx) => <FollowUser followers key={idx} user={user} margin='24px 0 0 0' />)}
+      </div>
+      <PillowingsMore to='/profile/followings'>pillowers 더 보러가기</PillowingsMore>
+    </Layout>
   );
 };
-
-export default MyPillowings;
 
 const Layout = styled.article`
   display: ${(props) => (props.$on ? 'block' : 'none')};
@@ -80,3 +73,5 @@ const PillowingsMore = styled(Link)`
     border-bottom: 1px solid var(--primary);
   }
 `;
+
+export default MyPillowings;

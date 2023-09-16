@@ -12,14 +12,16 @@ import FollowingListAPI from 'Api/Profile/FollowingListAPI';
 import isDesktop from 'Recoil/isDesktop/isDesktop';
 import MyPillowings from 'Components/Home/MyPillowings';
 import useIsWideView from 'Components/SideNav/useIsWideView';
+import accountName from 'Recoil/accountName/accountName';
 
 const Followers = () => {
   const location = useLocation();
   const isPCScreen = useRecoilValue(isDesktop);
+  const myAccount = useRecoilValue(accountName);
   const isWideView = useIsWideView();
   const pathIdentifier = location.pathname.split('/');
   const last = pathIdentifier.length - 1;
-  const accountname = location.state?.accountname;
+  const accountname = location.state ? location.state?.accountname : myAccount;
   const [pageTitle, setPageTitle] = useState('Followers');
   const { fetchFollower } = FollowerListAPI(accountname);
   const { fetchFollowing } = FollowingListAPI(accountname);
