@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import { useQueries } from 'react-query';
 import FollowUser from 'Components/common/FollowUser';
 import BasicHeader from 'Components/common/Header/BasicHeader';
 import Navbar from 'Components/common/Navbar';
@@ -19,32 +20,33 @@ const Followers = () => {
   const pathIdentifier = location.pathname.split('/');
   const last = pathIdentifier.length - 1;
   const accountname = location.state?.accountname;
-  const [followerData, setFollowerData] = useState([]);
-  const [followingData, setFollowingData] = useState([]);
   const [pageTitle, setPageTitle] = useState('Followers');
   const { fetchFollower } = FollowerListAPI(accountname);
   const { fetchFollowing } = FollowingListAPI(accountname);
   const regex = /^\/profile\/.+\/followers$/;
 
-  useEffect(() => {
-    const handleFetch = async () => {
-      if (location.pathname.endsWith('followers')) {
-        const follower = await fetchFollower();
-        if (follower) {
-          setFollowerData(follower);
-          setPageTitle('Pillowers');
-        }
-      } else if (location.pathname.endsWith('followings')) {
-        const following = await fetchFollowing();
-        if (following) {
-          setFollowingData(following);
-          setPageTitle('Pillowings');
-        }
-      }
-    };
+  const queries = useQueries([
+    {
+      queryKey: ['followerData', accountname],
+      queryFn: fetchFollower,
+      enabled: location.pathname.endsWith('followers'),
+    },
+    {
+      queryKey: ['followingData', accountname],
+      queryFn: fetchFollowing,
+      enabled: location.pathname.endsWith('followings'),
+    },
+  ]);
 
-    handleFetch();
-  }, [accountname, location.pathname, fetchFollower, fetchFollowing]);
+  const [followerQuery, followingQuery] = queries;
+
+  useEffect(() => {
+    if (location.pathname.endsWith('followers')) {
+      setPageTitle('Pillowers');
+    } else if (location.pathname.endsWith('followings')) {
+      setPageTitle('Pillowings');
+    }
+  }, [location.pathname]);
 
   return (
     <Layout>
@@ -61,10 +63,10 @@ const Followers = () => {
 
       <main>
         {pathIdentifier[last] === 'followers'
-          ? followerData.map((follower, index) => (
+          ? followerQuery.data?.map((follower, index) => (
               <FollowUser followers key={index} user={follower} pathIdentifier={pathIdentifier} margin='24px 0 0 0' />
             ))
-          : followingData.map((following, index) => (
+          : followingQuery.data?.map((following, index) => (
               <FollowUser followers key={index} user={following} pathIdentifier={pathIdentifier} margin='24px 0 0 0' />
             ))}
       </main>

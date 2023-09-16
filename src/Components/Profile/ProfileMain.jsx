@@ -30,35 +30,42 @@ const ProfileMain = ({ setIsDeleted, setIsModified }) => {
 
   const queries = useQueries([
     {
-      queryKey: 'myData',
+      queryKey: ['myData', myAccount, account, userAccountname],
       queryFn: MyInfoAPI().getUserData,
       enabled: !userAccountname,
+      myAccount,
+      account,
     },
     {
-      queryKey: ['userData', userAccountname],
+      queryKey: ['userData', userAccountname, account, myAccount],
       queryFn: UserInfoAPI(userAccountname).getUserInfo,
       enabled: !!userAccountname,
     },
     {
-      queryKey: ['postData', account],
+      queryKey: ['postData', account, myAccount],
       queryFn: GetPostAPI(account).getPostData,
       enabled: !!account,
     },
     {
-      queryKey: ['productData', account],
+      queryKey: ['productData', account, myAccount],
       queryFn: ProductListAPI(account).getProductList,
       enabled: !!account,
     },
   ]);
 
   const [myDataQuery, userDataQuery, postDataQuery, productDataQuery] = queries;
+  const { refetch: refetchMyData } = myDataQuery;
   const { refetch: refetchPostData } = postDataQuery;
 
   useEffect(() => {
-    if (!myDataQuery.isLoading && !postDataQuery.isLoading && !productDataQuery.isLoading) {
+    if (!myDataQuery.isLoading && !userDataQuery.isLoading && !postDataQuery.isLoading && !productDataQuery.isLoading) {
       setIsLoading(false);
     }
-  }, [myDataQuery.isLoading, postDataQuery.isLoading, productDataQuery.isLoading]);
+  }, [myDataQuery.isLoading, postDataQuery.isLoading, productDataQuery.isLoading, userDataQuery.isLoading]);
+
+  useEffect(() => {
+    if (myDataQuery.data) refetchMyData();
+  }, [refetchMyData, myDataQuery.data]);
 
   const updatePost = (isDeleteUpdate) => {
     if (isDeleteUpdate) {
@@ -85,7 +92,7 @@ const ProfileMain = ({ setIsDeleted, setIsModified }) => {
         <ProfileSkeleton userAccountname={userAccountname} />
       ) : (
         <>
-          <UserProfile user={userAccountname ? userDataQuery.data : myDataQuery.data} />
+          <UserProfile />
           <UserProductLayout>
             <h2>판매 중인 상품</h2>
             <ProductListLayout>
