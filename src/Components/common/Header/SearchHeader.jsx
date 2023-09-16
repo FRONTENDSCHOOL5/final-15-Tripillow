@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import HeaderLayout from 'Styles/HeaderLayout';
 import prev from 'Assets/icons/icon-arrow-back.svg';
 
-const SearchHeader = ({ value, onChange, header }) => {
+const SearchHeader = ({ value, onChange, header, isSearch }) => {
   const navigate = useNavigate();
+  const inputRef = useRef();
+
+  useEffect(() => {
+    if (isSearch) {
+      inputRef?.current?.focus();
+    }
+  }, [isSearch]);
+
   return header ? (
     <HeaderLayout>
       <h1 className='a11y-hidden'>검색 페이지</h1>
@@ -15,10 +23,24 @@ const SearchHeader = ({ value, onChange, header }) => {
           navigate(-1);
         }}
       />
-      <SearchInput type='text' placeholder='계정 검색' value={value} onChange={onChange} aria-label='계정 검색' />
+      <SearchInput
+        type='text'
+        placeholder='계정 검색'
+        value={value}
+        onChange={onChange}
+        aria-label='계정 검색'
+        ref={inputRef}
+      />
     </HeaderLayout>
   ) : (
-    <SearchInput type='text' placeholder='계정 검색' value={value} onChange={onChange} aria-label='계정 검색' />
+    <SearchInput
+      type='text'
+      placeholder='계정 검색'
+      value={value}
+      onChange={onChange}
+      aria-label='계정 검색'
+      ref={inputRef}
+    />
   );
 };
 

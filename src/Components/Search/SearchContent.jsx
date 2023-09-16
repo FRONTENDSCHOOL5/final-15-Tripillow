@@ -7,7 +7,7 @@ import userToken from 'Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
 import SearchHeader from 'Components/common/Header/SearchHeader';
 
-const SearchContent = ({ header, setIsSearch }) => {
+const SearchContent = ({ header, isSearch, setIsSearch }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showAllResults, setShowAllResults] = useState(false);
   const [searchData, setSearchData] = useState([]);
@@ -70,9 +70,9 @@ const SearchContent = ({ header, setIsSearch }) => {
   return (
     <>
       {header ? (
-        <SearchHeader header value={searchKeyword} onChange={handleSearchKeyword} />
+        <SearchHeader header value={searchKeyword} onChange={handleSearchKeyword} isSearch={isSearch} />
       ) : (
-        <SearchHeader value={searchKeyword} onChange={handleSearchKeyword} />
+        <SearchHeader value={searchKeyword} onChange={handleSearchKeyword} isSearch={isSearch} />
       )}
       <SearchContentLayout>
         <ul>
