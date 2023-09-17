@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import throttle from 'lodash.throttle';
-import imageCompression from 'browser-image-compression';
-import URL from 'Api/URL';
 import { validateImageFileFormat } from 'Utils/validate';
 import UploadHeader from 'Components/common/Header/UploadHeader';
 import Toggle from 'Components/common/Toggle';
@@ -12,12 +10,13 @@ import x from 'Assets/icons/x.svg';
 import { LayoutStyle } from 'Styles/Layout';
 import iconImg from 'Assets/icons/upload-file.svg';
 import UploadPostAPI from 'Api/Post/UploadPostAPI';
-import CompressedImageUploadAPI from 'Api/Upload/CompressedImageUploadAPI';
 import Button from 'Components/common/Button';
 import MyPillowings from 'Components/Home/MyPillowings';
 import isDesktop from 'Recoil/isDesktop/isDesktop';
-
 import useIsWideView from 'Components/SideNav/useIsWideView';
+import MetaTag from 'Components/common/MetaTag';
+import { uploadFile } from 'Utils/uploadFile';
+import URL from 'Api/URL';
 
 const Post = () => {
   const navigate = useNavigate();
@@ -28,23 +27,6 @@ const Post = () => {
   const [imgURL, setImgURL] = useState([]);
   const [isLeftToggle, setIsLeftToggle] = useState(true);
   const uploadPost = UploadPostAPI(imgURL, inputValue, isLeftToggle);
-
-  const handleDataForm = async (dataURI) => {
-    const byteString = atob(dataURI.split(',')[1]);
-    const ab = new ArrayBuffer(byteString.length);
-    const ia = new Uint8Array(ab);
-    for (let i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    const blob = new Blob([ia], {
-      type: 'image/jpeg',
-    });
-    const file = new File([blob], 'image.jpg');
-    const data = await CompressedImageUploadAPI(file);
-    if (data) {
-      setImgURL((prev) => prev.concat(data.filename));
-    }
-  };
 
   const handleImageInput = async (e) => {
     const file = e.target?.files[0];
@@ -62,25 +44,9 @@ const Post = () => {
       return alert('파일 확장자를 확인해주세요');
     }
 
-    const options = {
-      maxSizeMB: 0.9,
-      maxWidthOrHeight: 490,
-      useWebWorker: true,
-    };
-
-    try {
-      // 압축 결과
-      const compressedFile = await imageCompression(file, options);
-
-      const reader = new FileReader();
-      reader.readAsDataURL(compressedFile);
-      reader.onloadend = () => {
-        const base64data = reader.result;
-        handleDataForm(base64data);
-      };
-    } catch (error) {
-      console.log(error);
-    }
+    await uploadFile(e, (imageUrl) => {
+      setImgURL((prev) => [...prev, imageUrl]);
+    });
   };
 
   const handleSubmit = async () => {
@@ -110,57 +76,73 @@ const Post = () => {
   };
 
   return (
-    <PostLayout $isWideView={isWideView}>
-      {!isWideView && (
-        <UploadHeader disabled={!inputValue} onClick={throttledHandleSubmit}>
-          업로드
-        </UploadHeader>
-      )}
-      <ToggleLayout>
-        <Toggle leftButton='국내' rightButton='해외' setIsLeftToggle={setIsLeftToggle} margin='0 0 22px 0'></Toggle>
-      </ToggleLayout>
-      <form>
-        {isWideView && (
-          <>
-            <PCImgUpload htmlFor='img-input'>+ 여행사진 추가하기</PCImgUpload>
-            <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
-          </>
-        )}
-        <TextInput placeholder='게시글 입력하기...' ref={textarea} onChange={handleInputChange} rows='1'></TextInput>
-        {imgURL.map((el, i) => (
-          <ImgLayout key={`ImgLayout-${i}`}>
-            <Img src={`${URL}/${el}`} key={`Img-${i}`} />
-            <ImgDelete
-              $isWideView={isWideView}
-              type='button'
-              key={`ImgDelete-${i}`}
-              onClick={() => handleImgClose(i)}
-            ></ImgDelete>
-          </ImgLayout>
-        ))}
+    <>
+      <MetaTag
+        title='Tripillow 게시물 업로드'
+        description='여행 사진과 여행 경험을 공유하기위해 게시물을 업로드해보세요'
+        url='https://tripillow.netlify.app/post'
+      />
+      <PostLayout $isWideView={isWideView}>
         {!isWideView && (
-          <>
-            <label htmlFor='img-input'>
-              <ImgIcon src={iconImg}></ImgIcon>
-            </label>
-            <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
-          </>
-        )}
-        {isWideView && (
-          <Button
-            disabled={!inputValue}
-            onClick={throttledHandleSubmit}
-            width='90px'
-            fontSize='14px'
-            padding='7.75px'
-            style={{ position: 'absolute', top: '55px' }}
-          >
+          <UploadHeader disabled={!inputValue} onClick={throttledHandleSubmit}>
             업로드
-          </Button>
+          </UploadHeader>
         )}
-      </form>
-      {isPCScreen && <MyPillowings $on={isPCScreen} />}
-    </PostLayout>
+        <main>
+          <ToggleLayout>
+            <Toggle leftButton='국내' rightButton='해외' setIsLeftToggle={setIsLeftToggle} margin='0 0 22px 0'></Toggle>
+          </ToggleLayout>
+          <form>
+            {isWideView && (
+              <>
+                <PCImgUpload htmlFor='img-input'>+ 여행사진 추가하기</PCImgUpload>
+                <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
+              </>
+            )}
+            <TextInput
+              placeholder='게시글 입력하기...'
+              ref={textarea}
+              onChange={handleInputChange}
+              rows='1'
+              aria-label='게시글 입력창'
+            ></TextInput>
+            {imgURL.map((el, i) => (
+              <ImgLayout key={`ImgLayout-${i}`}>
+                <Img src={`${URL}/${el}`} key={`Img-${i}`} alt={`추가한 사진 ${i}`} />
+                <ImgDelete
+                  $isWideView={isWideView}
+                  type='button'
+                  key={`ImgDelete-${i}`}
+                  onClick={() => handleImgClose(i)}
+                  aria-label={`${i} 사진 삭제 버튼`}
+                ></ImgDelete>
+              </ImgLayout>
+            ))}
+            {!isWideView && (
+              <>
+                <label htmlFor='img-input'>
+                  <ImgIcon src={iconImg} alt='사진 추가 버튼'></ImgIcon>
+                </label>
+                <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
+              </>
+            )}
+            {isWideView && (
+              <Button
+                disabled={!inputValue}
+                onClick={throttledHandleSubmit}
+                width='90px'
+                fontSize='14px'
+                padding='7.75px'
+                style={{ position: 'absolute', top: '55px' }}
+              >
+                업로드
+              </Button>
+            )}
+          </form>
+        </main>
+        {isPCScreen && <MyPillowings $on={isPCScreen} />}
+      </PostLayout>
+    </>
   );
 };
 

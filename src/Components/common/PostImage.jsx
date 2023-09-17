@@ -69,11 +69,21 @@ export default function PostImage({ post }) {
         onTouchEnd={handleTouchEnd}
       >
         {pictures.length > 1 && pictures[0] !== pictures[currentIndex] && (
-          <ArrowButton onClick={handlePrev} bgImage={arrowLeft} left='16px'></ArrowButton>
+          <ArrowButton
+            onClick={handlePrev}
+            bgImage={arrowLeft}
+            left='16px'
+            aria-label='사진 왼쪽으로 넘기기'
+          ></ArrowButton>
         )}
-        <img src={URL + '/' + pictures[currentIndex]} onError={handleError} alt='' />
+        <img src={imgSrc} onError={handleError} alt='게시글 이미지' />
         {pictures.length > 1 && pictures[pictures.length - 1] !== pictures[currentIndex] && (
-          <ArrowButton onClick={handleNext} bgImage={arrowRight} right='16px'></ArrowButton>
+          <ArrowButton
+            onClick={handleNext}
+            bgImage={arrowRight}
+            right='16px'
+            aria-label='사진 오른쪽으로 넘기기'
+          ></ArrowButton>
         )}
         <IndicatorLayout>
           {pictures.length > 1 &&

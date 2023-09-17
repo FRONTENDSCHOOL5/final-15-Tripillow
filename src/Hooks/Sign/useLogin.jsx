@@ -47,12 +47,12 @@ const useLogin = () => {
 
   const handleLogin = async () => {
     const res = await LoginAPI(userInput);
-    if (res && res.hasOwnProperty('user')) {
+    if (res && Object.prototype.hasOwnProperty.call(res, 'user')) {
       navigate('/home');
       setToken(res.user.token);
       setIsLoginState(true);
       setName(res.user.accountname);
-    } else if (res && !res.hasOwnProperty('user')) {
+    } else if (res && !Object.prototype.hasOwnProperty.call(res, 'user')) {
       setUserErrorMessage(res.message);
     }
   };

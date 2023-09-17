@@ -32,6 +32,7 @@ const Toggle = (props) => {
         onClick={handleToggleLeft}
         active={props.rightOn ? !props.rightOn : toggleLeft}
         aria-label={props.leftButton}
+        type='button'
       >
         {props.leftButton}
       </ToggleButton>
@@ -39,6 +40,7 @@ const Toggle = (props) => {
         onClick={handleToggleRight}
         active={props.rightOn ? props.rightOn : toggleRight}
         aria-label={props.rightButton}
+        type='button'
       >
         {props.rightButton}
       </ToggleButton>

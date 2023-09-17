@@ -3,13 +3,20 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import CommonButton from 'Components/common/Button';
 import { UserProfileLayout, ImgLayout, ShareIconStyle } from 'Styles/UserStyle';
-import UseUserProfile from 'Hooks/useUserProfile';
 import ProfileImg from 'Assets/profile-lg.png';
 
-const PCUserProfile = ({ user, handleCopy }) => {
+const PCUserProfile = ({ user, ...props }) => {
+  const {
+    followCount,
+    name,
+    handleChatClick,
+    followText,
+    handleFollowButtonClick,
+    followerPath,
+    followingPath,
+    handleCopy,
+  } = props;
   const navigate = useNavigate();
-  const { followerPath, followingPath, name, followText, handleFollowButtonClick, handleChatClick, followCount } =
-    UseUserProfile(user);
 
   return (
     <UserProfileLayout $pc>
@@ -32,12 +39,13 @@ const PCUserProfile = ({ user, handleCopy }) => {
             <IconLayout>
               <CommonButton
                 width='76px'
-                clicked={followText === '언팔로우'}
+                clicked={!user?.isFollow}
                 onClick={handleFollowButtonClick}
                 fontSize='var(--xs)'
               >
                 {followText}
               </CommonButton>
+
               <CommonButton onClick={handleChatClick} clicked width='56px' fontSize='var(--xs)'>
                 메세지
               </CommonButton>

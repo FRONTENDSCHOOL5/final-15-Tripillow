@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil';
+import { useSetRecoilState } from 'recoil';
+import URL from 'Api/URL';
 import MyInfoAPI from 'Api/Profile/MyInfoAPI';
 import EditProfileAPI from 'Api/Profile/EditProfileAPI';
 import AccountValidAPI from 'Api/Valid/AccountValidAPI';
@@ -11,15 +12,14 @@ import { LayoutStyle } from 'Styles/Layout';
 import ErrorMSG from 'Styles/ErrorMSG';
 import profileImg from 'Assets/profile-lg.png';
 import uploadfile from 'Assets/icons/upload-file.svg';
-import isDesktop from 'Recoil/isDesktop/isDesktop';
+import accountName from 'Recoil/accountName/accountName';
 import Button from 'Components/common/Button';
-import MyPillowings from 'Components/Home/MyPillowings';
 import { uploadFile } from 'Utils/uploadFile';
 import useIsWideView from 'Components/SideNav/useIsWideView';
 
 const UserProfileSetting = () => {
   const navigate = useNavigate();
-  const isPCScreen = useRecoilValue(isDesktop);
+  const setAccountName = useSetRecoilState(accountName);
   const isWideView = useIsWideView();
 
   const [imgURL, setImgURL] = useState('');
@@ -64,7 +64,8 @@ const UserProfileSetting = () => {
 
   useEffect(() => {
     setAccount({ user: { accountname: text.user.accountname } });
-  }, [text]);
+    setAccountName(text.user.accountname);
+  }, [text, setAccountName]);
 
   const handleAccountValid = async () => {
     await getAccountValidAPI();
@@ -79,6 +80,19 @@ const UserProfileSetting = () => {
         [name]: value,
       },
     }));
+  };
+
+  const uploadImage = async (e) => {
+    await uploadFile(e, (imageUrl) => {
+      setText({
+        ...text,
+        user: {
+          ...text.user,
+          image: URL + '/' + imageUrl,
+        },
+      });
+      setImgURL(URL + '/' + imageUrl);
+    });
   };
 
   const { handleEditProfileAPI } = EditProfileAPI({ ...text });
@@ -104,15 +118,10 @@ const UserProfileSetting = () => {
       )}
       <Form>
         <ImageLayout>
-          <ImgLabel htmlFor='file-input'>
+          <ImgLabel htmlFor='file-input' aria-label='프로필 이미지 등록하기'>
             <ProfileImg src={imgURL ? imgURL : data.image ? data.image : profileImg} />
           </ImgLabel>
-          <input
-            id='file-input'
-            className='a11y-hidden'
-            type='file'
-            onChange={(e) => uploadFile(e, setImgURL, text, setText)}
-          />
+          <input id='file-input' className='a11y-hidden' type='file' onChange={uploadImage} />
         </ImageLayout>
         <Input
           label='사용자 이름'
@@ -123,6 +132,7 @@ const UserProfileSetting = () => {
           value={text.user.username}
           name='username'
           onChange={handleInputChange}
+          aria-label='닉네임 입력하기'
         ></Input>
         <Input
           label='계정 ID'
@@ -134,6 +144,7 @@ const UserProfileSetting = () => {
           name='accountname'
           onChange={handleInputChange}
           onBlur={handleAccountValid}
+          aria-label='계정 아이디 입력하기'
         ></Input>
         {errorMessage === '사용 가능한 계정ID 입니다.' && text.user.accountname && (
           <ErrorMSG errorColor={errorMessage !== '사용 가능한 계정ID 입니다.'}>{errorMessage}</ErrorMSG>
@@ -150,6 +161,7 @@ const UserProfileSetting = () => {
           value={text.user.intro}
           name='intro'
           onChange={handleInputChange}
+          aria-label='자기소개 입력하기'
         ></Input>
         {isWideView && (
           <Button
@@ -164,7 +176,6 @@ const UserProfileSetting = () => {
           </Button>
         )}
       </Form>
-      {isPCScreen && <MyPillowings $on={isPCScreen} />}
     </UserSettingLayout>
   );
 };

@@ -14,7 +14,7 @@ const TopButton = () => {
 
   return (
     <TopButtonLayout $isWideView={isWideView}>
-      <ButtonToTop onClick={scrollToTop} $isWideView={isWideView}>
+      <ButtonToTop onClick={scrollToTop} $isWideView={isWideView} aria-label='최상단 이동 버튼'>
         <img src={topbutton} alt='최상단 이동 버튼' />
       </ButtonToTop>
     </TopButtonLayout>

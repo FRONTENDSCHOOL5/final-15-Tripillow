@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import profileSm from 'Assets/profile-sm.png';
@@ -10,8 +10,13 @@ const User = (props) => {
   const handleOnClick = () => {
     setIsModalOn((prev) => !prev);
   };
-
   const url = props.userImg?.split('/') || 'null';
+  const linkRef = useRef();
+  const ref = useRef();
+
+  const handleClick = (event) => {
+    if (event.key === 'Enter' && !props.moreBtn) linkRef.current.click();
+  };
 
   const highlightKeyword = (text, keyword) => {
     const startIndex = text?.indexOf(keyword);
@@ -28,9 +33,21 @@ const User = (props) => {
   const { leftSide: leftSideUser, rightSide: rightSideUser } = highlightKeyword(props.username, props.keyword);
   const { leftSide: leftSideAccount, rightSide: rightSideAccount } = highlightKeyword(props.accountname, props.keyword);
 
+  useEffect(() => {
+    if (props.isFocused && ref.current) {
+      ref.current.focus();
+    }
+  }, [props.isFocused]);
+
   return (
-    <UserLayout margin={props.margin}>
-      <Link to={`/profile/${props.accountname}`} onClick={() => props.setIsSearch && props.setIsSearch(false)}>
+    <UserLayout onKeyDown={handleClick} margin={props.margin} tabIndex={props.moreBtn ? -1 : 0} ref={ref}>
+      <Link
+        ref={linkRef}
+        tabIndex='-1'
+        to={`/profile/${props.accountname}`}
+        onClick={() => props.setIsSearch && props.setIsSearch(false)}
+        aria-label={`${props.accountname} 프로필로 이동`}
+      >
         <div>
           <UserImgLayout>
             <UserImg
@@ -48,7 +65,12 @@ const User = (props) => {
         </div>
       </Link>
       <UserContentsLayout>
-        <Link to={`/profile/${props.accountname}`} onClick={() => props.setIsSearch && props.setIsSearch(false)}>
+        <Link
+          tabIndex={props.moreBtn ? 0 : -1}
+          to={`/profile/${props.accountname}`}
+          onClick={() => props.setIsSearch && props.setIsSearch(false)}
+          aria-label={`${props.accountname} 프로필로 이동`}
+        >
           {props.search ? (
             props?.username.includes(props.keyword) && props.accountname.includes(props.keyword) ? (
               <div>
@@ -90,7 +112,7 @@ const User = (props) => {
           )}
         </Link>
 
-        {props.moreBtn && <MoreBtn type='button' onClick={handleOnClick} />}
+        {props.moreBtn && <MoreBtn type='button' onClick={handleOnClick} aria-label='게시글 설정 더보기' />}
         {props.followers && (
           <Button width='56px' fontSize='var(--xs)' border='none' padding='5.75px'>
             팔로우
