@@ -122,7 +122,7 @@ const SearchContent = ({ header, isSearch, setIsSearch }) => {
       ) : (
         <SearchHeader value={searchKeyword} onChange={handleSearchKeyword} />
       )}
-      <SearchContentLayout>
+      <SearchContentLayout path={location.pathname}>
         <ul>
           {isLoading && (
             <>
@@ -174,7 +174,7 @@ const SearchContent = ({ header, isSearch, setIsSearch }) => {
 };
 
 const SearchContentLayout = styled.div`
-  padding: 20px 16px;
+  padding: ${(props) => (props.path === '/search' ? '20px 16px 73.5px 16px' : '20px 16px')};
 `;
 const SearchedUser = styled.li`
   margin-bottom: 16px;
