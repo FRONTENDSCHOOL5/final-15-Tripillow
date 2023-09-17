@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import profileSm from 'Assets/profile-sm.png';
@@ -12,6 +12,7 @@ const User = (props) => {
   };
   const url = props.userImg?.split('/') || 'null';
   const linkRef = useRef();
+  const ref = useRef();
 
   const handleClick = (event) => {
     if (event.key === 'Enter' && !props.moreBtn) linkRef.current.click();
@@ -32,11 +33,17 @@ const User = (props) => {
   const { leftSide: leftSideUser, rightSide: rightSideUser } = highlightKeyword(props.username, props.keyword);
   const { leftSide: leftSideAccount, rightSide: rightSideAccount } = highlightKeyword(props.accountname, props.keyword);
 
+  useEffect(() => {
+    if (props.isFocused && ref.current) {
+      ref.current.focus();
+    }
+  }, [props.isFocused]);
+
   return (
-    <UserLayout onKeyDown={handleClick} margin={props.margin} tabIndex={props.moreBtn ? -1 : 0}>
+    <UserLayout onKeyDown={handleClick} margin={props.margin} tabIndex={props.moreBtn ? -1 : 0} ref={ref}>
       <Link
         ref={linkRef}
-        tabIndex={props.moreBtn ? 0 : -1}
+        tabIndex='-1'
         to={`/profile/${props.accountname}`}
         onClick={() => props.setIsSearch && props.setIsSearch(false)}
         aria-label={`${props.accountname} 프로필로 이동`}

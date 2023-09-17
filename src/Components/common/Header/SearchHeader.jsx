@@ -9,10 +9,10 @@ const SearchHeader = ({ value, onChange, header, isSearch }) => {
   const inputRef = useRef();
 
   useEffect(() => {
-    if (isSearch) {
+    if (isSearch || header) {
       inputRef?.current?.focus();
     }
-  }, [isSearch]);
+  }, [isSearch, header]);
 
   return header ? (
     <HeaderLayout>

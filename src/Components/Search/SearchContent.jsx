@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import UserSkeleton from 'Components/common/Skeleton/UserSkeleton';
 import User from 'Components/common/User';
@@ -12,7 +12,37 @@ const SearchContent = ({ header, isSearch, setIsSearch }) => {
   const [showAllResults, setShowAllResults] = useState(false);
   const [searchData, setSearchData] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [focusedIndex, setFocusedIndex] = useState(0);
+  const ref = useRef();
+
   const token = useRecoilValue(userToken);
+
+  const handleKeyDown = useCallback(
+    (event) => {
+      if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        setFocusedIndex((prevIndex) => (prevIndex > 1 ? prevIndex - 1 : 1));
+      }
+      if (event.key === 'ArrowDown' || event.key === 'Tab') {
+        event.preventDefault();
+        setFocusedIndex((prevIndex) =>
+          !showAllResults
+            ? prevIndex < 10 && prevIndex < searchData.length
+              ? prevIndex + 1
+              : prevIndex
+            : prevIndex < searchData.length
+            ? prevIndex + 1
+            : prevIndex,
+        );
+      }
+    },
+    [searchData.length, showAllResults],
+  );
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleKeyDown]);
 
   const useDebounceValue = (value, delay) => {
     const [debouncedValue, setDebouncedValue] = useState(value);
@@ -29,17 +59,18 @@ const SearchContent = ({ header, isSearch, setIsSearch }) => {
 
     return debouncedValue;
   };
+
   const handleSearchKeyword = (e) => {
-    const { value } = e.target;
-    setSearchKeyword(value);
+    setSearchKeyword(e.target.value);
   };
 
-  const debounceValue = useDebounceValue(searchKeyword, 750);
+  const debounceValue = useDebounceValue(searchKeyword, 300);
 
   const searchUser = useCallback(async () => {
     setSearchData([]);
     setShowAllResults(false);
     setIsLoading(true);
+    setFocusedIndex(0);
     try {
       const response = await fetch(`${URL}/user/searchuser/?keyword=${debounceValue}`, {
         headers: {
@@ -64,6 +95,12 @@ const SearchContent = ({ header, isSearch, setIsSearch }) => {
     searchUser();
   }, [debounceValue, searchUser]);
 
+  useEffect(() => {
+    if (focusedIndex === 10) {
+      ref?.current?.focus();
+    }
+  }, [focusedIndex]);
+
   const handleAllResults = () => {
     setShowAllResults(true);
   };
@@ -85,7 +122,7 @@ const SearchContent = ({ header, isSearch, setIsSearch }) => {
             </>
           )}
           {showAllResults
-            ? searchData.map((user) => (
+            ? searchData.map((user, index) => (
                 <SearchedUser key={user._id}>
                   <User
                     search
@@ -95,10 +132,11 @@ const SearchContent = ({ header, isSearch, setIsSearch }) => {
                     content={'@' + user.accountname}
                     accountname={user.accountname}
                     setIsSearch={setIsSearch}
+                    isFocused={index + 1 === focusedIndex}
                   />
                 </SearchedUser>
               ))
-            : searchData.slice(0, 9).map((user) => (
+            : searchData.slice(0, 9).map((user, index) => (
                 <SearchedUser key={user._id}>
                   <User
                     search
@@ -108,11 +146,16 @@ const SearchContent = ({ header, isSearch, setIsSearch }) => {
                     content={'@' + user.accountname}
                     accountname={user.accountname}
                     setIsSearch={setIsSearch}
+                    isFocused={index + 1 === focusedIndex && focusedIndex < 10}
                   />
                 </SearchedUser>
               ))}
           {showAllResults ||
-            (searchData.length > 10 && <ShowAllButton onClick={handleAllResults}>결과 모두 보기</ShowAllButton>)}
+            (searchData.length > 10 && (
+              <ShowAllButton onClick={handleAllResults} ref={ref}>
+                결과 모두 보기
+              </ShowAllButton>
+            ))}
         </ul>
       </SearchContentLayout>
     </>
