@@ -6,6 +6,7 @@ import URL from 'Api/URL';
 import userToken from 'Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
 import SearchHeader from 'Components/common/Header/SearchHeader';
+import { useLocation } from 'react-router-dom';
 
 const SearchContent = ({ header, isSearch, setIsSearch }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,6 +14,9 @@ const SearchContent = ({ header, isSearch, setIsSearch }) => {
   const [searchData, setSearchData] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [focusedIndex, setFocusedIndex] = useState(0);
+  const [firstRun, setFirstRun] = useState(true);
+  const location = useLocation();
+
   const ref = useRef();
 
   const token = useRecoilValue(userToken);
@@ -25,18 +29,24 @@ const SearchContent = ({ header, isSearch, setIsSearch }) => {
       }
       if (event.key === 'ArrowDown' || event.key === 'Tab') {
         event.preventDefault();
-        setFocusedIndex((prevIndex) =>
-          !showAllResults
-            ? prevIndex < 10 && prevIndex < searchData.length
-              ? prevIndex + 1
-              : prevIndex
-            : prevIndex < searchData.length
-            ? prevIndex + 1
-            : prevIndex,
-        );
+        if (firstRun) {
+          setFirstRun(false);
+          setFocusedIndex(1);
+        }
+        setFocusedIndex((prevIndex) => {
+          if (
+            (showAllResults && prevIndex < searchData.length) ||
+            (!showAllResults && prevIndex < 10 && prevIndex < searchData.length && prevIndex < 10)
+          )
+            return prevIndex + 1;
+          else return prevIndex;
+        });
+      }
+      if (event.key === 'Escape' && location.pathname !== '/search') {
+        setIsSearch(false);
       }
     },
-    [searchData.length, showAllResults],
+    [searchData.length, showAllResults, setIsSearch, firstRun, location.pathname],
   );
 
   useEffect(() => {
@@ -71,6 +81,7 @@ const SearchContent = ({ header, isSearch, setIsSearch }) => {
     setShowAllResults(false);
     setIsLoading(true);
     setFocusedIndex(0);
+    setFirstRun(true);
     try {
       const response = await fetch(`${URL}/user/searchuser/?keyword=${debounceValue}`, {
         headers: {
@@ -107,9 +118,9 @@ const SearchContent = ({ header, isSearch, setIsSearch }) => {
   return (
     <>
       {header ? (
-        <SearchHeader header value={searchKeyword} onChange={handleSearchKeyword} isSearch={isSearch} />
+        <SearchHeader header value={searchKeyword} onChange={handleSearchKeyword} />
       ) : (
-        <SearchHeader value={searchKeyword} onChange={handleSearchKeyword} isSearch={isSearch} />
+        <SearchHeader value={searchKeyword} onChange={handleSearchKeyword} />
       )}
       <SearchContentLayout>
         <ul>

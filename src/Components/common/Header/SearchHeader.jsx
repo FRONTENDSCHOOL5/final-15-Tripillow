@@ -4,15 +4,19 @@ import styled from 'styled-components';
 import HeaderLayout from 'Styles/HeaderLayout';
 import prev from 'Assets/icons/icon-arrow-back.svg';
 
-const SearchHeader = ({ value, onChange, header, isSearch }) => {
+const SearchHeader = ({ value, onChange, header }) => {
   const navigate = useNavigate();
   const inputRef = useRef();
 
-  useEffect(() => {
-    if (isSearch || header) {
-      inputRef?.current?.focus();
+  const handleInputKeyDown = (event) => {
+    if (event.key === 'ArrowDown' || event.key === 'Tab') {
+      event.stopPropagation();
     }
-  }, [isSearch, header]);
+  };
+
+  useEffect(() => {
+    inputRef?.current?.focus();
+  }, []);
 
   return header ? (
     <HeaderLayout>
@@ -28,6 +32,7 @@ const SearchHeader = ({ value, onChange, header, isSearch }) => {
         placeholder='계정 검색'
         value={value}
         onChange={onChange}
+        onKeyDown={handleInputKeyDown}
         aria-label='계정 검색'
         ref={inputRef}
       />
@@ -38,6 +43,7 @@ const SearchHeader = ({ value, onChange, header, isSearch }) => {
       placeholder='계정 검색'
       value={value}
       onChange={onChange}
+      onKeyDown={handleInputKeyDown}
       aria-label='계정 검색'
       ref={inputRef}
     />
