@@ -2,8 +2,9 @@ import { useRecoilValue } from 'recoil';
 import userToken from 'Recoil/userToken/userToken';
 import URL from 'Api/URL';
 
-const PostModifyAPI = (postId, postInput, isLeftToggle) => {
+const PostModifyAPI = (postId, postInput, isLeftToggle, imgURL) => {
   const token = useRecoilValue(userToken);
+  const images = imgURL.join(', ');
 
   const postModify = async () => {
     try {
@@ -18,6 +19,7 @@ const PostModifyAPI = (postId, postInput, isLeftToggle) => {
           post: {
             ...postInput.post,
             content: isLeftToggle ? `[K]${postInput.post.content}` : `[G]${postInput.post.content}`,
+            image: images,
           },
         }),
       });
