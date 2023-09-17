@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import HeaderLayout from 'Styles/HeaderLayout';
@@ -6,6 +6,18 @@ import prev from 'Assets/icons/icon-arrow-back.svg';
 
 const SearchHeader = ({ value, onChange, header }) => {
   const navigate = useNavigate();
+  const inputRef = useRef();
+
+  const handleInputKeyDown = (event) => {
+    if (event.key === 'ArrowDown' || event.key === 'Tab') {
+      event.stopPropagation();
+    }
+  };
+
+  useEffect(() => {
+    inputRef?.current?.focus();
+  }, []);
+
   return header ? (
     <HeaderLayout>
       <h1 className='a11y-hidden'>검색 페이지</h1>
@@ -15,10 +27,26 @@ const SearchHeader = ({ value, onChange, header }) => {
           navigate(-1);
         }}
       />
-      <SearchInput type='search' placeholder='계정 검색' value={value} onChange={onChange} aria-label='계정 검색' />
+      <SearchInput
+        type='text'
+        placeholder='계정 검색'
+        value={value}
+        onChange={onChange}
+        onKeyDown={handleInputKeyDown}
+        aria-label='계정 검색'
+        ref={inputRef}
+      />
     </HeaderLayout>
   ) : (
-    <SearchInput type='search' placeholder='계정 검색' value={value} onChange={onChange} aria-label='계정 검색' />
+    <SearchInput
+      type='text'
+      placeholder='계정 검색'
+      value={value}
+      onChange={onChange}
+      onKeyDown={handleInputKeyDown}
+      aria-label='계정 검색'
+      ref={inputRef}
+    />
   );
 };
 

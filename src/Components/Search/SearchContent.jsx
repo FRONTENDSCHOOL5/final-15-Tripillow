@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import UserSkeleton from 'Components/common/Skeleton/UserSkeleton';
 import User from 'Components/common/User';
@@ -6,13 +6,53 @@ import URL from 'Api/URL';
 import userToken from 'Recoil/userToken/userToken';
 import { useRecoilValue } from 'recoil';
 import SearchHeader from 'Components/common/Header/SearchHeader';
+import { useLocation } from 'react-router-dom';
 
-const SearchContent = ({ header, setIsSearch }) => {
+const SearchContent = ({ header, isSearch, setIsSearch }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showAllResults, setShowAllResults] = useState(false);
   const [searchData, setSearchData] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [focusedIndex, setFocusedIndex] = useState(0);
+  const [firstRun, setFirstRun] = useState(true);
+  const location = useLocation();
+
+  const ref = useRef();
+
   const token = useRecoilValue(userToken);
+
+  const handleKeyDown = useCallback(
+    (event) => {
+      if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        setFocusedIndex((prevIndex) => (prevIndex > 1 ? prevIndex - 1 : 1));
+      }
+      if (event.key === 'ArrowDown' || event.key === 'Tab') {
+        event.preventDefault();
+        if (firstRun) {
+          setFirstRun(false);
+          setFocusedIndex(1);
+        }
+        setFocusedIndex((prevIndex) => {
+          if (
+            (showAllResults && prevIndex < searchData.length) ||
+            (!showAllResults && prevIndex < 10 && prevIndex < searchData.length && prevIndex < 10)
+          )
+            return prevIndex + 1;
+          else return prevIndex;
+        });
+      }
+      if (event.key === 'Escape' && location.pathname !== '/search') {
+        setIsSearch(false);
+      }
+    },
+    [searchData.length, showAllResults, setIsSearch, firstRun, location.pathname],
+  );
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleKeyDown]);
 
   const useDebounceValue = (value, delay) => {
     const [debouncedValue, setDebouncedValue] = useState(value);
@@ -29,17 +69,19 @@ const SearchContent = ({ header, setIsSearch }) => {
 
     return debouncedValue;
   };
+
   const handleSearchKeyword = (e) => {
-    const { value } = e.target;
-    setSearchKeyword(value);
+    setSearchKeyword(e.target.value);
   };
 
-  const debounceValue = useDebounceValue(searchKeyword, 750);
+  const debounceValue = useDebounceValue(searchKeyword, 300);
 
   const searchUser = useCallback(async () => {
     setSearchData([]);
     setShowAllResults(false);
     setIsLoading(true);
+    setFocusedIndex(0);
+    setFirstRun(true);
     try {
       const response = await fetch(`${URL}/user/searchuser/?keyword=${debounceValue}`, {
         headers: {
@@ -64,6 +106,12 @@ const SearchContent = ({ header, setIsSearch }) => {
     searchUser();
   }, [debounceValue, searchUser]);
 
+  useEffect(() => {
+    if (focusedIndex === 10) {
+      ref?.current?.focus();
+    }
+  }, [focusedIndex]);
+
   const handleAllResults = () => {
     setShowAllResults(true);
   };
@@ -74,7 +122,7 @@ const SearchContent = ({ header, setIsSearch }) => {
       ) : (
         <SearchHeader value={searchKeyword} onChange={handleSearchKeyword} />
       )}
-      <SearchContentLayout>
+      <SearchContentLayout path={location.pathname}>
         <ul>
           {isLoading && (
             <>
@@ -85,7 +133,7 @@ const SearchContent = ({ header, setIsSearch }) => {
             </>
           )}
           {showAllResults
-            ? searchData.map((user) => (
+            ? searchData.map((user, index) => (
                 <SearchedUser key={user._id}>
                   <User
                     search
@@ -95,10 +143,11 @@ const SearchContent = ({ header, setIsSearch }) => {
                     content={'@' + user.accountname}
                     accountname={user.accountname}
                     setIsSearch={setIsSearch}
+                    isFocused={index + 1 === focusedIndex}
                   />
                 </SearchedUser>
               ))
-            : searchData.slice(0, 9).map((user) => (
+            : searchData.slice(0, 9).map((user, index) => (
                 <SearchedUser key={user._id}>
                   <User
                     search
@@ -108,11 +157,16 @@ const SearchContent = ({ header, setIsSearch }) => {
                     content={'@' + user.accountname}
                     accountname={user.accountname}
                     setIsSearch={setIsSearch}
+                    isFocused={index + 1 === focusedIndex && focusedIndex < 10}
                   />
                 </SearchedUser>
               ))}
           {showAllResults ||
-            (searchData.length > 10 && <ShowAllButton onClick={handleAllResults}>결과 모두 보기</ShowAllButton>)}
+            (searchData.length > 10 && (
+              <ShowAllButton onClick={handleAllResults} ref={ref}>
+                결과 모두 보기
+              </ShowAllButton>
+            ))}
         </ul>
       </SearchContentLayout>
     </>
@@ -120,7 +174,7 @@ const SearchContent = ({ header, setIsSearch }) => {
 };
 
 const SearchContentLayout = styled.div`
-  padding: 20px 16px;
+  padding: ${(props) => (props.path === '/search' ? '20px 16px 73.5px 16px' : '20px 16px')};
 `;
 const SearchedUser = styled.li`
   margin-bottom: 16px;

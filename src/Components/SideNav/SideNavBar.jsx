@@ -114,7 +114,7 @@ const SideNavBar = () => {
           ></PCAlertModal>,
           $Root,
         )}
-      {isSearch && <SearchModal setIsSearch={setIsSearch} setIconState={setIconState} />}
+      {isSearch && <SearchModal isSearch={isSearch} setIsSearch={setIsSearch} setIconState={setIconState} />}
     </>
   );
 };
