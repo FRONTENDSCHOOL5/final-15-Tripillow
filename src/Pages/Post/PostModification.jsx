@@ -38,7 +38,7 @@ const PostModification = () => {
   const [rightOn, setRightOn] = useState(false);
   const [imgChange, setImgChange] = useState(false);
   const getPostDetail = PostDetailAPI(postId, setOriginalPost);
-  const { postModify } = PostModifyAPI(postId, postInput, isLeftToggle);
+  const { postModify } = PostModifyAPI(postId, postInput, isLeftToggle, imgURL);
 
   useEffect(() => {
     const getDetail = async () => {
@@ -96,13 +96,6 @@ const PostModification = () => {
     }
 
     await uploadFile(e, (imageUrl) => {
-      setPostInput({
-        ...postInput,
-        post: {
-          ...postInput.post,
-          image: imageUrl,
-        },
-      });
       setImgURL((prev) => [...prev, imageUrl]);
     });
   };
