@@ -58,10 +58,10 @@ const ProductModification = () => {
         setProductInputs((prev) => ({
           product: {
             ...prev.productInput,
-            itemName: trimContent(detailData.product.itemName),
-            price: detailData.product.price,
-            link: detailData.product.link,
-            itemImage: detailData.product.itemImage,
+            itemName: trimContent(detailData.product?.itemName),
+            price: detailData.product?.price,
+            link: detailData.product?.link,
+            itemImage: detailData.product?.itemImage,
           },
         }));
       }
