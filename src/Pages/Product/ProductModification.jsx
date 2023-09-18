@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import throttle from 'lodash.throttle';
 import Toggle from 'Components/common/Toggle';
 import styled from 'styled-components';
@@ -18,6 +18,7 @@ import useIsWideView from 'Components/SideNav/useIsWideView';
 import { uploadFile } from 'Utils/uploadFile';
 import URL from 'Api/URL';
 import { Label, SecondInput, ProductText, Image, CategoryTxt } from 'Styles/ProductSharedStyles';
+import { isMonetary } from 'Recoil/productCategory/productCategory';
 
 const ProductModification = () => {
   const navigate = useNavigate();
@@ -32,7 +33,9 @@ const ProductModification = () => {
     },
   });
   const [isLeftToggle, setIsLeftToggle] = useState(true);
-  const [rightOn, setRightOn] = useState(false);
+
+  const [rightOn, setRightOn] = useRecoilState(isMonetary);
+
   const location = useLocation();
   const productId = location.state;
   const [isModified, setIsModified] = useState(false);
@@ -66,7 +69,6 @@ const ProductModification = () => {
         }));
       }
     };
-
     getProductDetailData();
   }, [productDetail]);
 
