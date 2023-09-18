@@ -18,7 +18,7 @@ import useIsWideView from 'Components/SideNav/useIsWideView';
 import { uploadFile } from 'Utils/uploadFile';
 import URL from 'Api/URL';
 import { Label, SecondInput, ProductText, Image, CategoryTxt } from 'Styles/ProductSharedStyles';
-import { isMonetary } from 'Recoil/productCategory/productCategory';
+import { isMonetary, isProduct } from 'Recoil/productCategory/productCategory';
 
 const ProductModification = () => {
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ const ProductModification = () => {
       itemImage: '',
     },
   });
-  const [isLeftToggle, setIsLeftToggle] = useState(true);
+  const [isLeftToggle, setIsLeftToggle] = useRecoilState(isProduct);
 
   const [rightOn, setRightOn] = useRecoilState(isMonetary);
 
@@ -53,7 +53,6 @@ const ProductModification = () => {
     return content;
   };
 
-  // 작성한 정보 불러오는 부분
   useEffect(() => {
     const getProductDetailData = async () => {
       const detailData = await productDetail();
@@ -88,12 +87,11 @@ const ProductModification = () => {
     const { name, value } = e.target;
     setProductInputs((prevState) => ({
       product: {
-        ...prevState.product, //기존의 값 유지(복사)
-        [name]: value, //동적으로 변화된 부분만 업데이트
+        ...prevState.product,
+        [name]: value,
       },
     }));
   };
-  //memo: 계산된 속성명 (딥다이브 p.135참고):
 
   const handleSubmit = async (e) => {
     e.preventDefault();
