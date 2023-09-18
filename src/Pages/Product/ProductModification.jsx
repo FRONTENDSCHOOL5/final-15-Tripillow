@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import throttle from 'lodash.throttle';
 import Toggle from 'Components/common/Toggle';
@@ -42,16 +42,18 @@ const ProductModification = () => {
   const productDetail = ProductDetailAPI(productId);
   const { handleProductModify } = ProductModifyAPI(productId, productInputs, isLeftToggle);
 
-  const trimContent = (content) => {
-    const match = content?.match(/^\[(P|M)\]/);
-    if (match) {
-      if (match[0] === '[M]') {
-        setRightOn(true);
+  const trimContent = useMemo(() => {
+    return (content) => {
+      const match = content?.match(/^\[(P|M)\]/);
+      if (match) {
+        if (match[0] === '[M]') {
+          setRightOn(true);
+        }
+        return content.slice(3);
       }
-      return content.slice(3);
-    }
-    return content;
-  };
+      return content;
+    };
+  }, [setRightOn]);
 
   useEffect(() => {
     const getProductDetailData = async () => {
@@ -68,8 +70,9 @@ const ProductModification = () => {
         }));
       }
     };
+
     getProductDetailData();
-  }, [productDetail]);
+  }, [productDetail, trimContent]);
 
   const handleImgChange = async (e) => {
     await uploadFile(e, (imageUrl) => {
