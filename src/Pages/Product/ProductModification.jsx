@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
+import React, { useState, useEffect, useMemo } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import throttle from 'lodash.throttle';
 import Toggle from 'Components/common/Toggle';
 import styled from 'styled-components';
@@ -18,6 +18,7 @@ import useIsWideView from 'Components/SideNav/useIsWideView';
 import { uploadFile } from 'Utils/uploadFile';
 import URL from 'Api/URL';
 import { Label, SecondInput, ProductText, Image, CategoryTxt } from 'Styles/ProductSharedStyles';
+import { isMonetary, isProduct } from 'Recoil/productCategory/productCategory';
 
 const ProductModification = () => {
   const navigate = useNavigate();
@@ -31,26 +32,29 @@ const ProductModification = () => {
       itemImage: '',
     },
   });
-  const [isLeftToggle, setIsLeftToggle] = useState(true);
-  const [rightOn, setRightOn] = useState(false);
+  const [isLeftToggle, setIsLeftToggle] = useRecoilState(isProduct);
+
+  const [rightOn, setRightOn] = useRecoilState(isMonetary);
+
   const location = useLocation();
   const productId = location.state;
   const [isModified, setIsModified] = useState(false);
   const productDetail = ProductDetailAPI(productId);
   const { handleProductModify } = ProductModifyAPI(productId, productInputs, isLeftToggle);
 
-  const trimContent = (content) => {
-    const match = content?.match(/^\[(P|M)\]/);
-    if (match) {
-      if (match[0] === '[M]') {
-        setRightOn(true);
+  const trimContent = useMemo(() => {
+    return (content) => {
+      const match = content?.match(/^\[(P|M)\]/);
+      if (match) {
+        if (match[0] === '[M]') {
+          setRightOn(true);
+        }
+        return content.slice(3);
       }
-      return content.slice(3);
-    }
-    return content;
-  };
+      return content;
+    };
+  }, [setRightOn]);
 
-  // 작성한 정보 불러오는 부분
   useEffect(() => {
     const getProductDetailData = async () => {
       const detailData = await productDetail();
@@ -68,7 +72,7 @@ const ProductModification = () => {
     };
 
     getProductDetailData();
-  }, [productDetail]);
+  }, [productDetail, trimContent]);
 
   const handleImgChange = async (e) => {
     await uploadFile(e, (imageUrl) => {
@@ -86,12 +90,11 @@ const ProductModification = () => {
     const { name, value } = e.target;
     setProductInputs((prevState) => ({
       product: {
-        ...prevState.product, //기존의 값 유지(복사)
-        [name]: value, //동적으로 변화된 부분만 업데이트
+        ...prevState.product,
+        [name]: value,
       },
     }));
   };
-  //memo: 계산된 속성명 (딥다이브 p.135참고):
 
   const handleSubmit = async (e) => {
     e.preventDefault();
