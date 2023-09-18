@@ -14,6 +14,7 @@ import MobileUser from 'Components/Profile/MobileUser';
 import PCUser from 'Components/Profile/PCUser';
 import useIsWideView from 'Components/SideNav/useIsWideView';
 import ProfileSkeleton from 'Components/common/Skeleton/ProfileSkeleton';
+import PCProfileSkeleton from 'Components/common/Skeleton/PCProfileSkeleton';
 
 const UserProfile = () => {
   const queryClient = useQueryClient();
@@ -138,7 +139,7 @@ const UserProfile = () => {
       )}
       {isWideView ? (
         shouldShowSkeleton ? (
-          <ProfileSkeleton />
+          <PCProfileSkeleton />
         ) : (
           <PCUser
             user={user}
