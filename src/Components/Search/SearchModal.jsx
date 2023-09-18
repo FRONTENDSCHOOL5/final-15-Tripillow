@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import SearchContent from './SearchContent';
 import isDesktop from 'Recoil/isDesktop/isDesktop';
 
-const SearchModal = ({ setIsSearch, setIconState }) => {
+const SearchModal = ({ isSearch, setIsSearch, setIconState }) => {
   const isPCScreen = useRecoilValue(isDesktop);
   const location = useLocation();
 
@@ -17,7 +17,7 @@ const SearchModal = ({ setIsSearch, setIconState }) => {
   return (
     <PCBackground onClick={closeModal} isPCScreen={isPCScreen}>
       <PCSearchLayout onClick={(e) => e.stopPropagation()}>
-        <SearchContent setIsSearch={setIsSearch} />
+        <SearchContent isSearch={isSearch} setIsSearch={setIsSearch} />
       </PCSearchLayout>
     </PCBackground>
   );
@@ -45,10 +45,10 @@ const PCSearchLayout = styled.article`
 
   @keyframes fadeInModal {
     from {
-      transform: translateX(-60%);
+      opacity: 0;
     }
     to {
-      transform: translateX(0);
+      opacity: 1;
     }
   }
 `;
