@@ -53,6 +53,7 @@ const PostModification = () => {
       if (match) {
         if (match[0] === '[G]') {
           setRightOn(true);
+          setIsLeftToggle(false);
         }
         return content.slice(3);
       }
