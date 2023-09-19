@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useQueries } from 'react-query';
 import styled from 'styled-components';
+import { useInView } from 'react-intersection-observer';
 import accountName from 'Recoil/accountName/accountName';
 import MyInfoAPI from 'Api/Profile/MyInfoAPI';
 import UserInfoAPI from 'Api/Profile/UserInfoAPI';
@@ -16,6 +17,8 @@ import HomePostLayout from 'Components/HomePost/HomePostLayout';
 import { isList } from 'Recoil/whichView/whichView';
 import { followerURL, followingURL } from 'Recoil/followPath/followPath';
 import ViewImage from 'Components/HomePost/ViewImage';
+import usePostInfinity from 'Hooks/usePostInfinity';
+import Spinner from 'Components/common/Spinner';
 
 const ProfileMain = ({ setIsDeleted, setIsModified }) => {
   const params = useParams();
@@ -25,8 +28,17 @@ const ProfileMain = ({ setIsDeleted, setIsModified }) => {
   const account = userAccountname ? userAccountname : myAccount;
   const setFollowerPath = useSetRecoilState(followerURL);
   const setFollowingPath = useSetRecoilState(followingURL);
-
   const [isLoading, setIsLoading] = useState(true);
+
+  const { newPostList, fetchNextPage, isFetchingNextPage, hasNextPage, postLoading, postRefetch } =
+    usePostInfinity(account);
+  const { ref, inView } = useInView();
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, fetchNextPage, hasNextPage]);
 
   const queries = useQueries([
     {
@@ -58,10 +70,10 @@ const ProfileMain = ({ setIsDeleted, setIsModified }) => {
   const { refetch: refetchPostData } = postDataQuery;
 
   useEffect(() => {
-    if (!myDataQuery.isLoading && !userDataQuery.isLoading && !postDataQuery.isLoading && !productDataQuery.isLoading) {
+    if (!myDataQuery.isLoading && !userDataQuery.isLoading && !productDataQuery.isLoading && !postDataQuery.isLoading) {
       setIsLoading(false);
     }
-  }, [myDataQuery.isLoading, postDataQuery.isLoading, productDataQuery.isLoading, userDataQuery.isLoading]);
+  }, [myDataQuery.isLoading, productDataQuery.isLoading, userDataQuery.isLoading, postDataQuery.isLoading]);
 
   useEffect(() => {
     if (myDataQuery.data) refetchMyData();
@@ -73,6 +85,8 @@ const ProfileMain = ({ setIsDeleted, setIsModified }) => {
     } else {
       setIsModified(true);
     }
+    // NOTE 변경하기
+    postRefetch();
     refetchPostData();
   };
 
@@ -105,16 +119,20 @@ const ProfileMain = ({ setIsDeleted, setIsModified }) => {
           </UserProductLayout>
           <ProfileView />
           <section style={{ paddingBottom: 90 }}>
-            {postDataQuery.data?.length > 0 ? (
+            {!postLoading && postDataQuery?.data ? (
               <>
                 {listView ? (
-                  postDataQuery.data?.map((post) => (
-                    <HomePostLayout key={post.id} post={post} updatePost={updatePost} />
-                  ))
+                  <>
+                    {newPostList.map((post) => {
+                      return <HomePostLayout key={post.id} post={post} updatePost={updatePost} />;
+                    })}
+                    {isFetchingNextPage && <Spinner />}
+                    <div ref={ref} style={{ height: '20px' }}></div>
+                  </>
                 ) : (
                   <ImageLayoutBackground>
                     <ImageLayout>
-                      {postDataQuery.data
+                      {postDataQuery?.data
                         .filter((post) => post.image?.length > 0)
                         .map((post, index) => (
                           <ViewImage key={index} post={post} />
