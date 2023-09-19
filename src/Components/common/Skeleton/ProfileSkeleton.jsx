@@ -1,13 +1,31 @@
 import React from 'react';
 import styled from 'styled-components';
 import SkeletonItem from 'Styles/SkeletonItem';
+import { useRecoilValue } from 'recoil';
 import { UserProductLayout } from 'Components/Profile/ProfileMain';
 import ProductItemSkeleton from 'Components/common/Skeleton/ProductItemSkeleton';
 import HomePostSkeleton from 'Components/common/Skeleton/HomePostSkeleton';
 import ProfileView from 'Components/Profile/ProfileView';
+import PCProfileSkeleton from './PCProfileSkeleton';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
+import isTab from 'Recoil/isTab/isTab';
 
 const ProfileSkeleton = ({ userAccountname }) => {
-  return (
+  const isWideView = useRecoilValue(isDesktop);
+  const isTablet = useRecoilValue(isTab);
+  return isWideView || isTablet ? (
+    <>
+      <PCProfileSkeleton />
+      <UserProductLayout>
+        <h2>판매 중인 상품</h2>
+        <ProductItemSkeleton />
+      </UserProductLayout>
+      <ProfileView />
+      <article>
+        <HomePostSkeleton />
+      </article>
+    </>
+  ) : (
     <>
       <ProfileSkeletonLayout>
         <ProfileSkeletonItem mb='6px' />

@@ -7,7 +7,7 @@ import Input from 'Components/common/Input';
 import { LayoutStyle } from 'Styles/Layout';
 import UploadHeader from 'Components/common/Header/UploadHeader';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import defaultImage from 'Assets/addproduct.png';
 import ErrorMSG from 'Styles/ErrorMSG';
 import UploadProductAPI from 'Api/Product/UploadProductAPI';
@@ -19,6 +19,7 @@ import useIsWideView from 'Components/SideNav/useIsWideView';
 import { uploadFile } from 'Utils/uploadFile';
 import URL from 'Api/URL';
 import { Label, SecondInput, ProductText, Image, CategoryTxt } from 'Styles/ProductSharedStyles';
+import { isProduct } from 'Recoil/productCategory/productCategory';
 
 const AddProduct = () => {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ const AddProduct = () => {
   const [description, setDescription] = useState('');
   const [imageLink, setImageLink] = useState('');
   const [priceErr, setPriceErr] = useState(false);
-  const [isLeftToggle, setIsLeftToggle] = useState(true);
+  const [isLeftToggle, setIsLeftToggle] = useRecoilState(isProduct);
   const uploadProduct = UploadProductAPI({ productName, price, description, imageLink }, isLeftToggle);
 
   const handleSubmit = async (e) => {
