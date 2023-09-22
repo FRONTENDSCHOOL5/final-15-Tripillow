@@ -55,9 +55,9 @@ const Product = () => {
     },
     {
       enabled: !!user && !userLoading,
+      staleTime: 30000,
     },
   );
-
   if (userError) return alert(userError);
 
   if (productError) return alert(productError);
