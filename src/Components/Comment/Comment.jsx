@@ -13,6 +13,7 @@ import AlertTop from 'Components/common/Modal/AlertTop';
 import PCModal from 'Components/common/Modal/PCModal';
 import PCAlertModal from 'Components/common/Modal/PCAlertModal';
 import useIsWideView from 'Components/SideNav/useIsWideView';
+import timeGapCalculator from 'Utils/timeGapCalculator';
 
 const Comment = ({ commentInfo, postId, setIsNewComment }) => {
   const name = useRecoilValue(accountname);
@@ -20,13 +21,8 @@ const Comment = ({ commentInfo, postId, setIsNewComment }) => {
   const [isTopModalOn, setIsTopModalOn] = useState(false);
   const [isModalOn, setIsModalOn] = useState(false);
   const [isAlertModalOn, setIsAlertModalOn] = useState(false);
-  const createdAt =
-    commentInfo.createdAt.slice(0, 4) +
-    '년 ' +
-    commentInfo.createdAt.slice(5, 7) +
-    '월 ' +
-    commentInfo.createdAt.slice(8, 10) +
-    '일 ';
+  let createdAt = timeGapCalculator(commentInfo.createdAt);
+
   const isMine = name === commentInfo.author.accountname;
   const deleteComment = DeleteCommentAPI(postId, commentInfo.id);
   const reportComment = ReportCommentAPI(postId, commentInfo.id);
@@ -73,12 +69,17 @@ const Comment = ({ commentInfo, postId, setIsNewComment }) => {
       <Profile>
         <ProfileLink
           to={commentInfo.author.accountname === name ? `/profile` : `/profile/${commentInfo.author.accountname}`}
+          aria-label={
+            commentInfo.author.accountname === name
+              ? '내 프로필로 이동하기'
+              : `${commentInfo.author.accountname}님의 프로필로 이동하기`
+          }
         >
           <ProfileImg src={commentInfo.author.image || profileImg} alt='프로필 이미지'></ProfileImg>
         </ProfileLink>
         <UserName>{commentInfo.author.username}</UserName>
         <Time>{createdAt}</Time>
-        <MoreBtn onClick={handleModal}></MoreBtn>
+        <MoreBtn onClick={handleModal} aria-label='댓글 설정 더보기'></MoreBtn>
       </Profile>
       <Text>{commentInfo.content}</Text>
       <ModalOn>

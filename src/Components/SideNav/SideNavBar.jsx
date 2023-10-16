@@ -24,10 +24,10 @@ import isTab from 'Recoil/isTab/isTab';
 import navbarIcon from 'Recoil/navbarIcon/navbarIcon';
 import SideNavBarModal from 'Components/common/Modal/SideNavBarModal';
 import PCAlertModal from 'Components/common/Modal/PCAlertModal';
-import Search from 'Pages/Search';
+import SearchModal from 'Components/Search/SearchModal';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-const SideNavBar = (props) => {
+const SideNavBar = () => {
   const navigate = useNavigate();
   const isPCScreen = useRecoilValue(isDesktop);
   const isTabScreen = useRecoilValue(isTab);
@@ -63,6 +63,7 @@ const SideNavBar = (props) => {
         <MainButton
           onClick={() => {
             navigate('/home');
+            setIconState('Home');
           }}
           isPCScreen={isPCScreen}
           aria-label='홈'
@@ -113,12 +114,12 @@ const SideNavBar = (props) => {
           ></PCAlertModal>,
           $Root,
         )}
-      {isSearch && <Search setIsSearch={setIsSearch} setIconState={setIconState} />}
+      {isSearch && <SearchModal isSearch={isSearch} setIsSearch={setIsSearch} setIconState={setIconState} />}
     </>
   );
 };
 
-const Layout = styled.div`
+const Layout = styled.nav`
   ${(props) =>
     props.isPCScreen
       ? css`
@@ -127,7 +128,7 @@ const Layout = styled.div`
           padding-top: 46px;
           position: absolute;
           background-color: #fff;
-          box-shadow: 2px 0px 8px 0px rgba(0, 0, 0, 0.05);
+          box-shadow: 2px 0px 15px 0px rgba(0, 0, 0, 0.1);
           box-sizing: border-box;
           position: fixed;
           overflow: auto;
@@ -140,7 +141,7 @@ const Layout = styled.div`
           top: 0;
           left: 0;
           background-color: #fff;
-          box-shadow: 2px 0px 8px 0px rgba(0, 0, 0, 0.05);
+          box-shadow: 2px 0px 8px 0px rgba(0, 0, 0, 0.1);
           box-sizing: border-box;
           position: fixed;
           overflow: auto;

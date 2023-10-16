@@ -23,7 +23,6 @@ const PostComment = ({ postId, setIsNewComment, userImg }) => {
     }
     setIsPostingComment(true);
     try {
-      console.log(e);
       await handlePostComment();
       setIsNewComment(true);
       input.current.value = '';
@@ -38,8 +37,14 @@ const PostComment = ({ postId, setIsNewComment, userImg }) => {
   return (
     <FooterFormLayout $isWideView={isWideView}>
       <InputLayout>
-        <ProfileImg src={userImg || profileImg}></ProfileImg>
-        <InputStyle type='text' placeholder='댓글 입력하기' ref={input} onChange={handleInputChange} />
+        <ProfileImg src={userImg || profileImg} alt='내 프로필 사진'></ProfileImg>
+        <InputStyle
+          type='text'
+          placeholder='댓글 입력하기'
+          ref={input}
+          onChange={handleInputChange}
+          aria-label='댓글 입력창'
+        />
       </InputLayout>
       <PostButton type='submit' disabled={isPostingComment} onClick={handleClick}>
         게시

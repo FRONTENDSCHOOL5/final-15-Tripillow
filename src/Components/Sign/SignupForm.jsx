@@ -6,6 +6,7 @@ import Input from 'Components/common/Input';
 import ErrorMSG from 'Styles/ErrorMSG';
 import useSignup from 'Hooks/Sign/useSignup';
 import { formFadeIn } from 'Styles/SignAnimation';
+import URL from 'Api/URL';
 import { uploadFile } from 'Utils/uploadFile';
 import useIsWideView from 'Components/SideNav/useIsWideView';
 import profileImg from 'Assets/profile-lg.png';
@@ -29,6 +30,19 @@ const Signup = () => {
     handlePasswordValid,
   } = useSignup();
 
+  const uploadImage = async (e) => {
+    await uploadFile(e, (imageUrl) => {
+      setUserInfo({
+        ...userInfo,
+        user: {
+          ...userInfo.user,
+          image: URL + '/' + imageUrl,
+        },
+      });
+      setImgURL(URL + '/' + imageUrl);
+    });
+  };
+
   return (
     <>
       {emailPwCheck ? (
@@ -37,15 +51,10 @@ const Signup = () => {
           <Inform>나중에 언제든지 변경할 수 있습니다.</Inform>
           <Form action='post' onSubmit={handleSubmit}>
             <ImageLayout>
-              <ImgLabel htmlFor='file-input'>
-                <ProfileImg src={imgURL ? imgURL : profileImg} />
+              <ImgLabel htmlFor='file-input' aria-label='프로필 이미지 등록하기'>
+                <ProfileImg src={imgURL ? imgURL : profileImg} width='100%' />
               </ImgLabel>
-              <input
-                id='file-input'
-                className='a11y-hidden'
-                type='file'
-                onChange={(e) => uploadFile(e, setImgURL, userInfo, setUserInfo)}
-              />
+              <input id='file-input' className='a11y-hidden' type='file' onChange={uploadImage} />
             </ImageLayout>
             <Input
               label='사용자 이름'
@@ -57,6 +66,7 @@ const Signup = () => {
               name='username'
               onChange={handleInputChange}
               autoFocus
+              aria-label='닉네임 입력하기'
             ></Input>
             <Input
               label='계정 ID'
@@ -67,6 +77,7 @@ const Signup = () => {
               value={userInfo.user.accountname}
               name='accountname'
               onChange={handleInputChange}
+              aria-label='계정 아이디 입력하기'
             ></Input>
             {errorMessage === '영문, 숫자, 밑줄, 마침표만 사용할 수 있습니다.' && userInfo.user.accountname && (
               <ErrorMSG errorColor={errorMessage !== '사용 가능한 이메일 입니다.'}>{errorMessage}</ErrorMSG>
@@ -83,6 +94,7 @@ const Signup = () => {
               value={userInfo.user.intro}
               name='intro'
               onChange={handleInputChange}
+              aria-label='자기소개 입력하기'
             ></Input>
             {errorMessage === '이미 가입된 이메일 주소 입니다.' && (
               <ErrorMSG errorColor={errorMessage === '이미 가입된 이메일 주소 입니다.'}>{errorMessage}</ErrorMSG>

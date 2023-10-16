@@ -98,7 +98,7 @@ PW: 123123
 
 ![정보구조도](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/f57a13b4-2745-4c6f-99ca-7d72cb6e4f09)
 
-### 각 페이지 기능
+### 모바일 각 페이지 기능
 
 |                                                스플래쉬                                                 |                                                로그인                                                 |                                                회원가입                                                |
 | :-----------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------: |
@@ -130,9 +130,130 @@ PW: 123123
 
 <br/>
 
-### [🔍 추가 기능 설명](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/wiki/Tripillow)
+### ♻️ Refactoring: Tablet, PC 반응형 웹 및 추가 기능
+
+> - PC, Tablet, Mobile 반응형 적용
+> - aria-label, img alt, 메타 태그 활용으로 웹 접근성 향상
+> - Husky, ESLint, Prettier 적용
+
+ <br>
+ <br>
+
+1. 랜딩페이지, 로그인 페이지
+
+- PC, Tablet에서 랜딩페이지 접근시 4.5초 동안 랜딩페이지 애니메이션 후 `/login`으로 이동
+- 랜딩, 로그인, 회원가입 새롭게 UI 구현
+
+<img width="800" alt="pc_landing" src="https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/f3f9646a-027b-4a2f-8f95-d365a684b384">
+
+<br>
+
+<br>
+
+2. PC, Tablet 내비게이션
+
+- PC, Tablet 반응형 내비게이션 구현
+
+|                                                                        PC                                                                         |                                                           Tablet                                                           |
+| :-----------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------: |
+| <img width="1416" alt="pc_home" src="https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/f4508454-ea97-4c8c-be6e-b9ec59da9c7a"> | ![tablet_home](https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/f39736f8-a788-4fa5-8907-4a13dc04e7c1) |
+
+<br>
+
+<br>
+
+3. 홈페이지
+
+- React-Query로 변경
+- 스크롤 감지 방식 react-intersection-observer API로 변경
+- 국내, 해외 카테고리 토글 상태 저장 및 유지 기능 추가
+- 로그아웃 시 캐시 삭제 기능 추가
+
+<img width="800" alt="pc_home" src="https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/f4508454-ea97-4c8c-be6e-b9ec59da9c7a">
+
+<br>
+
+<br>
+
+4. 검색
+
+- `/search` 엔드포인트는 pc 및 tablet 일 경우 접근 막기 대신 내비게이션 모달창으로 변경
+- 검색목록 키보드 조작 기능 추가
+- 이미지 예외처리 추가
+
+<img width="800" alt="pc_search" src="https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/6839f5cf-1014-4cbf-b9a1-262a1ae354db">
+
+<br>
+
+<br>
+
+5. 상품
+
+- 상품/외화 카테고리에 따라 상품 모아보기 기능 추가
+- 이미지 업로드시 압축 후 업로드 기능 추가
+- 이미지 클릭시 원본 이미지 모달 띄우기 기능 추가
+- 상품 게시글 업로드 버튼 throttle 추가로 연속 게시 방지
+- React-Query 라이브러리로 캐싱 기능 추가
+- Lazy Loading 라이브러리로 리소스 크기를 줄여 로딩 속도 개선
+- 모달창 React portals로 변경
+
+|                                                                     상품 페이지                                                                      |                                                                       상품 상세페이지                                                                       |
+| :--------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| <img width="1416" alt="pc_product" src="https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/bb5c0b6a-79cd-4a0b-89ca-bad24b8b4f3f"> | <img width="1416" alt="pc_product_detail" src="https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/cbc955f3-3cd2-431a-9dc1-5353d6259945"> |
+
+|                                                                       상품 업로드                                                                        |                                                                          상품 수정                                                                          |
+| :------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| <img width="1416" alt="pc_add_product" src="https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/9f26f4e4-f02c-48be-906e-eda54d63bc70"> | <img width="1416" alt="pc_modify_product" src="https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/0cc66e47-4d24-4a57-bb83-b87d66049dbb"> |
 
 <br/>
+
+<br/>
+
+6. 게시글
+
+- 이미지 업로드 최적화
+- 이미지 클릭시 원본 이미지 모달 띄우기 기능 추가
+- 이미지 제스처로 넘기기 기능 추가
+- 게시글, 댓글 업로드 버튼 throttle 추가로 연속포스트 방지
+- 댓글 작성시간별 초, 분, 시간, 일자로 표시
+- 모달창 React portals로 변경
+
+|                                                                        게시글                                                                        |                                                                       게시글 상세                                                                        |                                                                     게시글 업로드                                                                     |
+| :--------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------: |
+| <img width="1416" alt="pc_profile" src="https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/65c3e3c0-5cb1-4764-8748-c88d5284faf7"> | <img width="1416" alt="pc_post_detail" src="https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/2e722215-9429-4f97-9f8b-cda75783cef6"> | <img width="1416" alt="pc_add_post" src="https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/25ae23eb-45b0-4275-9b3d-00430df38974"> |
+
+|                                                                       게시글 수정                                                                        |                                                                    이미지 원본 모달                                                                     |
+| :------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------: |
+| <img width="1416" alt="pc_modify_post" src="https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/a40dd2fc-3f20-4c59-b2ce-55d595beb71d"> | <img width="1416" alt="pc_image_zoom" src="https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/c43e969c-9e53-4fcc-bd5f-a029f0f8f8e7"> |
+
+<br>
+<br>
+
+7. 채팅
+
+- PC, Tablet 채팅 페이지 UI 구현
+- 자연스러운 반응형을 위해 `/chat` `/chat/:username`을 PC Tablet에서는 UI를 동일하게 사용
+- 채팅 입력창 유저 이미지 띄우기
+
+<img width="800" alt="pc_chatting" src="https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/c8ec2828-1ad2-4bd9-905a-62f73553b5c8">
+
+<br>
+<br>
+
+8. 프로필
+
+- React-Query로 캐싱 기능, 무한 스크롤 추가
+- 유저 정보창 PC, Tablet 용 UI 추가
+- 이미지 압축, 이미지 최적화 적용
+- 전체 페이지 My Pillowings 정보 띄우기 구현
+- PC, Tablet Skeleton UI 적용
+
+|                                                                        프로필                                                                        |                                                                         프로필 수정                                                                         |
+| :--------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| <img width="1416" alt="pc_profile" src="https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/23edae95-93d2-4f0e-be5a-fec29fcbbf50"> | <img width="1416" alt="pc_modify_profile" src="https://github.com/FRONTENDSCHOOL5/final-15-Tripillow/assets/88657261/1d628f26-f761-42f8-b571-c149772fa0ff"> |
+
+<br>
+<br>
 
 ## 7. 📁 폴더 구조
 
@@ -215,5 +336,3 @@ PW: 123123
 <p align="right"><a href="#top">(🔼 Top)</a></p>
 
 </br>
-
-## 9. 💙 회고

@@ -3,14 +3,21 @@ import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import CommonButton from 'Components/common/Button';
 import { UserProfileLayout, ImgLayout, IconBox, ShareIconStyle } from 'Styles/UserStyle';
-import UseUserProfile from 'Hooks/useUserProfile';
 import Chat from 'Assets/icons/icon-message-circle-1.svg';
 import ProfileImg from 'Assets/profile-lg.png';
 
-const MobileUser = ({ user, handleCopy }) => {
+const MobileUser = ({ user, ...props }) => {
   const navigate = useNavigate();
-  const { followerPath, followingPath, name, followText, handleFollowButtonClick, handleChatClick, followCount } =
-    UseUserProfile(user);
+  const {
+    followCount,
+    name,
+    handleChatClick,
+    followText,
+    handleFollowButtonClick,
+    followerPath,
+    followingPath,
+    handleCopy,
+  } = props;
 
   return (
     <UserProfileLayout>
@@ -20,19 +27,19 @@ const MobileUser = ({ user, handleCopy }) => {
           <p>pillowers</p>
         </FollowLayout>
         <ImgLayout>
-          <img src={user.image ? user.image : ProfileImg} alt='사용자 프로필 사진' />
+          <img src={user?.image ? user?.image : ProfileImg} alt='사용자 프로필 사진' />
         </ImgLayout>
         <FollowLayout to={followingPath} state={user} color='#767676'>
-          <strong>{user.followingCount}</strong>
+          <strong>{user?.followingCount}</strong>
           <p>pillowings</p>
         </FollowLayout>
       </ImgFollowLayout>
       <UserInfoLayout>
-        <h2>{user.username}</h2>
-        <p>{'@' + user.accountname}</p>
-        <p>{user.intro}</p>
+        <h2>{user?.username}</h2>
+        <p>{'@' + user?.accountname}</p>
+        <p>{user?.intro}</p>
       </UserInfoLayout>
-      {user.accountname === name ? (
+      {user?.accountname === name ? (
         <IconLayout>
           <CommonButton clicked width='120px' fontSize='var(--sm)' onClick={() => navigate('/profile/edit')}>
             프로필 수정
@@ -44,7 +51,7 @@ const MobileUser = ({ user, handleCopy }) => {
       ) : (
         <IconLayout>
           <ChatIconStyle onClick={handleChatClick} />
-          <CommonButton width='120px' clicked={followText === '언팔로우'} onClick={handleFollowButtonClick}>
+          <CommonButton width='120px' clicked={!user?.isFollow} onClick={handleFollowButtonClick}>
             {followText}
           </CommonButton>
           <ShareIconStyle onClick={handleCopy} />

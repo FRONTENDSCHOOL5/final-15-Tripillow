@@ -8,15 +8,15 @@ const PostModal = ({ isMine, handleAlertModal, handleModify, handleReport, close
         <SlideBar></SlideBar>
         {isMine ? (
           <>
-            <button type='button' onClick={handleAlertModal}>
+            <button type='button' onClick={handleAlertModal} aria-label='삭제하기'>
               삭제
             </button>
-            <button type='button' onClick={handleModify}>
+            <button type='button' onClick={handleModify} aria-label='수정하기'>
               수정
             </button>
           </>
         ) : (
-          <button type='button' onClick={handleReport}>
+          <button type='button' onClick={handleReport} aria-label='신고하기'>
             신고하기
           </button>
         )}
