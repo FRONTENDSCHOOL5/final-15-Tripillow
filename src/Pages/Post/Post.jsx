@@ -17,6 +17,7 @@ import useIsWideView from 'Components/SideNav/useIsWideView';
 import MetaTag from 'Components/common/MetaTag';
 import { uploadFile } from 'Utils/uploadFile';
 import URL from 'Api/URL';
+import usePostInfinity from 'Hooks/usePostInfinity';
 
 const Post = () => {
   const navigate = useNavigate();
@@ -49,8 +50,11 @@ const Post = () => {
     });
   };
 
+  const { removePostCacheData } = usePostInfinity();
+
   const handleSubmit = async () => {
     await uploadPost();
+    removePostCacheData();
     if (textarea.current) textarea.current.value = '';
     setImgURL([]);
     navigate('/profile');
