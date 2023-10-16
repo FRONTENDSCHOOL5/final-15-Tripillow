@@ -54,7 +54,7 @@ const usePostInfinity = (accountName) => {
     onError: (error) => console.error('Post Fetch Error가 발생했습니다.', error),
     retry: false,
     refetchOnWindowFocus: false,
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 2,
   });
 
   useEffect(() => {
@@ -67,7 +67,25 @@ const usePostInfinity = (accountName) => {
     // eslint-disable-next-line
   }, [queryClient, fetchNextPage]);
 
-  return { newPostList, fetchNextPage, isFetchingNextPage, hasNextPage, postLoading, postRefetch };
+  const handleNewPostUpload = () => {
+    // 'postList' 쿼리를 무효화하고 다시 가져오기
+    queryClient.invalidateQueries('postList');
+  };
+
+  const removePostCacheData = () => {
+    queryClient.removeQueries('postList');
+  };
+
+  return {
+    handleNewPostUpload,
+    removePostCacheData,
+    newPostList,
+    fetchNextPage,
+    isFetchingNextPage,
+    hasNextPage,
+    postLoading,
+    postRefetch,
+  };
 };
 
 export default usePostInfinity;
