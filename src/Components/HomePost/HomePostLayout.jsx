@@ -19,7 +19,7 @@ import PCModal from 'Components/common/Modal/PCModal';
 import PCAlertModal from 'Components/common/Modal/PCAlertModal';
 import DeletePostAPI from 'Api/Post/DeletePostAPI';
 import useIsWideView from 'Components/SideNav/useIsWideView';
-import usePostInfinity from 'Hooks/usePostInfinity';
+import { useQueryClient } from 'react-query';
 
 const HomePostLayout = (props) => {
   const navigate = useNavigate();
@@ -62,7 +62,11 @@ const HomePostLayout = (props) => {
   const heartPost = HeartPostAPI(post.id);
   const unheartPost = UnheartPostAPI(post.id);
 
-  const { removePostCacheData } = usePostInfinity();
+  const queryClient = useQueryClient();
+
+  const removePostCacheData = () => {
+    queryClient.removeQueries('postList');
+  };
 
   const handleDelete = async () => {
     await deletePost();
