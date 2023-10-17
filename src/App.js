@@ -1,8 +1,8 @@
-// import { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import AppRoutes from 'Router/AppRoutes';
 import GlobalStyle from './GlobalStyle';
-import useCheckDevice from './Components/SideNav/useCheckDevice';
+import useCheckDevice from 'Components/SideNav/useCheckDevice';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 function App() {
   const queryClient = new QueryClient();
@@ -12,6 +12,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <GlobalStyle />
+      <ReactQueryDevtools initialIsOpen={true} />
       <AppRoutes />
     </QueryClientProvider>
   );
