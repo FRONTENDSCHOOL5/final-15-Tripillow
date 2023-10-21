@@ -46,11 +46,12 @@ const AddProduct = () => {
 
   const handleImgChange = async (e) => {
     const file = e.target?.files[0];
-    if (file.size > 10 * 1024 * 1024) {
+    if (!file) {
+      return;
+    } else if (file.size > 10 * 1024 * 1024) {
       alert('[ERROR 이미지 용량이 10MB를 넘습니다]');
       return null;
-    }
-    if (!validateImageFileFormat(file.name)) return alert('파일 확장자를 확인해주세요');
+    } else if (!validateImageFileFormat(file.name)) return alert('파일 확장자를 확인해주세요');
 
     await uploadFile(e, (imageUrl) => {
       setImageLink(URL + '/' + imageUrl);
