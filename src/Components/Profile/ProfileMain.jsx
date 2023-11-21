@@ -47,25 +47,21 @@ const ProfileMain = ({ setIsDeleted, setIsModified }) => {
       enabled: !userAccountname,
       myAccount,
       account,
-      staleTime: 1000 * 60 * 2,
     },
     {
       queryKey: ['userData', userAccountname, account, myAccount],
       queryFn: UserInfoAPI(userAccountname).getUserInfo,
       enabled: !!userAccountname,
-      staleTime: 1000 * 60 * 2,
     },
     {
       queryKey: ['postData', account, myAccount],
       queryFn: GetPostAPI(account).getPostData,
       enabled: !!account,
-      staleTime: 1000 * 60 * 2,
     },
     {
       queryKey: ['productData', account, myAccount],
       queryFn: ProductListAPI(account).getProductList,
       enabled: !!account,
-      staleTime: 1000 * 60 * 2,
     },
   ]);
 
