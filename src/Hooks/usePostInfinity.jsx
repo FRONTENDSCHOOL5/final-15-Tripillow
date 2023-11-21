@@ -49,7 +49,12 @@ const usePostInfinity = (accountName) => {
     isFetchingNextPage,
     hasNextPage,
   } = useInfiniteQuery(['postList'], ({ pageParam = 0 }) => getPostList({ pageParam }), {
-    getNextPageParam: (lastPage, allPages) => (lastPage.length === 5 ? allPages.length : undefined),
+    getNextPageParam: (lastPage, allPages) => {
+      if (lastPage && lastPage.length === 5) {
+        return allPages.length;
+      }
+      return undefined;
+    },
     onSuccess: (postList) => setPostList(null, postList),
     onError: (error) => console.error('Post Fetch Error가 발생했습니다.', error),
     retry: false,
