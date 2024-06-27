@@ -12,19 +12,30 @@ const usePostInfinity = (accountName) => {
 
   const setPostList = (cachedData, postList) => {
     let updatedPost = [];
+    const existingPostIds = new Set(newPostList.map((post) => post.id));
 
     if (cachedData) {
       for (let i = 0; i < cachedData.pages.length; i++) {
-        cachedData?.pages[i]?.forEach((post) => updatedPost.push(post));
+        cachedData?.pages[i]?.forEach((post) => {
+          if (!existingPostIds.has(post.id)) {
+            updatedPost.push(post);
+          }
+        });
       }
     } else {
       postList?.pages[postCount]?.forEach((post) => {
-        return updatedPost.push(post);
+        if (!existingPostIds.has(post.id)) {
+          updatedPost.push(post);
+        }
       });
     }
 
     setNewPostList((prev) => [...prev, ...updatedPost]);
   };
+
+  useEffect(() => {
+    setNewPostList([]);
+  }, [accountName]);
 
   const getPostList = async (pageParam = 0) => {
     setPostCount(pageParam.pageParam);
@@ -48,37 +59,32 @@ const usePostInfinity = (accountName) => {
     fetchNextPage,
     isFetchingNextPage,
     hasNextPage,
-  } = useInfiniteQuery(['postList'], ({ pageParam = 0 }) => getPostList({ pageParam }), {
+  } = useInfiniteQuery(['postList', accountName], ({ pageParam = 0 }) => getPostList({ pageParam }), {
     getNextPageParam: (lastPage, allPages) => (lastPage.length === 5 ? allPages.length : undefined),
     onSuccess: (postList) => setPostList(null, postList),
     onError: (error) => console.error('Post Fetch Error가 발생했습니다.', error),
     retry: false,
     refetchOnWindowFocus: false,
-    staleTime: 1000 * 60 * 2,
+    staleTime: 0,
   });
 
   useEffect(() => {
-    const cachedData = queryClient.getQueryData('postList');
+    const cachedData = queryClient.getQueryData(['postList', accountName]);
     if (cachedData) {
       setPostList(cachedData);
     } else {
       fetchNextPage();
     }
     // eslint-disable-next-line
-  }, [queryClient, fetchNextPage]);
+  }, [queryClient, fetchNextPage, accountName]);
 
   const handleNewPostUpload = () => {
     // 'postList' 쿼리를 무효화하고 다시 가져오기
-    queryClient.invalidateQueries('postList');
-  };
-
-  const removePostCacheData = () => {
-    queryClient.removeQueries('postList');
+    queryClient.invalidateQueries(['postList', accountName]);
   };
 
   return {
     handleNewPostUpload,
-    removePostCacheData,
     newPostList,
     fetchNextPage,
     isFetchingNextPage,
