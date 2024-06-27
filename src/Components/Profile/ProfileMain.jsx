@@ -7,7 +7,6 @@ import { useInView } from 'react-intersection-observer';
 import accountName from 'Recoil/accountName/accountName';
 import MyInfoAPI from 'Api/Profile/MyInfoAPI';
 import UserInfoAPI from 'Api/Profile/UserInfoAPI';
-import GetPostAPI from 'Api/Post/GetPostAPI';
 import ProductListAPI from 'Api/Product/ProductListAPI';
 import ProfileSkeleton from 'Components/common/Skeleton/ProfileSkeleton';
 import UserProfile from 'Components/Profile/UserProfile';
@@ -32,6 +31,7 @@ const ProfileMain = ({ setIsDeleted, setIsModified }) => {
 
   const { newPostList, fetchNextPage, isFetchingNextPage, hasNextPage, postLoading, postRefetch } =
     usePostInfinity(account);
+
   const { ref, inView } = useInView();
 
   useEffect(() => {
@@ -42,46 +42,43 @@ const ProfileMain = ({ setIsDeleted, setIsModified }) => {
 
   const queries = useQueries([
     {
-      queryKey: ['myData', myAccount, account],
+      queryKey: ['myData', account],
       queryFn: MyInfoAPI().getUserData,
       enabled: !userAccountname,
       myAccount,
       account,
-      staleTime: 1000 * 60 * 2,
+      staleTime: 0,
     },
     {
-      queryKey: ['userData', userAccountname, account, myAccount],
+      queryKey: ['userData', account],
       queryFn: UserInfoAPI(userAccountname).getUserInfo,
       enabled: !!userAccountname,
-      staleTime: 1000 * 60 * 2,
+      staleTime: 0,
     },
     {
-      queryKey: ['postData', account, myAccount],
-      queryFn: GetPostAPI(account).getPostData,
-      enabled: !!account,
-      staleTime: 1000 * 60 * 2,
-    },
-    {
-      queryKey: ['productData', account, myAccount],
+      queryKey: ['productData', account],
       queryFn: ProductListAPI(account).getProductList,
       enabled: !!account,
-      staleTime: 1000 * 60 * 2,
+      staleTime: 0,
     },
   ]);
 
-  const [myDataQuery, userDataQuery, postDataQuery, productDataQuery] = queries;
+  const [myDataQuery, userDataQuery, productDataQuery] = queries;
   const { refetch: refetchMyData } = myDataQuery;
-  const { refetch: refetchPostData } = postDataQuery;
 
   useEffect(() => {
-    if (!myDataQuery.isLoading && !userDataQuery.isLoading && !productDataQuery.isLoading && !postDataQuery.isLoading) {
+    if (!myDataQuery.isLoading && !userDataQuery.isLoading && !productDataQuery.isLoading) {
       setIsLoading(false);
     }
-  }, [myDataQuery.isLoading, productDataQuery.isLoading, userDataQuery.isLoading, postDataQuery.isLoading]);
+  }, [myDataQuery.isLoading, productDataQuery.isLoading, userDataQuery.isLoading]);
 
-  useEffect(() => {
-    if (myDataQuery.data) refetchMyData();
-  }, [refetchMyData, myDataQuery.data]);
+  useEffect(
+    () => {
+      if (myDataQuery.data) refetchMyData();
+    },
+    [refetchMyData, myDataQuery.data],
+    params,
+  );
 
   const updatePost = (isDeleteUpdate) => {
     if (isDeleteUpdate) {
@@ -91,7 +88,6 @@ const ProfileMain = ({ setIsDeleted, setIsModified }) => {
     }
     // NOTE 변경하기
     postRefetch();
-    refetchPostData();
   };
 
   useEffect(() => {
@@ -123,7 +119,7 @@ const ProfileMain = ({ setIsDeleted, setIsModified }) => {
           </UserProductLayout>
           <ProfileView />
           <section style={{ paddingBottom: 90 }}>
-            {!postLoading && postDataQuery?.data ? (
+            {!postLoading && newPostList?.length > 0 ? (
               <>
                 {listView ? (
                   <>
@@ -136,7 +132,7 @@ const ProfileMain = ({ setIsDeleted, setIsModified }) => {
                 ) : (
                   <ImageLayoutBackground>
                     <ImageLayout>
-                      {postDataQuery?.data
+                      {newPostList
                         .filter((post) => post.image?.length > 0)
                         .map((post, index) => (
                           <ViewImage key={index} post={post} />
