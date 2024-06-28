@@ -59,17 +59,17 @@ const usePostInfinity = (accountName) => {
     fetchNextPage,
     isFetchingNextPage,
     hasNextPage,
-  } = useInfiniteQuery(['postList', accountName], ({ pageParam = 0 }) => getPostList({ pageParam }), {
+  } = useInfiniteQuery(['postList', { accountName }], ({ pageParam = 0 }) => getPostList({ pageParam }), {
     getNextPageParam: (lastPage, allPages) => (lastPage.length === 5 ? allPages.length : undefined),
     onSuccess: (postList) => setPostList(null, postList),
     onError: (error) => console.error('Post Fetch Error가 발생했습니다.', error),
     retry: false,
     refetchOnWindowFocus: false,
-    staleTime: 0,
+    notifyOnChangeProps: 'tracked',
   });
 
   useEffect(() => {
-    const cachedData = queryClient.getQueryData(['postList', accountName]);
+    const cachedData = queryClient.getQueryData(['postList', { accountName }]);
     if (cachedData) {
       setPostList(cachedData);
     } else {
@@ -91,6 +91,7 @@ const usePostInfinity = (accountName) => {
     hasNextPage,
     postLoading,
     postRefetch,
+    setPostList,
   };
 };
 
