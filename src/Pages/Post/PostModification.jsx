@@ -17,7 +17,6 @@ import MyPillowings from 'Components/Home/MyPillowings';
 import useIsWideView from 'Components/SideNav/useIsWideView';
 import { uploadFile } from 'Utils/uploadFile';
 import URL from 'Api/URL';
-import usePostInfinity from 'Hooks/usePostInfinity';
 
 const PostModification = () => {
   const navigate = useNavigate();
@@ -102,11 +101,8 @@ const PostModification = () => {
     });
   };
 
-  const { removePostCacheData } = usePostInfinity();
-
   const handleSubmit = async () => {
     await postModify();
-    removePostCacheData();
     textarea.current.value = '';
     setImgURL([]);
     navigate('/profile', { state: { isModified: true } });
