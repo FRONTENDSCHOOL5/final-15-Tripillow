@@ -29,8 +29,7 @@ const ProfileMain = ({ setIsDeleted, setIsModified }) => {
   const setFollowingPath = useSetRecoilState(followingURL);
   const [isLoading, setIsLoading] = useState(true);
 
-  const { newPostList, fetchNextPage, isFetchingNextPage, hasNextPage, postLoading, postRefetch } =
-    usePostInfinity(account);
+  const { newPostList, fetchNextPage, isFetchingNextPage, hasNextPage, postLoading } = usePostInfinity(account);
 
   const { ref, inView } = useInView();
 
@@ -42,29 +41,28 @@ const ProfileMain = ({ setIsDeleted, setIsModified }) => {
 
   const queries = useQueries([
     {
-      queryKey: ['myData', account],
+      queryKey: ['myData', { account }],
       queryFn: MyInfoAPI().getUserData,
+      notifyOnChangeProps: 'tracked',
       enabled: !userAccountname,
       myAccount,
       account,
-      staleTime: 0,
     },
     {
-      queryKey: ['userData', account],
+      queryKey: ['userData', { account }],
       queryFn: UserInfoAPI(userAccountname).getUserInfo,
+      notifyOnChangeProps: 'tracked',
       enabled: !!userAccountname,
-      staleTime: 0,
     },
     {
-      queryKey: ['productData', account],
+      queryKey: ['productData', { account }],
+      notifyOnChangeProps: 'tracked',
       queryFn: ProductListAPI(account).getProductList,
       enabled: !!account,
-      staleTime: 0,
     },
   ]);
 
   const [myDataQuery, userDataQuery, productDataQuery] = queries;
-  const { refetch: refetchMyData } = myDataQuery;
 
   useEffect(() => {
     if (!myDataQuery.isLoading && !userDataQuery.isLoading && !productDataQuery.isLoading) {
@@ -72,22 +70,12 @@ const ProfileMain = ({ setIsDeleted, setIsModified }) => {
     }
   }, [myDataQuery.isLoading, productDataQuery.isLoading, userDataQuery.isLoading]);
 
-  useEffect(
-    () => {
-      if (myDataQuery.data) refetchMyData();
-    },
-    [refetchMyData, myDataQuery.data],
-    params,
-  );
-
   const updatePost = (isDeleteUpdate) => {
     if (isDeleteUpdate) {
       setIsDeleted(true);
     } else {
       setIsModified(true);
     }
-    // NOTE 변경하기
-    postRefetch();
   };
 
   useEffect(() => {
@@ -126,8 +114,7 @@ const ProfileMain = ({ setIsDeleted, setIsModified }) => {
                     {newPostList.map((post) => {
                       return <HomePostLayout key={post.id} post={post} updatePost={updatePost} />;
                     })}
-                    {isFetchingNextPage && <Spinner />}
-                    <div ref={ref} style={{ height: '20px' }}></div>
+                    {isFetchingNextPage ? <Spinner /> : <div ref={ref} style={{ height: '20px' }}></div>}
                   </>
                 ) : (
                   <ImageLayoutBackground>
@@ -142,7 +129,7 @@ const ProfileMain = ({ setIsDeleted, setIsModified }) => {
                 )}
               </>
             ) : (
-              <NoContent>게시물이 없습니다.</NoContent>
+              !postLoading && <NoContent>게시물이 없습니다.</NoContent>
             )}
           </section>
         </>
