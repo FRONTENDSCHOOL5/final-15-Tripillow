@@ -37,10 +37,14 @@ const UserProfile = () => {
     enabled: !userAccount,
     staleTime: 0,
   });
-  const { data: userProfileData, isLoading: userProfileDataLoading } = useQuery(['userData', account], getUserInfo, {
-    enabled: userAccount !== '',
-    staleTime: 0,
-  });
+  const { data: userProfileData, isLoading: userProfileDataLoading } = useQuery(
+    ['userData', { account }],
+    getUserInfo,
+    {
+      enabled: userAccount !== '',
+      staleTime: 0,
+    },
+  );
 
   const user = userAccount !== '' ? userProfileData : profileData;
   const loading = userAccount !== '' ? userProfileDataLoading : profileDataLoading;
@@ -62,7 +66,7 @@ const UserProfile = () => {
   // NOTE: 팔로우 버튼의 깜빡임을 줄이기 위해서 메모이제이션 사용
   useEffect(() => {
     if (user) {
-      queryClient.setQueryData(['userData', account], user);
+      queryClient.setQueryData(['userData', { account }], user);
     }
   }, [user]);
 
