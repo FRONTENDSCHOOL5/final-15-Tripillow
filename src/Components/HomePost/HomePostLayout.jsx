@@ -19,7 +19,7 @@ import PCModal from 'Components/common/Modal/PCModal';
 import PCAlertModal from 'Components/common/Modal/PCAlertModal';
 import DeletePostAPI from 'Api/Post/DeletePostAPI';
 import useIsWideView from 'Components/SideNav/useIsWideView';
-import { useQueryClient } from 'react-query';
+import usePostInfinity from 'Hooks/usePostInfinity';
 
 const HomePostLayout = (props) => {
   const navigate = useNavigate();
@@ -27,12 +27,12 @@ const HomePostLayout = (props) => {
   const isWideView = useIsWideView();
   const pathname = location.pathname;
   const inDetail = !['/home', '/profile'].some((path) => pathname.startsWith(path));
-  const name = useRecoilValue(accountName);
+  const accountname = useRecoilValue(accountName);
   const [isTopModalOn, setIsTopModalOn] = useState(false);
   const [isModalOn, setIsModalOn] = useState(false);
   const [isAlertModalOn, setIsAlertModalOn] = useState(false);
   const post = props.post;
-  const isMine = post.author.accountname === name;
+  const isMine = post.author.accountname === accountname;
   const userImg = post.author.image;
   const pictures = post.image?.split(', ');
   const createdAt =
@@ -62,16 +62,11 @@ const HomePostLayout = (props) => {
   const heartPost = HeartPostAPI(post.id);
   const unheartPost = UnheartPostAPI(post.id);
 
-  const queryClient = useQueryClient();
-
-  const removePostCacheData = () => {
-    queryClient.removeQueries('postList');
-  };
+  const { postRefetch } = usePostInfinity(accountname);
 
   const handleDelete = async () => {
     await deletePost();
-    removePostCacheData();
-    window.location.reload();
+    postRefetch();
     closeModal();
     if (location.pathname === '/profile') {
       props.updatePost(true);
