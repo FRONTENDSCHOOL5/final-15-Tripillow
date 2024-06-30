@@ -19,6 +19,7 @@ const EditProfileAPI = (userInfo) => {
       });
       const data = await res.json();
       setName(data.user.accountname);
+      return data;
     } catch (error) {
       console.error('API 응답에 실패하였습니다.', error);
     }
