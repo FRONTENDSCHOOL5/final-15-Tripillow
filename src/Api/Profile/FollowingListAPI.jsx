@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 import URL from 'Api/URL';
 import userToken from 'Recoil/userToken/userToken';
 
-const FollowingListAPI = (accountname, limit = 'Number') => {
+const FollowingListAPI = (accountname, limit = 10) => {
   const token = useRecoilValue(userToken);
 
   const fetchFollowing = useCallback(async () => {

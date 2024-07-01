@@ -17,7 +17,6 @@ import useIsWideView from 'Components/SideNav/useIsWideView';
 import MetaTag from 'Components/common/MetaTag';
 import { uploadFile } from 'Utils/uploadFile';
 import URL from 'Api/URL';
-import usePostInfinity from 'Hooks/usePostInfinity';
 
 const Post = () => {
   const navigate = useNavigate();
@@ -30,31 +29,30 @@ const Post = () => {
   const uploadPost = UploadPostAPI(imgURL, inputValue, isLeftToggle);
 
   const handleImageInput = async (e) => {
-    const file = e.target?.files[0];
-    if (!file || file.length === 0) {
+    const files = e.target?.files;
+    if (!files || files.length === 0) {
       return;
     }
-    if (file.size > 10 * 1024 * 1024) {
-      return alert('파일은 10MB를 넘길 수 없습니다.');
-    }
-    if (imgURL.length >= 3) {
-      alert('파일은 3장을 넘길 수 없습니다.');
-      return;
-    }
-    if (!validateImageFileFormat(file.name)) {
-      return alert('파일 확장자를 확인해주세요');
+    if (files.length + imgURL.length > 3) {
+      return alert('파일은 3장을 넘길 수 없습니다.');
     }
 
-    await uploadFile(e, (imageUrl) => {
-      setImgURL((prev) => [...prev, imageUrl]);
-    });
+    for (let file of files) {
+      if (file.size > 10 * 1024 * 1024) {
+        return alert('파일은 10MB를 넘길 수 없습니다.');
+      }
+      if (!validateImageFileFormat(file.name)) {
+        return alert('파일 확장자를 확인해주세요');
+      }
+
+      await uploadFile({ target: { files: [file] } }, (imageUrl) => {
+        setImgURL((prev) => [...prev, imageUrl]);
+      });
+    }
   };
-
-  const { removePostCacheData } = usePostInfinity();
 
   const handleSubmit = async () => {
     await uploadPost();
-    removePostCacheData();
     if (textarea.current) textarea.current.value = '';
     setImgURL([]);
     navigate('/profile');
@@ -100,7 +98,7 @@ const Post = () => {
             {isWideView && (
               <>
                 <PCImgUpload htmlFor='img-input'>+ 여행사진 추가하기</PCImgUpload>
-                <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
+                <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} multiple />
               </>
             )}
             <TextInput
@@ -127,7 +125,7 @@ const Post = () => {
                 <label htmlFor='img-input'>
                   <ImgIcon src={iconImg} alt='사진 추가 버튼'></ImgIcon>
                 </label>
-                <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} />
+                <input id='img-input' className='a11y-hidden' type='file' onChange={handleImageInput} multiple />
               </>
             )}
             {isWideView && (

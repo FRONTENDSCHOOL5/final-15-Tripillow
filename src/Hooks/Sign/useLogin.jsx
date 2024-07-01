@@ -32,6 +32,10 @@ const useLogin = () => {
     }
   };
 
+  const setErrorMessage = (message) => {
+    setUserErrorMessage(message);
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUserInput((prevState) => ({
@@ -46,7 +50,7 @@ const useLogin = () => {
   };
 
   const handleLogin = async () => {
-    const res = await LoginAPI(userInput);
+    const res = await LoginAPI(userInput, setErrorMessage);
     if (res && Object.prototype.hasOwnProperty.call(res, 'user')) {
       navigate('/home');
       setToken(res.user.token);

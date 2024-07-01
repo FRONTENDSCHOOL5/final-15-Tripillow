@@ -11,6 +11,7 @@ const User = (props) => {
     setIsModalOn((prev) => !prev);
   };
   const url = props.userImg?.split('/') || 'null';
+  const userImage = url[0] === 'http:' || url[0] === 'https:' ? props.userImg : profileSm;
   const linkRef = useRef();
   const ref = useRef();
 
@@ -50,17 +51,7 @@ const User = (props) => {
       >
         <div>
           <UserImgLayout>
-            <UserImg
-              src={
-                url[url.length - 1] === 'null' ||
-                url[url.length - 1] === 'undefined' ||
-                (url[0] !== 'data:image' && url[0] !== 'https:')
-                  ? profileSm
-                  : props.userImg
-              }
-              alt={props.username}
-              onError={handleImageError}
-            />
+            <UserImg src={userImage} alt={props.username} onError={handleImageError} />
           </UserImgLayout>
         </div>
       </Link>

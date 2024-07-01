@@ -32,12 +32,19 @@ const UserProfile = () => {
   const { getUserData } = MyInfoAPI();
   const { getUserInfo } = UserInfoAPI(account);
 
+  //TODO 데이터 가져오는 방식 바꿔버려야함..
   const { data: profileData, isLoading: profileDataLoading } = useQuery(['myData', account], getUserData, {
     enabled: !userAccount,
+    staleTime: 0,
   });
-  const { data: userProfileData, isLoading: userProfileDataLoading } = useQuery(['userData', account], getUserInfo, {
-    enabled: userAccount !== '',
-  });
+  const { data: userProfileData, isLoading: userProfileDataLoading } = useQuery(
+    ['userData', { account }],
+    getUserInfo,
+    {
+      enabled: userAccount !== '',
+      staleTime: 0,
+    },
+  );
 
   const user = userAccount !== '' ? userProfileData : profileData;
   const loading = userAccount !== '' ? userProfileDataLoading : profileDataLoading;
@@ -59,14 +66,14 @@ const UserProfile = () => {
   // NOTE: 팔로우 버튼의 깜빡임을 줄이기 위해서 메모이제이션 사용
   useEffect(() => {
     if (user) {
-      queryClient.setQueryData(['userData', account], user);
+      queryClient.setQueryData(['userData', { account }], user);
     }
-  }, [user, account, queryClient]);
+  }, [user]);
 
   const { followUser } = FollowAPI(account);
   const { unFollowUser } = UnFollowAPI(account);
 
-  const followMutation = useMutation(() => followUser, {
+  const followMutation = useMutation(followUser, {
     onSuccess: () => {
       setIsFollow(true);
       setFollowText('언팔로우');
@@ -77,7 +84,7 @@ const UserProfile = () => {
     },
   });
 
-  const unFollowMutation = useMutation(() => unFollowUser, {
+  const unFollowMutation = useMutation(unFollowUser, {
     onSuccess: () => {
       setIsFollow(false);
       setFollowText('팔로우');

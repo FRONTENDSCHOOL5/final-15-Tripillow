@@ -99,8 +99,9 @@ const UserProfileSetting = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = handleEditProfileAPI();
+    const res = await handleEditProfileAPI();
     if (res) {
+      setAccountName(text.user.accountname);
       navigate('/profile');
     }
   };
