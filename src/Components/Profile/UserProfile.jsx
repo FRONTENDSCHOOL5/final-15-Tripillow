@@ -6,49 +6,25 @@ import UnFollowAPI from 'Api/Profile/UnFollowAPI';
 import chatLists from 'Mock/chatLists';
 import accountName from 'Recoil/accountName/accountName';
 import { followerURL, followingURL } from 'Recoil/followPath/followPath';
-import { useQueryClient, useMutation, useQuery } from 'react-query';
-import MyInfoAPI from 'Api/Profile/MyInfoAPI';
-import UserInfoAPI from 'Api/Profile/UserInfoAPI';
+import { useQueryClient, useMutation } from 'react-query';
 import AlertTop from 'Components/common/Modal/AlertTop';
 import MobileUser from 'Components/Profile/MobileUser';
 import PCUser from 'Components/Profile/PCUser';
 import useIsWideView from 'Components/SideNav/useIsWideView';
-import ProfileSkeleton from 'Components/common/Skeleton/ProfileSkeleton';
-import PCProfileSkeleton from 'Components/common/Skeleton/PCProfileSkeleton';
 
-const UserProfile = () => {
+const UserProfile = ({ user, profileLoading, userProfileLoading }) => {
   const queryClient = useQueryClient();
   const isWideView = useIsWideView();
   const [isModal, setIsModal] = useState(false);
   const params = useParams();
   const userAccount = params.accountname;
   const navigate = useNavigate();
-  const name = useRecoilValue(accountName);
-  const account = userAccount ? userAccount : name;
+  const myAccount = useRecoilValue(accountName);
+  const account = userAccount ? userAccount : myAccount;
   const followerPath = useRecoilValue(followerURL);
   const followingPath = useRecoilValue(followingURL);
   const [randomMessage, setRandomMessage] = useState('');
 
-  const { getUserData } = MyInfoAPI();
-  const { getUserInfo } = UserInfoAPI(account);
-
-  //TODO 데이터 가져오는 방식 바꿔버려야함..
-  const { data: profileData, isLoading: profileDataLoading } = useQuery(['myData', account], getUserData, {
-    enabled: !userAccount,
-    staleTime: 0,
-  });
-  const { data: userProfileData, isLoading: userProfileDataLoading } = useQuery(
-    ['userData', { account }],
-    getUserInfo,
-    {
-      enabled: userAccount !== '',
-      staleTime: 0,
-    },
-  );
-
-  const user = userAccount !== '' ? userProfileData : profileData;
-  const loading = userAccount !== '' ? userProfileDataLoading : profileDataLoading;
-  const shouldShowSkeleton = loading || (!loading && !user);
   const username = user?.username;
   const userImg = user?.image;
   const [isFollow, setIsFollow] = useState(null);
@@ -58,17 +34,16 @@ const UserProfile = () => {
   useEffect(() => {
     if (user) {
       setIsFollow(user.isfollow);
-      setFollowText(user.isfollow ? '팔로우' : '언팔로우');
+      setFollowText(user.isfollow ? '언팔로우' : '팔로우');
       setFollowCount(user.followerCount);
     }
   }, [user]);
 
-  // NOTE: 팔로우 버튼의 깜빡임을 줄이기 위해서 메모이제이션 사용
   useEffect(() => {
     if (user) {
       queryClient.setQueryData(['userData', { account }], user);
     }
-  }, [user]);
+  }, [user, queryClient, account]);
 
   const { followUser } = FollowAPI(account);
   const { unFollowUser } = UnFollowAPI(account);
@@ -145,28 +120,22 @@ const UserProfile = () => {
         </AlertTop>
       )}
       {isWideView ? (
-        shouldShowSkeleton ? (
-          <PCProfileSkeleton />
-        ) : (
-          <PCUser
-            user={user}
-            followCount={followCount}
-            name={name}
-            handleChatClick={handleChatClick}
-            followText={followText}
-            handleFollowButtonClick={handleFollowButtonClick}
-            followerPath={followerPath}
-            followingPath={followingPath}
-            handleCopy={handleCopy}
-          />
-        )
-      ) : shouldShowSkeleton ? (
-        <ProfileSkeleton />
+        <PCUser
+          user={user}
+          followCount={followCount}
+          myAccount={myAccount}
+          handleChatClick={handleChatClick}
+          followText={followText}
+          handleFollowButtonClick={handleFollowButtonClick}
+          followerPath={followerPath}
+          followingPath={followingPath}
+          handleCopy={handleCopy}
+        />
       ) : (
         <MobileUser
           user={user}
           followCount={followCount}
-          name={name}
+          myAccount={myAccount}
           handleChatClick={handleChatClick}
           followText={followText}
           handleFollowButtonClick={handleFollowButtonClick}
