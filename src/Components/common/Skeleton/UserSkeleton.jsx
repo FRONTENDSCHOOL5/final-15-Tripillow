@@ -18,6 +18,7 @@ const SkeletonUserLayout = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
+  margin-bottom: 15px;
 `;
 
 const SkeletonProfileImage = styled(SkeletonItem)`
