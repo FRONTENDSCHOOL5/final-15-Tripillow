@@ -10,7 +10,7 @@ const MobileUser = ({ user, ...props }) => {
   const navigate = useNavigate();
   const {
     followCount,
-    name,
+    myAccount,
     handleChatClick,
     followText,
     handleFollowButtonClick,
@@ -39,7 +39,7 @@ const MobileUser = ({ user, ...props }) => {
         <p>{'@' + user?.accountname}</p>
         <p>{user?.intro}</p>
       </UserInfoLayout>
-      {user?.accountname === name ? (
+      {user?.accountname === myAccount ? (
         <IconLayout>
           <CommonButton clicked width='120px' fontSize='var(--sm)' onClick={() => navigate('/profile/edit')}>
             프로필 수정
