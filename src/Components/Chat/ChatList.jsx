@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled, { css } from 'styled-components';
 import BasicHeader from 'Components/common/Header/BasicHeader';
 import Navbar from 'Components/common/Navbar';
@@ -8,21 +8,15 @@ import useIsWideView from 'Components/SideNav/useIsWideView';
 import accountName from 'Recoil/accountName/accountName';
 import { useRecoilValue } from 'recoil';
 import FollowingListAPI from 'Api/Profile/FollowingListAPI';
+import UserSkeleton from 'Components/common/Skeleton/UserSkeleton';
+import { useQuery } from 'react-query';
 
 const ChatList = () => {
   const isWideView = useIsWideView();
   const accountname = useRecoilValue(accountName);
   const { fetchFollowing } = FollowingListAPI(accountname);
-  const [followingData, setFollowingData] = useState([]);
 
-  useEffect(() => {
-    const handleFetch = async () => {
-      const data = await fetchFollowing();
-      if (data) setFollowingData(data);
-    };
-
-    handleFetch();
-  }, [fetchFollowing]);
+  const { data: followingData, isLoading } = useQuery(['followingData'], fetchFollowing);
 
   return (
     <ChatListLayout $isWideView={isWideView} $pc={isWideView}>
@@ -35,7 +29,14 @@ const ChatList = () => {
         ></BasicHeader>
       )}
       <ChatUserLayout $pc={isWideView}>
-        {followingData &&
+        {isLoading ? (
+          <>
+            <UserSkeleton />
+            <UserSkeleton />
+            <UserSkeleton />
+          </>
+        ) : (
+          followingData &&
           followingData.map((item, index) => (
             <ChatUser
               key={index}
@@ -44,7 +45,8 @@ const ChatList = () => {
               content={item.intro}
               account={item.accountname}
             />
-          ))}
+          ))
+        )}
       </ChatUserLayout>
       {isWideView || <Navbar />}
     </ChatListLayout>
