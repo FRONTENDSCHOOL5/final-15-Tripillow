@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useQueries } from 'react-query';
@@ -27,7 +27,6 @@ const ProfileMain = ({ setIsDeleted, setIsModified }) => {
   const account = userAccountname ? userAccountname : myAccount;
   const setFollowerPath = useSetRecoilState(followerURL);
   const setFollowingPath = useSetRecoilState(followingURL);
-  const [isLoading, setIsLoading] = useState(true);
 
   const { newPostList, fetchNextPage, isFetchingNextPage, hasNextPage, postLoading } = usePostInfinity(account);
 
@@ -63,12 +62,7 @@ const ProfileMain = ({ setIsDeleted, setIsModified }) => {
   ]);
 
   const [myDataQuery, userDataQuery, productDataQuery] = queries;
-
-  useEffect(() => {
-    if (!myDataQuery.isLoading && !userDataQuery.isLoading && !productDataQuery.isLoading) {
-      setIsLoading(false);
-    }
-  }, [myDataQuery.isLoading, productDataQuery.isLoading, userDataQuery.isLoading]);
+  const isLoading = myDataQuery.isLoading || userDataQuery.isLoading || productDataQuery.isLoading || postLoading;
 
   const updatePost = (isDeleteUpdate) => {
     if (isDeleteUpdate) {
@@ -91,10 +85,14 @@ const ProfileMain = ({ setIsDeleted, setIsModified }) => {
   return (
     <main>
       {isLoading ? (
-        <ProfileSkeleton userAccountname={userAccountname} />
+        <ProfileSkeleton />
       ) : (
         <>
-          <UserProfile />
+          <UserProfile
+            user={account === myAccount ? myDataQuery.data : userDataQuery.data}
+            profileLoading={myDataQuery.isLoading}
+            userProfileLoading={userDataQuery.isLoading}
+          />
           <UserProductLayout>
             <h2>판매 중인 상품</h2>
             <ProductListLayout>

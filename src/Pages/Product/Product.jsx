@@ -19,6 +19,8 @@ import useIsWideView from 'Components/SideNav/useIsWideView';
 import MetaTag from 'Components/common/MetaTag';
 import LazyLoadedProductItem from './LazyLoadedProductItem';
 import FollowingListAPI from 'Api/Profile/FollowingListAPI';
+import Empty from 'Components/common/Empty';
+import logo from 'Assets/logo-gray.png';
 
 const Product = () => {
   const navigate = useNavigate();
@@ -34,7 +36,7 @@ const Product = () => {
   const {
     data: productsQuery,
     error: productError,
-    isLoading: productLoading,
+    isSuccess: productSuccess,
   } = useQuery(
     'products',
     async () => {
@@ -96,10 +98,15 @@ const Product = () => {
           rightOn={!isLeftToggle}
         />
         <GridLayout $isWideView={isWideView}>
-          {isLeftToggle
-            ? tripProduct.map((product, i) => <LazyLoadedProductItem key={i} product={product} />)
-            : tripMoney.map((product, i) => <LazyLoadedProductItem key={i} product={product} />)}
-          {productLoading === false && productsQuery?.length === 0 && <p>등록된 상품이 없습니다.</p>}
+          {productSuccess && !productsQuery.data ? (
+            <Empty image={logo} alt='로고' navigate='/addproduct' buttonName='등록하기'>
+              등록된 상품이 없습니다.
+            </Empty>
+          ) : isLeftToggle ? (
+            tripProduct.map((product, i) => <LazyLoadedProductItem key={i} product={product} />)
+          ) : (
+            tripMoney.map((product, i) => <LazyLoadedProductItem key={i} product={product} />)
+          )}
         </GridLayout>
         <AddBtnLayout $isWideView={isWideView}>
           <CircleButton
