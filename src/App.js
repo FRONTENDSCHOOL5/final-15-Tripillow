@@ -1,18 +1,19 @@
+import useCheckDevice from 'Components/SideNav/useCheckDevice';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import AppRoutes from 'Router/AppRoutes';
 import GlobalStyle from './GlobalStyle';
-import useCheckDevice from 'Components/SideNav/useCheckDevice';
-import { ReactQueryDevtools } from 'react-query/devtools';
 
 function App() {
   const queryClient = new QueryClient();
 
   useCheckDevice();
+  // useCheckToken();
 
   return (
     <QueryClientProvider client={queryClient}>
       <GlobalStyle />
-      <ReactQueryDevtools initialIsOpen={true} />
+      {process.env.NODE_ENV === 'development' && <ReactQueryDevtools initialIsOpen={true} />}
       <AppRoutes />
     </QueryClientProvider>
   );

@@ -8,7 +8,7 @@ import ProfileImg from 'Assets/profile-lg.png';
 const PCUserProfile = ({ user, ...props }) => {
   const {
     followCount,
-    name,
+    myAccount,
     handleChatClick,
     followText,
     handleFollowButtonClick,
@@ -26,7 +26,7 @@ const PCUserProfile = ({ user, ...props }) => {
       <UserInfo>
         <UserNameIcons>
           <h2>{user?.username}</h2>
-          {user?.accountname === name ? (
+          {user?.accountname === myAccount ? (
             <IconLayout>
               <CommonButton onClick={() => navigate('/profile/edit')} clicked width='91px' fontSize='var(--xs)'>
                 프로필 수정

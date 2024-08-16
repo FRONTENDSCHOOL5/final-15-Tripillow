@@ -10,7 +10,7 @@ const ProductItem = (props) => {
   const isWideView = useIsWideView();
 
   const productImgValidation =
-    productImg.startsWith('https:') || productImg.startsWith('data:image') ? product?.itemImage : defaultImg;
+    productImg.startsWith('http') || productImg.startsWith('data:image') ? product?.itemImage : defaultImg;
 
   const trimContent = (content) => {
     const match = content.match(/^\[(P|M)\]/);

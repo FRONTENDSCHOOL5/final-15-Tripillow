@@ -64,7 +64,7 @@ const Home = () => {
 
   const fetchFollowedFeed = async ({ pageParam = 0 }) => {
     feedCount.current = pageParam;
-    const response = await fetch(`${URL}/post/feed/?limit=20&skip=${pageParam * 20}`, {
+    const response = await fetch(`${URL}/post/feed/?limit=5&skip=${pageParam * 5}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ const Home = () => {
     isFetchingNextPage,
     hasNextPage,
   } = useInfiniteQuery(['followedFeed'], ({ pageParam }) => fetchFollowedFeed({ pageParam }), {
-    getNextPageParam: (lastPage, allPages) => (lastPage.length === 20 ? allPages.length : undefined),
+    getNextPageParam: (lastPage, allPages) => (lastPage.length === 5 ? allPages.length : undefined),
     onError: (error) => {
       console.error('Error fetching data:', error);
     },

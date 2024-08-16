@@ -1,11 +1,21 @@
 import URL from 'Api/URL';
 
-const ImageUploadAPI = async (file) => {
+const ImageUploadAPI = async (files) => {
   const formData = new FormData();
-  formData.append('image', file);
+  let endpoint;
+
+  if (Array.isArray(files) && files.length > 1) {
+    files.forEach((file, index) => {
+      formData.append(`image${index}`, file);
+    });
+    endpoint = '/image/uploadfiles';
+  } else {
+    formData.append('image', files[0] || files);
+    endpoint = '/image/uploadfile';
+  }
 
   try {
-    const response = await fetch(URL + '/image/uploadfile', {
+    const response = await fetch(URL + endpoint, {
       method: 'POST',
       body: formData,
     });

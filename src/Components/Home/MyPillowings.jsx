@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import FollowUser from 'Components/common/FollowUser';
-import accountName from 'Recoil/accountName/accountName';
 import FollowingListAPI from 'Api/Profile/FollowingListAPI';
+import FollowUser from 'Components/common/FollowUser';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import accountName from 'Recoil/accountName/accountName';
+import styled from 'styled-components';
 
 const MyPillowings = (props) => {
   const accountname = useRecoilValue(accountName);
@@ -24,8 +24,8 @@ const MyPillowings = (props) => {
     <Layout {...props}>
       <h2>My Pillowings</h2>
       <div>
-        {followingData &&
-          followingData.map((user, idx) => <FollowUser followers key={idx} user={user} margin='24px 0 0 0' />)}
+        {followingData.length > 0 &&
+          followingData?.map((user, idx) => <FollowUser followers key={idx} user={user} margin='24px 0 0 0' />)}
       </div>
       <PillowingsMore to='/profile/followings'>pillowers 더 보러가기</PillowingsMore>
     </Layout>
