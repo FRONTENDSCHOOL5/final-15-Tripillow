@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useInView } from 'react-intersection-observer';
 import ProductItem from 'Components/common/ProductItem';
 import ProductItemSkeleton from 'Components/common/Skeleton/ProductItemSkeleton';
+import { useEffect, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 
 const LazyLoadedProductItem = ({ product }) => {
   const [loading, setLoading] = useState(true);
@@ -18,24 +18,26 @@ const LazyLoadedProductItem = ({ product }) => {
       image.onload = () => {
         setLoading(false);
       };
+
+      image.onerror = () => {
+        setLoading(false);
+      };
     }
   }, [inView, product]);
 
-  //9.4MB -> 23
-  // if (inView || !loading) {
-  //   return <ProductItem product={product} />;
-  // }
-
-  // 15MB -> 23
-  if (!loading) {
-    return <ProductItem product={product} />;
+  if (!inView) {
+    return <div ref={ref}></div>;
   }
 
-  return (
-    <div ref={ref}>
-      <ProductItemSkeleton />
-    </div>
-  );
+  if (loading) {
+    return (
+      <div ref={ref}>
+        <ProductItemSkeleton />
+      </div>
+    );
+  }
+
+  return <ProductItem product={product} />;
 };
 
 export default LazyLoadedProductItem;
