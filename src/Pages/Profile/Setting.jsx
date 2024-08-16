@@ -10,6 +10,7 @@ import BasicHeader from 'Components/common/Header/BasicHeader';
 import AlertModal from 'Components/common/Modal/AlertModal';
 import useIsWideView from 'Components/SideNav/useIsWideView';
 import MetaTag from 'Components/common/MetaTag';
+import PCAlertModal from 'Components/common/Modal/PCAlertModal';
 
 const Setting = () => {
   const navigate = useNavigate();
@@ -120,22 +121,28 @@ const Setting = () => {
             <button onClick={handleDeleteAccountModal}>회원탈퇴</button>
           </ContentCommonLayout>
         </SectionCommonLayout>
-        {logoutModal && (
-          <AlertModal
-            txt='정말 로그아웃 하시겠습니까?'
-            rightbtn='확인'
-            rightClick={handleSignOut}
-            leftClick={handleCancel}
-          />
-        )}
-        {deleteAccountModal && (
-          <AlertModal
-            txt='정말 탈퇴 하시겠습니까?'
-            rightbtn='확인'
-            rightClick={handleSignOut}
-            leftClick={handleCancel}
-          />
-        )}
+        {logoutModal &&
+          (isWideView ? (
+            <PCAlertModal setIsAlertModalOn={setLogoutModal} txt='정말 로그아웃 하시겠습니까?'></PCAlertModal>
+          ) : (
+            <AlertModal
+              txt='정말 로그아웃 하시겠습니까?'
+              rightbtn='확인'
+              rightClick={handleSignOut}
+              leftClick={handleCancel}
+            />
+          ))}
+        {deleteAccountModal &&
+          (isWideView ? (
+            <PCAlertModal setIsAlertModalOn={setDeleteAccountModal} txt='정말 탈퇴 하시겠습니까?'></PCAlertModal>
+          ) : (
+            <AlertModal
+              txt='정말 탈퇴 하시겠습니까?'
+              rightbtn='확인'
+              rightClick={handleSignOut}
+              leftClick={handleCancel}
+            />
+          ))}
       </Layout>
     </>
   );
