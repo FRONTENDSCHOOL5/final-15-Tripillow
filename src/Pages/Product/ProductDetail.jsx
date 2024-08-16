@@ -45,7 +45,13 @@ const ProductDetail = () => {
   const [isModalOn, setIsModalOn] = useState(false);
   const [isAlertModalOn, setIsAlertModalOn] = useState(false);
 
-  const [productImage, setProductImage] = useState(productDetail?.itemImage || DefaultImage);
+  const [imageError, setImageError] = useState(false);
+
+  const handleImageError = () => {
+    setImageError(true);
+  };
+
+  const imageSrc = imageError || !productDetail?.itemImage ? DefaultImage : productDetail.itemImage;
 
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * chatLists.length);
@@ -104,10 +110,6 @@ const ProductDetail = () => {
     setIsAlertModalOn(true);
   };
 
-  const handleImageError = () => {
-    setProductImage(DefaultImage);
-  };
-
   useEffect(() => {
     if (userName === productDetail?.author?.accountname) setUserCheck(true);
   }, [userName, productDetail?.author?.accountname]);
@@ -131,7 +133,7 @@ const ProductDetail = () => {
           )}
           <main style={{ position: 'relative' }}>
             <Image
-              src={productImage}
+              src={imageSrc}
               onClick={() => setShowImg(true)}
               alt={productDetail?.itemName}
               onError={handleImageError}
@@ -164,7 +166,12 @@ const ProductDetail = () => {
 
             {showImg && (
               <ModalBg onClick={() => setShowImg(false)} $isWideView={isWideView}>
-                <ModalImg src={productDetail?.itemImage} $isWideView={isWideView} alt={productDetail?.itemName} />
+                <ModalImg
+                  src={imageSrc}
+                  $isWideView={isWideView}
+                  alt={productDetail?.itemName}
+                  onError={handleImageError}
+                />
               </ModalBg>
             )}
 
