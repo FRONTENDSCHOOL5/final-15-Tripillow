@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { useInView } from 'react-intersection-observer';
+import DefaultImage from 'Assets/defaultImg.png';
 import ProductItem from 'Components/common/ProductItem';
 import ProductItemSkeleton from 'Components/common/Skeleton/ProductItemSkeleton';
+import { useEffect, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 
 const LazyLoadedProductItem = ({ product }) => {
   const [loading, setLoading] = useState(true);
+  const [imageUrl, setImageUrl] = useState(product?.itemImage || DefaultImage);
   const { ref, inView } = useInView({
     threshold: 0,
     triggerOnce: true,
@@ -17,25 +19,29 @@ const LazyLoadedProductItem = ({ product }) => {
 
       image.onload = () => {
         setLoading(false);
+        setImageUrl(product?.itemImage);
+      };
+
+      image.onerror = () => {
+        setLoading(false);
+        setImageUrl(DefaultImage);
       };
     }
   }, [inView, product]);
 
-  //9.4MB -> 23
-  // if (inView || !loading) {
-  //   return <ProductItem product={product} />;
-  // }
-
-  // 15MB -> 23
-  if (!loading) {
-    return <ProductItem product={product} />;
+  if (!inView) {
+    return <div ref={ref}></div>;
   }
 
-  return (
-    <div ref={ref}>
-      <ProductItemSkeleton />
-    </div>
-  );
+  if (loading) {
+    return (
+      <div ref={ref}>
+        <ProductItemSkeleton />
+      </div>
+    );
+  }
+
+  return <ProductItem product={{ ...product, itemImage: imageUrl }} />;
 };
 
 export default LazyLoadedProductItem;
