@@ -27,7 +27,6 @@ export const useCheckToken = () => {
       if (!token) return;
 
       const response = await checkValidToken();
-      console.log('response', response);
       const isValid = response.isValid ? response.isValid : null;
       if (isValid) {
         return;
@@ -40,12 +39,12 @@ export const useCheckToken = () => {
         setListView(true);
         setAlbumView(false);
         setNavbarIcon('Home');
-        // window.location.href = '/';
         navigate('/');
       }
     };
     checkToken();
   }, [
+    navigate,
     token,
     checkValidToken,
     setToken,
