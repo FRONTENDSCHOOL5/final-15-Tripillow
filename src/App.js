@@ -3,11 +3,13 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import AppRoutes from 'Router/AppRoutes';
 import GlobalStyle from './GlobalStyle';
+import { useCheckToken } from 'Hooks/useCheckToken';
 
 function App() {
   const queryClient = new QueryClient();
 
   useCheckDevice();
+  useCheckToken();
 
   return (
     <QueryClientProvider client={queryClient}>
