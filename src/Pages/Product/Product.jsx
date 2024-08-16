@@ -1,26 +1,26 @@
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import { useRecoilValue, useRecoilState } from 'recoil';
 import { useQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import styled from 'styled-components';
 
+import URL from 'Api/URL';
+import CircleButton from 'Components/common/CircleButton';
 import BasicHeader from 'Components/common/Header/BasicHeader';
 import Navbar from 'Components/common/Navbar';
-import { Layout } from 'Styles/Layout';
-import CircleButton from 'Components/common/CircleButton';
-import accountName from 'Recoil/accountName/accountName';
 import Toggle from 'Components/common/Toggle';
+import accountName from 'Recoil/accountName/accountName';
 import userToken from 'Recoil/userToken/userToken';
-import URL from 'Api/URL';
+import { Layout } from 'Styles/Layout';
 
-import isDesktop from 'Recoil/isDesktop/isDesktop';
-import { isProduct } from 'Recoil/productCategory/productCategory';
+import FollowingListAPI from 'Api/Profile/FollowingListAPI';
+import logo from 'Assets/logo-gray.png';
 import MyPillowings from 'Components/Home/MyPillowings';
 import useIsWideView from 'Components/SideNav/useIsWideView';
-import MetaTag from 'Components/common/MetaTag';
-import LazyLoadedProductItem from './LazyLoadedProductItem';
-import FollowingListAPI from 'Api/Profile/FollowingListAPI';
 import Empty from 'Components/common/Empty';
-import logo from 'Assets/logo-gray.png';
+import MetaTag from 'Components/common/MetaTag';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
+import { isProduct } from 'Recoil/productCategory/productCategory';
+import LazyLoadedProductItem from './LazyLoadedProductItem';
 
 const Product = () => {
   const navigate = useNavigate();
@@ -60,6 +60,7 @@ const Product = () => {
       staleTime: 30000,
     },
   );
+
   if (userError) return alert(userError);
 
   if (productError) return alert(productError);
@@ -98,7 +99,7 @@ const Product = () => {
           rightOn={!isLeftToggle}
         />
         <GridLayout $isWideView={isWideView}>
-          {productSuccess && !productsQuery.data ? (
+          {productSuccess && productsQuery.data?.length === 0 ? (
             <Empty image={logo} alt='로고' navigate='/addproduct' buttonName='등록하기'>
               등록된 상품이 없습니다.
             </Empty>
