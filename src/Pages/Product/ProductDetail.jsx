@@ -1,24 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { createPortal } from 'react-dom';
-import { useParams, useNavigate } from 'react-router-dom';
-import styled, { css } from 'styled-components';
-import { useRecoilValue } from 'recoil';
-import accountName from 'Recoil/accountName/accountName';
+import ProductDeleteAPI from 'Api/Product/ProductDeleteAPI';
 import ProductDetailAPI from 'Api/Product/ProductDetailAPI';
-import { LayoutStyle } from 'Styles/Layout';
-import BasicHeader from 'Components/common/Header/BasicHeader';
-import hearticon from 'Assets/icons/icon-heart.svg';
+import DefaultImage from 'Assets/defaultImg.png';
 import heartfill from 'Assets/icons/icon-heart-fill.svg';
+import hearticon from 'Assets/icons/icon-heart.svg';
 import more from 'Assets/icons/icon-more-pc.svg';
 import Button from 'Components/common/Button';
-import User from 'Components/common/User';
-import chatLists from 'Mock/chatLists';
-import isDesktop from 'Recoil/isDesktop/isDesktop';
-import MyPillowings from 'Components/Home/MyPillowings';
-import PCModal from 'Components/common/Modal/PCModal';
-import ProductDeleteAPI from 'Api/Product/ProductDeleteAPI';
+import BasicHeader from 'Components/common/Header/BasicHeader';
 import PCAlertModal from 'Components/common/Modal/PCAlertModal';
+import PCModal from 'Components/common/Modal/PCModal';
+import User from 'Components/common/User';
+import MyPillowings from 'Components/Home/MyPillowings';
 import useIsWideView from 'Components/SideNav/useIsWideView';
+import chatLists from 'Mock/chatLists';
+import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import accountName from 'Recoil/accountName/accountName';
+import isDesktop from 'Recoil/isDesktop/isDesktop';
+import styled, { css } from 'styled-components';
+import { LayoutStyle } from 'Styles/Layout';
 
 const ProductDetail = () => {
   const [productId, setProductId] = useState('');
@@ -43,6 +44,8 @@ const ProductDetail = () => {
 
   const [isModalOn, setIsModalOn] = useState(false);
   const [isAlertModalOn, setIsAlertModalOn] = useState(false);
+
+  const [productImage, setProductImage] = useState(productDetail?.itemImage || DefaultImage);
 
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * chatLists.length);
@@ -101,6 +104,10 @@ const ProductDetail = () => {
     setIsAlertModalOn(true);
   };
 
+  const handleImageError = () => {
+    setProductImage(DefaultImage);
+  };
+
   useEffect(() => {
     if (userName === productDetail?.author?.accountname) setUserCheck(true);
   }, [userName, productDetail?.author?.accountname]);
@@ -123,7 +130,12 @@ const ProductDetail = () => {
             </BasicHeader>
           )}
           <main style={{ position: 'relative' }}>
-            <Image src={productDetail?.itemImage} onClick={() => setShowImg(true)} alt={productDetail?.itemName} />
+            <Image
+              src={productImage}
+              onClick={() => setShowImg(true)}
+              alt={productDetail?.itemName}
+              onError={handleImageError}
+            />
 
             {isWideView && <MoreBtn onClick={handleMoreBtn} aria-label='사진 더 보기' />}
 
