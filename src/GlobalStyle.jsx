@@ -23,7 +23,7 @@ const GlobalStyle = createGlobalStyle`
   --xl: 20px;
   --xxl: 24px;
 
-  font-family: 'SUITE Variable', sans-serif;
+  font-family: 'SUITE Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 }  
 
 // === RESET ===
@@ -48,25 +48,26 @@ button {
   background-color: transparent;
 }
 
-a{
-text-decoration: none;
-    color: inherit;
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
 textarea:focus, input:focus{
     outline: none;
 }
 
-input {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    box-shadow: none;
-    border: none;
-    border-radius: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+textarea,input {
+  font-family: inherit;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  box-shadow: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 h1 {
   margin: 0;
