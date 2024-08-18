@@ -1,22 +1,24 @@
-import React from 'react';
+import ProfileImg from 'Assets/profile-lg.png';
+import CommonButton from 'Components/common/Button';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import CommonButton from 'Components/common/Button';
-import { UserProfileLayout, ImgLayout, ShareIconStyle } from 'Styles/UserStyle';
-import ProfileImg from 'Assets/profile-lg.png';
+import { ImgLayout, ShareIconStyle, UserProfileLayout } from 'Styles/UserStyle';
 
 const PCUserProfile = ({ user, ...props }) => {
-  const {
-    followCount,
-    myAccount,
-    handleChatClick,
-    followText,
-    handleFollowButtonClick,
-    followerPath,
-    followingPath,
-    handleCopy,
-  } = props;
+  const [isFollowing, setIsFollowing] = useState(user?.isfollow);
+  const { followCount, myAccount, handleChatClick, handleFollowButtonClick, followerPath, followingPath, handleCopy } =
+    props;
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setIsFollowing(user?.isfollow);
+  }, [user?.isfollow]);
+
+  const handleFollow = () => {
+    setIsFollowing(!isFollowing);
+    handleFollowButtonClick();
+  };
 
   return (
     <UserProfileLayout $pc>
@@ -37,13 +39,8 @@ const PCUserProfile = ({ user, ...props }) => {
             </IconLayout>
           ) : (
             <IconLayout>
-              <CommonButton
-                width='76px'
-                clicked={!user?.isFollow}
-                onClick={handleFollowButtonClick}
-                fontSize='var(--xs)'
-              >
-                {followText}
+              <CommonButton width='76px' clicked={isFollowing} onClick={handleFollow} fontSize='var(--xs)'>
+                {isFollowing ? '언팔로우' : '팔로우'}
               </CommonButton>
 
               <CommonButton onClick={handleChatClick} clicked width='56px' fontSize='var(--xs)'>
