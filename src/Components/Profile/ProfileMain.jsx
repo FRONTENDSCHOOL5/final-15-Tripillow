@@ -1,23 +1,23 @@
-import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { useQueries } from 'react-query';
-import styled from 'styled-components';
-import { useInView } from 'react-intersection-observer';
-import accountName from 'Recoil/accountName/accountName';
+import ProductListAPI from 'Api/Product/ProductListAPI';
 import MyInfoAPI from 'Api/Profile/MyInfoAPI';
 import UserInfoAPI from 'Api/Profile/UserInfoAPI';
-import ProductListAPI from 'Api/Product/ProductListAPI';
-import ProfileSkeleton from 'Components/common/Skeleton/ProfileSkeleton';
-import UserProfile from 'Components/Profile/UserProfile';
 import ProductItem from 'Components/common/ProductItem';
-import ProfileView from 'Components/Profile/ProfileView';
-import HomePostLayout from 'Components/HomePost/HomePostLayout';
-import { isList } from 'Recoil/whichView/whichView';
-import { followerURL, followingURL } from 'Recoil/followPath/followPath';
-import ViewImage from 'Components/HomePost/ViewImage';
-import usePostInfinity from 'Hooks/usePostInfinity';
+import ProfileSkeleton from 'Components/common/Skeleton/ProfileSkeleton';
 import Spinner from 'Components/common/Spinner';
+import HomePostLayout from 'Components/HomePost/HomePostLayout';
+import ViewImage from 'Components/HomePost/ViewImage';
+import ProfileView from 'Components/Profile/ProfileView';
+import UserProfile from 'Components/Profile/UserProfile';
+import usePostInfinity from 'Hooks/usePostInfinity';
+import { useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
+import { useQueries } from 'react-query';
+import { useParams } from 'react-router-dom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import accountName from 'Recoil/accountName/accountName';
+import { followerURL, followingURL } from 'Recoil/followPath/followPath';
+import { isList } from 'Recoil/whichView/whichView';
+import styled from 'styled-components';
 
 const ProfileMain = ({ setIsDeleted, setIsModified }) => {
   const params = useParams();
@@ -97,7 +97,10 @@ const ProfileMain = ({ setIsDeleted, setIsModified }) => {
             <h2>판매 중인 상품</h2>
             <ProductListLayout>
               {productDataQuery.data?.length > 0 ? (
-                productDataQuery.data.map((product, index) => <ProductItem key={index} product={product} />)
+                productDataQuery.data
+                  .slice()
+                  .reverse()
+                  .map((product, index) => <ProductItem key={index} product={product} />)
               ) : (
                 <NoProduct>상품을 등록해주세요!</NoProduct>
               )}
@@ -127,7 +130,7 @@ const ProfileMain = ({ setIsDeleted, setIsModified }) => {
                 )}
               </>
             ) : (
-              !postLoading && <NoContent>게시물이 없습니다.</NoContent>
+              !postLoading && newPostList && <NoContent>게시물이 없습니다.</NoContent>
             )}
           </section>
         </>
